@@ -1,0 +1,120 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+
+interface WelcomeModalProps {
+  isOpen: boolean;
+  userName: string;
+  onClose: () => void;
+}
+
+export default function WelcomeModal({ isOpen, userName, onClose }: WelcomeModalProps) {
+  const [countdown, setCountdown] = useState(5);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    // Auto-close después de 5 segundos
+    const timer = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          onClose();
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm">
+      <div className="relative w-full max-w-2xl bg-gradient-to-br from-slate-900 via-green-900 to-slate-900 border-4 border-green-400 rounded-xl shadow-2xl shadow-green-500/50 overflow-hidden animate-fadeIn">
+        {/* Header */}
+        <div className="bg-gradient-to-r from-green-500 to-cyan-500 p-6 border-b-4 border-green-300">
+          <div className="flex items-center justify-center">
+            <h2 className="text-3xl md:text-4xl font-black uppercase tracking-wider text-white drop-shadow-lg animate-pulse">
+              🎮 ¡BIENVENIDO!
+            </h2>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="p-8 md:p-12 space-y-6 text-center">
+          {/* User Name */}
+          <div className="bg-gradient-to-r from-cyan-500/20 to-green-500/20 border-2 border-cyan-400 rounded-lg p-6">
+            <p className="text-cyan-300 text-sm uppercase tracking-wider mb-2 font-bold">
+              JUGADOR
+            </p>
+            <h3 className="text-3xl md:text-5xl font-black text-white uppercase tracking-wider drop-shadow-lg">
+              {userName}
+            </h3>
+          </div>
+
+          {/* Instructions */}
+          <div className="space-y-4">
+            <div className="bg-slate-800/50 border-2 border-green-500 rounded-lg p-4">
+              <p className="text-green-300 text-lg md:text-xl font-black uppercase">
+                🎬 Prepárate para grabar
+              </p>
+              <p className="text-slate-300 text-sm md:text-base mt-2 font-bold">
+                Completa tu perfil y empieza a subir tus mejores trucos
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
+              <div className="bg-slate-800/50 border-2 border-cyan-500 rounded-lg p-3">
+                <p className="text-cyan-300 font-black">1️⃣ PERFIL</p>
+                <p className="text-slate-400 text-xs mt-1">Completa tu información</p>
+              </div>
+              <div className="bg-slate-800/50 border-2 border-purple-500 rounded-lg p-3">
+                <p className="text-purple-300 font-black">2️⃣ TRUCOS</p>
+                <p className="text-slate-400 text-xs mt-1">Elige tus desafíos</p>
+              </div>
+              <div className="bg-slate-800/50 border-2 border-pink-500 rounded-lg p-3">
+                <p className="text-pink-300 font-black">3️⃣ GRABA</p>
+                <p className="text-slate-400 text-xs mt-1">Sube tus videos</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Countdown */}
+          <div className="pt-4">
+            <div className="inline-block bg-green-500/20 border-2 border-green-400 rounded-full px-6 py-3">
+              <p className="text-green-300 text-sm uppercase tracking-wider font-black">
+                Continuando en {countdown}s...
+              </p>
+            </div>
+          </div>
+
+          {/* Skip Button */}
+          <button
+            onClick={onClose}
+            className="w-full md:w-auto px-8 py-3 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-black uppercase tracking-wider text-sm rounded-lg border-2 border-cyan-300 shadow-lg shadow-cyan-500/50 hover:shadow-cyan-400/70 transition-all transform hover:scale-105"
+          >
+            ⏩ SALTAR
+          </button>
+        </div>
+
+        {/* Arcade Border Effect */}
+        <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+          <div className="absolute top-0 left-0 w-6 h-6 border-t-4 border-l-4 border-green-400"></div>
+          <div className="absolute top-0 right-0 w-6 h-6 border-t-4 border-r-4 border-green-400"></div>
+          <div className="absolute bottom-0 left-0 w-6 h-6 border-b-4 border-l-4 border-green-400"></div>
+          <div className="absolute bottom-0 right-0 w-6 h-6 border-b-4 border-r-4 border-green-400"></div>
+        </div>
+
+        {/* Animated particles */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-green-400 rounded-full animate-ping"></div>
+          <div className="absolute top-1/3 right-1/4 w-2 h-2 bg-cyan-400 rounded-full animate-ping" style={{ animationDelay: '0.5s' }}></div>
+          <div className="absolute bottom-1/3 left-1/3 w-2 h-2 bg-green-400 rounded-full animate-ping" style={{ animationDelay: '1s' }}></div>
+        </div>
+      </div>
+    </div>
+  );
+}

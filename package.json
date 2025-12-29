@@ -1,0 +1,49 @@
+{
+  "name": "landing-particles",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "postinstall": "prisma generate && node scripts/patch-next-node22.js",
+    "generate:icons": "node scripts/generate-icons.js"
+  },
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+  },
+  "dependencies": {
+    "@nextui-org/react": "^2.2.10",
+    "@prisma/client": "^6.19.0",
+    "@supabase/supabase-js": "^2.48.1",
+    "@tsparticles/react": "^3.0.0",
+    "@tsparticles/slim": "^3.2.2",
+    "@types/bcrypt": "^6.0.0",
+    "bcrypt": "^6.0.0",
+    "framer-motion": "^11.0.5",
+    "lucide-react": "^0.335.0",
+    "nanoid": "^5.1.6",
+    "next": "14.2.21",
+    "next-auth": "^4.24.7",
+    "prisma": "^6.19.0",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-icons": "^5.1.0",
+    "react-type-animation": "^3.2.0",
+    "swiper": "^11.0.6"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.27",
+    "@types/react": "^18.3.27",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.4.23",
+    "eslint": "^8",
+    "eslint-config-next": "14.1.0",
+    "postcss": "^8.5.6",
+    "sharp": "^0.34.5",
+    "tailwindcss": "^3.4.19",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}
