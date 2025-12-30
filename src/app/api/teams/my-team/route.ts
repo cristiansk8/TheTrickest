@@ -17,12 +17,14 @@ export async function GET() {
     const user = await prisma.user.findUnique({
       where: { email: session.user.email },
       select: {
+        username: true,
         teamId: true,
         team: {
           include: {
             owner: {
               select: {
                 email: true,
+                username: true,
                 name: true,
                 photo: true,
               },
@@ -30,6 +32,7 @@ export async function GET() {
             members: {
               select: {
                 email: true,
+                username: true,
                 name: true,
                 photo: true,
                 submissions: {
@@ -55,6 +58,7 @@ export async function GET() {
       );
       return {
         email: member.email,
+        username: member.username,
         name: member.name,
         photo: member.photo,
         score: memberScore,
@@ -79,7 +83,7 @@ export async function GET() {
         members: membersWithScores,
         memberCount: user.team.members.length,
         totalScore,
-        isOwner: user.team.ownerId === session.user.email,
+        isOwner: user.team.ownerId === user.username,
       },
     });
   } catch (error) {

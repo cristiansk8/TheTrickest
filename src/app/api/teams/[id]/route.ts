@@ -23,6 +23,7 @@ export async function GET(
         owner: {
           select: {
             email: true,
+            username: true,
             name: true,
             photo: true,
           },
@@ -30,6 +31,7 @@ export async function GET(
         members: {
           select: {
             email: true,
+            username: true,
             name: true,
             photo: true,
             submissions: {
@@ -56,6 +58,7 @@ export async function GET(
       );
       return {
         email: member.email,
+        username: member.username,
         name: member.name,
         photo: member.photo,
         score: memberScore,
@@ -120,7 +123,13 @@ export async function DELETE(
       );
     }
 
-    if (team.ownerId !== session.user.email) {
+    // Obtener el username del usuario actual
+    const user = await prisma.user.findUnique({
+      where: { email: session.user.email },
+      select: { username: true },
+    });
+
+    if (!user?.username || team.ownerId !== user.username) {
       return NextResponse.json(
         { error: 'Solo el creador puede eliminar el equipo' },
         { status: 403 }

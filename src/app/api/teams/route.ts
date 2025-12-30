@@ -27,6 +27,7 @@ export async function GET(req: Request) {
         owner: {
           select: {
             email: true,
+            username: true,
             name: true,
             photo: true,
           },
@@ -34,6 +35,7 @@ export async function GET(req: Request) {
         members: {
           select: {
             email: true,
+            username: true,
             name: true,
             photo: true,
           },
@@ -120,13 +122,28 @@ export async function POST(req: Request) {
       );
     }
 
-    // Verificar si el usuario ya tiene un team
-    const existingMembership = await prisma.user.findUnique({
+    // Obtener el usuario completo con username
+    const user = await prisma.user.findUnique({
       where: { email: session.user.email },
-      select: { teamId: true },
+      select: { username: true, teamId: true },
     });
 
-    if (existingMembership?.teamId) {
+    if (!user) {
+      return NextResponse.json(
+        { error: 'Usuario no encontrado' },
+        { status: 404 }
+      );
+    }
+
+    if (!user.username) {
+      return NextResponse.json(
+        { error: 'Debes tener un username para crear un equipo. Completa tu perfil primero.' },
+        { status: 400 }
+      );
+    }
+
+    // Verificar si el usuario ya tiene un team
+    if (user.teamId) {
       return NextResponse.json(
         { error: 'Ya perteneces a un equipo. Debes salir primero.' },
         { status: 400 }
@@ -151,7 +168,7 @@ export async function POST(req: Request) {
         name: name.trim(),
         description: description?.trim() || null,
         logo: logo || null,
-        ownerId: session.user.email,
+        ownerId: user.username,
       },
     });
 
