@@ -77,16 +77,28 @@ export default function TeamsPage() {
     e.preventDefault();
     if (!newTeamName.trim()) return;
 
+    // Debug: log para verificar que los espacios están presentes
+    console.log('===== DEBUG TEAM NAME =====');
+    console.log('Original:', newTeamName);
+    console.log('Con comillas:', `"${newTeamName}"`);
+    console.log('Después de trim:', `"${newTeamName.trim()}"`);
+    console.log('Longitud:', newTeamName.trim().length);
+    console.log('=========================');
+
     setCreating(true);
     try {
+      const teamData = {
+        name: newTeamName.trim(),
+        description: newTeamDescription.trim() || undefined,
+        logo: newTeamLogo.trim() || undefined,
+      };
+
+      console.log('Datos a enviar:', JSON.stringify(teamData, null, 2));
+
       const res = await fetch('/api/teams', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: newTeamName.trim(),
-          description: newTeamDescription.trim() || undefined,
-          logo: newTeamLogo.trim() || undefined,
-        }),
+        body: JSON.stringify(teamData),
       });
 
       const data = await res.json();

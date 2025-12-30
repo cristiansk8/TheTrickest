@@ -115,6 +115,13 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { name, description, logo } = body;
 
+    // Debug: log para verificar qué llega al backend
+    console.log('===== DEBUG BACKEND =====');
+    console.log('Nombre recibido:', name);
+    console.log('Con comillas:', `"${name}"`);
+    console.log('Después de trim:', `"${name?.trim()}"`);
+    console.log('========================');
+
     if (!name || name.trim().length < 3) {
       return NextResponse.json(
         { error: 'El nombre debe tener al menos 3 caracteres' },
