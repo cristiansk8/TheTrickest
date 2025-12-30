@@ -53,6 +53,7 @@ Diseño inspirado en **arcade retro-futurista** con elementos de gaming y cultur
 --budGreen: #71A95A;        /* Verde claro - Success/Active */
 --dartmouthGreen: #007944;  /* Verde oscuro - Success dark */
 --darkBg: #131424;          /* Fondo oscuro principal */
+--arcadePurple: #8B5CF6;    /* Púrpura vibrante - Botones y accents */
 ```
 
 **Uso:**
@@ -61,6 +62,7 @@ Diseño inspirado en **arcade retro-futurista** con elementos de gaming y cultur
 - `budGreen`: Estados activos, botones de confirmación
 - `dartmouthGreen`: Bordes, estados hover de success
 - `darkBg`: Fondo base de la aplicación
+- `arcadePurple`: Botones principales, elementos destacados (sin degradado)
 
 ### Colores del Dashboard (Tailwind Extend)
 

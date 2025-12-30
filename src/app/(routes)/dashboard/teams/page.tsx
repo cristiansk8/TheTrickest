@@ -337,9 +337,9 @@ export default function TeamsPage() {
             <p className="text-slate-400 text-lg mb-4">No perteneces a ningún equipo</p>
             <button
               onClick={() => setShowCreateModal(true)}
-              className="bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white font-bold py-3 px-6 rounded-lg transition-all transform hover:scale-105"
+              className="bg-arcadePurple hover:bg-purple-600 text-white font-bold py-3 px-6 rounded-lg transition-all transform hover:scale-105 border-4 border-white shadow-lg shadow-arcadePurple/50"
             >
-              + Crear Equipo
+              + CREAR EQUIPO
             </button>
           </div>
         )}
@@ -469,16 +469,16 @@ export default function TeamsPage() {
                 <button
                   type="button"
                   onClick={() => setShowCreateModal(false)}
-                  className="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-4 rounded-lg transition-colors"
+                  className="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-4 rounded-lg transition-colors border-2 border-slate-600"
                 >
-                  Cancelar
+                  CANCELAR
                 </button>
                 <button
                   type="submit"
                   disabled={creating || !newTeamName.trim()}
-                  className="flex-1 bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white font-bold py-3 px-4 rounded-lg transition-all disabled:opacity-50"
+                  className="flex-1 bg-arcadePurple hover:bg-purple-600 text-white font-bold py-3 px-4 rounded-lg transition-all disabled:opacity-50 border-4 border-white shadow-lg shadow-arcadePurple/50"
                 >
-                  {creating ? 'Creando...' : 'Crear Equipo'}
+                  {creating ? 'CREANDO...' : 'CREAR EQUIPO'}
                 </button>
               </div>
             </form>

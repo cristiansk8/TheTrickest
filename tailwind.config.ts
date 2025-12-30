@@ -17,6 +17,7 @@ const config: Config = {
         budGreen: "#71A95A",
         dartmouthGreen: "#007944",
         darkBg: "#131424",
+        arcadePurple: "#8B5CF6", // Purple-500 vibrante para botones y accents
       },
       backgroundImage: {
         "gradient-cover":
