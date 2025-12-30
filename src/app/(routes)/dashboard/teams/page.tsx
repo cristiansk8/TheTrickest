@@ -38,6 +38,7 @@ export default function TeamsPage() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [newTeamName, setNewTeamName] = useState('');
   const [newTeamDescription, setNewTeamDescription] = useState('');
+  const [newTeamLogo, setNewTeamLogo] = useState('');
   const [creating, setCreating] = useState(false);
   const [actionLoading, setActionLoading] = useState<number | null>(null);
 
@@ -82,8 +83,9 @@ export default function TeamsPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name: newTeamName,
-          description: newTeamDescription,
+          name: newTeamName.trim(),
+          description: newTeamDescription.trim() || undefined,
+          logo: newTeamLogo.trim() || undefined,
         }),
       });
 
@@ -97,6 +99,7 @@ export default function TeamsPage() {
       setShowCreateModal(false);
       setNewTeamName('');
       setNewTeamDescription('');
+      setNewTeamLogo('');
       fetchData();
     } catch (err) {
       console.error('Error:', err);
@@ -429,56 +432,109 @@ export default function TeamsPage() {
       {/* Create Team Modal */}
       {showCreateModal && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-          <div className="bg-slate-900 border-4 border-purple-500 rounded-lg p-6 w-full max-w-md">
-            <h2 className="text-2xl font-black text-white uppercase mb-6">
-              Crear Equipo
+          <div className="bg-slate-900 border-4 border-arcadePurple rounded-lg p-6 w-full max-w-md">
+            <h2 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 uppercase mb-6 text-center">
+              ⚡ Crear Equipo
             </h2>
 
-            <form onSubmit={handleCreateTeam}>
-              <div className="mb-4">
-                <label className="text-slate-400 text-sm uppercase block mb-2">
+            <form onSubmit={handleCreateTeam} className="space-y-4">
+              {/* Nombre del equipo */}
+              <div>
+                <label className="text-purple-400 text-sm font-bold uppercase block mb-2">
                   Nombre del equipo *
                 </label>
                 <input
                   type="text"
                   value={newTeamName}
                   onChange={(e) => setNewTeamName(e.target.value)}
-                  className="w-full bg-slate-800 border-2 border-slate-600 rounded-lg px-4 py-3 text-white focus:border-purple-500 focus:outline-none"
+                  className="w-full bg-slate-800 border-2 border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:border-arcadePurple focus:outline-none transition-colors"
                   placeholder="Los Ollie Masters"
                   required
                   minLength={3}
                   maxLength={30}
                 />
+                <p className="text-slate-500 text-xs mt-1">
+                  Mínimo 3 caracteres. Espacios permitidos.
+                </p>
               </div>
 
-              <div className="mb-6">
-                <label className="text-slate-400 text-sm uppercase block mb-2">
-                  Descripción (opcional)
+              {/* Logo del equipo */}
+              <div>
+                <label className="text-purple-400 text-sm font-bold uppercase block mb-2">
+                  Logo (URL de imagen)
+                </label>
+                <input
+                  type="url"
+                  value={newTeamLogo}
+                  onChange={(e) => setNewTeamLogo(e.target.value)}
+                  className="w-full bg-slate-800 border-2 border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:border-arcadePurple focus:outline-none transition-colors"
+                  placeholder="https://ejemplo.com/logo.png"
+                />
+                <p className="text-slate-500 text-xs mt-1">
+                  URL pública de tu logo (opcional)
+                </p>
+              </div>
+
+              {/* Vista previa del logo */}
+              {newTeamLogo && (
+                <div className="bg-slate-800 rounded-lg p-3 border-2 border-slate-700">
+                  <p className="text-slate-400 text-xs uppercase mb-2">Vista previa:</p>
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={newTeamLogo}
+                      alt="Preview"
+                      className="w-12 h-12 rounded-lg object-cover"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.display = 'none';
+                      }}
+                    />
+                    <div className="flex-1">
+                      <p className="text-white text-sm font-bold truncate">
+                        {newTeamName || 'Nombre del equipo'}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Descripción */}
+              <div>
+                <label className="text-purple-400 text-sm font-bold uppercase block mb-2">
+                  Descripción
                 </label>
                 <textarea
                   value={newTeamDescription}
                   onChange={(e) => setNewTeamDescription(e.target.value)}
-                  className="w-full bg-slate-800 border-2 border-slate-600 rounded-lg px-4 py-3 text-white focus:border-purple-500 focus:outline-none resize-none"
-                  placeholder="Somos un equipo de..."
+                  className="w-full bg-slate-800 border-2 border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:border-arcadePurple focus:outline-none resize-none transition-colors"
+                  placeholder="Somos un equipo de skaters apasionados que..."
                   rows={3}
                   maxLength={200}
                 />
+                <p className="text-slate-500 text-xs mt-1 text-right">
+                  {newTeamDescription.length}/200 caracteres
+                </p>
               </div>
 
-              <div className="flex gap-3">
+              {/* Botones */}
+              <div className="flex gap-3 pt-2">
                 <button
                   type="button"
-                  onClick={() => setShowCreateModal(false)}
-                  className="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-4 rounded-lg transition-colors border-2 border-slate-600"
+                  onClick={() => {
+                    setShowCreateModal(false);
+                    setNewTeamName('');
+                    setNewTeamDescription('');
+                    setNewTeamLogo('');
+                  }}
+                  className="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-4 rounded-lg transition-colors border-2 border-slate-600 uppercase"
                 >
-                  CANCELAR
+                  Cancelar
                 </button>
                 <button
                   type="submit"
-                  disabled={creating || !newTeamName.trim()}
-                  className="flex-1 bg-arcadePurple hover:bg-purple-600 text-white font-bold py-3 px-4 rounded-lg transition-all disabled:opacity-50 border-4 border-white shadow-lg shadow-arcadePurple/50"
+                  disabled={creating || !newTeamName.trim() || newTeamName.trim().length < 3}
+                  className="flex-1 bg-arcadePurple hover:bg-purple-600 text-white font-bold py-3 px-4 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed border-4 border-white shadow-lg shadow-arcadePurple/50 uppercase"
                 >
-                  {creating ? 'CREANDO...' : 'CREAR EQUIPO'}
+                  {creating ? '⏳ Creando...' : '✨ Crear'}
                 </button>
               </div>
             </form>
