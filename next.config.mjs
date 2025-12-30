@@ -28,6 +28,69 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'example.com',
       },
+      // Social Media - para logos de equipos
+      {
+        protocol: 'https',
+        hostname: 'www.facebook.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'scontent.*.fna.fbcdn.net',
+      },
+      {
+        protocol: 'https',
+        hostname: 'scontent-*.xx.fbcdn.net',
+      },
+      {
+        protocol: 'https',
+        hostname: 'platform-lookaside.fbsbx.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'instagram.*.fna.fbcdn.net',
+      },
+      {
+        protocol: 'https',
+        hostname: 'scontent.cdninstagram.com',
+      },
+      // Servicios de imágenes populares
+      {
+        protocol: 'https',
+        hostname: 'i.imgur.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'imgur.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.cloudinary.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn.discordapp.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'media.discordapp.net',
+      },
+      // Otros servicios comunes
+      {
+        protocol: 'https',
+        hostname: 'i.postimg.cc',
+      },
+      {
+        protocol: 'https',
+        hostname: 'postimg.cc',
+      },
+      {
+        protocol: 'https',
+        hostname: 'ibb.co',
+      },
     ],
   },
 };

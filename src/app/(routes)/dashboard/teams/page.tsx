@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import Image from 'next/image';
 
 interface TeamMember {
   email: string;
@@ -246,18 +245,25 @@ export default function TeamsPage() {
                 <div className="flex-1">
                   <div className="flex items-center gap-4 mb-4">
                     {myTeam.logo ? (
-                      <Image
+                      <img
                         src={myTeam.logo}
                         alt={myTeam.name}
-                        width={64}
-                        height={64}
-                        className="rounded-lg"
+                        className="w-16 h-16 rounded-lg object-cover"
+                        onError={(e) => {
+                          // Si la imagen falla, mostrar fallback
+                          const target = e.target as HTMLImageElement;
+                          target.style.display = 'none';
+                          const fallback = target.nextElementSibling as HTMLElement;
+                          if (fallback) fallback.style.display = 'flex';
+                        }}
                       />
-                    ) : (
-                      <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center text-white font-bold text-2xl">
-                        {myTeam.name.charAt(0).toUpperCase()}
-                      </div>
-                    )}
+                    ) : null}
+                    <div
+                      className="w-16 h-16 rounded-lg bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center text-white font-bold text-2xl"
+                      style={{ display: myTeam.logo ? 'none' : 'flex' }}
+                    >
+                      {myTeam.name.charAt(0).toUpperCase()}
+                    </div>
                     <div>
                       <h3 className="text-2xl font-bold text-white">{myTeam.name}</h3>
                       {myTeam.isOwner && (
@@ -317,18 +323,24 @@ export default function TeamsPage() {
                         className="flex items-center gap-3 bg-slate-800 rounded-lg p-2"
                       >
                         {member.photo ? (
-                          <Image
+                          <img
                             src={member.photo}
                             alt={member.name || ''}
-                            width={32}
-                            height={32}
-                            className="rounded-full"
+                            className="w-8 h-8 rounded-full object-cover"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                              const fallback = target.nextElementSibling as HTMLElement;
+                              if (fallback) fallback.style.display = 'flex';
+                            }}
                           />
-                        ) : (
-                          <div className="w-8 h-8 rounded-full bg-slate-600 flex items-center justify-center text-white text-sm">
-                            {(member.name || 'U').charAt(0).toUpperCase()}
-                          </div>
-                        )}
+                        ) : null}
+                        <div
+                          className="w-8 h-8 rounded-full bg-slate-600 flex items-center justify-center text-white text-sm"
+                          style={{ display: member.photo ? 'none' : 'flex' }}
+                        >
+                          {(member.name || 'U').charAt(0).toUpperCase()}
+                        </div>
                         <div className="flex-1">
                           <p className="text-white text-sm font-medium">
                             {member.name || 'Skater'}
@@ -381,18 +393,24 @@ export default function TeamsPage() {
                 >
                   <div className="flex items-center gap-3 mb-3">
                     {team.logo ? (
-                      <Image
+                      <img
                         src={team.logo}
                         alt={team.name}
-                        width={48}
-                        height={48}
-                        className="rounded-lg"
+                        className="w-12 h-12 rounded-lg object-cover"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.style.display = 'none';
+                          const fallback = target.nextElementSibling as HTMLElement;
+                          if (fallback) fallback.style.display = 'flex';
+                        }}
                       />
-                    ) : (
-                      <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center text-white font-bold text-xl">
-                        {team.name.charAt(0).toUpperCase()}
-                      </div>
-                    )}
+                    ) : null}
+                    <div
+                      className="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center text-white font-bold text-xl"
+                      style={{ display: team.logo ? 'none' : 'flex' }}
+                    >
+                      {team.name.charAt(0).toUpperCase()}
+                    </div>
                     <div className="flex-1">
                       <h3 className="text-white font-bold">{team.name}</h3>
                       <p className="text-slate-500 text-xs">
