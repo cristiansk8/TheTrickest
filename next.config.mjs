@@ -51,6 +51,10 @@ const nextConfig = {
       },
       {
         protocol: 'https',
+        hostname: '*.fbcdn.net',
+      },
+      {
+        protocol: 'https',
         hostname: 'scontent.cdninstagram.com',
       },
       // Servicios de imágenes populares

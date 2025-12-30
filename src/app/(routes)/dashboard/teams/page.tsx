@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
+import Image from 'next/image';
 
 interface TeamMember {
   email: string;
@@ -28,50 +29,78 @@ interface Team {
   isOwner?: boolean;
 }
 
+interface TeamInvitation {
+  id: number;
+  teamId: number;
+  teamName: string;
+  teamLogo: string | null;
+  teamDescription: string | null;
+  owner: {
+    name: string | null;
+    photo: string | null;
+  };
+  memberCount: number;
+  maxMembers: number;
+  createdAt: string;
+}
+
+interface SearchUser {
+  email: string;
+  name: string | null;
+  username: string | null;
+  photo: string | null;
+  hasTeam: boolean;
+}
+
 export default function TeamsPage() {
   const { data: session } = useSession();
   const [myTeam, setMyTeam] = useState<Team | null>(null);
-  const [teams, setTeams] = useState<Team[]>([]);
+  const [invitations, setInvitations] = useState<TeamInvitation[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showInviteModal, setShowInviteModal] = useState(false);
   const [newTeamName, setNewTeamName] = useState('');
   const [newTeamDescription, setNewTeamDescription] = useState('');
   const [newTeamLogo, setNewTeamLogo] = useState('');
   const [editTeamName, setEditTeamName] = useState('');
   const [editTeamDescription, setEditTeamDescription] = useState('');
   const [editTeamLogo, setEditTeamLogo] = useState('');
+  const [inviteEmail, setInviteEmail] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState<SearchUser[]>([]);
+  const [searching, setSearching] = useState(false);
+  const [showSearchResults, setShowSearchResults] = useState(false);
   const [creating, setCreating] = useState(false);
   const [updating, setUpdating] = useState(false);
+  const [inviting, setInviting] = useState(false);
   const [actionLoading, setActionLoading] = useState<number | null>(null);
+  const [inviteError, setInviteError] = useState('');
+  const [inviteSuccess, setInviteSuccess] = useState(false);
 
   const fetchData = async () => {
     try {
       setLoading(true);
 
-      // Fetch my team and all teams in parallel
-      const [myTeamRes, teamsRes] = await Promise.all([
+      // Fetch my team and invitations in parallel
+      const [myTeamRes, invitationsRes] = await Promise.all([
         fetch('/api/teams/my-team'),
-        fetch('/api/teams?limit=50'),
+        fetch('/api/teams/invitations'),
       ]);
 
       if (myTeamRes.ok) {
         const myTeamData = await myTeamRes.json();
-        console.log('===== MI EQUIPO DATA =====');
-        console.log('Team completo:', myTeamData.team);
-        console.log('Logo URL:', myTeamData.team?.logo);
-        console.log('========================');
         setMyTeam(myTeamData.team);
       }
 
-      if (teamsRes.ok) {
-        const teamsData = await teamsRes.json();
-        setTeams(teamsData.teams || []);
+      if (invitationsRes.ok) {
+        const invitationsData = await invitationsRes.json();
+        setInvitations(invitationsData.invitations || []);
       }
     } catch (err) {
       console.error('Error:', err);
-      setError('Error al cargar los equipos');
+      setError('Error al cargar los datos');
     } finally {
       setLoading(false);
     }
@@ -80,6 +109,33 @@ export default function TeamsPage() {
   useEffect(() => {
     fetchData();
   }, []);
+
+  // Debounced search for users
+  useEffect(() => {
+    if (searchQuery.trim().length < 2) {
+      setSearchResults([]);
+      setShowSearchResults(false);
+      return;
+    }
+
+    const timer = setTimeout(async () => {
+      setSearching(true);
+      try {
+        const res = await fetch(`/api/users/search?q=${encodeURIComponent(searchQuery)}`);
+        if (res.ok) {
+          const data = await res.json();
+          setSearchResults(data.users || []);
+          setShowSearchResults(true);
+        }
+      } catch (err) {
+        console.error('Error buscando usuarios:', err);
+      } finally {
+        setSearching(false);
+      }
+    }, 300); // 300ms debounce
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   const handleCreateTeam = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -131,29 +187,6 @@ export default function TeamsPage() {
       alert('Error al crear el equipo');
     } finally {
       setCreating(false);
-    }
-  };
-
-  const handleJoinTeam = async (teamId: number) => {
-    setActionLoading(teamId);
-    try {
-      const res = await fetch(`/api/teams/${teamId}/join`, {
-        method: 'POST',
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        alert(data.error || 'Error al unirse al equipo');
-        return;
-      }
-
-      fetchData();
-    } catch (err) {
-      console.error('Error:', err);
-      alert('Error al unirse al equipo');
-    } finally {
-      setActionLoading(null);
     }
   };
 
@@ -221,6 +254,107 @@ export default function TeamsPage() {
       alert('Error al actualizar el equipo');
     } finally {
       setUpdating(false);
+    }
+  };
+
+  const handleSelectUser = (user: SearchUser) => {
+    setInviteEmail(user.email);
+    setSearchQuery('');
+    setShowSearchResults(false);
+    setSearchResults([]);
+  };
+
+  const handleInviteMember = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!inviteEmail.trim()) return;
+
+    setInviting(true);
+    setInviteError('');
+    setInviteSuccess(false);
+    try {
+      console.log('===== DEBUG FRONTEND INVITACION =====');
+      console.log('Invitando a:', inviteEmail.trim());
+
+      const res = await fetch('/api/teams/invitations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ invitedUserEmail: inviteEmail.trim() }),
+      });
+
+      const data = await res.json();
+
+      console.log('Respuesta del servidor:', { status: res.status, data });
+
+      if (!res.ok) {
+        setInviteError(data.error || 'Error al enviar la invitación');
+        return;
+      }
+
+      // Mostrar mensaje de éxito
+      setInviteSuccess(true);
+
+      // Esperar 1.5 segundos antes de cerrar para que vean el mensaje
+      setTimeout(() => {
+        setShowInviteModal(false);
+        setInviteEmail('');
+        setSearchQuery('');
+        setSearchResults([]);
+        setInviteSuccess(false);
+        // Refrescar datos para mostrar cambios
+        fetchData();
+      }, 1500);
+    } catch (err) {
+      console.error('Error completo:', err);
+      setInviteError('Error de conexión al enviar la invitación');
+    } finally {
+      setInviting(false);
+    }
+  };
+
+  const handleAcceptInvitation = async (invitationId: number) => {
+    setActionLoading(invitationId);
+    try {
+      const res = await fetch(`/api/teams/invitations/${invitationId}/accept`, {
+        method: 'POST',
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.error || 'Error al aceptar la invitación');
+        return;
+      }
+
+      alert('¡Te has unido al equipo exitosamente!');
+      fetchData();
+    } catch (err) {
+      console.error('Error:', err);
+      alert('Error al aceptar la invitación');
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const handleRejectInvitation = async (invitationId: number) => {
+    setActionLoading(invitationId);
+    try {
+      const res = await fetch(`/api/teams/invitations/${invitationId}/reject`, {
+        method: 'POST',
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.error || 'Error al rechazar la invitación');
+        return;
+      }
+
+      fetchData();
+    } catch (err) {
+      console.error('Error:', err);
+      alert('Error al rechazar la invitación');
+    } finally {
+      setActionLoading(null);
     }
   };
 
@@ -300,29 +434,26 @@ export default function TeamsPage() {
                 <div className="flex-1">
                   <div className="flex items-center gap-4 mb-4">
                     {myTeam.logo ? (
-                      <img
-                        src={myTeam.logo}
-                        alt={myTeam.name}
-                        className="w-16 h-16 rounded-lg object-cover"
-                        onError={(e) => {
-                          console.error('Error cargando logo:', myTeam.logo);
-                          // Si la imagen falla, mostrar fallback
-                          const target = e.target as HTMLImageElement;
-                          target.style.display = 'none';
-                          const fallback = target.nextElementSibling as HTMLElement;
-                          if (fallback) fallback.style.display = 'flex';
-                        }}
-                        onLoad={() => {
-                          console.log('Logo cargado exitosamente:', myTeam.logo);
-                        }}
-                      />
-                    ) : null}
-                    <div
-                      className="w-16 h-16 rounded-lg bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center text-white font-bold text-2xl"
-                      style={{ display: myTeam.logo ? 'none' : 'flex' }}
-                    >
-                      {myTeam.name.charAt(0).toUpperCase()}
-                    </div>
+                      <div className="relative w-16 h-16 flex-shrink-0">
+                        <Image
+                          src={myTeam.logo}
+                          alt={myTeam.name}
+                          width={64}
+                          height={64}
+                          className="rounded-lg object-cover"
+                          onError={() => {
+                            console.error('Error cargando logo:', myTeam.logo);
+                          }}
+                          onLoad={() => {
+                            console.log('Logo cargado exitosamente:', myTeam.logo);
+                          }}
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center text-white font-bold text-2xl">
+                        {myTeam.name.charAt(0).toUpperCase()}
+                      </div>
+                    )}
                     <div>
                       <h3 className="text-2xl font-bold text-white">{myTeam.name}</h3>
                       {myTeam.isOwner && (
@@ -351,14 +482,23 @@ export default function TeamsPage() {
                   </div>
 
                   {/* Actions */}
-                  <div className="flex gap-2">
+                  <div className="flex flex-wrap gap-2">
                     {myTeam.isOwner && (
-                      <button
-                        onClick={handleEditTeam}
-                        className="bg-arcadePurple hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg transition-colors"
-                      >
-                        ✏️ Editar
-                      </button>
+                      <>
+                        <button
+                          onClick={() => setShowInviteModal(true)}
+                          className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition-colors"
+                          disabled={myTeam.memberCount >= myTeam.maxMembers}
+                        >
+                          👥 Invitar
+                        </button>
+                        <button
+                          onClick={handleEditTeam}
+                          className="bg-arcadePurple hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg transition-colors"
+                        >
+                          ✏️ Editar
+                        </button>
+                      </>
                     )}
                     {myTeam.isOwner ? (
                       <button
@@ -439,30 +579,25 @@ export default function TeamsPage() {
         )}
       </div>
 
-      {/* Available Teams */}
-      {!myTeam && (
-        <div className="max-w-6xl mx-auto">
+      {/* Team Invitations */}
+      {!myTeam && invitations.length > 0 && (
+        <div className="max-w-6xl mx-auto mb-8">
           <h2 className="text-2xl font-black text-white uppercase tracking-wider mb-4">
-            🔍 Equipos Disponibles
+            📧 Invitaciones Pendientes
           </h2>
 
-          {teams.length === 0 ? (
-            <div className="bg-slate-800 border-2 border-slate-700 rounded-lg p-8 text-center">
-              <p className="text-slate-400">No hay equipos disponibles</p>
-              <p className="text-slate-500 text-sm mt-2">¡Sé el primero en crear uno!</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {teams.map((team) => (
-                <div
-                  key={team.id}
-                  className="bg-slate-800 border-2 border-slate-700 rounded-lg p-4 hover:border-purple-500 transition-colors"
-                >
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {invitations.map((invitation) => (
+              <div
+                key={invitation.id}
+                className="bg-gradient-to-r from-green-500 to-cyan-500 p-1 rounded-lg"
+              >
+                <div className="bg-slate-900 rounded-lg p-4">
                   <div className="flex items-center gap-3 mb-3">
-                    {team.logo ? (
+                    {invitation.teamLogo ? (
                       <img
-                        src={team.logo}
-                        alt={team.name}
+                        src={invitation.teamLogo}
+                        alt={invitation.teamName}
                         className="w-12 h-12 rounded-lg object-cover"
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
@@ -473,56 +608,71 @@ export default function TeamsPage() {
                       />
                     ) : null}
                     <div
-                      className="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center text-white font-bold text-xl"
-                      style={{ display: team.logo ? 'none' : 'flex' }}
+                      className="w-12 h-12 rounded-lg bg-gradient-to-br from-green-500 to-cyan-600 flex items-center justify-center text-white font-bold text-xl"
+                      style={{ display: invitation.teamLogo ? 'none' : 'flex' }}
                     >
-                      {team.name.charAt(0).toUpperCase()}
+                      {invitation.teamName.charAt(0).toUpperCase()}
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-white font-bold">{team.name}</h3>
-                      <p className="text-slate-500 text-xs">
-                        por {team.owner.name || 'Skater'}
+                      <h3 className="text-white font-bold">{invitation.teamName}</h3>
+                      <p className="text-slate-400 text-xs">
+                        por {invitation.owner.name || 'Skater'}
                       </p>
                     </div>
                   </div>
 
-                  {team.description && (
+                  {invitation.teamDescription && (
                     <p className="text-slate-400 text-sm mb-3 line-clamp-2">
-                      {team.description}
+                      {invitation.teamDescription}
                     </p>
                   )}
 
                   <div className="flex justify-between items-center mb-3">
-                    <div>
-                      <span className="text-purple-400 font-bold">{team.totalScore}</span>
-                      <span className="text-slate-500 text-sm"> pts</span>
-                    </div>
-                    <div className="text-slate-500 text-sm">
-                      {team.memberCount}/{team.maxMembers} miembros
+                    <div className="text-slate-400 text-sm">
+                      {invitation.memberCount}/{invitation.maxMembers} miembros
                     </div>
                   </div>
 
-                  <button
-                    onClick={() => handleJoinTeam(team.id)}
-                    disabled={
-                      actionLoading === team.id || team.memberCount >= team.maxMembers
-                    }
-                    className={`w-full font-bold py-2 px-4 rounded-lg transition-colors ${
-                      team.memberCount >= team.maxMembers
-                        ? 'bg-slate-600 text-slate-400 cursor-not-allowed'
-                        : 'bg-purple-600 hover:bg-purple-700 text-white'
-                    }`}
-                  >
-                    {actionLoading === team.id
-                      ? 'Uniéndose...'
-                      : team.memberCount >= team.maxMembers
-                      ? 'Equipo Lleno'
-                      : 'Unirse'}
-                  </button>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => handleAcceptInvitation(invitation.id)}
+                      disabled={actionLoading === invitation.id}
+                      className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition-colors disabled:opacity-50"
+                    >
+                      {actionLoading === invitation.id ? '⏳' : '✅ Aceptar'}
+                    </button>
+                    <button
+                      onClick={() => handleRejectInvitation(invitation.id)}
+                      disabled={actionLoading === invitation.id}
+                      className="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition-colors disabled:opacity-50"
+                    >
+                      {actionLoading === invitation.id ? '⏳' : '❌ Rechazar'}
+                    </button>
+                  </div>
                 </div>
-              ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Info: Solo por invitación */}
+      {!myTeam && invitations.length === 0 && (
+        <div className="max-w-6xl mx-auto">
+          <div className="bg-gradient-to-r from-purple-500 to-pink-500 p-1 rounded-lg">
+            <div className="bg-slate-900 rounded-lg p-8 text-center">
+              <div className="text-6xl mb-4">📧</div>
+              <h3 className="text-2xl font-black text-white uppercase mb-3">
+                Únete por Invitación
+              </h3>
+              <p className="text-slate-300 mb-2">
+                Solo puedes unirte a un equipo si recibes una invitación del creador.
+              </p>
+              <p className="text-slate-400 text-sm">
+                O crea tu propio equipo y comienza a invitar a otros skaters.
+              </p>
             </div>
-          )}
+          </div>
         </div>
       )}
 
@@ -736,6 +886,176 @@ export default function TeamsPage() {
                   className="flex-1 bg-arcadePurple hover:bg-purple-600 text-white font-bold py-3 px-4 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed border-4 border-white shadow-lg shadow-arcadePurple/50 uppercase"
                 >
                   {updating ? '⏳ Guardando...' : '💾 Guardar'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Invite Member Modal */}
+      {showInviteModal && myTeam && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+          <div className="bg-slate-900 border-4 border-green-500 rounded-lg p-6 w-full max-w-md">
+            <h2 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-cyan-400 uppercase mb-6 text-center">
+              👥 Invitar Miembro
+            </h2>
+
+            {/* Error Message */}
+            {inviteError && (
+              <div className="bg-red-500/20 border-2 border-red-500 rounded-lg p-3 mb-4">
+                <p className="text-red-400 text-sm font-bold text-center">❌ {inviteError}</p>
+              </div>
+            )}
+
+            {/* Success Message */}
+            {inviteSuccess && (
+              <div className="bg-green-500/20 border-2 border-green-500 rounded-lg p-3 mb-4">
+                <p className="text-green-400 text-sm font-bold text-center">✅ ¡Invitación enviada exitosamente!</p>
+              </div>
+            )}
+
+            <form onSubmit={handleInviteMember} className="space-y-4">
+              {/* Buscar Skater */}
+              <div className="relative">
+                <label className="text-green-400 text-sm font-bold uppercase block mb-2">
+                  🔍 Buscar Skater
+                </label>
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onFocus={() => {
+                    if (searchResults.length > 0) setShowSearchResults(true);
+                  }}
+                  className="w-full bg-slate-800 border-2 border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:border-green-500 focus:outline-none transition-colors"
+                  placeholder="Nombre, email o username..."
+                  autoComplete="off"
+                />
+                <p className="text-slate-500 text-xs mt-1">
+                  Escribe al menos 2 caracteres para buscar
+                </p>
+
+                {/* Loading indicator */}
+                {searching && (
+                  <div className="absolute right-3 top-10">
+                    <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-green-400"></div>
+                  </div>
+                )}
+
+                {/* Search Results Dropdown */}
+                {showSearchResults && searchResults.length > 0 && (
+                  <div className="absolute top-full left-0 right-0 mt-1 bg-slate-800 border-2 border-green-500 rounded-lg shadow-xl max-h-64 overflow-y-auto z-10">
+                    {searchResults.map((user) => (
+                      <button
+                        key={user.email}
+                        type="button"
+                        onClick={() => handleSelectUser(user)}
+                        disabled={user.hasTeam}
+                        className="w-full flex items-center gap-3 p-3 hover:bg-slate-700 transition-colors text-left disabled:opacity-50 disabled:cursor-not-allowed border-b border-slate-700 last:border-0"
+                      >
+                        {/* User Photo */}
+                        {user.photo ? (
+                          <img
+                            src={user.photo}
+                            alt={user.name || ''}
+                            className="w-10 h-10 rounded-full object-cover"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                              const fallback = target.nextElementSibling as HTMLElement;
+                              if (fallback) fallback.style.display = 'flex';
+                            }}
+                          />
+                        ) : null}
+                        <div
+                          className="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-cyan-600 flex items-center justify-center text-white font-bold"
+                          style={{ display: user.photo ? 'none' : 'flex' }}
+                        >
+                          {(user.name || user.username || 'U').charAt(0).toUpperCase()}
+                        </div>
+
+                        {/* User Info */}
+                        <div className="flex-1 min-w-0">
+                          <p className="text-white font-bold truncate">
+                            {user.name || user.username || 'Skater'}
+                          </p>
+                          <p className="text-slate-400 text-xs truncate">
+                            @{user.username || user.email.split('@')[0]}
+                          </p>
+                        </div>
+
+                        {/* Team Status Badge */}
+                        {user.hasTeam ? (
+                          <span className="text-xs bg-red-600 text-white px-2 py-1 rounded-full font-bold whitespace-nowrap">
+                            Ya tiene equipo
+                          </span>
+                        ) : (
+                          <span className="text-xs bg-green-600 text-white px-2 py-1 rounded-full font-bold whitespace-nowrap">
+                            Disponible ✓
+                          </span>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+                {/* No Results */}
+                {showSearchResults && searchResults.length === 0 && !searching && searchQuery.length >= 2 && (
+                  <div className="absolute top-full left-0 right-0 mt-1 bg-slate-800 border-2 border-slate-600 rounded-lg p-4 text-center">
+                    <p className="text-slate-400 text-sm">No se encontraron skaters</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Email seleccionado */}
+              {inviteEmail && (
+                <div className="bg-slate-800 rounded-lg p-3 border-2 border-green-500">
+                  <p className="text-slate-400 text-xs uppercase mb-1">Email seleccionado:</p>
+                  <p className="text-white font-bold truncate">{inviteEmail}</p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setInviteEmail('');
+                      setSearchQuery('');
+                    }}
+                    className="text-red-400 text-xs mt-2 hover:text-red-300 transition-colors"
+                  >
+                    ❌ Limpiar selección
+                  </button>
+                </div>
+              )}
+
+              {/* Info del equipo */}
+              <div className="bg-slate-800 rounded-lg p-4 border-2 border-slate-700">
+                <p className="text-slate-400 text-xs uppercase mb-2">Equipo:</p>
+                <p className="text-white font-bold">{myTeam.name}</p>
+                <p className="text-slate-400 text-sm mt-2">
+                  Espacios: {myTeam.memberCount}/{myTeam.maxMembers}
+                </p>
+              </div>
+
+              {/* Botones */}
+              <div className="flex gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowInviteModal(false);
+                    setInviteEmail('');
+                    setSearchQuery('');
+                    setSearchResults([]);
+                    setShowSearchResults(false);
+                  }}
+                  className="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-4 rounded-lg transition-colors border-2 border-slate-600 uppercase"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  disabled={inviting || !inviteEmail.trim()}
+                  className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed border-4 border-white shadow-lg shadow-green-500/50 uppercase"
+                >
+                  {inviting ? '⏳ Enviando...' : '📧 Enviar'}
                 </button>
               </div>
             </form>

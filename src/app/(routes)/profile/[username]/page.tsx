@@ -369,8 +369,8 @@ export default function PublicProfilePage() {
                       disabled={followLoading}
                       className={`font-black uppercase tracking-wider border-4 border-white shadow-lg transform hover:scale-105 transition-all ${
                         following
-                          ? 'bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-400 hover:to-pink-400 shadow-red-500/30 text-white'
-                          : 'bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-400 hover:to-emerald-400 shadow-green-500/30 text-white'
+                          ? 'bg-red-600 hover:bg-red-700 text-white'
+                          : 'bg-budGreen hover:bg-dartmouthGreen text-white'
                       }`}
                     >
                       {followLoading ? (
@@ -392,7 +392,7 @@ export default function PublicProfilePage() {
                   {/* Share Button */}
                   <Button
                     onClick={handleShare}
-                    className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-400 hover:to-pink-400 text-white font-black uppercase tracking-wider border-4 border-white shadow-lg shadow-purple-500/30 transform hover:scale-105 transition-all"
+                    className="bg-arcadePurple hover:bg-purple-600 text-white font-black uppercase tracking-wider border-4 border-white shadow-lg transform hover:scale-105 transition-all"
                   >
                     <FaShare className="mr-2" />
                     COMPARTIR

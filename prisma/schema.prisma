@@ -38,9 +38,11 @@ model User {
   evaluations   Submission[] @relation("JudgeEvaluations") // Evaluaciones hechas como juez
   ownedTeams    Team[]       @relation("TeamOwner") // Equipos que ha creado
   team          Team?        @relation("TeamMembers", fields: [teamId], references: [id])
-  votes         Vote[] // Votos realizados por el usuario
-  followers     Follow[]     @relation("UserFollowers") // Usuarios que me siguen
-  following     Follow[]     @relation("UserFollowing") // Usuarios que sigo
+  votes            Vote[]           @relation // Votos realizados por el usuario
+  followers        Follow[]         @relation("UserFollowers") // Usuarios que me siguen
+  following        Follow[]         @relation("UserFollowing") // Usuarios que sigo
+  teamInvitations  TeamInvitation[] @relation("TeamInvitations") // Invitaciones de equipo recibidas
+  notifications    Notification[]   @relation("UserNotifications") // Notificaciones recibidas
 }
 
 model SocialMedia {
@@ -124,11 +126,28 @@ model Team {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  owner   User   @relation("TeamOwner", fields: [ownerId], references: [username])
-  members User[] @relation("TeamMembers") // Miembros del equipo
+  owner       User             @relation("TeamOwner", fields: [ownerId], references: [username])
+  members     User[]           @relation("TeamMembers") // Miembros del equipo
+  invitations TeamInvitation[] // Invitaciones pendientes
 
   @@index([ownerId])
   @@index([isActive])
+}
+
+model TeamInvitation {
+  id               Int      @id @default(autoincrement())
+  teamId           Int // ID del equipo
+  invitedUserEmail String // Email del usuario invitado
+  status           String   @default("pending") // "pending", "accepted", "rejected"
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  team        Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  invitedUser User @relation("TeamInvitations", fields: [invitedUserEmail], references: [email], onDelete: Cascade)
+
+  @@unique([teamId, invitedUserEmail]) // No se puede invitar al mismo usuario dos veces al mismo equipo
+  @@index([invitedUserEmail])
+  @@index([status])
 }
 
 model Vote {
@@ -167,4 +186,23 @@ model InterestedUser {
   email     String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Notification {
+  id          Int      @id @default(autoincrement())
+  userId      String // Email del usuario que recibe la notificación
+  type        String // "submission_evaluated", "team_invitation", "ranking_update", "new_follower", "vote_received", etc.
+  title       String // Título corto de la notificación
+  message     String // Mensaje descriptivo
+  link        String? // URL a donde debe redirigir (opcional)
+  isRead      Boolean  @default(false) // Si la notificación fue leída
+  metadata    Json? // Datos adicionales en formato JSON (score, judgeEmail, etc.)
+  createdAt   DateTime @default(now())
+
+  user User @relation("UserNotifications", fields: [userId], references: [email], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([isRead])
+  @@index([type])
+  @@index([createdAt])
 }
