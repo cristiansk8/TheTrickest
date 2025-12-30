@@ -117,9 +117,13 @@ export async function POST(req: Request) {
 
     // Debug: log para verificar qué llega al backend
     console.log('===== DEBUG BACKEND =====');
-    console.log('Nombre recibido:', name);
+    console.log('Body completo:', JSON.stringify(body));
+    console.log('Nombre recibido RAW:', name);
     console.log('Con comillas:', `"${name}"`);
+    console.log('Longitud:', name?.length);
+    console.log('Array de caracteres:', name?.split(''));
     console.log('Después de trim:', `"${name?.trim()}"`);
+    console.log('Longitud trim:', name?.trim().length);
     console.log('========================');
 
     if (!name || name.trim().length < 3) {

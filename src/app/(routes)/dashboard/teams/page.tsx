@@ -35,10 +35,15 @@ export default function TeamsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [newTeamName, setNewTeamName] = useState('');
   const [newTeamDescription, setNewTeamDescription] = useState('');
   const [newTeamLogo, setNewTeamLogo] = useState('');
+  const [editTeamName, setEditTeamName] = useState('');
+  const [editTeamDescription, setEditTeamDescription] = useState('');
+  const [editTeamLogo, setEditTeamLogo] = useState('');
   const [creating, setCreating] = useState(false);
+  const [updating, setUpdating] = useState(false);
   const [actionLoading, setActionLoading] = useState<number | null>(null);
 
   const fetchData = async () => {
@@ -53,6 +58,10 @@ export default function TeamsPage() {
 
       if (myTeamRes.ok) {
         const myTeamData = await myTeamRes.json();
+        console.log('===== MI EQUIPO DATA =====');
+        console.log('Team completo:', myTeamData.team);
+        console.log('Logo URL:', myTeamData.team?.logo);
+        console.log('========================');
         setMyTeam(myTeamData.team);
       }
 
@@ -77,22 +86,27 @@ export default function TeamsPage() {
     if (!newTeamName.trim()) return;
 
     // Debug: log para verificar que los espacios están presentes
-    console.log('===== DEBUG TEAM NAME =====');
-    console.log('Original:', newTeamName);
+    console.log('===== DEBUG FRONTEND =====');
+    console.log('newTeamName RAW:', newTeamName);
     console.log('Con comillas:', `"${newTeamName}"`);
+    console.log('Longitud:', newTeamName.length);
     console.log('Después de trim:', `"${newTeamName.trim()}"`);
-    console.log('Longitud:', newTeamName.trim().length);
+    console.log('Longitud trim:', newTeamName.trim().length);
+    console.log('Array de caracteres:', newTeamName.split(''));
     console.log('=========================');
 
     setCreating(true);
     try {
       const teamData = {
-        name: newTeamName.trim(),
-        description: newTeamDescription.trim() || undefined,
-        logo: newTeamLogo.trim() || undefined,
+        name: newTeamName,  // SIN TRIM - vamos a dejar que el backend haga el trim
+        description: newTeamDescription || undefined,
+        logo: newTeamLogo || undefined,
       };
 
-      console.log('Datos a enviar:', JSON.stringify(teamData, null, 2));
+      console.log('===== DATOS A ENVIAR =====');
+      console.log('teamData:', teamData);
+      console.log('JSON:', JSON.stringify(teamData));
+      console.log('=========================');
 
       const res = await fetch('/api/teams', {
         method: 'POST',
@@ -166,6 +180,47 @@ export default function TeamsPage() {
       alert('Error al abandonar el equipo');
     } finally {
       setActionLoading(null);
+    }
+  };
+
+  const handleEditTeam = () => {
+    if (!myTeam) return;
+    setEditTeamName(myTeam.name);
+    setEditTeamDescription(myTeam.description || '');
+    setEditTeamLogo(myTeam.logo || '');
+    setShowEditModal(true);
+  };
+
+  const handleUpdateTeam = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!myTeam) return;
+
+    setUpdating(true);
+    try {
+      const res = await fetch(`/api/teams/${myTeam.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: editTeamName.trim() || undefined,
+          description: editTeamDescription.trim() || undefined,
+          logo: editTeamLogo.trim() || undefined,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.error || 'Error al actualizar el equipo');
+        return;
+      }
+
+      setShowEditModal(false);
+      fetchData();
+    } catch (err) {
+      console.error('Error:', err);
+      alert('Error al actualizar el equipo');
+    } finally {
+      setUpdating(false);
     }
   };
 
@@ -250,11 +305,15 @@ export default function TeamsPage() {
                         alt={myTeam.name}
                         className="w-16 h-16 rounded-lg object-cover"
                         onError={(e) => {
+                          console.error('Error cargando logo:', myTeam.logo);
                           // Si la imagen falla, mostrar fallback
                           const target = e.target as HTMLImageElement;
                           target.style.display = 'none';
                           const fallback = target.nextElementSibling as HTMLElement;
                           if (fallback) fallback.style.display = 'flex';
+                        }}
+                        onLoad={() => {
+                          console.log('Logo cargado exitosamente:', myTeam.logo);
                         }}
                       />
                     ) : null}
@@ -293,6 +352,14 @@ export default function TeamsPage() {
 
                   {/* Actions */}
                   <div className="flex gap-2">
+                    {myTeam.isOwner && (
+                      <button
+                        onClick={handleEditTeam}
+                        className="bg-arcadePurple hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg transition-colors"
+                      >
+                        ✏️ Editar
+                      </button>
+                    )}
                     {myTeam.isOwner ? (
                       <button
                         onClick={handleDeleteTeam}
@@ -498,10 +565,10 @@ export default function TeamsPage() {
                   value={newTeamLogo}
                   onChange={(e) => setNewTeamLogo(e.target.value)}
                   className="w-full bg-slate-800 border-2 border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:border-arcadePurple focus:outline-none transition-colors"
-                  placeholder="https://ejemplo.com/logo.png"
+                  placeholder="https://i.imgur.com/ejemplo.jpg"
                 />
                 <p className="text-slate-500 text-xs mt-1">
-                  URL pública de tu logo (opcional)
+                  URL directa de imagen (ej: Imgur, Cloudinary). No usar links de Facebook/Instagram, usa la URL directa de la imagen.
                 </p>
               </div>
 
@@ -565,6 +632,110 @@ export default function TeamsPage() {
                   className="flex-1 bg-arcadePurple hover:bg-purple-600 text-white font-bold py-3 px-4 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed border-4 border-white shadow-lg shadow-arcadePurple/50 uppercase"
                 >
                   {creating ? '⏳ Creando...' : '✨ Crear'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Team Modal */}
+      {showEditModal && myTeam && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+          <div className="bg-slate-900 border-4 border-arcadePurple rounded-lg p-6 w-full max-w-md">
+            <h2 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 uppercase mb-6 text-center">
+              ✏️ Editar Equipo
+            </h2>
+
+            <form onSubmit={handleUpdateTeam} className="space-y-4">
+              {/* Nombre del equipo */}
+              <div>
+                <label className="text-purple-400 text-sm font-bold uppercase block mb-2">
+                  Nombre del equipo
+                </label>
+                <input
+                  type="text"
+                  value={editTeamName}
+                  onChange={(e) => setEditTeamName(e.target.value)}
+                  className="w-full bg-slate-800 border-2 border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:border-arcadePurple focus:outline-none transition-colors"
+                  placeholder="Los Ollie Masters"
+                  minLength={3}
+                  maxLength={30}
+                />
+              </div>
+
+              {/* Logo del equipo */}
+              <div>
+                <label className="text-purple-400 text-sm font-bold uppercase block mb-2">
+                  Logo (URL de imagen)
+                </label>
+                <input
+                  type="url"
+                  value={editTeamLogo}
+                  onChange={(e) => setEditTeamLogo(e.target.value)}
+                  className="w-full bg-slate-800 border-2 border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:border-arcadePurple focus:outline-none transition-colors"
+                  placeholder="https://i.imgur.com/ejemplo.jpg"
+                />
+                <p className="text-slate-500 text-xs mt-1">
+                  URL directa de imagen. Usa Imgur, Cloudinary, etc.
+                </p>
+              </div>
+
+              {/* Vista previa del logo */}
+              {editTeamLogo && (
+                <div className="bg-slate-800 rounded-lg p-3 border-2 border-slate-700">
+                  <p className="text-slate-400 text-xs uppercase mb-2">Vista previa:</p>
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={editTeamLogo}
+                      alt="Preview"
+                      className="w-12 h-12 rounded-lg object-cover"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.display = 'none';
+                      }}
+                    />
+                    <div className="flex-1">
+                      <p className="text-white text-sm font-bold truncate">
+                        {editTeamName || myTeam.name}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Descripción */}
+              <div>
+                <label className="text-purple-400 text-sm font-bold uppercase block mb-2">
+                  Descripción
+                </label>
+                <textarea
+                  value={editTeamDescription}
+                  onChange={(e) => setEditTeamDescription(e.target.value)}
+                  className="w-full bg-slate-800 border-2 border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:border-arcadePurple focus:outline-none resize-none transition-colors"
+                  placeholder="Somos un equipo de skaters apasionados que..."
+                  rows={3}
+                  maxLength={200}
+                />
+                <p className="text-slate-500 text-xs mt-1 text-right">
+                  {editTeamDescription.length}/200 caracteres
+                </p>
+              </div>
+
+              {/* Botones */}
+              <div className="flex gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setShowEditModal(false)}
+                  className="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-4 rounded-lg transition-colors border-2 border-slate-600 uppercase"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  disabled={updating}
+                  className="flex-1 bg-arcadePurple hover:bg-purple-600 text-white font-bold py-3 px-4 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed border-4 border-white shadow-lg shadow-arcadePurple/50 uppercase"
+                >
+                  {updating ? '⏳ Guardando...' : '💾 Guardar'}
                 </button>
               </div>
             </form>

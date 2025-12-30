@@ -94,6 +94,71 @@ export async function GET(
   }
 }
 
+// PUT /api/teams/[id] - Actualizar un team (solo owner)
+export async function PUT(
+  req: Request,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const session = await getServerSession(authOptions);
+
+    if (!session?.user?.email) {
+      return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
+    }
+
+    const teamId = parseInt(params.id);
+
+    if (isNaN(teamId)) {
+      return NextResponse.json({ error: 'ID inválido' }, { status: 400 });
+    }
+
+    const body = await req.json();
+    const { name, description, logo } = body;
+
+    const team = await prisma.team.findUnique({
+      where: { id: teamId },
+    });
+
+    if (!team) {
+      return NextResponse.json(
+        { error: 'Team no encontrado' },
+        { status: 404 }
+      );
+    }
+
+    // Obtener el username del usuario actual
+    const user = await prisma.user.findUnique({
+      where: { email: session.user.email },
+      select: { username: true },
+    });
+
+    if (!user?.username || team.ownerId !== user.username) {
+      return NextResponse.json(
+        { error: 'Solo el creador puede editar el equipo' },
+        { status: 403 }
+      );
+    }
+
+    // Actualizar el team
+    const updatedTeam = await prisma.team.update({
+      where: { id: teamId },
+      data: {
+        ...(name && { name: name.trim() }),
+        description: description?.trim() || null,
+        logo: logo || null,
+      },
+    });
+
+    return NextResponse.json({ team: updatedTeam });
+  } catch (error) {
+    console.error('Error actualizando team:', error);
+    return NextResponse.json(
+      { error: 'Error al actualizar el team' },
+      { status: 500 }
+    );
+  }
+}
+
 // DELETE /api/teams/[id] - Eliminar un team (solo owner)
 export async function DELETE(
   req: Request,
