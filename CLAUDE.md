@@ -96,6 +96,28 @@ node scripts/check_db_user.js # Debug database connection and verify user
 
 ## Development Principles
 
+### 🚨 CRITICAL RULE: No Gradients on Buttons
+
+**IMPORTANT:** All interactive buttons MUST use solid colors, NOT gradients.
+
+- ❌ **NEVER USE:** `bg-gradient-to-r from-* to-*` on `<button>` or action `<a>` elements
+- ✅ **ALWAYS USE:** Solid colors with hover states (e.g., `bg-purple-600 hover:bg-purple-700`)
+
+**Gradients are ONLY allowed for:**
+- Text with `text-transparent bg-clip-text`
+- Decorative borders on containers
+- Background elements (cards, sections)
+- Non-interactive visual elements
+
+**Reference:** See `docs/BUTTON_GUIDELINES.md` for complete button styling guide.
+
+**Approved Button Colors:**
+- Purple: `bg-purple-600 hover:bg-purple-700` (Primary actions)
+- Cyan: `bg-cyan-500 hover:bg-cyan-600` (Info/System actions)
+- Yellow: `bg-yellow-500 hover:bg-yellow-600` (Warning/Highlighted actions)
+- Green: `bg-green-500 hover:bg-green-600` (Success/Confirm)
+- Red: `bg-red-500 hover:bg-red-600` (Danger/Cancel)
+
 ### Design System - Atomic Design
 
 Follow **Atomic Design methodology** for component organization:

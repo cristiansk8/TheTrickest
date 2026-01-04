@@ -72,7 +72,7 @@ export default function ChallengeCard({ challenge, onSubmitClick }: ChallengeCar
       return (
         <button
           onClick={onSubmitClick}
-          className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-400 hover:to-orange-400 text-white font-black py-3 px-6 rounded-lg border-4 border-white uppercase tracking-wider shadow-2xl transform hover:scale-105 transition-all"
+          className="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-black py-3 px-6 rounded-lg border-4 border-white uppercase tracking-wider shadow-2xl transform hover:scale-105 transition-all"
         >
           📹 Submit Your Video
         </button>

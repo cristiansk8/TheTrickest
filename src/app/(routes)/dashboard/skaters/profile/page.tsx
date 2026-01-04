@@ -265,7 +265,7 @@ export default function ProfilePage() {
                     href={`/profile/${session.user.username}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-400 hover:to-orange-400 text-white font-black py-3 px-6 rounded-lg border-4 border-white uppercase tracking-wider text-sm shadow-lg shadow-yellow-500/30 transform hover:scale-105 transition-all text-center whitespace-nowrap relative z-50"
+                    className="bg-yellow-500 hover:bg-yellow-600 text-white font-black py-3 px-6 rounded-lg border-4 border-white uppercase tracking-wider text-sm shadow-lg transform hover:scale-105 transition-all text-center whitespace-nowrap relative z-50"
                   >
                     👁️ Ver Perfil Público
                   </Link>
@@ -273,7 +273,7 @@ export default function ProfilePage() {
                     <button
                       type="button"
                       onClick={() => setShowShareMenu(!showShareMenu)}
-                      className="w-full md:w-auto bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-400 hover:to-purple-400 text-white font-black py-3 px-6 rounded-lg border-4 border-white uppercase tracking-wider text-sm shadow-lg shadow-pink-500/30 transform hover:scale-105 transition-all whitespace-nowrap relative z-50"
+                      className="w-full md:w-auto bg-purple-600 hover:bg-purple-700 text-white font-black py-3 px-6 rounded-lg border-4 border-white uppercase tracking-wider text-sm shadow-lg transform hover:scale-105 transition-all whitespace-nowrap relative z-50"
                     >
                       🔗 Compartir
                     </button>

@@ -36,7 +36,8 @@
       "Bash(test:*)",
       "Bash(yarn add:*)",
       "Bash(git restore:*)",
-      "Bash(del nul)"
+      "Bash(del nul)",
+      "Bash(npm run validate:buttons:*)"
     ],
     "deny": [],
     "ask": []

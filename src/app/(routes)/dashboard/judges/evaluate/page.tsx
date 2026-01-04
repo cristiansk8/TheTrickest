@@ -188,7 +188,7 @@ export default function JudgeEvaluatePage() {
             onClick={() => setActiveTab('pending')}
             className={`flex-1 py-3 px-6 rounded-lg font-black uppercase tracking-wider transition-all ${
               activeTab === 'pending'
-                ? 'bg-gradient-to-r from-yellow-500 to-orange-500 text-white border-4 border-white shadow-2xl shadow-yellow-500/50'
+                ? 'bg-yellow-500 hover:bg-yellow-600 text-white border-4 border-white shadow-2xl shadow-yellow-500/50'
                 : 'bg-slate-800 text-slate-400 border-4 border-slate-700 hover:border-slate-500'
             }`}
           >
@@ -198,7 +198,7 @@ export default function JudgeEvaluatePage() {
             onClick={() => setActiveTab('evaluated')}
             className={`flex-1 py-3 px-6 rounded-lg font-black uppercase tracking-wider transition-all ${
               activeTab === 'evaluated'
-                ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white border-4 border-white shadow-2xl shadow-purple-500/50'
+                ? 'bg-purple-600 hover:bg-purple-700 text-white border-4 border-white shadow-2xl shadow-purple-500/50'
                 : 'bg-slate-800 text-slate-400 border-4 border-slate-700 hover:border-slate-500'
             }`}
           >
@@ -323,7 +323,7 @@ export default function JudgeEvaluatePage() {
                     ) : (
                       <button
                         onClick={() => setEvaluating(submission.id)}
-                        className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-400 hover:to-orange-400 text-white font-black py-4 px-6 rounded-lg border-4 border-white uppercase tracking-wider text-lg shadow-2xl transform hover:scale-105 transition-all"
+                        className="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-black py-4 px-6 rounded-lg border-4 border-white uppercase tracking-wider text-lg shadow-2xl transform hover:scale-105 transition-all"
                       >
                         📝 EVALUAR
                       </button>

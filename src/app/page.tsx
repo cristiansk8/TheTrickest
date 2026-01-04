@@ -3,6 +3,7 @@ import Introduction from '@/components/introduction';
 import Partners from '@/components/partners/partners';
 import SkatersShowcase from '@/components/SkatersShowcase';
 import TransitionPage from '@/components/transition-page';
+import HomeLevelSection from '@/components/HomeLevelSection';
 
 export default function Home() {
   return (
@@ -11,11 +12,15 @@ export default function Home() {
         <TransitionPage />
         <Introduction />
       </div>
+
+      {/* Challenges Section */}
+      <HomeLevelSection />
+
       {/* <div className='pt-28 text-center'>
         <h1 className='text-slate-200 my-16 text-2xl md:text-4xl font-bold'>High Scores</h1>
         <HighScore />
       </div> */}
-      <div className="pt-28 text-center">
+      <div className="pt-28 text-center" data-section="how-to-win">
         <div className="flex flex-col h-full py-5 md:pt-28 text-center bg-[#2e2257]">
           <h1 className="text-slate-200 my-16 text-2xl md:text-4xl font-bold">
             Sigue los pasos

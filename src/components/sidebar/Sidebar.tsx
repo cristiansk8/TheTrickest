@@ -2,7 +2,7 @@
 import React, { useMemo, useEffect, useState } from 'react'
 import Image from 'next/image'
 import { SidebarMenuItem } from './SidebarMenuItem';
-import { MdOutlineSkateboarding, MdGavel, MdAdminPanelSettings, MdLeaderboard, MdGroups, MdLogout } from "react-icons/md";
+import { MdOutlineSkateboarding, MdGavel, MdAdminPanelSettings, MdLeaderboard, MdGroups, MdLogout, MdSettings } from "react-icons/md";
 import { GiSkateboard } from "react-icons/gi";
 import { GiTrophy } from "react-icons/gi";
 import { FaVideo } from "react-icons/fa";
@@ -94,6 +94,12 @@ const adminMenuItems = [
     icon: <GiSkateboard size={28} />,
     title: 'Desafíos',
     subTitle: 'gestionar'
+  },
+  {
+    path: '/dashboard/admin/settings',
+    icon: <MdSettings size={28} />,
+    title: 'Configuración',
+    subTitle: 'sistema'
   },
   {
     path: '/dashboard/judges/evaluate',

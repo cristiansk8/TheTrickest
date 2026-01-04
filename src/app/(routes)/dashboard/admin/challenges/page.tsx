@@ -2,12 +2,12 @@
 
 import { useState, useEffect } from 'react';
 import { Card, CardBody, CardHeader } from '@nextui-org/react';
-import { Button } from '@nextui-org/react';
 import { Input } from '@nextui-org/react';
 import { Textarea } from '@nextui-org/react';
 import { Select, SelectItem } from '@nextui-org/react';
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from '@nextui-org/react';
 import { MdAdd, MdEdit, MdDelete, MdPlayArrow, MdSportsKabaddi } from 'react-icons/md';
+import { Button, IconButton } from '@/components/atoms';
 
 interface Challenge {
   id: number;
@@ -37,6 +37,7 @@ export default function AdminChallengesPage() {
     difficulty: 'easy',
     points: 100,
     demoVideoUrl: '',
+    isBonus: false,
   });
 
   const fetchChallenges = async () => {
@@ -65,6 +66,7 @@ export default function AdminChallengesPage() {
       difficulty: 'easy',
       points: 100,
       demoVideoUrl: '',
+      isBonus: false,
     });
     onOpen();
   };
@@ -77,6 +79,7 @@ export default function AdminChallengesPage() {
       difficulty: challenge.difficulty,
       points: challenge.points,
       demoVideoUrl: challenge.demoVideoUrl,
+      isBonus: challenge.isBonus,
     });
     onOpen();
   };
@@ -84,11 +87,13 @@ export default function AdminChallengesPage() {
   const handleSubmit = async () => {
     setSaving(true);
     try {
-      const url = editingChallenge ? '/api/admin/challenges' : '/api/admin/challenges';
+      const url = '/api/admin/challenges';
       const method = editingChallenge ? 'PATCH' : 'POST';
       const body = editingChallenge
         ? { challengeId: editingChallenge.id, action: 'update', ...formData }
         : formData;
+
+      console.log('Enviando:', { method, body });
 
       const response = await fetch(url, {
         method,
@@ -96,16 +101,46 @@ export default function AdminChallengesPage() {
         body: JSON.stringify(body),
       });
 
+      const data = await response.json();
+      console.log('Respuesta:', data);
+
       if (response.ok) {
+        alert(editingChallenge ? 'Desafío actualizado exitosamente' : 'Desafío creado exitosamente');
         fetchChallenges();
         onClose();
       } else {
-        console.error('Error saving challenge');
+        alert(data.error || 'Error al guardar el desafío');
+        console.error('Error saving challenge:', data);
       }
     } catch (error) {
       console.error('Error saving challenge:', error);
+      alert('Error al guardar el desafío');
     }
     setSaving(false);
+  };
+
+  const handleDelete = async (challengeId: number) => {
+    if (!confirm('¿Estás seguro de eliminar este desafío? Esta acción no se puede deshacer.')) {
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/admin/challenges', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ challengeId }),
+      });
+
+      if (response.ok) {
+        fetchChallenges();
+      } else {
+        const data = await response.json();
+        alert(data.error || 'Error al eliminar el desafío');
+      }
+    } catch (error) {
+      console.error('Error deleting challenge:', error);
+      alert('Error al eliminar el desafío');
+    }
   };
 
   const getDifficultyColor = (difficulty: string) => {
@@ -129,22 +164,25 @@ export default function AdminChallengesPage() {
   return (
     <div className="p-6 space-y-6">
       {/* Header */}
-      <div className="mb-8 flex justify-between items-center">
-        <div>
+      <div className="mb-16 pb-8">
+        <div className="text-center mb-8">
           <h1 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 uppercase tracking-wider mb-2">
             🛹 GESTIÓN DE DESAFÍOS
           </h1>
-          <p className="text-slate-600 text-lg">
+          <p className="text-slate-600 text-lg mb-10">
             Crea y administra los challenges de la plataforma
           </p>
         </div>
-        <Button
-          onClick={openCreateModal}
-          className="bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-black uppercase tracking-wider shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50"
-          startContent={<MdAdd size={20} />}
-        >
-          Nuevo Desafío
-        </Button>
+        <div className="flex justify-center relative z-10 pb-4">
+          <Button
+            onClick={openCreateModal}
+            variant="primary"
+            size="lg"
+            leftIcon={<MdAdd size={20} />}
+          >
+            Nuevo Desafío
+          </Button>
+        </div>
       </div>
 
       {/* Challenges Grid */}
@@ -157,24 +195,37 @@ export default function AdminChallengesPage() {
           {challenges.map((challenge) => (
             <Card key={challenge.id} className="bg-slate-900 border-4 border-slate-700 shadow-lg hover:shadow-cyan-500/20 transition-all">
               <CardHeader className="pb-2">
-                <div className="flex items-center justify-between w-full">
-                  <div className="flex items-center gap-3">
-                    <MdSportsKabaddi size={24} className="text-cyan-400" />
-                    <div>
-                      <h3 className="text-white font-black text-lg uppercase tracking-wider">
+                <div className="flex items-start justify-between w-full gap-3">
+                  <div className="flex items-start gap-3 flex-1 min-w-0">
+                    <MdSportsKabaddi size={24} className="text-cyan-400 flex-shrink-0 mt-1" />
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-white font-black text-lg uppercase tracking-wider mb-2 break-words">
                         {challenge.name}
                       </h3>
-                      {getDifficultyBadge(challenge.difficulty)}
+                      <div className="flex flex-wrap items-center gap-2">
+                        {getDifficultyBadge(challenge.difficulty)}
+                        {challenge.isBonus && (
+                          <span className="text-xs bg-yellow-500 text-black px-2 py-1 rounded-full font-black uppercase">
+                            🌟 BONUS
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
-                  <Button
-                    isIconOnly
-                    size="sm"
-                    onClick={() => openEditModal(challenge)}
-                    className="bg-gradient-to-r from-yellow-500 to-orange-500 text-black hover:from-yellow-400 hover:to-orange-400"
-                  >
-                    <MdEdit size={16} />
-                  </Button>
+                  <div className="flex gap-2 flex-shrink-0">
+                    <IconButton
+                      variant="edit"
+                      size="sm"
+                      onClick={() => openEditModal(challenge)}
+                      icon={<MdEdit size={16} />}
+                    />
+                    <IconButton
+                      variant="delete"
+                      size="sm"
+                      onClick={() => handleDelete(challenge.id)}
+                      icon={<MdDelete size={16} />}
+                    />
+                  </div>
                 </div>
               </CardHeader>
               <CardBody className="space-y-4">
@@ -215,16 +266,21 @@ export default function AdminChallengesPage() {
                 </div>
 
                 {challenge.demoVideoUrl && (
-                  <Button
-                    as="a"
+                  <a
                     href={challenge.demoVideoUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full bg-gradient-to-r from-purple-500 to-pink-600 text-white font-bold uppercase tracking-wider"
-                    startContent={<MdPlayArrow size={16} />}
+                    className="block w-full"
                   >
-                    Ver Demo
-                  </Button>
+                    <Button
+                      variant="purple"
+                      size="md"
+                      leftIcon={<MdPlayArrow size={16} />}
+                      className="w-full"
+                    >
+                      Ver Demo
+                    </Button>
+                  </a>
                 )}
               </CardBody>
             </Card>
@@ -236,72 +292,144 @@ export default function AdminChallengesPage() {
       <Modal
         isOpen={isOpen}
         onClose={onClose}
-        size="2xl"
+        size="3xl"
         className="bg-slate-900 border-4 border-slate-700"
+        scrollBehavior="inside"
       >
         <ModalContent>
-          <ModalHeader className="text-white font-black uppercase tracking-wider">
+          <ModalHeader className="text-white font-black uppercase tracking-wider text-center pb-4 pt-8 border-b-2 border-slate-700">
             {editingChallenge ? '✏️ EDITAR DESAFÍO' : '➕ CREAR NUEVO DESAFÍO'}
           </ModalHeader>
-          <ModalBody className="space-y-4">
-            <Input
-              label="Nombre del Desafío"
-              placeholder="Ej: Ollie Perfecto"
-              value={formData.name}
-              onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-              className="text-white"
-            />
 
-            <Textarea
-              label="Descripción"
-              placeholder="Describe el desafío en detalle..."
-              value={formData.description}
-              onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-              className="text-white"
-            />
+          <ModalBody className="px-8 py-8">
+            <div className="space-y-8">
+              {/* Nombre del Desafío */}
+              <div>
+                <label className="block text-slate-300 font-bold uppercase tracking-wider text-sm mb-3">
+                  Nombre del Desafío
+                </label>
+                <Input
+                  placeholder="Ej: Ollie Perfecto"
+                  value={formData.name}
+                  onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                  className="text-white"
+                  size="lg"
+                  classNames={{
+                    input: "text-white bg-slate-800",
+                    inputWrapper: "bg-slate-800 border-2 border-slate-600 hover:border-cyan-500"
+                  }}
+                />
+              </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <Select
-                label="Dificultad"
-                selectedKeys={[formData.difficulty]}
-                onSelectionChange={(keys) => setFormData(prev => ({
-                  ...prev,
-                  difficulty: Array.from(keys)[0] as string
-                }))}
-              >
-                <SelectItem key="easy" value="easy">Fácil</SelectItem>
-                <SelectItem key="medium" value="medium">Medio</SelectItem>
-                <SelectItem key="hard" value="hard">Difícil</SelectItem>
-                <SelectItem key="expert" value="expert">Experto</SelectItem>
-              </Select>
+              {/* Descripción */}
+              <div>
+                <label className="block text-slate-300 font-bold uppercase tracking-wider text-sm mb-3">
+                  Descripción
+                </label>
+                <Textarea
+                  placeholder="Describe el desafío en detalle..."
+                  value={formData.description}
+                  onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                  className="text-white"
+                  minRows={4}
+                  size="lg"
+                  classNames={{
+                    input: "text-white bg-slate-800",
+                    inputWrapper: "bg-slate-800 border-2 border-slate-600 hover:border-cyan-500"
+                  }}
+                />
+              </div>
 
-              <Input
-                label="Puntos"
-                type="number"
-                placeholder="100"
-                value={formData.points.toString()}
-                onChange={(e) => setFormData(prev => ({ ...prev, points: parseInt(e.target.value) || 0 }))}
-              />
+              {/* Dificultad y Puntos */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                  <label className="block text-slate-300 font-bold uppercase tracking-wider text-sm mb-3">
+                    Dificultad
+                  </label>
+                  <Select
+                    selectedKeys={[formData.difficulty]}
+                    onSelectionChange={(keys) => setFormData(prev => ({
+                      ...prev,
+                      difficulty: Array.from(keys)[0] as string
+                    }))}
+                    size="lg"
+                    classNames={{
+                      trigger: "bg-slate-800 border-2 border-slate-600 hover:border-cyan-500"
+                    }}
+                  >
+                    <SelectItem key="easy" value="easy">Fácil</SelectItem>
+                    <SelectItem key="medium" value="medium">Medio</SelectItem>
+                    <SelectItem key="hard" value="hard">Difícil</SelectItem>
+                    <SelectItem key="expert" value="expert">Experto</SelectItem>
+                  </Select>
+                </div>
+
+                <div>
+                  <label className="block text-slate-300 font-bold uppercase tracking-wider text-sm mb-3">
+                    Puntos
+                  </label>
+                  <Input
+                    type="number"
+                    placeholder="100"
+                    value={formData.points.toString()}
+                    onChange={(e) => setFormData(prev => ({ ...prev, points: parseInt(e.target.value) || 0 }))}
+                    size="lg"
+                    classNames={{
+                      input: "text-white bg-slate-800",
+                      inputWrapper: "bg-slate-800 border-2 border-slate-600 hover:border-cyan-500"
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* URL del Video */}
+              <div>
+                <label className="block text-slate-300 font-bold uppercase tracking-wider text-sm mb-3">
+                  URL del Video Demo (YouTube)
+                </label>
+                <Input
+                  placeholder="https://youtube.com/watch?v=..."
+                  value={formData.demoVideoUrl}
+                  onChange={(e) => setFormData(prev => ({ ...prev, demoVideoUrl: e.target.value }))}
+                  size="lg"
+                  classNames={{
+                    input: "text-white bg-slate-800",
+                    inputWrapper: "bg-slate-800 border-2 border-slate-600 hover:border-cyan-500"
+                  }}
+                />
+              </div>
+
+              {/* Challenge Bonus */}
+              <div>
+                <label className="flex items-start gap-4 cursor-pointer bg-slate-800 p-5 rounded-xl border-2 border-slate-600 hover:border-yellow-500 transition-all">
+                  <input
+                    type="checkbox"
+                    checked={formData.isBonus}
+                    onChange={(e) => setFormData(prev => ({ ...prev, isBonus: e.target.checked }))}
+                    className="w-6 h-6 mt-1 rounded border-2 border-slate-600 bg-slate-900 checked:bg-yellow-500 checked:border-yellow-500 cursor-pointer flex-shrink-0"
+                  />
+                  <div className="flex-1">
+                    <p className="text-white font-bold uppercase tracking-wider mb-1">🌟 Challenge Bonus</p>
+                    <p className="text-slate-400 text-sm leading-relaxed">Este desafío otorgará puntos extra y aparecerá destacado en la plataforma</p>
+                  </div>
+                </label>
+              </div>
             </div>
-
-            <Input
-              label="URL del Video Demo (YouTube)"
-              placeholder="https://youtube.com/watch?v=..."
-              value={formData.demoVideoUrl}
-              onChange={(e) => setFormData(prev => ({ ...prev, demoVideoUrl: e.target.value }))}
-            />
           </ModalBody>
-          <ModalFooter>
+
+          <ModalFooter className="pt-6 pb-8 px-8 gap-4 border-t-2 border-slate-700">
             <Button
               onClick={onClose}
-              className="bg-slate-700 text-white"
+              variant="secondary"
+              size="lg"
             >
               Cancelar
             </Button>
             <Button
               onClick={handleSubmit}
               isLoading={saving}
-              className="bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-bold uppercase tracking-wider"
+              variant="primary"
+              size="lg"
             >
               {editingChallenge ? 'Actualizar' : 'Crear'} Desafío
             </Button>

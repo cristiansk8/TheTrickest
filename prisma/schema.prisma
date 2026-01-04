@@ -206,3 +206,14 @@ model Notification {
   @@index([type])
   @@index([createdAt])
 }
+
+model AppSettings {
+  id               Int      @id @default(autoincrement())
+  key              String   @unique // Clave única del setting (ej: "total_levels")
+  value            String // Valor del setting
+  description      String? // Descripción del setting
+  updatedAt        DateTime @updatedAt
+  updatedBy        String? // Email del admin que actualizó
+
+  @@index([key])
+}
