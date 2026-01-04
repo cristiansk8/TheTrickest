@@ -2,6 +2,15 @@ import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 
+// Log de variables de entorno críticas al inicializar (solo en producción)
+if (process.env.NODE_ENV === 'production') {
+  console.log('🔧 [AUTH CONFIG] Variables de entorno en producción:');
+  console.log(`   NEXTAUTH_URL: ${process.env.NEXTAUTH_URL || '❌ NO CONFIGURADO'}`);
+  console.log(`   NEXTAUTH_SECRET: ${process.env.NEXTAUTH_SECRET ? '✅ Configurado' : '❌ NO CONFIGURADO'}`);
+  console.log(`   DATABASE_URL: ${process.env.DATABASE_URL ? '✅ Configurado' : '❌ NO CONFIGURADO'}`);
+  console.log(`   NODE_ENV: ${process.env.NODE_ENV}`);
+}
+
 export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
@@ -19,25 +28,43 @@ export const authOptions: NextAuthOptions = {
         const prisma = (await import('@/app/lib/prisma')).default;
         const bcrypt = await import('bcrypt');
 
+        console.log('🔐 [AUTH] Inicio de autenticación con credenciales');
+
         if (!credentials?.email || !credentials?.password) {
+          console.log('❌ [AUTH] Error: Email o contraseña faltantes');
           throw new Error('Email y contraseña son requeridos');
         }
+
+        console.log(`🔍 [AUTH] Buscando usuario: ${credentials.email}`);
 
         // Buscar usuario en la BD
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },
         });
 
-        if (!user || !user.password) {
+        if (!user) {
+          console.log(`❌ [AUTH] Error: Usuario no encontrado - ${credentials.email}`);
           throw new Error('Credenciales inválidas');
         }
+
+        if (!user.password) {
+          console.log(`❌ [AUTH] Error: Usuario sin contraseña configurada - ${credentials.email}`);
+          throw new Error('Credenciales inválidas');
+        }
+
+        console.log(`✅ [AUTH] Usuario encontrado: ${user.email} (ID: ${user.id}, Role: ${user.role})`);
+        console.log(`🔑 [AUTH] Hash de contraseña: ${user.password.substring(0, 20)}...`);
 
         // Verificar contraseña
         const isPasswordValid = await bcrypt.compare(credentials.password, user.password);
 
         if (!isPasswordValid) {
+          console.log(`❌ [AUTH] Error: Contraseña inválida para ${credentials.email}`);
           throw new Error('Credenciales inválidas');
         }
+
+        console.log(`✅ [AUTH] Contraseña válida para ${credentials.email}`);
+        console.log(`✅ [AUTH] Autenticación exitosa - Usuario: ${user.email}, Role: ${user.role}`);
 
         // Retornar usuario para la sesión
         return {
@@ -90,6 +117,7 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.email = user.email;
+        console.log(`🎫 [JWT] Token creado para usuario: ${user.email}`);
       }
 
       // Obtener profileStatus, hasPassword y role de la BD
@@ -107,12 +135,19 @@ export const authOptions: NextAuthOptions = {
                username: true,
              },
            });
+
+           if (!dbUser) {
+             console.log(`⚠️ [JWT] Usuario no encontrado en BD: ${token.email}`);
+           } else {
+             console.log(`✅ [JWT] Datos del usuario obtenidos - Role: ${dbUser.role}, Status: ${dbUser.profileStatus}`);
+           }
+
            token.profileStatus = dbUser?.profileStatus || 'basic';
            token.hasPassword = !!dbUser?.password; // true si tiene contraseña
            token.role = dbUser?.role || 'skater';
             token.username = dbUser?.username || undefined;
         } catch (error) {
-          console.error('Error obteniendo datos del usuario:', error);
+          console.error('❌ [JWT] Error obteniendo datos del usuario:', error);
         }
       }
 
@@ -124,6 +159,7 @@ export const authOptions: NextAuthOptions = {
         session.user.hasPassword = token.hasPassword as boolean;
         session.user.role = token.role as string;
         session.user.username = token.username as string;
+        console.log(`📝 [SESSION] Sesión creada para: ${session.user.email} (Role: ${session.user.role})`);
       }
       return session;
     },
