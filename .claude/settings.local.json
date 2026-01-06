@@ -37,7 +37,8 @@
       "Bash(yarn add:*)",
       "Bash(git restore:*)",
       "Bash(del nul)",
-      "Bash(npm run validate:buttons:*)"
+      "Bash(npm run validate:buttons:*)",
+      "Bash(vercel --version:*)"
     ],
     "deny": [],
     "ask": []

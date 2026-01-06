@@ -3,6 +3,7 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 // Log de variables de entorno críticas al inicializar (solo en producción)
+console.log('🔧 [AUTH CONFIG] INICIANDO - ENV:', process.env.NODE_ENV);
 if (process.env.NODE_ENV === 'production') {
   console.log('🔧 [AUTH CONFIG] Variables de entorno en producción:');
   console.log(`   NEXTAUTH_URL: ${process.env.NEXTAUTH_URL || '❌ NO CONFIGURADO'}`);
