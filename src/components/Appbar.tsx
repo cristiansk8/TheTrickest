@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import SigninButton from './SigninButton';
+import LocationToggle from './LocationToggle';
 
 interface Notification {
   id: number;
@@ -126,11 +127,18 @@ const Appbar = () => {
   };
 
   return (
-    <header className="flex p-4 shadow items-center w-full">
+    <header className="sticky top-0 z-50 flex p-4 shadow items-center w-full bg-slate-900/95 backdrop-blur-md border-b-2 border-cyan-500/30">
       <SigninButton />
 
       {/* Botones flotantes a la derecha */}
       <div className="ml-auto flex items-center gap-2 md:gap-3">
+        {/* Botón de Ubicación */}
+        {session?.user?.email && (
+          <div className="hidden md:block">
+            <LocationToggle />
+          </div>
+        )}
+
         {/* Botón de Notificaciones */}
         {session?.user?.email && (
           <div className="relative notifications-container">

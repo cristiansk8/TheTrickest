@@ -109,13 +109,21 @@ export default function LocationToggle() {
     <button
       onClick={handleToggle}
       disabled={loading}
-      className={`px-4 py-2 rounded-lg font-black uppercase tracking-wider text-sm transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed ${
+      title={showOnMap ? 'Visible en el mapa' : 'Aparecer en el mapa'}
+      className={`group relative flex items-center justify-center w-10 h-10 md:w-12 md:h-12 font-bold rounded-lg shadow-lg transition-all transform hover:scale-105 border-2 backdrop-blur-sm disabled:opacity-50 disabled:cursor-not-allowed ${
         showOnMap
-          ? 'bg-green-500 hover:bg-green-600 text-white border-2 border-white'
-          : 'bg-slate-700 hover:bg-slate-600 text-slate-300 border-2 border-slate-600'
+          ? 'bg-yellow-600/80 hover:bg-yellow-500/90 text-white hover:shadow-yellow-500/50 border-yellow-300'
+          : 'bg-slate-700/80 hover:bg-slate-600/90 text-slate-300 hover:shadow-slate-500/50 border-slate-500'
       }`}
     >
-      {loading ? '⏳' : showOnMap ? '📍 EN EL MAPA' : '📍 APARECER EN MAPA'}
+      <span className="text-lg md:text-xl">
+        {loading ? '⏳' : '📍'}
+      </span>
+
+      {/* Badge indicador cuando está activo */}
+      {showOnMap && !loading && (
+        <span className="absolute -top-1 -right-1 bg-green-500 text-white text-xs font-bold w-3 h-3 rounded-full"></span>
+      )}
     </button>
   );
 }

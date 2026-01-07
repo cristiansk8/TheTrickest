@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import SkateSetupPage from './dream_setup';
 import GeneralInfoForm from './general_info_form';
-import LocationToggle from '@/components/LocationToggle';
 
 export default function ProfilePage() {
   const [loading, setLoading] = useState(false);
@@ -270,9 +269,6 @@ export default function ProfilePage() {
                   >
                     👁️ Ver Perfil Público
                   </Link>
-
-                  <LocationToggle />
-
                   <div className="relative share-menu-container z-50">
                     <button
                       type="button"
