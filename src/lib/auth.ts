@@ -27,7 +27,7 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         // Lazy load dependencies
         const prisma = (await import('@/app/lib/prisma')).default;
-        const bcrypt = await import('bcrypt');
+        const bcrypt = await import('bcryptjs');
 
         console.log('🔐 [AUTH] Inicio de autenticación con credenciales');
 
