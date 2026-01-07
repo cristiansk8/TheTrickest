@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import SkateSetupPage from './dream_setup';
 import GeneralInfoForm from './general_info_form';
-import LocationForm from '@/components/LocationForm';
+import LocationToggle from '@/components/LocationToggle';
 
 export default function ProfilePage() {
   const [loading, setLoading] = useState(false);
@@ -13,7 +13,7 @@ export default function ProfilePage() {
   const [isClient, setIsClient] = useState(false);
   const [isRegistered, setIsRegistered] = useState(false);
   const [notification, setNotification] = useState('');
-  const [activeTab, setActiveTab] = useState<'general' | 'setup' | 'social' | 'location'>(
+  const [activeTab, setActiveTab] = useState<'general' | 'setup' | 'social'>(
     'general'
   ); // Tab activo
   const [formData, setFormData] = useState({
@@ -270,6 +270,9 @@ export default function ProfilePage() {
                   >
                     👁️ Ver Perfil Público
                   </Link>
+
+                  <LocationToggle />
+
                   <div className="relative share-menu-container z-50">
                     <button
                       type="button"
@@ -364,17 +367,6 @@ export default function ProfilePage() {
             } rounded-lg text-sm md:text-base`}
           >
             🌐 REDES SOCIALES
-          </button>
-
-          <button
-            onClick={() => setActiveTab('location')}
-            className={`flex-1 py-3 md:py-4 px-4 md:px-6 font-black uppercase tracking-wider transition-all transform hover:scale-105 ${
-              activeTab === 'location'
-                ? 'bg-gradient-to-r from-yellow-500 to-orange-500 text-white shadow-lg shadow-yellow-500/50 border-4 border-yellow-300'
-                : 'bg-slate-800 text-slate-400 border-4 border-slate-700 hover:border-yellow-500'
-            } rounded-lg text-sm md:text-base`}
-          >
-            📍 UBICACIÓN
           </button>
         </div>
       </div>
@@ -500,13 +492,6 @@ export default function ProfilePage() {
                 </form>
               </div>
             </div>
-          </div>
-        )}
-
-        {/* Tab: Ubicación */}
-        {activeTab === 'location' && (
-          <div className="animate-fadeIn">
-            <LocationForm />
           </div>
         )}
       </div>
