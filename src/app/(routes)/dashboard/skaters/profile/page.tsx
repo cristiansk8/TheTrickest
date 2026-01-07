@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import SkateSetupPage from './dream_setup';
 import GeneralInfoForm from './general_info_form';
+import LocationForm from '@/components/LocationForm';
 
 export default function ProfilePage() {
   const [loading, setLoading] = useState(false);
@@ -12,7 +13,7 @@ export default function ProfilePage() {
   const [isClient, setIsClient] = useState(false);
   const [isRegistered, setIsRegistered] = useState(false);
   const [notification, setNotification] = useState('');
-  const [activeTab, setActiveTab] = useState<'general' | 'setup' | 'social'>(
+  const [activeTab, setActiveTab] = useState<'general' | 'setup' | 'social' | 'location'>(
     'general'
   ); // Tab activo
   const [formData, setFormData] = useState({
@@ -364,6 +365,17 @@ export default function ProfilePage() {
           >
             🌐 REDES SOCIALES
           </button>
+
+          <button
+            onClick={() => setActiveTab('location')}
+            className={`flex-1 py-3 md:py-4 px-4 md:px-6 font-black uppercase tracking-wider transition-all transform hover:scale-105 ${
+              activeTab === 'location'
+                ? 'bg-gradient-to-r from-yellow-500 to-orange-500 text-white shadow-lg shadow-yellow-500/50 border-4 border-yellow-300'
+                : 'bg-slate-800 text-slate-400 border-4 border-slate-700 hover:border-yellow-500'
+            } rounded-lg text-sm md:text-base`}
+          >
+            📍 UBICACIÓN
+          </button>
         </div>
       </div>
 
@@ -478,7 +490,7 @@ export default function ProfilePage() {
                   {/* Botón de guardar estilo arcade */}
                   <div className="flex justify-center mt-8">
                     <button
-                      className="bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-400 hover:to-teal-400 text-white font-black py-4 px-12 rounded-lg border-4 border-white uppercase tracking-wider text-lg shadow-2xl transform hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="bg-green-500 hover:bg-green-600 text-white font-black py-4 px-12 rounded-lg border-4 border-white uppercase tracking-wider text-lg shadow-2xl transform hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                       type="submit"
                       disabled={loading}
                     >
@@ -488,6 +500,13 @@ export default function ProfilePage() {
                 </form>
               </div>
             </div>
+          </div>
+        )}
+
+        {/* Tab: Ubicación */}
+        {activeTab === 'location' && (
+          <div className="animate-fadeIn">
+            <LocationForm />
           </div>
         )}
       </div>
