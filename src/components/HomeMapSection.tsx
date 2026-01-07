@@ -5,7 +5,7 @@ import Link from 'next/link';
 import dynamic from 'next/dynamic';
 
 // Dynamic import del mapa para evitar problemas con SSR
-const SpotsMap = dynamic(() => import('@/components/organisms/SpotsMap'), {
+const UnifiedMap = dynamic(() => import('@/components/organisms/UnifiedMap'), {
   ssr: false,
   loading: () => (
     <div className="w-full h-[500px] rounded-xl border-4 border-cyan-400 bg-slate-900 flex items-center justify-center">
@@ -32,39 +32,79 @@ interface Spot {
   rating?: number;
 }
 
+interface Skater {
+  id: number;
+  username: string;
+  name: string;
+  photo?: string;
+  city?: string;
+  state?: string;
+  latitude: number;
+  longitude: number;
+  role: string;
+  team?: {
+    id: number;
+    name: string;
+    logo?: string;
+  };
+  stats: {
+    totalScore: number;
+    approvedSubmissions: number;
+    followerCount: number;
+  };
+}
+
 export default function HomeMapSection() {
   const [spots, setSpots] = useState<Spot[]>([]);
+  const [skaters, setSkaters] = useState<Skater[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showSpots, setShowSpots] = useState(true);
+  const [showSkaters, setShowSkaters] = useState(true);
   const [stats, setStats] = useState({
     totalSpots: 0,
     skateparks: 0,
     skateshops: 0,
+    totalSkaters: 0,
   });
 
   useEffect(() => {
-    fetchSpots();
+    fetchData();
   }, []);
 
-  const fetchSpots = async () => {
+  const fetchData = async () => {
     try {
-      const response = await fetch('/api/spots');
-      const data = await response.json();
+      // Fetch spots y skaters en paralelo
+      const [spotsResponse, skatersResponse] = await Promise.all([
+        fetch('/api/spots'),
+        fetch('/api/map/skaters'),
+      ]);
 
-      if (data.spots) {
-        setSpots(data.spots);
+      const spotsData = await spotsResponse.json();
+      const skatersData = await skatersResponse.json();
 
-        // Calcular estadísticas
-        const skateparks = data.spots.filter((s: Spot) => s.type === 'skatepark').length;
-        const skateshops = data.spots.filter((s: Spot) => s.type === 'skateshop').length;
+      if (spotsData.spots) {
+        setSpots(spotsData.spots);
 
-        setStats({
-          totalSpots: data.spots.length,
+        const skateparks = spotsData.spots.filter((s: Spot) => s.type === 'skatepark').length;
+        const skateshops = spotsData.spots.filter((s: Spot) => s.type === 'skateshop').length;
+
+        setStats(prev => ({
+          ...prev,
+          totalSpots: spotsData.spots.length,
           skateparks,
           skateshops,
-        });
+        }));
+      }
+
+      if (skatersData.skaters) {
+        setSkaters(skatersData.skaters);
+        setStats(prev => ({
+          ...prev,
+          totalSkaters: skatersData.skaters.length,
+        }));
       }
     } catch (error) {
-      console.error('Error fetching spots:', error);
+      console.error('Error fetching data:', error);
     } finally {
       setLoading(false);
     }
@@ -86,13 +126,13 @@ export default function HomeMapSection() {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
           {/* Total Spots */}
           <div className="bg-slate-800 border-4 border-purple-400 rounded-xl p-6 text-center shadow-2xl shadow-purple-500/30 hover:scale-105 transition-transform">
             <div className="text-5xl font-black text-purple-400 mb-2">
               {loading ? '...' : stats.totalSpots}
             </div>
-            <div className="text-slate-300 font-bold uppercase tracking-wider">
+            <div className="text-slate-300 font-bold uppercase tracking-wider text-sm">
               📍 Total Spots
             </div>
           </div>
@@ -102,7 +142,7 @@ export default function HomeMapSection() {
             <div className="text-5xl font-black text-cyan-400 mb-2">
               {loading ? '...' : stats.skateparks}
             </div>
-            <div className="text-slate-300 font-bold uppercase tracking-wider">
+            <div className="text-slate-300 font-bold uppercase tracking-wider text-sm">
               🛹 Skateparks
             </div>
           </div>
@@ -112,10 +152,45 @@ export default function HomeMapSection() {
             <div className="text-5xl font-black text-pink-400 mb-2">
               {loading ? '...' : stats.skateshops}
             </div>
-            <div className="text-slate-300 font-bold uppercase tracking-wider">
+            <div className="text-slate-300 font-bold uppercase tracking-wider text-sm">
               🏪 Skateshops
             </div>
           </div>
+
+          {/* Total Skaters */}
+          <div className="bg-slate-800 border-4 border-purple-600 rounded-xl p-6 text-center shadow-2xl shadow-purple-600/30 hover:scale-105 transition-transform">
+            <div className="text-5xl font-black text-purple-600 mb-2">
+              {loading ? '...' : stats.totalSkaters}
+            </div>
+            <div className="text-slate-300 font-bold uppercase tracking-wider text-sm">
+              👤 Skaters
+            </div>
+          </div>
+        </div>
+
+        {/* Toggles */}
+        <div className="flex flex-wrap justify-center gap-4 mb-6">
+          <button
+            onClick={() => setShowSpots(!showSpots)}
+            className={`px-6 py-3 rounded-lg font-black uppercase tracking-wider transition-all ${
+              showSpots
+                ? 'bg-cyan-500 hover:bg-cyan-600 text-white border-2 border-cyan-300'
+                : 'bg-slate-700 hover:bg-slate-600 text-slate-300 border-2 border-slate-600'
+            }`}
+          >
+            📍 {showSpots ? 'Ocultar' : 'Mostrar'} Spots
+          </button>
+
+          <button
+            onClick={() => setShowSkaters(!showSkaters)}
+            className={`px-6 py-3 rounded-lg font-black uppercase tracking-wider transition-all ${
+              showSkaters
+                ? 'bg-purple-600 hover:bg-purple-700 text-white border-2 border-purple-400'
+                : 'bg-slate-700 hover:bg-slate-600 text-slate-300 border-2 border-slate-600'
+            }`}
+          >
+            👤 {showSkaters ? 'Ocultar' : 'Mostrar'} Skaters
+          </button>
         </div>
 
         {/* Mapa */}
@@ -125,18 +200,24 @@ export default function HomeMapSection() {
               ⏳ CARGANDO MAPA...
             </div>
           </div>
-        ) : spots.length === 0 ? (
+        ) : (spots.length === 0 && skaters.length === 0) ? (
           <div className="w-full h-[500px] rounded-xl border-4 border-yellow-400 bg-slate-900 flex flex-col items-center justify-center gap-4">
-            <div className="text-yellow-400 font-black text-4xl">📍</div>
+            <div className="text-yellow-400 font-black text-4xl">🗺️</div>
             <div className="text-yellow-400 font-black text-2xl uppercase">
-              Aún no hay spots
+              Aún no hay datos en el mapa
             </div>
             <p className="text-slate-400 font-bold">
-              ¡Sé el primero en agregar uno!
+              ¡Sé el primero en agregar spots o activar tu ubicación!
             </p>
           </div>
         ) : (
-          <SpotsMap spots={spots} height="500px" />
+          <UnifiedMap
+            spots={spots}
+            skaters={skaters}
+            height="500px"
+            showSpots={showSpots}
+            showSkaters={showSkaters}
+          />
         )}
 
         {/* CTA */}
