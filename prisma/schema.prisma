@@ -217,3 +217,32 @@ model AppSettings {
 
   @@index([key])
 }
+
+model Spot {
+  id          Int      @id @default(autoincrement())
+  name        String // Nombre del spot (ej: "Skatepark Los Andes", "Tory Skateshop")
+  type        String // "skatepark" o "skateshop"
+  description String? // Descripción del lugar
+  address     String? // Dirección completa
+  city        String? // Ciudad
+  state       String? // Estado/Departamento
+  country     String   @default("Colombia") // País
+  latitude    Float // Latitud para el mapa
+  longitude   Float // Longitud para el mapa
+  phone       String? // Teléfono de contacto
+  website     String? // Sitio web
+  instagram   String? // Usuario de Instagram (sin @)
+  photos      String[] @default([]) // URLs de fotos del spot
+  features    String[] @default([]) // Features: "street", "bowl", "mini-ramp", "vert", etc.
+  isVerified  Boolean  @default(false) // Si fue verificado por admin
+  rating      Float?   @default(0) // Rating promedio (0-5)
+  reviewCount Int      @default(0) // Número de reviews
+  createdBy   String // Email del usuario que lo creó
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([type])
+  @@index([city])
+  @@index([isVerified])
+  @@index([latitude, longitude]) // Índice geoespacial para búsquedas por ubicación
+}
