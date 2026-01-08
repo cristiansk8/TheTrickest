@@ -4,6 +4,7 @@ import "./globals.css";
 import "leaflet/dist/leaflet.css";
 import Navbar from "@/components/navbar";
 import Header from "@/components/header";
+import ArcadeButtonsWrapper from "@/components/ArcadeButtonsWrapper";
 
 
 // Temporalmente comentado por error de webpack
@@ -64,6 +65,7 @@ export default function RootLayout({
         <Providers>
           <Header/>
           {children}
+          <ArcadeButtonsWrapper />
         </Providers>
       </body>
     </html>

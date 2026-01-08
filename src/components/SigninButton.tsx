@@ -18,8 +18,6 @@ type MenuOption = {
 
 const SigninButton = () => {
   const pathname = usePathname();
-  if (pathname !== '/') return null;
-
   const { data: session, status } = useSession();
   const [openModal, setModal] = useState(false);
   const [openVideoModal, setOpenVideoModal] = useState(false);
@@ -150,48 +148,32 @@ const SigninButton = () => {
           if (option.action && !option.isHeader) option.action();
         }
       }
+    };
 
-      // Abrir menú con Space cuando no hay modales abiertos
-      if (e.key === ' ' && !openMenu && !openModal && !openVideoModal) {
-        e.preventDefault();
+    // Escuchar evento de botones arcade
+    const handleArcadeStart = () => {
+      if (!openMenu && !openModal && !openVideoModal) {
         handleMenu();
       }
     };
 
     window.addEventListener('keydown', handleKeyPress);
-    return () => window.removeEventListener('keydown', handleKeyPress);
+    window.addEventListener('arcade-press-start', handleArcadeStart);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress);
+      window.removeEventListener('arcade-press-start', handleArcadeStart);
+    };
   }, [selectedOption, menuOptions, openMenu, openModal, openVideoModal]);
 
   return (
     <>
-      {/* Indicador de tecla Space - Izquierda */}
-      <div className="fixed bottom-6 left-6 z-40 bg-slate-800 px-3 py-2 rounded-lg border-2 border-cyan-500 shadow-lg">
-        <p className="text-cyan-300 text-xs md:text-sm uppercase tracking-wide animate-pulse font-bold">
-          ⌨️ Presiona{' '}
-          <span className="bg-cyan-500 text-white px-2 py-1 rounded">
-            SPACE
-          </span>
-        </p>
-      </div>
-
-      {/* Botón Flotante Principal - Esquina inferior derecha */}
-      <div className="fixed bottom-6 right-6 z-40 bg-slate-800 px-3 py-2 rounded-lg border-2 border-cyan-500 shadow-lg">
-        <button onClick={handleMenu} className="group">
-          <p className="text-cyan-300 text-xs md:text-sm uppercase tracking-wide animate-pulse font-bold group-hover:text-cyan-100 transition-colors">
-            ▶️{' '}
-            <span className="bg-cyan-500 text-white px-2 py-1 rounded group-hover:bg-cyan-400">
-              PRESS START
-            </span>
-          </p>
-        </button>
-      </div>
-
       {/* Menú Modal Estilo PS2/Xbox */}
       {openMenu && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/90 backdrop-blur-sm z-[9999] p-4">
-          <div className="w-full max-w-md bg-gradient-to-b from-slate-900 to-black border-4 border-cyan-400 rounded-lg shadow-2xl shadow-cyan-500/50 relative">
+        <div className="fixed inset-0 flex items-center justify-center bg-black/90 backdrop-blur-sm z-[9999] p-4 overflow-y-auto">
+          <div className="w-full max-w-md bg-gradient-to-b from-slate-900 to-black border-4 border-cyan-400 rounded-lg shadow-2xl shadow-cyan-500/50 relative my-auto max-h-[90vh] flex flex-col">
             {/* Header del menú */}
-            <div className="bg-gradient-to-r from-cyan-600 to-blue-600 p-4 md:p-6 rounded-t-lg border-b-4 border-cyan-300">
+            <div className="bg-gradient-to-r from-cyan-600 to-blue-600 p-4 md:p-6 rounded-t-lg border-b-4 border-cyan-300 flex-shrink-0">
               <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-widest text-center animate-pulse">
                 {session?.user ? 'JUGADOR ACTIVO' : 'MAIN MENU'}
               </h2>
@@ -213,8 +195,8 @@ const SigninButton = () => {
               ✖
             </button>
 
-            {/* Opciones del menú */}
-            <div className="p-6 space-y-2">
+            {/* Opciones del menú - Con scroll interno */}
+            <div className="p-6 space-y-2 overflow-y-auto flex-1">
               {menuOptions.map((option, index) => {
                 const isSelected = index === selectedOption;
                 const isHeader = option.isHeader;
@@ -261,7 +243,7 @@ const SigninButton = () => {
             </div>
 
             {/* Footer con controles */}
-            <div className="p-4 border-t-4 border-slate-700 bg-slate-900/50 rounded-b-lg text-center">
+            <div className="p-4 border-t-4 border-slate-700 bg-slate-900/50 rounded-b-lg text-center flex-shrink-0">
               <p className="text-cyan-300 text-[10px] md:text-xs uppercase tracking-wide">
                 ⌨️ Use ↑↓ para navegar　|　Enter para seleccionar　|　ESC para
                 cerrar

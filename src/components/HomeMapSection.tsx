@@ -69,6 +69,24 @@ export default function HomeMapSection() {
 
   useEffect(() => {
     fetchData();
+
+    // Revalidar datos cada 30 segundos
+    const interval = setInterval(() => {
+      fetchData();
+    }, 30000);
+
+    // Escuchar evento de actualización de ubicación
+    const handleLocationUpdate = () => {
+      console.log('🗺️ Ubicación actualizada, recargando mapa...');
+      fetchData();
+    };
+
+    window.addEventListener('skater-location-updated', handleLocationUpdate);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('skater-location-updated', handleLocationUpdate);
+    };
   }, []);
 
   const fetchData = async () => {
@@ -190,6 +208,17 @@ export default function HomeMapSection() {
             }`}
           >
             👤 {showSkaters ? 'Ocultar' : 'Mostrar'} Skaters
+          </button>
+
+          <button
+            onClick={() => {
+              setLoading(true);
+              fetchData();
+            }}
+            disabled={loading}
+            className="px-6 py-3 rounded-lg font-black uppercase tracking-wider transition-all bg-green-600 hover:bg-green-700 text-white border-2 border-green-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            🔄 {loading ? 'Actualizando...' : 'Refrescar'}
           </button>
         </div>
 

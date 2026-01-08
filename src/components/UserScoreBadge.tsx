@@ -35,9 +35,9 @@ export default function UserScoreBadge() {
   if (!session?.user) return null;
 
   return (
-    <div className="fixed top-6 left-6 z-40">
+    <div className="fixed top-20 md:top-24 left-4 md:left-6 z-40">
       <Link href="/dashboard/skaters/profile">
-        <div className="bg-gradient-to-r from-slate-900 to-slate-800 px-4 py-3 rounded-lg border-2 border-cyan-500 shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 transition-all cursor-pointer hover:scale-105 group relative">
+        <div className="bg-gradient-to-r from-slate-900/95 to-slate-800/95 backdrop-blur-sm px-4 py-3 rounded-lg border-2 border-cyan-500 shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 transition-all cursor-pointer hover:scale-105 group">
           <div className="flex items-center gap-3">
             {/* Avatar/Icon */}
             <div className="flex-shrink-0">
@@ -72,13 +72,6 @@ export default function UserScoreBadge() {
 
           {/* Animated border effect */}
           <div className="absolute inset-0 rounded-lg border-2 border-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
-
-          {/* Hint text */}
-          <div className="absolute -bottom-8 left-0 right-0 text-center opacity-0 group-hover:opacity-100 transition-opacity">
-            <p className="text-cyan-300 text-xs font-bold uppercase tracking-wider">
-              Ver Perfil →
-            </p>
-          </div>
         </div>
       </Link>
     </div>

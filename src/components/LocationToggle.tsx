@@ -62,6 +62,8 @@ export default function LocationToggle() {
             if (response.ok) {
               setShowOnMap(true);
               setHasLocation(true);
+              // Emitir evento para actualizar el mapa
+              window.dispatchEvent(new Event('skater-location-updated'));
             }
           } catch (error) {
             console.error('Error al guardar ubicación:', error);
@@ -96,6 +98,8 @@ export default function LocationToggle() {
 
         if (response.ok) {
           setShowOnMap(!showOnMap);
+          // Emitir evento para actualizar el mapa
+          window.dispatchEvent(new Event('skater-location-updated'));
         }
       } catch (error) {
         console.error('Error al actualizar ubicación:', error);
