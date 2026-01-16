@@ -7,6 +7,8 @@ import Link from 'next/link';
 export default function UserScoreBadge() {
   const { data: session } = useSession();
   const [totalScore, setTotalScore] = useState<number>(0);
+  const [userPhoto, setUserPhoto] = useState<string | null>(null);
+  const [userName, setUserName] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -21,6 +23,8 @@ export default function UserScoreBadge() {
         if (response.ok) {
           const data = await response.json();
           setTotalScore(data.totalScore || 0);
+          setUserPhoto(data.photo);
+          setUserName(data.name);
         }
       } catch (error) {
         console.error('Error fetching score:', error);
@@ -39,18 +43,18 @@ export default function UserScoreBadge() {
       <Link href="/dashboard/skaters/profile">
         <div className="bg-gradient-to-r from-slate-900/95 to-slate-800/95 backdrop-blur-sm px-4 py-3 rounded-lg border-2 border-cyan-500 shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 transition-all cursor-pointer hover:scale-105 group">
           <div className="flex items-center gap-3">
-            {/* Avatar/Icon */}
+            {/* Avatar/Icon - Prioriza foto de DB, luego session, luego inicial */}
             <div className="flex-shrink-0">
-              {session.user.image ? (
+              {(userPhoto || session.user.image) ? (
                 <img
-                  src={session.user.image}
-                  alt={session.user.name || 'User'}
-                  className="w-10 h-10 rounded-full border-2 border-cyan-400"
+                  src={userPhoto || session.user.image || ''}
+                  alt={userName || session.user.name || 'User'}
+                  className="w-10 h-10 rounded-full border-2 border-cyan-400 object-cover"
                 />
               ) : (
                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center border-2 border-cyan-400">
                   <span className="text-white font-black text-lg">
-                    {session.user.name?.charAt(0).toUpperCase() || '?'}
+                    {(userName || session.user.name)?.charAt(0).toUpperCase() || '?'}
                   </span>
                 </div>
               )}
@@ -59,7 +63,7 @@ export default function UserScoreBadge() {
             {/* User Info */}
             <div className="flex flex-col">
               <p className="text-white font-black text-sm uppercase tracking-wider leading-tight">
-                {session.user.name || 'Skater'}
+                {userName || session.user.name || 'Skater'}
               </p>
               <div className="flex items-center gap-2 mt-1">
                 <span className="text-yellow-400 text-xs font-black">⭐</span>

@@ -12,6 +12,15 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: 'Email es requerido' }, { status: 400 });
     }
 
+    // Obtener el usuario con su foto
+    const user = await prisma.user.findUnique({
+      where: { email },
+      select: {
+        photo: true,
+        name: true,
+      },
+    });
+
     // Obtener todas las submissions aprobadas del usuario
     const submissions = await prisma.submission.findMany({
       where: {
@@ -31,6 +40,8 @@ export async function GET(req: Request) {
     return NextResponse.json({
       totalScore,
       approvedSubmissions: submissions.length,
+      photo: user?.photo || null,
+      name: user?.name || null,
     });
 
   } catch (error) {
