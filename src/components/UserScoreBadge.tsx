@@ -35,7 +35,7 @@ export default function UserScoreBadge() {
   if (!session?.user) return null;
 
   return (
-    <div className="fixed top-20 md:top-24 left-4 md:left-6 z-40">
+    <div className="fixed top-20 md:top-24 left-4 md:left-6 z-[9980]">
       <Link href="/dashboard/skaters/profile">
         <div className="bg-gradient-to-r from-slate-900/95 to-slate-800/95 backdrop-blur-sm px-4 py-3 rounded-lg border-2 border-cyan-500 shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 transition-all cursor-pointer hover:scale-105 group">
           <div className="flex items-center gap-3">

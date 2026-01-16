@@ -127,7 +127,7 @@ const Appbar = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 flex p-4 shadow items-center w-full bg-slate-900/95 backdrop-blur-md border-b-2 border-cyan-500/30">
+    <header className="fixed top-0 left-0 right-0 z-[9990] flex p-4 shadow items-center w-full bg-slate-900/95 backdrop-blur-md border-b-2 border-cyan-500/30">
       <SigninButton />
 
       {/* Botones flotantes a la derecha */}
@@ -158,7 +158,7 @@ const Appbar = () => {
 
             {/* Dropdown de Notificaciones */}
             {showNotifications && (
-              <div className="absolute top-full right-0 mt-2 w-80 md:w-96 bg-slate-900 border-4 border-green-500 rounded-lg shadow-2xl z-50 max-h-[32rem] flex flex-col">
+              <div className="absolute top-full right-0 mt-2 w-80 md:w-96 bg-slate-900 border-4 border-green-500 rounded-lg shadow-2xl z-[9991] max-h-[32rem] flex flex-col">
                 <div className="p-4 border-b border-green-500 flex justify-between items-center">
                   <h3 className="text-white font-black uppercase text-lg">
                     🔔 Notificaciones

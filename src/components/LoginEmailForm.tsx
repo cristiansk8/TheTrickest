@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
+import ModalPortal from './ModalPortal';
 
 interface LoginEmailFormProps {
   isOpen: boolean;
@@ -44,8 +45,9 @@ export default function LoginEmailForm({ isOpen, onClose, onSuccess, onSwitchToR
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-      <div className="relative w-full max-w-md bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 border-4 border-cyan-400 rounded-xl shadow-2xl shadow-cyan-500/50 overflow-hidden">
+    <ModalPortal>
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm overflow-y-auto">
+      <div className="relative w-full max-w-md my-auto bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 border-4 border-cyan-400 rounded-xl shadow-2xl shadow-cyan-500/50 overflow-hidden">
         {/* Header */}
         <div className="bg-gradient-to-r from-cyan-500 to-blue-500 p-4 border-b-4 border-cyan-300">
           <div className="flex items-center justify-between">
@@ -159,5 +161,6 @@ export default function LoginEmailForm({ isOpen, onClose, onSuccess, onSwitchToR
         </div>
       </div>
     </div>
+    </ModalPortal>
   );
 }

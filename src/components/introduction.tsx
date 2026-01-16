@@ -11,7 +11,7 @@ const myFont = localFont({
 
 const Introduction = () => {
     return (
-        <div className="z-20 w-full grid items-center  p-6 py-20 md:py-0 md:grid-cols-3 justify-center bg-[#2e2257] bg-[url('/png-big-city.png')] bg-cover bg-repeat bg-top    ">
+        <div className="relative z-0 w-full grid items-center  p-6 py-20 md:py-0 md:grid-cols-3 justify-center bg-[#2e2257] bg-[url('/png-big-city.png')] bg-cover bg-repeat bg-top    ">
             <div className="flex flex-col w-full justify-center mx-auto">
             <div className="justify-between">
                     <Link href='/' className="text-center">

@@ -8,6 +8,7 @@ import RegisterEmailForm from './RegisterEmailForm';
 import SetPasswordModal from './SetPasswordModal';
 import SkateProfileCompletionModal from './SkateProfileCompletionModal';
 import UserScoreBadge from './UserScoreBadge';
+import ModalPortal from './ModalPortal';
 
 type MenuOption = {
   label: string;
@@ -170,6 +171,7 @@ const SigninButton = () => {
     <>
       {/* Menú Modal Estilo PS2/Xbox */}
       {openMenu && (
+        <ModalPortal>
         <div className="fixed inset-0 flex items-center justify-center bg-black/90 backdrop-blur-sm z-[9999] p-4 overflow-y-auto">
           <div className="w-full max-w-md bg-gradient-to-b from-slate-900 to-black border-4 border-cyan-400 rounded-lg shadow-2xl shadow-cyan-500/50 relative my-auto max-h-[90vh] flex flex-col">
             {/* Header del menú */}
@@ -251,10 +253,12 @@ const SigninButton = () => {
             </div>
           </div>
         </div>
+        </ModalPortal>
       )}
 
       {/* Modal para completar el registro */}
       {openModal && (
+        <ModalPortal>
         <div className="fixed inset-0 flex items-center justify-center bg-black/90 backdrop-blur-sm z-[9999] p-4">
           <div className="w-full max-w-lg bg-gradient-to-b from-slate-900 to-black border-4 border-purple-500 rounded-lg shadow-2xl shadow-purple-500/50 relative">
             {/* Header del modal */}
@@ -281,10 +285,12 @@ const SigninButton = () => {
             </div>
           </div>
         </div>
+        </ModalPortal>
       )}
 
       {/* Modal para el video */}
       {openVideoModal && (
+        <ModalPortal>
         <div className="fixed inset-0 flex items-center justify-center bg-black/90 backdrop-blur-sm z-[9999] p-4">
           <div className="w-full max-w-4xl bg-gradient-to-b from-slate-900 to-black border-4 border-cyan-500 rounded-lg shadow-2xl shadow-cyan-500/50 relative">
             {/* Header del modal */}
@@ -324,6 +330,7 @@ const SigninButton = () => {
             </div>
           </div>
         </div>
+        </ModalPortal>
       )}
 
       {/* Modal para establecer contraseña (usuarios de Google) */}
