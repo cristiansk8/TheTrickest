@@ -1,10 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 
 interface ModalPortalProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 const ModalPortal = ({ children }: ModalPortalProps) => {
@@ -18,7 +18,7 @@ const ModalPortal = ({ children }: ModalPortalProps) => {
   if (!mounted) return null;
 
   return createPortal(
-    children,
+    children as React.ReactElement,
     document.body
   );
 };
