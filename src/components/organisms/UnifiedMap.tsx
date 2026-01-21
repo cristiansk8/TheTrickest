@@ -5,6 +5,11 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import Link from 'next/link';
 
+// Importar CSS de Leaflet solo en el cliente
+if (typeof window !== 'undefined') {
+  require('leaflet/dist/leaflet.css');
+}
+
 // Iconos custom para el mapa
 const iconSkatepark = new L.Icon({
   iconUrl: 'data:image/svg+xml;base64,' + btoa(`
@@ -122,10 +127,9 @@ export default function UnifiedMap({
 }: UnifiedMapProps) {
   const [mounted, setMounted] = useState(false);
 
-  // Importar CSS de Leaflet y montar componente solo en el cliente
+  // Montar componente solo en el cliente
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      import('leaflet/dist/leaflet.css');
       setMounted(true);
     }
   }, []);

@@ -39,9 +39,12 @@ export async function POST(req: Request) {
       );
     }
 
+    // Convertir challengeId a number para Prisma
+    const challengeIdNum = parseInt(challengeId, 10);
+
     // Verificar que el challenge existe
     const challenge = await prisma.challenge.findUnique({
-      where: { id: challengeId },
+      where: { id: challengeIdNum },
     });
 
     if (!challenge) {
@@ -52,7 +55,7 @@ export async function POST(req: Request) {
     const existingSubmission = await prisma.submission.findFirst({
       where: {
         userId: session.user.email,
-        challengeId: challengeId,
+        challengeId: challengeIdNum,
       },
     });
 
@@ -71,7 +74,7 @@ export async function POST(req: Request) {
     const submission = await prisma.submission.create({
       data: {
         userId: session.user.email,
-        challengeId: challengeId,
+        challengeId: challengeIdNum,
         videoUrl: normalizedUrl,
         status: 'pending',
         submittedAt: new Date(),

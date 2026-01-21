@@ -70,9 +70,7 @@ export const evaluateSubmissionSchema = z.object({
   submissionId: z.string()
     .min(1, "Submission ID es requerido")
     .regex(/^\d+$/, "Submission ID debe ser un número"),
-  status: z.enum(['approved', 'rejected'], {
-    errorMap: () => ({ message: "Estado debe ser 'approved' o 'rejected'" })
-  }),
+  status: z.enum(['approved', 'rejected']),
   score: z.number()
     .int("El score debe ser un número entero")
     .min(0, "El score mínimo es 0")
@@ -219,12 +217,13 @@ export async function validateRequest<T>(
     return await schema.parseAsync(body);
   } catch (error) {
     if (error instanceof z.ZodError) {
-      const firstError = error.errors[0];
+      const issues = error.issues;
+      const firstError = issues[0];
       const field = firstError.path.join('.');
       throw new ValidationError(
         field,
         firstError.message,
-        error.errors
+        issues
       );
     }
     throw error;
@@ -284,7 +283,7 @@ export function handleValidationError(error: unknown): Response {
       'VALIDATION_ERROR',
       'Datos inválidos',
       400,
-      process.env.NODE_ENV === 'development' ? error.errors : undefined
+      process.env.NODE_ENV === 'development' ? error.issues : undefined
     );
   }
 

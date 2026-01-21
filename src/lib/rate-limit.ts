@@ -24,11 +24,15 @@ const rateLimitStore = new Map<string, RateLimitEntry>();
 if (typeof window === 'undefined') {
   setInterval(() => {
     const now = Date.now();
-    for (const [key, entry] of rateLimitStore.entries()) {
+    const keysToDelete: string[] = [];
+
+    rateLimitStore.forEach((entry, key) => {
       if (now > entry.resetTime) {
-        rateLimitStore.delete(key);
+        keysToDelete.push(key);
       }
-    }
+    });
+
+    keysToDelete.forEach(key => rateLimitStore.delete(key));
   }, 5 * 60 * 1000); // 5 minutos
 }
 
@@ -145,7 +149,7 @@ export async function rateLimitCheck(
 
   return checkRateLimit({
     ...config,
-    identifier: `${identifier}:${config.identifier || 'default'}`,
+    identifier: `${identifier}:default`,
   });
 }
 
