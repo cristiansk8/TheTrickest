@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
 import Link from 'next/link';
 
 // Iconos custom para el mapa
@@ -123,8 +122,12 @@ export default function UnifiedMap({
 }: UnifiedMapProps) {
   const [mounted, setMounted] = useState(false);
 
+  // Importar CSS de Leaflet y montar componente solo en el cliente
   useEffect(() => {
-    setMounted(true);
+    if (typeof window !== 'undefined') {
+      import('leaflet/dist/leaflet.css');
+      setMounted(true);
+    }
   }, []);
 
   if (!mounted) {

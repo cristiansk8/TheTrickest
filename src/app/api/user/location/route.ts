@@ -59,25 +59,28 @@ export async function PUT(req: Request) {
       return NextResponse.json({ error: 'No autorizado' }, { status: 403 });
     }
 
-    // Validación: si showOnMap es true, deben existir coordenadas
-    if (showOnMap && (!latitude || !longitude)) {
+    // Validación: si showOnMap es true y se están proporcionando coordenadas, estas deben ser válidas
+    if (showOnMap && (latitude !== undefined && latitude !== null) && (!latitude || !longitude)) {
       return NextResponse.json(
-        { error: 'Se requieren coordenadas para aparecer en el mapa' },
+        { error: 'Se requieren coordenadas válidas para aparecer en el mapa' },
         { status: 400 }
       );
     }
 
+    // Construir objeto de actualización condicional
+    const updateData: any = {};
+
+    if (ciudad !== undefined) updateData.ciudad = ciudad || null;
+    if (departamento !== undefined) updateData.departamento = departamento || null;
+    if (estado !== undefined) updateData.estado = estado || null;
+    if (latitude !== undefined) updateData.latitude = latitude || null;
+    if (longitude !== undefined) updateData.longitude = longitude || null;
+    if (showOnMap !== undefined) updateData.showOnMap = showOnMap;
+
     // Actualizar usuario
     const updatedUser = await prisma.user.update({
       where: { email },
-      data: {
-        ciudad: ciudad || null,
-        departamento: departamento || null,
-        estado: estado || null,
-        latitude: latitude || null,
-        longitude: longitude || null,
-        showOnMap: showOnMap || false,
-      },
+      data: updateData,
       select: {
         id: true,
         email: true,

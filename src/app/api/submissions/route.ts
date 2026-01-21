@@ -3,6 +3,8 @@ import { getServerSession } from 'next-auth';
 import prisma from '@/app/lib/prisma';
 import { validateYouTubeUrl, normalizeYouTubeUrl } from '@/lib/youtube';
 import { authOptions } from '@/lib/auth';
+import { submitTrickSchema, validateRequest, handleValidationError, successResponse, errorResponse } from '@/lib/validation';
+import { rateLimitCheck, rateLimitResponse, RateLimits } from '@/lib/rate-limit';
 
 export const dynamic = 'force-dynamic';
 
@@ -10,30 +12,30 @@ export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions);
 
-    console.log('📝 Nueva submission request');
-    console.log('👤 User email:', session?.user?.email);
-
     // Verificar autenticación
     if (!session?.user?.email) {
-      return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
+      return errorResponse('UNAUTHORIZED', 'No autenticado', 401);
     }
 
-    const { challengeId, videoUrl } = await req.json();
-    console.log('📦 Data received:', { challengeId, videoUrl });
+    // Rate limiting: 10 por minuto por usuario
+    const rateLimit = await rateLimitCheck(req, RateLimits.submitTrick);
 
-    // Validaciones
-    if (!challengeId || !videoUrl) {
-      return NextResponse.json({ error: 'Datos incompletos' }, { status: 400 });
+    if (!rateLimit.success) {
+      return rateLimitResponse(rateLimit);
     }
 
-    // Validar URL de YouTube
+    const body = await req.json();
+
+    // Validar con Zod
+    const validatedData = await validateRequest(submitTrickSchema, body);
+    const { challengeId, videoUrl } = validatedData;
+
+    // Validar URL de YouTube específicamente
     if (!validateYouTubeUrl(videoUrl)) {
-      return NextResponse.json(
-        {
-          error: 'URL de YouTube inválida',
-          message: 'Por favor ingresa una URL válida de YouTube. Ejemplo: https://www.youtube.com/watch?v=VIDEO_ID'
-        },
-        { status: 400 }
+      return errorResponse(
+        'INVALID_VIDEO_URL',
+        'Por favor ingresa una URL válida de YouTube. Ejemplo: https://www.youtube.com/watch?v=VIDEO_ID',
+        400
       );
     }
 
@@ -43,7 +45,7 @@ export async function POST(req: Request) {
     });
 
     if (!challenge) {
-      return NextResponse.json({ error: 'Challenge no encontrado' }, { status: 404 });
+      return errorResponse('CHALLENGE_NOT_FOUND', 'Challenge no encontrado', 404);
     }
 
     // Verificar si ya existe una submission para este challenge
@@ -55,13 +57,10 @@ export async function POST(req: Request) {
     });
 
     if (existingSubmission) {
-      return NextResponse.json(
-        {
-          error: 'Submission duplicada',
-          message: `Ya enviaste una submission para el challenge "${challenge.name}". Estado: ${existingSubmission.status}`,
-          existingSubmission
-        },
-        { status: 409 }
+      return errorResponse(
+        'DUPLICATE_SUBMISSION',
+        `Ya enviaste una submission para el challenge "${challenge.name}". Estado: ${existingSubmission.status}`,
+        409
       );
     }
 
@@ -89,23 +88,22 @@ export async function POST(req: Request) {
       },
     });
 
-    return NextResponse.json({
+    return successResponse({
       message: 'Submission creada exitosamente',
       submission,
-    }, { status: 201 });
+    }, 201);
 
-  } catch (error: any) {
-    console.error('❌ Error creando submission:', error);
-    console.error('Error details:', {
-      message: error.message,
-      code: error.code,
-      stack: error.stack,
+  } catch (error) {
+    // Manejar errores de validación
+    const validationResponse = handleValidationError(error);
+    if (validationResponse) return validationResponse;
+
+    // Otros errores
+    console.error('Error creando submission:', {
+      error: error instanceof Error ? error.message : 'Unknown error',
+      timestamp: new Date().toISOString(),
     });
 
-    return NextResponse.json({
-      error: 'Error del servidor',
-      message: error.message || 'Error desconocido',
-      details: process.env.NODE_ENV === 'development' ? error.message : undefined
-    }, { status: 500 });
+    return errorResponse('INTERNAL_ERROR', 'Error del servidor', 500);
   }
 }

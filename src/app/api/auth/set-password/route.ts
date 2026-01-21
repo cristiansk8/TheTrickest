@@ -1,19 +1,25 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/app/lib/prisma';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
+import { setPasswordSchema, validateRequest, handleValidationError, successResponse, errorResponse } from '@/lib/validation';
+import { rateLimitCheck, rateLimitResponse, RateLimits } from '@/lib/rate-limit';
+
+export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
   try {
-    const { email, password } = await req.json();
+    // Rate limiting: 3 intentos por hora
+    const rateLimit = await rateLimitCheck(req, RateLimits.setPassword);
 
-    // Validaciones
-    if (!email || !password) {
-      return NextResponse.json({ error: 'Email y contraseña son requeridos' }, { status: 400 });
+    if (!rateLimit.success) {
+      return rateLimitResponse(rateLimit);
     }
 
-    if (password.length < 6) {
-      return NextResponse.json({ error: 'La contraseña debe tener al menos 6 caracteres' }, { status: 400 });
-    }
+    const body = await req.json();
+
+    // Validar con Zod
+    const validatedData = await validateRequest(setPasswordSchema, body);
+    const { email, password } = validatedData;
 
     // Verificar que el usuario existe
     const user = await prisma.user.findUnique({
@@ -21,7 +27,7 @@ export async function POST(req: Request) {
     });
 
     if (!user) {
-      return NextResponse.json({ error: 'Usuario no encontrado' }, { status: 404 });
+      return errorResponse('USER_NOT_FOUND', 'Usuario no encontrado', 404);
     }
 
     // Hashear contraseña
@@ -35,12 +41,21 @@ export async function POST(req: Request) {
       },
     });
 
-    return NextResponse.json({
+    return successResponse({
       message: 'Contraseña establecida exitosamente',
-    }, { status: 200 });
+    });
 
   } catch (error) {
-    console.error('Error estableciendo contraseña:', error);
-    return NextResponse.json({ error: 'Error al establecer contraseña' }, { status: 500 });
+    // Manejar errores de validación
+    const validationResponse = handleValidationError(error);
+    if (validationResponse) return validationResponse;
+
+    // Otros errores
+    console.error('Error estableciendo contraseña:', {
+      error: error instanceof Error ? error.message : 'Unknown error',
+      timestamp: new Date().toISOString(),
+    });
+
+    return errorResponse('INTERNAL_ERROR', 'Error al establecer contraseña', 500);
   }
 }

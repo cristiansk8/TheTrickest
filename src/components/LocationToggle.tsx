@@ -31,10 +31,16 @@ export default function LocationToggle() {
 
   // Toggle ubicación
   const handleToggle = async () => {
-    if (!session?.user?.email) return;
+    if (!session?.user?.email) {
+      console.log('[LocationToggle] No hay sesión');
+      return;
+    }
+
+    console.log('[LocationToggle] Toggle clicked:', { hasLocation, showOnMap });
 
     // Si no tiene ubicación guardada, pedirla primero
     if (!hasLocation && !showOnMap) {
+      console.log('[LocationToggle] No tiene ubicación, pidiendo GPS...');
       if (!navigator.geolocation) {
         alert('❌ Tu navegador no soporta geolocalización.');
         return;
@@ -44,6 +50,7 @@ export default function LocationToggle() {
       navigator.geolocation.getCurrentPosition(
         async (position) => {
           try {
+            console.log('[LocationToggle] GPS obtenido:', position.coords);
             // Guardar ubicación y activar showOnMap
             const response = await fetch('/api/user/location', {
               method: 'PUT',
@@ -60,10 +67,14 @@ export default function LocationToggle() {
             });
 
             if (response.ok) {
-              setShowOnMap(true);
+              const data = await response.json();
+              console.log('[LocationToggle] Respuesta del servidor:', data);
+              setShowOnMap(data.showOnMap);
               setHasLocation(true);
               // Emitir evento para actualizar el mapa
               window.dispatchEvent(new Event('skater-location-updated'));
+            } else {
+              console.error('[LocationToggle] Error en respuesta:', response.status);
             }
           } catch (error) {
             console.error('Error al guardar ubicación:', error);
@@ -80,26 +91,35 @@ export default function LocationToggle() {
       );
     } else {
       // Ya tiene ubicación, solo cambiar el toggle
+      console.log('[LocationToggle] Tiene ubicación, cambiando toggle...');
       setLoading(true);
       try {
+        const newShowOnMapState = !showOnMap;
+        console.log('[LocationToggle] Nuevo estado:', newShowOnMapState);
+
+        // Construir cuerpo de la petición: solo enviar showOnMap, preservar coordenadas existentes
+        const requestBody: any = {
+          email: session.user.email,
+          showOnMap: newShowOnMapState,
+        };
+
+        console.log('[LocationToggle] Enviando request:', requestBody);
+
         const response = await fetch('/api/user/location', {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email: session.user.email,
-            ciudad: '',
-            departamento: null,
-            estado: null,
-            latitude: null,
-            longitude: null,
-            showOnMap: !showOnMap,
-          }),
+          body: JSON.stringify(requestBody),
         });
 
         if (response.ok) {
-          setShowOnMap(!showOnMap);
+          const data = await response.json();
+          console.log('[LocationToggle] ✅ Toggle exitoso:', data);
+          setShowOnMap(newShowOnMapState);
           // Emitir evento para actualizar el mapa
           window.dispatchEvent(new Event('skater-location-updated'));
+        } else {
+          const errorData = await response.json().catch(() => ({}));
+          console.error('[LocationToggle] ❌ Error en toggle:', response.status, errorData);
         }
       } catch (error) {
         console.error('Error al actualizar ubicación:', error);
@@ -113,20 +133,28 @@ export default function LocationToggle() {
     <button
       onClick={handleToggle}
       disabled={loading}
-      title={showOnMap ? 'Visible en el mapa' : 'Aparecer en el mapa'}
-      className={`group relative flex items-center justify-center w-10 h-10 md:w-12 md:h-12 font-bold rounded-lg shadow-lg transition-all transform hover:scale-105 border-2 backdrop-blur-sm disabled:opacity-50 disabled:cursor-not-allowed ${
+      title={showOnMap ? 'Visible en el mapa - Click para ocultar' : 'Aparecer en el mapa - Click para mostrar'}
+      className={`group relative flex items-center justify-center w-10 h-10 md:w-12 md:h-12 font-bold rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 border-2 disabled:opacity-50 disabled:cursor-not-allowed ${
         showOnMap
-          ? 'bg-yellow-600/80 hover:bg-yellow-500/90 text-white hover:shadow-yellow-500/50 border-yellow-300'
-          : 'bg-slate-700/80 hover:bg-slate-600/90 text-slate-300 hover:shadow-slate-500/50 border-slate-500'
+          ? 'bg-yellow-500/90 hover:bg-yellow-400 text-white shadow-yellow-500/30 border-yellow-400'
+          : 'bg-slate-700/80 hover:bg-slate-600/80 text-slate-300 border-slate-500'
       }`}
     >
-      <span className="text-lg md:text-xl">
-        {loading ? '⏳' : '📍'}
+      <span className="text-lg md:text-xl transition-transform duration-300">
+        {loading ? (
+          <span className="animate-spin inline-block">⏳</span>
+        ) : showOnMap ? (
+          <span className="drop-shadow-lg">📍</span>
+        ) : (
+          <span className="opacity-70">📍</span>
+        )}
       </span>
 
-      {/* Badge indicador cuando está activo */}
+      {/* Indicador sutil cuando está activo */}
       {showOnMap && !loading && (
-        <span className="absolute -top-1 -right-1 bg-green-500 text-white text-xs font-bold w-3 h-3 rounded-full"></span>
+        <span className="absolute -top-0.5 -right-0.5 bg-green-500/90 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-md shadow-sm">
+          ON
+        </span>
       )}
     </button>
   );

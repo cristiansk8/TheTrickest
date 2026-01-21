@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
 
 // Fix para los iconos de Leaflet en Next.js
 const iconSkatepark = new L.Icon({
@@ -79,8 +78,12 @@ export default function SpotsMap({
 }: SpotsMapProps) {
   const [mounted, setMounted] = useState(false);
 
+  // Importar CSS de Leaflet y montar componente solo en el cliente
   useEffect(() => {
-    setMounted(true);
+    if (typeof window !== 'undefined') {
+      import('leaflet/dist/leaflet.css');
+      setMounted(true);
+    }
   }, []);
 
   if (!mounted) {

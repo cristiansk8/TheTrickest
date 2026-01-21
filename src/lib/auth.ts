@@ -2,14 +2,11 @@ import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-// Log de variables de entorno críticas al inicializar (solo en producción)
-console.log('🔧 [AUTH CONFIG] INICIANDO - ENV:', process.env.NODE_ENV);
-if (process.env.NODE_ENV === 'production') {
-  console.log('🔧 [AUTH CONFIG] Variables de entorno en producción:');
-  console.log(`   NEXTAUTH_URL: ${process.env.NEXTAUTH_URL || '❌ NO CONFIGURADO'}`);
-  console.log(`   NEXTAUTH_SECRET: ${process.env.NEXTAUTH_SECRET ? '✅ Configurado' : '❌ NO CONFIGURADO'}`);
-  console.log(`   DATABASE_URL: ${process.env.DATABASE_URL ? '✅ Configurado' : '❌ NO CONFIGURADO'}`);
-  console.log(`   NODE_ENV: ${process.env.NODE_ENV}`);
+// Debug solo en desarrollo con flag explícito
+const DEBUG_AUTH = process.env.NODE_ENV === 'development' && process.env.DEBUG_AUTH === 'true';
+
+if (DEBUG_AUTH) {
+  console.log('[AUTH] Debug mode enabled');
 }
 
 export const authOptions: NextAuthOptions = {
@@ -29,14 +26,10 @@ export const authOptions: NextAuthOptions = {
         const prisma = (await import('@/app/lib/prisma')).default;
         const bcrypt = await import('bcryptjs');
 
-        console.log('🔐 [AUTH] Inicio de autenticación con credenciales');
-
         if (!credentials?.email || !credentials?.password) {
-          console.log('❌ [AUTH] Error: Email o contraseña faltantes');
+          if (DEBUG_AUTH) console.log('[AUTH] Missing email or password');
           throw new Error('Email y contraseña son requeridos');
         }
-
-        console.log(`🔍 [AUTH] Buscando usuario: ${credentials.email}`);
 
         // Buscar usuario en la BD
         const user = await prisma.user.findUnique({
@@ -44,28 +37,24 @@ export const authOptions: NextAuthOptions = {
         });
 
         if (!user) {
-          console.log(`❌ [AUTH] Error: Usuario no encontrado - ${credentials.email}`);
+          if (DEBUG_AUTH) console.log('[AUTH] User not found');
           throw new Error('Credenciales inválidas');
         }
 
         if (!user.password) {
-          console.log(`❌ [AUTH] Error: Usuario sin contraseña configurada - ${credentials.email}`);
+          if (DEBUG_AUTH) console.log('[AUTH] User has no password set');
           throw new Error('Credenciales inválidas');
         }
-
-        console.log(`✅ [AUTH] Usuario encontrado: ${user.email} (ID: ${user.id}, Role: ${user.role})`);
-        console.log(`🔑 [AUTH] Hash de contraseña: ${user.password.substring(0, 20)}...`);
 
         // Verificar contraseña
         const isPasswordValid = await bcrypt.compare(credentials.password, user.password);
 
         if (!isPasswordValid) {
-          console.log(`❌ [AUTH] Error: Contraseña inválida para ${credentials.email}`);
+          if (DEBUG_AUTH) console.log('[AUTH] Invalid password');
           throw new Error('Credenciales inválidas');
         }
 
-        console.log(`✅ [AUTH] Contraseña válida para ${credentials.email}`);
-        console.log(`✅ [AUTH] Autenticación exitosa - Usuario: ${user.email}, Role: ${user.role}`);
+        if (DEBUG_AUTH) console.log('[AUTH] Authentication successful');
 
         // Retornar usuario para la sesión
         return {
@@ -79,6 +68,11 @@ export const authOptions: NextAuthOptions = {
   ],
   session: {
     strategy: 'jwt',
+    maxAge: 30 * 24 * 60 * 60, // 30 días
+    updateAge: 24 * 60 * 60, // Actualizar token cada 24 horas
+  },
+  jwt: {
+    maxAge: 30 * 24 * 60 * 60, // 30 días
   },
   callbacks: {
     async signIn({ user, account }) {
@@ -105,11 +99,11 @@ export const authOptions: NextAuthOptions = {
                 createdAt: new Date(),
               },
             });
-            console.log(`✅ Usuario creado automáticamente: ${user.email}`);
+            if (DEBUG_AUTH) console.log('[AUTH] New Google user created');
           }
           // Si existe pero no tiene contraseña, el modal se mostrará en el cliente
         } catch (error) {
-          console.error('❌ Error creando usuario automáticamente:', error);
+          if (DEBUG_AUTH) console.error('[AUTH] Error creating user:', error);
           // Permitir el login aunque falle la creación en BD
         }
       }
@@ -118,7 +112,7 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.email = user.email;
-        console.log(`🎫 [JWT] Token creado para usuario: ${user.email}`);
+        if (DEBUG_AUTH) console.log('[JWT] Token created for user');
       }
 
       // Obtener profileStatus, hasPassword y role de la BD
@@ -138,9 +132,7 @@ export const authOptions: NextAuthOptions = {
            });
 
            if (!dbUser) {
-             console.log(`⚠️ [JWT] Usuario no encontrado en BD: ${token.email}`);
-           } else {
-             console.log(`✅ [JWT] Datos del usuario obtenidos - Role: ${dbUser.role}, Status: ${dbUser.profileStatus}`);
+             if (DEBUG_AUTH) console.log('[JWT] User not found in DB');
            }
 
            token.profileStatus = dbUser?.profileStatus || 'basic';
@@ -148,7 +140,7 @@ export const authOptions: NextAuthOptions = {
            token.role = dbUser?.role || 'skater';
             token.username = dbUser?.username || undefined;
         } catch (error) {
-          console.error('❌ [JWT] Error obteniendo datos del usuario:', error);
+          if (DEBUG_AUTH) console.error('[JWT] Error fetching user data:', error);
         }
       }
 
@@ -160,7 +152,6 @@ export const authOptions: NextAuthOptions = {
         session.user.hasPassword = token.hasPassword as boolean;
         session.user.role = token.role as string;
         session.user.username = token.username as string;
-        console.log(`📝 [SESSION] Sesión creada para: ${session.user.email} (Role: ${session.user.role})`);
       }
       return session;
     },

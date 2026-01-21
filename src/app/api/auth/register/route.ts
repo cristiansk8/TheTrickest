@@ -1,19 +1,25 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/app/lib/prisma';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
+import { registerSchema, validateRequest, handleValidationError, successResponse, errorResponse } from '@/lib/validation';
+import { rateLimitCheck, rateLimitResponse, RateLimits } from '@/lib/rate-limit';
+
+export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
   try {
-    const { email, password, name } = await req.json();
+    // Rate limiting: 3 intentos por hora
+    const rateLimit = await rateLimitCheck(req, RateLimits.register);
 
-    // Validaciones
-    if (!email || !password) {
-      return NextResponse.json({ error: 'Email y contraseña son requeridos' }, { status: 400 });
+    if (!rateLimit.success) {
+      return rateLimitResponse(rateLimit);
     }
 
-    if (password.length < 6) {
-      return NextResponse.json({ error: 'La contraseña debe tener al menos 6 caracteres' }, { status: 400 });
-    }
+    const body = await req.json();
+
+    // Validar con Zod
+    const validatedData = await validateRequest(registerSchema, body);
+    const { email, password, name } = validatedData;
 
     // Verificar si el usuario ya existe
     const existingUser = await prisma.user.findUnique({
@@ -21,7 +27,7 @@ export async function POST(req: Request) {
     });
 
     if (existingUser) {
-      return NextResponse.json({ error: 'Este email ya está registrado' }, { status: 400 });
+      return errorResponse('USER_EXISTS', 'Este email ya está registrado', 400);
     }
 
     // Hashear contraseña
@@ -37,17 +43,26 @@ export async function POST(req: Request) {
       },
     });
 
-    return NextResponse.json({
+    return successResponse({
       message: 'Usuario creado exitosamente',
       user: {
         id: user.id,
         email: user.email,
         name: user.name,
       },
-    }, { status: 201 });
+    }, 201);
 
   } catch (error) {
-    console.error('Error creando usuario:', error);
-    return NextResponse.json({ error: 'Error al crear usuario' }, { status: 500 });
+    // Manejar errores de validación
+    const validationResponse = handleValidationError(error);
+    if (validationResponse) return validationResponse;
+
+    // Otros errores
+    console.error('Error creando usuario:', {
+      error: error instanceof Error ? error.message : 'Unknown error',
+      timestamp: new Date().toISOString(),
+    });
+
+    return errorResponse('INTERNAL_ERROR', 'Error al crear usuario', 500);
   }
 }

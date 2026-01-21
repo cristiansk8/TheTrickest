@@ -7,6 +7,12 @@ import { useSession } from 'next-auth/react';
 import SigninButton from './SigninButton';
 import LocationToggle from './LocationToggle';
 
+interface UserScore {
+  totalScore: number;
+  photo: string | null;
+  name: string | null;
+}
+
 interface Notification {
   id: number;
   type: string;
@@ -24,6 +30,30 @@ const Appbar = () => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(false);
+  const [userScore, setUserScore] = useState<UserScore | null>(null);
+
+  // Fetch user score and photo
+  useEffect(() => {
+    if (!session?.user?.email) return;
+
+    const fetchUserScore = async () => {
+      try {
+        const res = await fetch(`/api/users/score?email=${session.user.email}`);
+        if (res.ok) {
+          const data = await res.json();
+          setUserScore({
+            totalScore: data.totalScore || 0,
+            photo: data.photo,
+            name: data.name,
+          });
+        }
+      } catch (err) {
+        console.error('Error fetching user score:', err);
+      }
+    };
+
+    fetchUserScore();
+  }, [session?.user?.email]);
 
   // Fetch notifications
   useEffect(() => {
@@ -127,8 +157,45 @@ const Appbar = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-[9990] flex p-4 shadow items-center w-full bg-slate-900/95 backdrop-blur-md border-b-2 border-cyan-500/30">
+    <header className="fixed top-0 left-0 right-0 z-[9990] flex p-4 items-center w-full bg-transparent backdrop-blur-sm">
       <SigninButton />
+
+      {/* User Score Badge - dentro del header */}
+      {session?.user && (
+        <Link href="/dashboard/skaters/profile" className="ml-4">
+          <div className="flex items-center gap-2 md:gap-3 bg-slate-800/80 px-3 py-2 rounded-lg border-2 border-cyan-500/50 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-500/30 transition-all cursor-pointer hover:scale-105">
+            {/* Avatar */}
+            <div className="flex-shrink-0">
+              {(userScore?.photo || session.user.image) ? (
+                <img
+                  src={userScore?.photo || session.user.image || ''}
+                  alt={userScore?.name || session.user.name || 'User'}
+                  className="w-8 h-8 md:w-10 md:h-10 rounded-full border-2 border-cyan-400 object-cover"
+                />
+              ) : (
+                <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center border-2 border-cyan-400">
+                  <span className="text-white font-black text-sm md:text-lg">
+                    {(userScore?.name || session.user.name)?.charAt(0).toUpperCase() || '?'}
+                  </span>
+                </div>
+              )}
+            </div>
+
+            {/* User Info - oculto en móvil */}
+            <div className="hidden sm:flex flex-col">
+              <p className="text-white font-bold text-xs md:text-sm uppercase tracking-wider leading-tight truncate max-w-[100px] md:max-w-[150px]">
+                {userScore?.name || session.user.name || 'Skater'}
+              </p>
+              <div className="flex items-center gap-1">
+                <span className="text-yellow-400 text-xs font-black">⭐</span>
+                <span className="text-yellow-400 font-bold text-xs">
+                  {userScore?.totalScore?.toLocaleString() || 0} PTS
+                </span>
+              </div>
+            </div>
+          </div>
+        </Link>
+      )}
 
       {/* Botones flotantes a la derecha */}
       <div className="ml-auto flex items-center gap-2 md:gap-3">
@@ -227,20 +294,7 @@ const Appbar = () => {
         )}
 
         {/* Botón de Votación Comunitaria */}
-        <Link href="/dashboard/vote">
-          <button className="group relative flex items-center gap-2 px-3 md:px-6 py-2 md:py-3 bg-cyan-600/80 hover:bg-cyan-500/90 text-white font-bold rounded-lg shadow-lg hover:shadow-cyan-500/50 transition-all transform hover:scale-105 border-2 border-cyan-300 backdrop-blur-sm">
-            <Vote className="w-5 h-5 md:w-6 md:h-6 animate-pulse" />
-            <span className="hidden md:inline text-sm md:text-base uppercase tracking-wide">
-              🗳️ Votar Trucos
-            </span>
-            <span className="md:hidden text-xs uppercase">Votar</span>
 
-            {/* Badge de "Nuevo" */}
-            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full animate-bounce">
-              NUEVO
-            </span>
-          </button>
-        </Link>
       </div>
     </header>
   );

@@ -7,7 +7,6 @@ import LoginEmailForm from './LoginEmailForm';
 import RegisterEmailForm from './RegisterEmailForm';
 import SetPasswordModal from './SetPasswordModal';
 import SkateProfileCompletionModal from './SkateProfileCompletionModal';
-import UserScoreBadge from './UserScoreBadge';
 import ModalPortal from './ModalPortal';
 
 type MenuOption = {
@@ -371,8 +370,6 @@ const SigninButton = () => {
         }}
       />
 
-      {/* User Score Badge - Mostrar cuando el usuario está logeado */}
-      {session?.user && <UserScoreBadge />}
     </>
   );
 };

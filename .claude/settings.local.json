@@ -40,7 +40,8 @@
       "Bash(npm run validate:buttons:*)",
       "Bash(vercel --version:*)",
       "Bash(timeout /t 5 /nobreak)",
-      "Bash(npm ls:*)"
+      "Bash(npm ls:*)",
+      "Bash(timeout /t 15)"
     ],
     "deny": [],
     "ask": []

@@ -6,8 +6,11 @@ export const dynamic = 'force-dynamic';
 // GET - Obtener skaters que quieren aparecer en el mapa
 export async function GET(req: Request) {
   try {
+    console.log('[DEBUG /api/map/skaters] Iniciando GET request');
+
     const { searchParams } = new URL(req.url);
     const city = searchParams.get('city');
+    console.log('[DEBUG /api/map/skaters] City filter:', city || 'none');
 
     const where: any = {
       showOnMap: true, // Solo los que quieren aparecer
@@ -20,6 +23,7 @@ export async function GET(req: Request) {
       where.ciudad = city;
     }
 
+    console.log('[DEBUG /api/map/skaters] Querying DB with where clause:', JSON.stringify(where));
     const skaters = await prisma.user.findMany({
       where,
       select: {
@@ -61,6 +65,7 @@ export async function GET(req: Request) {
         { createdAt: 'desc' },
       ],
     });
+    console.log('[DEBUG /api/map/skaters] Skaters obtenidos:', skaters.length);
 
     // Calcular score total
     const skatersWithStats = skaters.map((skater) => {
@@ -88,9 +93,12 @@ export async function GET(req: Request) {
       };
     });
 
+    console.log('[DEBUG /api/map/skaters] Retornando', skatersWithStats.length, 'skaters');
     return NextResponse.json({ skaters: skatersWithStats });
   } catch (error) {
-    console.error('Error obteniendo skaters para mapa:', error);
+    console.error('[DEBUG /api/map/skaters] ERROR:', error);
+    console.error('[DEBUG /api/map/skaters] Error message:', error instanceof Error ? error.message : 'unknown');
+    console.error('[DEBUG /api/map/skaters] Error stack:', error instanceof Error ? error.stack : 'no stack');
     return NextResponse.json({ error: 'Error del servidor' }, { status: 500 });
   }
 }
