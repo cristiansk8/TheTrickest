@@ -201,9 +201,7 @@ const Appbar = () => {
       <div className="ml-auto flex items-center gap-2 md:gap-3">
         {/* Botón de Ubicación */}
         {session?.user?.email && (
-          <div className="hidden md:block">
-            <LocationToggle />
-          </div>
+          <LocationToggle />
         )}
 
         {/* Botón de Notificaciones */}
