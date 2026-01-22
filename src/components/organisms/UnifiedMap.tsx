@@ -100,6 +100,7 @@ interface Spot {
   website?: string;
   isVerified: boolean;
   rating?: number;
+  photos?: string[];
 }
 
 interface Skater {
