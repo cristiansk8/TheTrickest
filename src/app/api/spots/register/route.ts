@@ -158,10 +158,11 @@ export async function POST(req: Request) {
 
     // Crear registros de fotos en SpotPhoto para cada foto
     if (photos && photos.length > 0 && session.user.email) {
+      const userEmail = session.user.email;
       await prisma.spotPhoto.createMany({
         data: photos.map(photoUrl => ({
           spotId: spot.id,
-          userId: session.user.email,
+          userId: userEmail,
           url: photoUrl,
           isLive: photoUrl.includes('LIVE_'), // Si el nombre contiene LIVE_, es foto en vivo
         }))

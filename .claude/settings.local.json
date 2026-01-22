@@ -43,7 +43,10 @@
       "Bash(npm ls:*)",
       "Bash(timeout /t 15)",
       "Bash(python:*)",
-      "Bash(npx next build:*)"
+      "Bash(npx next build:*)",
+      "Bash(vercel link:*)",
+      "Bash(vercel login:*)",
+      "Bash(vercel:*)"
     ],
     "deny": [],
     "ask": []

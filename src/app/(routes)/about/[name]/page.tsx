@@ -7,7 +7,7 @@ import TransitionPage from '@/components/transition-page';
 
 
 interface Props {
-    params: { name: string }
+    params: Promise<{ name: string }>
 }
 
 
@@ -15,10 +15,11 @@ const getTemaMember = (name: string) => {
     return dataTeam.find((item) => item.name === name.toLowerCase()) || notFound()
 }
 
-const PageDetailEmployee = ({ params }: Props) => {
+const PageDetailEmployee = async ({ params }: Props) => {
     try {
-        const teamMember = getTemaMember(params.name)
-        const { name, imgURl, role, experience, education, skills, socialNetworks, description } = teamMember
+        const { name } = await params
+        const teamMember = getTemaMember(name)
+        const { name: memberName, imgURl, role, experience, education, skills, socialNetworks, description } = teamMember
 
         return (
             <div>
@@ -31,12 +32,12 @@ const PageDetailEmployee = ({ params }: Props) => {
                             <Image
                                 width={100}
                                 height={100}
-                                alt={name}
+                                alt={memberName}
                                 src={imgURl}
-                                className="rounded-full w-[120px] mx-auto my-10 p-0 border-[6px] box-content border-[#231f39] 
+                                className="rounded-full w-[120px] mx-auto my-10 p-0 border-[6px] box-content border-[#231f39]
                                 shadow-[0px_27px_16px_-11px_rgba(31,27,56,0.25)] transition-all duration-150 ease-in  slide-in-elliptic-top-fwd" />
 
-                            <h1 className="text-xl font-bold text-center">{name.toUpperCase()}</h1>
+                            <h1 className="text-xl font-bold text-center">{memberName.toUpperCase()}</h1>
                             <p className="text-center mb-2">{role}</p>
                             <div className="flex items-center justify-center gap-5 mb-5">
                                 {socialNetworks.map(({ logo, src, id }) => (
