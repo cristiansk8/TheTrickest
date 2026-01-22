@@ -14,7 +14,7 @@ const path = require('path');
 
 const BUILD_INDEX_PATH = path.join(__dirname, '../node_modules/next/dist/build/index.js');
 
-console.log('🔧 Patching Next.js for Node v22 compatibility...');
+console.log('🔧 Checking Next.js Node compatibility...');
 
 try {
   if (!fs.existsSync(BUILD_INDEX_PATH)) {
@@ -45,7 +45,7 @@ const _indexcjs = { nanoid: () => randomBytes(16).toString("hex") };`
   );
 
   fs.writeFileSync(BUILD_INDEX_PATH, content, 'utf8');
-  console.log('✅ Next.js patched successfully for Node v22!');
+  console.log('✅ Next.js patched successfully!');
 } catch (error) {
   console.error('❌ Failed to patch Next.js:', error.message);
   // Don't fail the build

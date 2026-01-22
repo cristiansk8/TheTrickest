@@ -9,26 +9,66 @@ export const dynamic = 'force-dynamic';
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
-    const type = searchParams.get('type'); // "skatepark" o "skateshop"
+    const type = searchParams.get('type'); // "skatepark", "skateshop", "spot"
     const city = searchParams.get('city');
-    const verified = searchParams.get('verified'); // "true" para solo verificados
+    const stage = searchParams.get('stage'); // Filter by stage: GHOST, REVIEW, VERIFIED, LEGENDARY
+    const verified = searchParams.get('verified'); // "true" para solo verificados (VERIFIED or LEGENDARY)
 
     const where: any = {};
 
-    if (type) where.type = type;
-    if (city) where.city = city;
-    if (verified === 'true') where.isVerified = true;
+    if (type) {
+      // Convert "skateshop" to "SKATESHOP" if needed
+      const typeUpper = type.toUpperCase();
+      where.type = typeUpper;
+    }
+    if (city) where.city = { contains: city, mode: 'insensitive' };
+
+    // Filter by verified status (VERIFIED or LEGENDARY stages)
+    if (verified === 'true') {
+      where.stage = { in: ['VERIFIED', 'LEGENDARY'] };
+    }
+
+    // Filter by specific stage
+    if (stage) {
+      where.stage = stage.toUpperCase();
+    }
 
     const spots = await prisma.spot.findMany({
       where,
       orderBy: [
-        { isVerified: 'desc' }, // Primero los verificados
-        { rating: 'desc' }, // Luego por rating
+        { confidenceScore: 'desc' }, // Primero por puntuación de confianza
+        { lastActivityAt: 'desc' }, // Luego por actividad reciente
         { createdAt: 'desc' } // Luego los más recientes
       ],
+      select: {
+        id: true,
+        name: true,
+        type: true,
+        description: true,
+        address: true,
+        city: true,
+        latitude: true,
+        longitude: true,
+        instagram: true,
+        phone: true,
+        website: true,
+        stage: true,
+        confidenceScore: true,
+        rating: true,
+        photos: true,
+        features: true,
+        isHot: true,
+      },
     });
 
-    return NextResponse.json({ spots });
+    // Transform spots to match the interface expected by UnifiedMap
+    const transformedSpots = spots.map(spot => ({
+      ...spot,
+      type: spot.type.toLowerCase() as 'skatepark' | 'skateshop', // Convert to lowercase
+      isVerified: spot.stage === 'VERIFIED' || spot.stage === 'LEGENDARY', // Map stage to isVerified
+    }));
+
+    return NextResponse.json({ spots: transformedSpots });
   } catch (error) {
     console.error('Error obteniendo spots:', error);
     return NextResponse.json({ error: 'Error del servidor' }, { status: 500 });

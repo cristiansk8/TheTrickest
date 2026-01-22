@@ -222,30 +222,171 @@ model AppSettings {
 }
 
 model Spot {
-  id          Int      @id @default(autoincrement())
-  name        String // Nombre del spot (ej: "Skatepark Los Andes", "Tory Skateshop")
-  type        String // "skatepark" o "skateshop"
-  description String? // Descripción del lugar
-  address     String? // Dirección completa
-  city        String? // Ciudad
-  state       String? // Estado/Departamento
-  country     String   @default("Colombia") // País
-  latitude    Float // Latitud para el mapa
-  longitude   Float // Longitud para el mapa
-  phone       String? // Teléfono de contacto
-  website     String? // Sitio web
-  instagram   String? // Usuario de Instagram (sin @)
-  photos      String[] @default([]) // URLs de fotos del spot
-  features    String[] @default([]) // Features: "street", "bowl", "mini-ramp", "vert", etc.
-  isVerified  Boolean  @default(false) // Si fue verificado por admin
-  rating      Float?   @default(0) // Rating promedio (0-5)
-  reviewCount Int      @default(0) // Número de reviews
-  createdBy   String // Email del usuario que lo creó
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id              Int      @id @default(autoincrement())
+  uuid            String?  @unique @default(uuid()) // Opcional para migrar datos existentes
+  name            String // Nombre del spot
+  type            String // "skatepark", "skateshop", "spot"
+  description     String? // Descripción del lugar
+  address         String? // Dirección completa
+  city            String? // Ciudad
+  state           String? // Estado/Departamento
+  country         String   @default("Colombia")
+  latitude        Float // Latitud para el mapa
+  longitude       Float // Longitud para el mapa
+
+  // VECTOR DE CONFIANZA - Sistema de Validación Social
+  confidenceScore Int      @default(0) // 0-200+
+  stage           String   @default("GHOST") // "GHOST", "REVIEW", "VERIFIED", "LEGENDARY", "STALE", "DEAD"
+  lastVerifiedAt  DateTime @default(now())
+
+  // Historial para decaimiento temporal
+  statusHistory   Json     @default("[]") // [{action, weight, userId, timestamp}]
+
+  // Spot "hot" = mucha actividad reciente
+  isHot           Boolean  @default(false)
+  hotUntil        DateTime? // Hasta cuándo mantiene el status "hot"
+
+  // Información de contacto
+  phone           String?
+  website         String?
+  instagram       String? // Usuario de Instagram (sin @)
+  photos          String[] @default([]) // URLs de fotos del spot
+  features        String[] @default([]) // Features: "street", "bowl", "mini-ramp", "vert", etc.
+  rating          Float?   @default(0) // Rating promedio (0-5)
+  reviewCount     Int      @default(0) // Número de reviews
+  createdBy       String // Email del usuario que lo creó
+
+  // Metadata para decaimiento
+  lastActivityAt  DateTime @default(now())
+  staleAt         DateTime? // Cuando empieza a decaer
+  deadAt          DateTime? // Cuándo se considera "muerto"
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relaciones del sistema de validación
+  validations     SpotValidation[]
+  checkIns        SpotCheckIn[]
+  photos_records  SpotPhoto[] @relation("SpotPhotos")
+  reports         SpotReport[]
 
   @@index([type])
   @@index([city])
-  @@index([isVerified])
-  @@index([latitude, longitude]) // Índice geoespacial para búsquedas por ubicación
+  @@index([stage, confidenceScore])
+  @@index([isHot, lastActivityAt])
+  @@index([latitude, longitude]) // Índice geoespacial
+}
+
+// ==================== SPOT VALIDATION SYSTEM ====================
+
+model SpotValidation {
+  id                Int      @id @default(autoincrement())
+  spotId            Int
+  userId            String // Email del usuario
+  userWeight        Int      @default(1) // Peso según reputación (1-5)
+  method            String // "GPS_PROXIMITY", "PHOTO_UPLOAD", "LIVE_PHOTO", "CHECK_IN", "CROWD_REPORT"
+
+  // Anti-spam: Detección de patrones sospechosos
+  ipAddress         String?
+  deviceFingerprint String?
+
+  // Datos GPS exactos en la validación
+  validatedLat      Float?
+  validatedLng      Float?
+  accuracy          Float? // Precisión del GPS en metros
+
+  createdAt         DateTime @default(now())
+
+  spot              Spot     @relation(fields: [spotId], references: [id])
+
+  @@unique([spotId, userId, method]) // Solo 1 validación por usuario/método
+  @@index([spotId])
+  @@index([userId, createdAt]) // Para detectar patrones de validación
+}
+
+model SpotCheckIn {
+  id          Int      @id @default(autoincrement())
+  spotId      Int
+  userId      String // Email del usuario
+  latitude    Float
+  longitude   Float
+  accuracy    Float? // Precisión GPS
+
+  // Contexto del check-in
+  crowdLevel  String? // "EMPTY", "LOW", "MODERATE", "BUSY", "CROWDED"
+  isOpen      Boolean? // Para skateshops (¿está abierto?)
+
+  createdAt   DateTime @default(now())
+
+  spot        Spot     @relation(fields: [spotId], references: [id])
+
+  @@index([spotId, createdAt])
+  @@index([userId, createdAt]) // Para detectar patrones
+}
+
+model SpotPhoto {
+  id        Int      @id @default(autoincrement())
+  spotId    Int
+  userId    String // Email del usuario
+  url       String
+
+  // Metadata EXIF para validar autenticidad
+  isLive    Boolean  @default(false) // Foto tomada en tiempo real
+  hasExif   Boolean  @default(false) // Tiene metadata GPS
+  exifLat   Float? // Latitud del EXIF
+  exifLng   Float? // Longitud del EXIF
+  takenAt   DateTime? // Fecha en que se tomó la foto
+
+  createdAt DateTime @default(now())
+
+  spot      Spot     @relation("SpotPhotos", fields: [spotId], references: [id])
+
+  @@index([spotId])
+}
+
+model SpotReport {
+  id            Int      @id @default(autoincrement())
+  spotId        Int
+  userId        String // Email del usuario
+  reason        String // "CLOSED", "FAKE", "DUPLICATE", "INCORRECT_LOCATION", "NO_LONGER_EXISTS", "INACCURATE_INFO"
+  details       String?
+  status        String   @default("PENDING") // "PENDING", "REVIEWED", "ACCEPTED", "REJECTED", "AUTO_VERIFIED"
+
+  // Contexto del reporte
+  reporterLat   Float?
+  reporterLng   Float?
+  wasOnLocation Boolean? // ¿El reportero estaba físicamente ahí?
+
+  createdAt     DateTime @default(now())
+  reviewedAt    DateTime?
+
+  spot          Spot     @relation(fields: [spotId], references: [id])
+
+  @@index([spotId, status])
+}
+
+// ==================== USER REPUTATION FOR VALIDATION ====================
+
+model UserReputation {
+  id                Int      @id @default(autoincrement())
+  userId            String   @unique // Email del usuario
+  reputationScore   Int      @default(0) // Puntos de reputación total
+  level             String   @default("NEW") // "NEW", "TRUSTED", "VETERAN", "MASTER"
+  validationWeight  Int      @default(1) // Peso de validación (1-5)
+
+  // Estadísticas
+  validationsGiven  Int      @default(0) // Validaciones realizadas
+  spotsVerified     Int      @default(0) // Spots que ayudó a verificar
+  reportsAccepted   Int      @default(0) // Reportes aceptados
+  reportsRejected   Int      @default(0) // Reportes rechazados
+  blindTestAccuracy Float    @default(0) // Precisión en pruebas ciegas (0-1)
+
+  // Badges (JSON array de strings)
+  badges            String[] @default([]) // ["Explorer", "Validator", "Guardian", "Legend"]
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([level])
+  @@index([reputationScore])
 }

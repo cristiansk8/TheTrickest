@@ -10,44 +10,81 @@ if (typeof window !== 'undefined') {
   require('leaflet/dist/leaflet.css');
 }
 
-// Iconos custom para el mapa
-const iconSkatepark = new L.Icon({
-  iconUrl: 'data:image/svg+xml;base64,' + btoa(`
-    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00D9FF" stroke-width="2">
-      <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-      <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
-    </svg>
-  `),
-  iconSize: [32, 32],
-  iconAnchor: [16, 32],
-  popupAnchor: [0, -32],
-});
+// Función para crear icono personalizado de skater con foto
+const createSkaterIcon = (photo: string | undefined, name: string | undefined) => {
+  const imageUrl = photo || '';
+  const initial = name?.charAt(0).toUpperCase() || '?';
 
-const iconSkateshop = new L.Icon({
-  iconUrl: 'data:image/svg+xml;base64,' + btoa(`
-    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#F35588" stroke-width="2">
-      <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
-      <line x1="3" y1="6" x2="21" y2="6"/>
-    </svg>
-  `),
-  iconSize: [32, 32],
-  iconAnchor: [16, 32],
-  popupAnchor: [0, -32],
-});
+  return new L.divIcon({
+    className: 'custom-skater-marker',
+    html: `
+      <div class="skater-marker-container">
+        <div class="skater-avatar-ring">
+          ${photo
+            ? `<img src="${imageUrl}" alt="${name || 'Skater'}" class="skater-avatar-image" />`
+            : `<div class="skater-avatar-fallback">${initial}</div>`
+          }
+          <div class="skater-avatar-dot"></div>
+        </div>
+      </div>
+    `,
+    iconSize: [48, 48],
+    iconAnchor: [24, 24],
+    popupAnchor: [0, -24],
+  });
+};
 
-const iconSkater = new L.Icon({
-  iconUrl: 'data:image/svg+xml;base64,' + btoa(`
-    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#A855F7" stroke-width="2">
-      <circle cx="12" cy="8" r="4"/>
-      <path d="M16 14v2a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-2"/>
-      <line x1="12" y1="18" x2="12" y2="22"/>
-      <line x1="8" y1="22" x2="16" y2="22"/>
-    </svg>
-  `),
-  iconSize: [32, 32],
-  iconAnchor: [16, 32],
-  popupAnchor: [0, -32],
-});
+// Función para crear icono personalizado del spot con foto
+const createSpotIcon = (photos: string[] | undefined, type: 'skatepark' | 'skateshop', name: string) => {
+  const hasPhoto = photos && photos.length > 0;
+  const photoUrl = hasPhoto ? photos[0] : '';
+
+  // Colores según tipo
+  const borderColor = type === 'skatepark'
+    ? '#00D9FF' // Cyan para skateparks
+    : '#F35588'; // Pink para skateshops
+
+  const glowColor = type === 'skatepark'
+    ? 'rgba(0, 217, 255, 0.6)'
+    : 'rgba(243, 85, 136, 0.6)';
+
+  const initial = type === 'skatepark' ? '🛹' : '🏪';
+
+  return new L.divIcon({
+    className: 'custom-spot-marker',
+    html: `
+      <div class="spot-marker-container" style="
+        position: relative;
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      ">
+        <div style="
+          width: 44px;
+          height: 44px;
+          border-radius: 50%;
+          border: 3px solid ${borderColor};
+          box-shadow: 0 0 15px ${glowColor}, 0 2px 8px rgba(0, 0, 0, 0.3);
+          overflow: hidden;
+          background: white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        ">
+          ${hasPhoto
+            ? `<img src="${photoUrl}" alt="${name}" class="spot-marker-image" style="width: 100%; height: 100%; object-fit: cover;" />`
+            : `<span style="font-size: 24px;">${initial}</span>`
+          }
+        </div>
+      </div>
+    `,
+    iconSize: [48, 48],
+    iconAnchor: [24, 24],
+    popupAnchor: [0, -24],
+  });
+};
 
 interface Spot {
   id: number;
@@ -127,10 +164,92 @@ export default function UnifiedMap({
 }: UnifiedMapProps) {
   const [mounted, setMounted] = useState(false);
 
-  // Montar componente solo en el cliente
+  // Montar componente solo en el cliente y agregar estilos CSS
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setMounted(true);
+
+      // Agregar estilos CSS para los marcadores de skaters
+      const style = document.createElement('style');
+      style.id = 'skater-marker-styles';
+      style.innerHTML = `
+        .custom-skater-marker {
+          background: transparent !important;
+          border: none !important;
+        }
+
+        .custom-spot-marker {
+          background: transparent !important;
+          border: none !important;
+        }
+
+        .skater-marker-container {
+          position: relative;
+          width: 48px;
+          height: 48px;
+        }
+
+        .skater-avatar-ring {
+          position: relative;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          border: 3px solid #A855F7;
+          box-shadow: 0 0 10px rgba(168, 85, 247, 0.5), 0 2px 5px rgba(0, 0, 0, 0.3);
+          overflow: hidden;
+          background: white;
+          transition: all 0.3s ease;
+        }
+
+        .skater-avatar-ring:hover {
+          transform: scale(1.1);
+          box-shadow: 0 0 15px rgba(168, 85, 247, 0.7), 0 4px 8px rgba(0, 0, 0, 0.4);
+          border-color: #9333EA;
+        }
+
+        .skater-avatar-image {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+
+        .skater-avatar-fallback {
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(135deg, #A855F7, #9333EA);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: bold;
+          font-size: 18px;
+          color: white;
+        }
+
+        .skater-avatar-dot {
+          position: absolute;
+          bottom: -2px;
+          right: -2px;
+          width: 14px;
+          height: 14px;
+          background: #22C55E;
+          border: 2px solid white;
+          border-radius: 50%;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+      `;
+
+      // Evitar duplicar estilos
+      if (!document.getElementById('skater-marker-styles')) {
+        document.head.appendChild(style);
+      }
+
+      return () => {
+        const existingStyle = document.getElementById('skater-marker-styles');
+        if (existingStyle) {
+          existingStyle.remove();
+        }
+      };
     }
   }, []);
 
@@ -172,10 +291,26 @@ export default function UnifiedMap({
           <Marker
             key={`spot-${spot.id}`}
             position={[spot.latitude, spot.longitude]}
-            icon={spot.type === 'skatepark' ? iconSkatepark : iconSkateshop}
+            icon={createSpotIcon(spot.photos, spot.type, spot.name)}
           >
             <Popup>
               <div className="p-2 min-w-[200px]">
+                {/* Foto del spot si existe */}
+                {spot.photos && spot.photos.length > 0 && (
+                  <div className="mb-3">
+                    <img
+                      src={spot.photos[0]}
+                      alt={spot.name}
+                      className="w-full h-40 object-cover rounded-lg border-2 border-cyan-400"
+                    />
+                    {spot.photos.length > 1 && (
+                      <p className="text-xs text-slate-500 mt-1 text-center">
+                        +{spot.photos.length - 1} más
+                      </p>
+                    )}
+                  </div>
+                )}
+
                 <div className="flex items-start justify-between mb-2">
                   <h3 className="font-black text-lg uppercase text-slate-900">
                     {spot.name}
@@ -236,7 +371,7 @@ export default function UnifiedMap({
           <Marker
             key={`skater-${skater.id}`}
             position={[skater.latitude, skater.longitude]}
-            icon={iconSkater}
+            icon={createSkaterIcon(skater.photo, skater.name)}
           >
             <Popup>
               <div className="p-2 min-w-[200px]">

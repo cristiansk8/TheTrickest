@@ -1,10 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { MapPin } from 'lucide-react';
 import dynamic from 'next/dynamic';
+import SpotProximityModal from '@/components/SpotProximityModal';
+import SpotFloatingButton from '@/components/SpotFloatingButton';
 
-// Dynamic import de SpotsMap para evitar problemas con SSR
-const SpotsMap = dynamic(() => import('@/components/organisms/SpotsMap'), {
+// Dynamic import de UnifiedMap para evitar problemas con SSR
+const UnifiedMap = dynamic(() => import('@/components/organisms/UnifiedMap'), {
   ssr: false,
   loading: () => (
     <div className="w-full h-[600px] rounded-xl border-4 border-cyan-400 bg-slate-900 flex items-center justify-center">
@@ -36,6 +39,8 @@ export default function SpotsPage() {
   const [loading, setLoading] = useState(true);
   const [filterType, setFilterType] = useState<'all' | 'skatepark' | 'skateshop'>('all');
   const [filterVerified, setFilterVerified] = useState(false);
+  const [showProximityModal, setShowProximityModal] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
 
   useEffect(() => {
     fetchSpots();
@@ -65,6 +70,24 @@ export default function SpotsPage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleSpotRegistered = () => {
+    // Refresh the spots list
+    fetchSpots();
+  };
+
+  const handleSpotValidated = () => {
+    // Mostrar toast message
+    setToastMessage('✅ Spot validado correctamente +2 pts');
+    fetchSpots();
+
+    // Ocultar toast después de 3 segundos
+    setTimeout(() => setToastMessage(''), 3000);
+  };
+
+  const handleProximityAction = () => {
+    setShowProximityModal(true);
   };
 
   return (
@@ -134,20 +157,20 @@ export default function SpotsPage() {
               ⏳ CARGANDO SPOTS...
             </div>
           </div>
-        ) : spots.length === 0 ? (
-          <div className="w-full h-[600px] rounded-xl border-4 border-yellow-400 bg-slate-900 flex flex-col items-center justify-center gap-4">
-            <div className="text-yellow-400 font-black text-4xl">
-              🤷‍♂️
-            </div>
-            <div className="text-yellow-400 font-black text-2xl uppercase">
-              No hay spots {filterType !== 'all' && `de tipo ${filterType}`}
-            </div>
-            <p className="text-slate-400 font-bold">
-              ¡Sé el primero en agregar uno!
-            </p>
-          </div>
         ) : (
-          <SpotsMap spots={spots} height="600px" />
+          <>
+            {spots.length === 0 && (
+              <div className="mb-4 bg-yellow-900/30 border-2 border-yellow-500 rounded-lg p-4">
+                <p className="text-yellow-300 font-bold text-center">
+                  🤷‍♂️ No hay spots {filterType !== 'all' && `de tipo ${filterType}`}
+                </p>
+                <p className="text-slate-400 text-sm text-center mt-1">
+                  ¡Usa el botón flotante para agregar el primero!
+                </p>
+              </div>
+            )}
+            <UnifiedMap spots={spots} height="600px" showSkaters={false} />
+          </>
         )}
 
         {/* Info adicional */}
@@ -175,19 +198,32 @@ export default function SpotsPage() {
           </div>
         </div>
 
-        {/* CTA para agregar spot */}
-        <div className="mt-8 text-center">
-          <button
-            className="bg-purple-600 hover:bg-purple-700 text-white font-black uppercase tracking-wider text-lg px-8 py-4 rounded-xl border-4 border-white shadow-2xl shadow-purple-500/50 hover:shadow-purple-400/70 transition-all transform hover:scale-105"
-            onClick={() => alert('Próximamente: Formulario para agregar spots 🚀')}
-          >
-            ➕ AGREGAR NUEVO SPOT
-          </button>
-          <p className="text-slate-400 text-sm mt-2 font-bold">
-            ¡Ayuda a la comunidad agregando spots que conozcas!
+        {/* Hint sobre el botón flotante */}
+        <div className="mt-6 text-center">
+          <p className="text-cyan-400 font-bold text-sm flex items-center justify-center gap-2">
+            <MapPin className="w-4 h-4 animate-bounce" />
+            Usa el botón de la esquina para registrar spots o validar ubicaciones
           </p>
         </div>
       </div>
+
+      {/* Botón flotante de proximidad - desactivado cuando modal está abierto */}
+      {!showProximityModal && <SpotFloatingButton onClick={handleProximityAction} />}
+
+      {/* Toast notification */}
+      {toastMessage && (
+        <div className="fixed bottom-24 right-6 z-40 bg-green-600 text-white px-6 py-3 rounded-lg border-2 border-green-400 shadow-xl animate-pulse">
+          <p className="font-bold text-sm">{toastMessage}</p>
+        </div>
+      )}
+
+      {/* Modal de proximidad */}
+      <SpotProximityModal
+        isOpen={showProximityModal}
+        onClose={() => setShowProximityModal(false)}
+        onSpotRegistered={handleSpotRegistered}
+        onSpotValidated={handleSpotValidated}
+      />
     </div>
   );
 }

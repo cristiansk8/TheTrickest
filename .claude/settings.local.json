@@ -41,7 +41,9 @@
       "Bash(vercel --version:*)",
       "Bash(timeout /t 5 /nobreak)",
       "Bash(npm ls:*)",
-      "Bash(timeout /t 15)"
+      "Bash(timeout /t 15)",
+      "Bash(python:*)",
+      "Bash(npx next build:*)"
     ],
     "deny": [],
     "ask": []

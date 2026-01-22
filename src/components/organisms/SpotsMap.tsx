@@ -3,11 +3,8 @@
 import { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
-
-// Importar CSS de Leaflet solo en el cliente
-if (typeof window !== 'undefined') {
-  require('leaflet/dist/leaflet.css');
-}
+import 'leaflet/dist/leaflet.css';
+import 'react-leaflet/dist/react-leaflet.css';
 
 // Fix para los iconos de Leaflet en Next.js
 const iconSkatepark = new L.Icon({
