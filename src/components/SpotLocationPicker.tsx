@@ -10,6 +10,14 @@ interface SpotLocationPickerProps {
   onCancel: () => void;
 }
 
+interface LeafletComponents {
+  MapContainer: any;
+  TileLayer: any;
+  Marker: any;
+  useMapEvents: any;
+  L: any;
+}
+
 export default function SpotLocationPicker({
   initialLat,
   initialLng,
@@ -18,27 +26,25 @@ export default function SpotLocationPicker({
 }: SpotLocationPickerProps) {
   const [lat, setLat] = useState(initialLat);
   const [lng, setLng] = useState(initialLng);
-  const [MapContainer, TileLayer, Marker, useMapEvents]: any = useState(null);
-  const [L, setL]: any = useState(null);
+  const [components, setComponents] = useState<LeafletComponents | null>(null);
 
   useEffect(() => {
+    // Importar CSS de Leaflet
+    if (typeof window !== 'undefined') {
+      require('leaflet/dist/leaflet.css');
+    }
+
     // Cargar Leaflet y React-Leaflet dinámicamente
     Promise.all([
       import('leaflet'),
       import('react-leaflet')
     ]).then(([leaflet, reactLeaflet]) => {
-      setL(leaflet);
       const { MapContainer: MC, TileLayer: TL, Marker: M, useMapEvents: UME } = reactLeaflet;
-      setStateMap({ MapContainer: MC, TileLayer: TL, Marker: M, useMapEvents: UME });
+      setComponents({ MapContainer: MC, TileLayer: TL, Marker: M, useMapEvents: UME, L: leaflet });
     });
   }, []);
 
-  const setStateMap = (components: any) => {
-    // Usar una forma diferente de actualizar el estado
-    (MapContainer as any)[1]?.(components);
-  };
-
-  if (!MapContainer || !L) {
+  if (!components) {
     return (
       <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[9999]">
         <div className="bg-slate-800 border-4 border-cyan-400 rounded-xl p-8 text-center">
@@ -49,8 +55,10 @@ export default function SpotLocationPicker({
     );
   }
 
+  const { MapContainer, TileLayer, Marker, useMapEvents, L } = components;
+
   function MapClickHandler() {
-    const map = useMapEvents({
+    useMapEvents({
       click(e) {
         setLat(e.latlng.lat);
         setLng(e.latlng.lng);
@@ -131,13 +139,6 @@ export default function SpotLocationPicker({
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             <Marker position={[lat, lng]} icon={customIcon}>
-              {/* <Popup>
-                <div className="text-center font-bold">
-                  📍 Ubicación seleccionada
-                  <br />
-                  <small>{lat.toFixed(6)}, {lng.toFixed(6)}</small>
-                </div>
-              </Popup> */}
             </Marker>
             <MapClickHandler />
           </MapContainer>
