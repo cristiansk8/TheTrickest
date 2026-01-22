@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { MapPin, Camera, X } from 'lucide-react';
+import PhotoUploader from './PhotoUploader';
 
 interface SpotRegistrationFormProps {
   onSuccess?: (spot: any) => void;
@@ -28,6 +29,8 @@ export default function SpotRegistrationForm({ onSuccess }: SpotRegistrationForm
     setLoading(true);
 
     try {
+      console.log('Enviando datos al backend:', { ...formData, photos: uploadedPhotos });
+
       const response = await fetch('/api/spots/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -87,8 +90,13 @@ export default function SpotRegistrationForm({ onSuccess }: SpotRegistrationForm
     );
   };
 
-  const handlePhotoUpload = async (url: string) => {
+  const handlePhotoUpload = (url: string) => {
+    console.log('Foto subida:', url);
     setUploadedPhotos([...uploadedPhotos, url]);
+  };
+
+  const handleRemovePhoto = (index: number) => {
+    setUploadedPhotos(uploadedPhotos.filter((_, i) => i !== index));
   };
 
   return (
@@ -207,6 +215,44 @@ export default function SpotRegistrationForm({ onSuccess }: SpotRegistrationForm
             className="w-full px-4 py-3 bg-slate-900 border-2 border-cyan-500 rounded-lg text-white font-bold focus:outline-none focus:border-cyan-300"
             placeholder="Ej: Monterrey"
           />
+        </div>
+
+        {/* Fotos */}
+        <div>
+          <label className="block text-cyan-300 font-black uppercase text-sm mb-2">
+            📸 Fotos del Spot
+          </label>
+          <PhotoUploader
+            onUploadComplete={handlePhotoUpload}
+            currentPhotos={uploadedPhotos}
+            maxPhotos={5}
+          />
+
+          {/* Preview de fotos subidas */}
+          {uploadedPhotos.length > 0 && (
+            <div className="mt-4 grid grid-cols-3 gap-2">
+              {uploadedPhotos.map((photo, index) => (
+                <div key={index} className="relative">
+                  <img
+                    src={photo}
+                    alt={`Foto ${index + 1}`}
+                    className="w-full h-24 object-cover rounded-lg border-2 border-cyan-500"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleRemovePhoto(index)}
+                    className="absolute top-1 right-1 bg-red-500 hover:bg-red-600 text-white rounded-full p-1"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <p className="text-cyan-100 text-xs mt-2">
+            {uploadedPhotos.length} foto{uploadedPhotos.length !== 1 ? 's' : ''} agregada{uploadedPhotos.length !== 1 ? 's' : ''}
+          </p>
         </div>
 
         {/* Error */}
