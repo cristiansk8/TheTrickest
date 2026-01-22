@@ -3,6 +3,19 @@
 import { useState } from 'react';
 import { MapPin, Camera, X } from 'lucide-react';
 import PhotoUploader from './PhotoUploader';
+import dynamic from 'next/dynamic';
+
+const SpotLocationPicker = dynamic(() => import('./SpotLocationPicker'), {
+  ssr: false,
+  loading: () => (
+    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[9999]">
+      <div className="bg-slate-800 border-4 border-cyan-400 rounded-xl p-8 text-center">
+        <div className="animate-spin w-12 h-12 border-4 border-cyan-400 border-t-transparent rounded-full mx-auto mb-4"></div>
+        <p className="text-cyan-300 font-bold">Cargando mapa...</p>
+      </div>
+    </div>
+  )
+});
 
 interface SpotRegistrationFormProps {
   onSuccess?: (spot: any) => void;
@@ -22,6 +35,7 @@ export default function SpotRegistrationForm({ onSuccess }: SpotRegistrationForm
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [uploadedPhotos, setUploadedPhotos] = useState<string[]>([]);
+  const [showLocationPicker, setShowLocationPicker] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -77,17 +91,37 @@ export default function SpotRegistrationForm({ onSuccess }: SpotRegistrationForm
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
+        // Establecer las coordenadas y abrir el mapa
         setFormData({
           ...formData,
           latitude: position.coords.latitude,
           longitude: position.coords.longitude
         });
+        // Abrir el modal del mapa para que el usuario pueda confirmar/ajustar
+        setShowLocationPicker(true);
       },
       (error) => {
         alert('Error al obtener ubicación: ' + error.message);
       },
       { enableHighAccuracy: true }
     );
+  };
+
+  const handleOpenMap = () => {
+    if (!formData.latitude || !formData.longitude) {
+      alert('Primero obtén tu ubicación GPS');
+      return;
+    }
+    setShowLocationPicker(true);
+  };
+
+  const handleLocationConfirm = (lat: number, lng: number) => {
+    setFormData({
+      ...formData,
+      latitude: lat,
+      longitude: lng
+    });
+    setShowLocationPicker(false);
   };
 
   const handlePhotoUpload = (url: string) => {
@@ -143,14 +177,22 @@ export default function SpotRegistrationForm({ onSuccess }: SpotRegistrationForm
           <label className="block text-cyan-300 font-black uppercase text-sm mb-2">
             📍 Ubicación GPS
           </label>
-          <div className="flex gap-2 mb-2">
+          <div className="grid grid-cols-2 gap-2 mb-2">
             <button
               type="button"
               onClick={handleGetLocation}
-              className="flex-1 bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded flex items-center justify-center gap-2"
+              className="bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded flex items-center justify-center gap-2"
             >
               <MapPin className="w-4 h-4" />
               Usar mi ubicación
+            </button>
+            <button
+              type="button"
+              onClick={handleOpenMap}
+              disabled={!formData.latitude || !formData.longitude}
+              className="bg-purple-600 hover:bg-purple-500 disabled:bg-slate-700 disabled:cursor-not-allowed text-white font-bold py-2 px-4 rounded flex items-center justify-center gap-2"
+            >
+              🗺️ Ajustar en mapa
             </button>
           </div>
           <div className="grid grid-cols-2 gap-2">
@@ -173,6 +215,11 @@ export default function SpotRegistrationForm({ onSuccess }: SpotRegistrationForm
               placeholder="Longitud"
             />
           </div>
+          {formData.latitude && formData.longitude && (
+            <p className="text-cyan-100 text-xs mt-2">
+              ✅ Ubicación establecida: {formData.latitude.toFixed(6)}, {formData.longitude.toFixed(6)}
+            </p>
+          )}
         </div>
 
         {/* Descripción */}
@@ -280,6 +327,16 @@ export default function SpotRegistrationForm({ onSuccess }: SpotRegistrationForm
           </p>
         </div>
       </form>
+
+      {/* Modal de selección de ubicación en mapa */}
+      {showLocationPicker && (
+        <SpotLocationPicker
+          initialLat={formData.latitude}
+          initialLng={formData.longitude}
+          onConfirm={handleLocationConfirm}
+          onCancel={() => setShowLocationPicker(false)}
+        />
+      )}
     </div>
   );
 }
