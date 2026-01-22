@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
-import L from 'leaflet';
+import L, { DivIconOptions } from 'leaflet';
 import Link from 'next/link';
 
 // Importar CSS de Leaflet solo en el cliente
@@ -15,7 +15,7 @@ const createSkaterIcon = (photo: string | undefined, name: string | undefined) =
   const imageUrl = photo || '';
   const initial = name?.charAt(0).toUpperCase() || '?';
 
-  return new L.divIcon({
+  return L.divIcon({
     className: 'custom-skater-marker',
     html: `
       <div class="skater-marker-container">
@@ -50,7 +50,7 @@ const createSpotIcon = (photos: string[] | undefined, type: 'skatepark' | 'skate
 
   const initial = type === 'skatepark' ? '🛹' : '🏪';
 
-  return new L.divIcon({
+  return L.divIcon({
     className: 'custom-spot-marker',
     html: `
       <div class="spot-marker-container" style="
