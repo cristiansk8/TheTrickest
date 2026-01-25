@@ -148,7 +148,7 @@ export async function GET(
 ) {
   try {
     const session = await getServerSession(authOptions);
-    const userEmail = session?.user?.email || null;
+    const userEmail = session?.user?.email;
     const spotId = parseInt(params.spotId);
     if (isNaN(spotId)) {
       return errorResponse('VALIDATION_ERROR', 'ID de spot inválido', 400);
@@ -195,9 +195,9 @@ export async function GET(
           }
         },
         // Incluir votos del usuario actual si está autenticado
-        ...(session?.user?.email ? {
+        ...(userEmail ? {
           votes: {
-            where: { userId: session?.user?.email || null },
+            where: { userId: userEmail },
             select: { voteType: true }
           }
         } : {})
