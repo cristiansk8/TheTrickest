@@ -27,7 +27,7 @@ export async function POST(
       return errorResponse('UNAUTHORIZED', 'Debes iniciar sesión', 401);
     }
 
-    const userEmail = userEmail;
+    const userEmail = session.user.email;
     const spotId = parseInt(params.spotId);
     if (isNaN(spotId)) {
       return errorResponse('VALIDATION_ERROR', 'ID de spot inválido', 400);

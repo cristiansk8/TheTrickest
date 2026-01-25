@@ -22,7 +22,7 @@ export async function POST(
       return errorResponse('UNAUTHORIZED', 'Debes iniciar sesión para votar', 401);
     }
 
-    const userEmail = userEmail;
+    const userEmail = session.user.email;
     const spotId = parseInt(params.spotId);
     const commentId = parseInt(params.commentId);
 
