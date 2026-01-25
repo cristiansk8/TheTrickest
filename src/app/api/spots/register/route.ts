@@ -45,6 +45,13 @@ export async function POST(req: Request) {
       forceProceed = false
     } = body;
 
+    // Debug: log de las fotos recibidas
+    console.log('📸 Registro de spot - Fotos recibidas:', {
+      count: photos.length,
+      photos: photos,
+      userEmail: session.user.email
+    });
+
     // Validaciones básicas
     if (!name || name.trim().length < 3) {
       return errorResponse('VALIDATION_ERROR', 'El nombre debe tener al menos 3 caracteres', 400);
@@ -159,14 +166,22 @@ export async function POST(req: Request) {
     // Crear registros de fotos en SpotPhoto para cada foto
     if (photos && photos.length > 0 && session.user.email) {
       const userEmail = session.user.email;
+      const photoRecords = photos.map(photoUrl => ({
+        spotId: spot.id,
+        userId: userEmail,
+        url: photoUrl,
+        isLive: photoUrl.includes('LIVE_'), // Si el nombre contiene LIVE_, es foto en vivo
+      }));
+
+      console.log('💾 Creando registros de fotos:', photoRecords);
+
       await prisma.spotPhoto.createMany({
-        data: photos.map(photoUrl => ({
-          spotId: spot.id,
-          userId: userEmail,
-          url: photoUrl,
-          isLive: photoUrl.includes('LIVE_'), // Si el nombre contiene LIVE_, es foto en vivo
-        }))
+        data: photoRecords
       });
+
+      console.log('✅ Fotos guardadas en base de datos');
+    } else {
+      console.log('⚠️ No hay fotos para guardar o usuario sin email');
     }
 
     // Crear validación inicial del creador

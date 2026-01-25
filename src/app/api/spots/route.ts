@@ -58,6 +58,11 @@ export async function GET(req: Request) {
         photos: true,
         features: true,
         isHot: true,
+        _count: {
+          select: {
+            validations: true,
+          }
+        }
       },
     });
 
@@ -66,6 +71,7 @@ export async function GET(req: Request) {
       ...spot,
       type: spot.type.toLowerCase() as 'skatepark' | 'skateshop', // Convert to lowercase
       isVerified: spot.stage === 'VERIFIED' || spot.stage === 'LEGENDARY', // Map stage to isVerified
+      validationCount: spot._count.validations, // Add validation count
     }));
 
     return NextResponse.json({ spots: transformedSpots });
