@@ -216,8 +216,8 @@ const SigninButton = () => {
                         ? 'bg-purple-900/50 text-purple-300 cursor-default border-2 border-purple-700'
                         : isPrimary
                         ? isSelected
-                          ? 'bg-gradient-to-r from-green-600 to-cyan-600 text-white scale-105 shadow-lg shadow-green-500/50 border-4 border-white'
-                          : 'bg-gradient-to-r from-green-700 to-cyan-700 text-white hover:scale-105 border-4 border-green-400'
+                          ? 'bg-green-600 text-white scale-105 shadow-lg shadow-green-500/50 border-4 border-white'
+                          : 'bg-green-700 hover:bg-green-600 text-white hover:scale-105 border-4 border-green-400'
                         : isSelected
                         ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white scale-105 shadow-lg shadow-cyan-500/50 border-4 border-white'
                         : 'bg-slate-800 text-slate-300 hover:bg-slate-700 border-4 border-slate-600 hover:border-cyan-500'

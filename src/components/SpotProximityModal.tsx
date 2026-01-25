@@ -22,9 +22,86 @@ interface SpotProximityModalProps {
   onSpotValidated?: () => void;
 }
 
+// Inline component for the dynamic map
+function DynamicMap({ components, center, onLocationConfirm }: {
+  components: any;
+  center: { lat: number; lng: number };
+  onLocationConfirm: (location: { lat: number; lng: number }) => void;
+}) {
+  const [position, setPosition] = useState(center);
+
+  const { MapContainer, TileLayer, Marker, useMapEvents, L } = components;
+
+  function MapClickHandler() {
+    useMapEvents({
+      click(e: any) {
+        setPosition({ lat: e.latlng.lat, lng: e.latlng.lng });
+        onLocationConfirm({ lat: e.latlng.lat, lng: e.latlng.lng });
+      },
+    });
+    return null;
+  }
+
+  const customIcon = L.divIcon({
+    className: 'custom-spot-marker',
+    html: `
+      <div style="
+        position: relative;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      ">
+        <div style="
+          width: 36px;
+          height: 36px;
+          background: linear-gradient(135deg, #F35588, #CC3377);
+          border-radius: 50%;
+          border: 3px solid white;
+          box-shadow: 0 0 20px rgba(243, 85, 136, 0.8);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 20px;
+          animation: pulse 2s infinite;
+        ">📍</div>
+      </div>
+      <style>
+        @keyframes pulse {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.1); }
+        }
+      </style>
+    `,
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+    popupAnchor: [0, -40],
+  });
+
+  return (
+    <MapContainer
+      center={[position.lat, position.lng]}
+      zoom={18}
+      style={{ height: '350px', width: '100%' }}
+      className="z-0"
+    >
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      <Marker position={[position.lat, position.lng]} icon={customIcon}>
+      </Marker>
+      <MapClickHandler />
+    </MapContainer>
+  );
+}
+
 export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, onSpotValidated }: SpotProximityModalProps) {
-  const [mode, setMode] = useState<'loading' | 'nearby' | 'new'>('loading');
+  const [mode, setMode] = useState<'loading' | 'confirming_location' | 'nearby' | 'new'>('loading');
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
+  const [confirmedLocation, setConfirmedLocation] = useState<{ lat: number; lng: number } | null>(null);
+  const [tempMapLocation, setTempMapLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [nearbySpots, setNearbySpots] = useState<NearbySpot[]>([]);
   const [formData, setFormData] = useState({
     name: '',
@@ -39,7 +116,13 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
   const [showCameraOptions, setShowCameraOptions] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
   const [showHeartAnimation, setShowHeartAnimation] = useState(false);
+  const [validatingSpotId, setValidatingSpotId] = useState<number | null>(null);
+  const [validatedSpotIds, setValidatedSpotIds] = useState<Set<number>>(new Set());
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Estados para el mapa
+  const [mapComponents, setMapComponents] = useState<any>(null);
+  const [mapLoading, setMapLoading] = useState(false);
 
   useEffect(() => {
     if (isOpen && mode === 'loading') {
@@ -62,24 +145,11 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
           lng: position.coords.longitude
         };
         setUserLocation(location);
+        setTempMapLocation(location);
 
-        // Buscar spots cercanos (500 metros)
-        try {
-          const response = await fetch(
-            `/api/spots/nearby?lat=${location.lat}&lng=${location.lng}&radius=0.5`
-          );
-          const data = await response.json();
-
-          if (data.spots && data.spots.length > 0) {
-            setNearbySpots(data.spots);
-            setMode('nearby');
-          } else {
-            setMode('new');
-          }
-        } catch (err) {
-          console.error('Error buscando spots cercanos:', err);
-          setMode('new');
-        }
+        // Ir al modo de confirmación de ubicación con mapa
+        setMode('confirming_location');
+        loadMapComponents();
       },
       (error) => {
         setError('No se pudo obtener tu ubicación. Asegúrate de dar permisos.');
@@ -89,10 +159,66 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
     );
   };
 
-  const handleValidateSpot = async (spotId: number) => {
-    if (!userLocation) return;
+  const loadMapComponents = async () => {
+    setMapLoading(true);
+    try {
+      // Importar CSS de Leaflet
+      if (typeof window !== 'undefined') {
+        require('leaflet/dist/leaflet.css');
+      }
 
-    setLoading(true);
+      const [leaflet, reactLeaflet] = await Promise.all([
+        import('leaflet'),
+        import('react-leaflet')
+      ]);
+
+      const { MapContainer: MC, TileLayer: TL, Marker: M, useMapEvents: UME } = reactLeaflet;
+
+      setMapComponents({
+        MapContainer: MC,
+        TileLayer: TL,
+        Marker: M,
+        useMapEvents: UME,
+        L: leaflet
+      });
+    } catch (err) {
+      console.error('Error cargando mapa:', err);
+      setError('Error al cargar el mapa');
+    } finally {
+      setMapLoading(false);
+    }
+  };
+
+  const handleLocationConfirmed = (lat: number, lng: number) => {
+    setConfirmedLocation({ lat, lng });
+
+    // Buscar spots cercanos con la ubicación confirmada
+    checkNearbySpots(lat, lng);
+  };
+
+  const checkNearbySpots = async (lat: number, lng: number) => {
+    try {
+      const response = await fetch(
+        `/api/spots/nearby?lat=${lat}&lng=${lng}&radius=0.5`
+      );
+      const data = await response.json();
+
+      if (data.spots && data.spots.length > 0) {
+        setNearbySpots(data.spots);
+        setMode('nearby');
+      } else {
+        setMode('new');
+      }
+    } catch (err) {
+      console.error('Error buscando spots cercanos:', err);
+      setMode('new');
+    }
+  };
+
+  const handleValidateSpot = async (spotId: number) => {
+    if (!confirmedLocation) return;
+
+    setValidatingSpotId(spotId);
     setError('');
 
     try {
@@ -101,8 +227,8 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           method: 'GPS_PROXIMITY',
-          latitude: userLocation.lat,
-          longitude: userLocation.lng
+          latitude: confirmedLocation.lat,
+          longitude: confirmedLocation.lng
         })
       });
 
@@ -111,6 +237,9 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
       if (!response.ok) {
         throw new Error(data.message || 'Error al validar');
       }
+
+      // Marcar como validado
+      setValidatedSpotIds(prev => new Set(prev).add(spotId));
 
       // Mostrar animación de corazón
       setShowHeartAnimation(true);
@@ -133,28 +262,40 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
     } catch (err: any) {
       setError(err.message);
     } finally {
-      setLoading(false);
+      setValidatingSpotId(null);
     }
   };
 
   const handleRegisterNew = async (e: React.FormEvent, forceProceed: boolean = false) => {
     e.preventDefault();
-    if (!userLocation) return;
+    if (!confirmedLocation) return;
 
     setLoading(true);
     setError('');
 
+    // Debug: log antes de enviar
+    console.log('📸 Enviando registro con foto:', {
+      photoUrl: photo,
+      photoPreview: photoPreview ? 'existe' : 'no existe',
+      uploadingPhoto,
+      photosArray: photo ? [photo] : []
+    });
+
     try {
+      const requestBody = {
+        ...formData,
+        latitude: confirmedLocation.lat,
+        longitude: confirmedLocation.lng,
+        photos: photo ? [photo] : [],
+        forceProceed
+      };
+
+      console.log('📦 Request body completo:', requestBody);
+
       const response = await fetch('/api/spots/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...formData,
-          latitude: userLocation.lat,
-          longitude: userLocation.lng,
-          photos: photo ? [photo] : [],
-          forceProceed
-        })
+        body: JSON.stringify(requestBody)
       });
 
       const data = await response.json();
@@ -197,9 +338,15 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
       const spotData = data.data?.spot || data.spot;
       const message = data.data?.message || data.message;
 
-      alert(`✅ ${message}\n\nScore: ${spotData.confidenceScore}\nStage: ${spotData.stage}`);
+      // Mostrar mensaje de éxito amigable
+      setSuccessMessage(`✅ ${message}\n\nScore: ${spotData.confidenceScore}\nStage: ${spotData.stage}`);
+
       onSpotRegistered?.();
-      handleClose();
+
+      // Cerrar después de 2.5 segundos
+      setTimeout(() => {
+        handleClose();
+      }, 2500);
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -293,6 +440,8 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
   const handleClose = () => {
     setMode('loading');
     setUserLocation(null);
+    setConfirmedLocation(null);
+    setTempMapLocation(null);
     setNearbySpots([]);
     setFormData({ name: '', type: 'SKATEPARK', description: '' });
     setPhoto(null);
@@ -301,6 +450,8 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
     setShowCameraOptions(false);
     setSuccessMessage('');
     setShowHeartAnimation(false);
+    setValidatingSpotId(null);
+    setValidatedSpotIds(new Set());
     onClose();
   };
 
@@ -310,14 +461,14 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
       <div className="bg-slate-800 border-4 border-cyan-400 rounded-xl shadow-2xl shadow-cyan-500/30 max-w-md w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="bg-gradient-to-r from-cyan-500 to-purple-600 px-6 py-4 border-b-4 border-white">
+        <div className="bg-slate-800 px-6 py-4 border-b-4 border-cyan-400">
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-black uppercase text-white">
-              📍 {mode === 'loading' ? 'Detectando...' : mode === 'nearby' ? 'Spots Cercanos' : 'Nuevo Spot'}
+            <h2 className="text-2xl font-black uppercase text-cyan-400">
+              📍 {mode === 'loading' ? 'Detectando...' : mode === 'confirming_location' ? 'Confirma Ubicación' : mode === 'nearby' ? 'Spots Cercanos' : 'Nuevo Spot'}
             </h2>
             <button
               onClick={handleClose}
-              className="text-white hover:bg-white/20 rounded-lg p-1 transition-colors"
+              className="text-slate-400 hover:text-cyan-400 hover:bg-slate-700 rounded-lg p-1 transition-colors"
             >
               <X className="w-6 h-6" />
             </button>
@@ -371,6 +522,54 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
             </div>
           )}
 
+          {/* Confirming Location with Map */}
+          {mode === 'confirming_location' && tempMapLocation && (
+            <div className="space-y-4">
+              <p className="text-cyan-300 font-bold text-center">
+                📍 Confirma la ubicación exacta del spot
+              </p>
+              <p className="text-slate-400 text-sm text-center">
+                Haz clic en el mapa para ajustar la posición del marcador
+              </p>
+
+              {/* Map Container */}
+              <div className="relative">
+                {mapLoading || !mapComponents ? (
+                  <div className="w-full h-[350px] rounded-lg bg-slate-900 flex items-center justify-center">
+                    <div className="text-center">
+                      <div className="animate-spin w-10 h-10 border-3 border-cyan-400 border-t-transparent rounded-full mx-auto mb-3"></div>
+                      <p className="text-cyan-300 font-bold text-sm">Cargando mapa...</p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="rounded-lg overflow-hidden border-2 border-cyan-500">
+                    <DynamicMap
+                      components={mapComponents}
+                      center={tempMapLocation}
+                      onLocationConfirm={setTempMapLocation}
+                    />
+                  </div>
+                )}
+              </div>
+
+              {/* Action Buttons */}
+              <div className="grid grid-cols-2 gap-3">
+                <button
+                  onClick={handleClose}
+                  className="bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-4 rounded-lg border-2 border-slate-500 transition-colors"
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={() => tempMapLocation && handleLocationConfirmed(tempMapLocation.lat, tempMapLocation.lng)}
+                  className="bg-green-600 hover:bg-green-500 text-white font-bold py-3 px-4 rounded-lg border-2 border-green-400 transition-colors"
+                >
+                  ✓ Confirmar
+                </button>
+              </div>
+            </div>
+          )}
+
           {/* Nearby Spots */}
           {mode === 'nearby' && (
             <div>
@@ -413,10 +612,20 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
                     </div>
                     <button
                       onClick={() => handleValidateSpot(spot.id)}
-                      disabled={loading}
-                      className="w-full bg-green-600 hover:bg-green-500 disabled:bg-slate-600 disabled:cursor-not-allowed text-white font-bold py-2 px-4 rounded-lg border-2 border-green-400 transition-colors"
+                      disabled={validatingSpotId !== null || validatedSpotIds.has(spot.id)}
+                      className={`w-full font-bold py-2 px-4 rounded-lg border-2 transition-colors ${
+                        validatingSpotId === spot.id
+                          ? 'bg-yellow-600 border-yellow-400 text-white animate-pulse'
+                          : validatedSpotIds.has(spot.id)
+                          ? 'bg-cyan-600 border-cyan-400 text-white cursor-default'
+                          : 'bg-green-600 hover:bg-green-500 border-green-400 text-white hover:disabled:bg-slate-600 hover:disabled:cursor-not-allowed'
+                      }`}
                     >
-                      {loading ? '⏳ Validando...' : '✅ Validar'}
+                      {validatingSpotId === spot.id
+                        ? '⏳ Validando...'
+                        : validatedSpotIds.has(spot.id)
+                        ? '✓ Validado'
+                        : '✅ Validar'}
                     </button>
                   </div>
                 ))}
@@ -572,6 +781,11 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
                         </label>
                       </div>
 
+                      {uploadingPhoto && !photo && (
+                        <p className="text-yellow-400 text-xs font-bold text-center animate-pulse">
+                          ⏳ Subiendo foto al servidor... espera un momento
+                        </p>
+                      )}
                       {photo && (
                         <p className="text-green-400 text-xs font-bold text-center">
                           ✅ Foto lista para guardar
@@ -609,10 +823,10 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
               {/* Submit */}
               <button
                 type="submit"
-                disabled={loading || !formData.name}
-                className="w-full bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 disabled:from-slate-600 disabled:to-slate-700 disabled:cursor-not-allowed text-white font-black uppercase tracking-wider text-lg px-6 py-3 rounded-xl border-4 border-white shadow-2xl transition-all transform hover:scale-105 disabled:transform-none"
+                disabled={loading || !formData.name || uploadingPhoto}
+                className="w-full bg-cyan-600 hover:bg-cyan-500 disabled:bg-slate-600 disabled:cursor-not-allowed text-white font-black uppercase tracking-wider text-lg px-6 py-3 rounded-xl border-4 border-white shadow-2xl transition-all transform hover:scale-105 disabled:transform-none"
               >
-                {loading ? '⏳ Registrando...' : '🚀 REGISTRAR SPOT'}
+                {loading ? '⏳ Registrando...' : uploadingPhoto ? '📤 Subiendo foto...' : '🚀 REGISTRAR SPOT'}
               </button>
 
               {/* Cancel */}

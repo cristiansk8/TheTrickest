@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { ThumbsUp, ThumbsDown, Trash2, Edit2 } from 'lucide-react';
+import { ThumbsUp, ThumbsDown, Trash2, Edit2, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
+import CommentThread from './CommentThread';
 
 interface User {
   name: string | null;
@@ -22,6 +23,8 @@ interface CommentItemProps {
   userId: string;
   spotId: number;
   userVote?: 'like' | 'dislike' | null; // El voto del usuario actual
+  replyCount?: number; // Número de respuestas
+  isReply?: boolean; // Si es una respuesta a otro comentario
   onDelete?: () => void;
   onEdit?: () => void;
   onVoteChange?: () => void; // Callback para actualizar comentarios
@@ -38,6 +41,8 @@ export default function CommentItem({
   userId,
   spotId,
   userVote,
+  replyCount = 0,
+  isReply = false,
   onDelete,
   onEdit,
   onVoteChange,
@@ -295,7 +300,36 @@ export default function CommentItem({
         <span className="text-slate-500">
           {currentLikes + currentDislikes} {currentLikes + currentDislikes === 1 ? 'voto' : 'votos'}
         </span>
+
+        {/* Reply button - solo en comentarios principales */}
+        {!isReply && (
+          <button
+            onClick={() => {
+              // TODO: Implementar formulario de respuesta inline
+              alert('Próximamente: Responder comentarios');
+            }}
+            disabled={!session}
+            className={`
+              flex items-center gap-1 px-2 py-1 rounded transition-all
+              bg-slate-700 text-slate-300 hover:bg-cyan-600 hover:text-white
+              ${!session ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
+            `}
+            title={session ? 'Responder comentario' : 'Inicia sesión para responder'}
+          >
+            <MessageCircle className="w-3 h-3" />
+            {replyCount > 0 && <span className="font-bold">{replyCount}</span>}
+          </button>
+        )}
       </div>
+
+      {/* Replies thread - solo para comentarios principales */}
+      {!isReply && replyCount > 0 && (
+        <CommentThread
+          spotId={spotId}
+          commentId={id}
+          replyCount={replyCount}
+        />
+      )}
     </div>
   );
 }

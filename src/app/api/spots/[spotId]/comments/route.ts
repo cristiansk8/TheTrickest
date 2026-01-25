@@ -8,6 +8,7 @@ export const dynamic = 'force-dynamic';
 
 interface CreateCommentRequest {
   content: string;
+  parentCommentId?: number; // Si se proporciona, es una respuesta a otro comentario
 }
 
 // POST /api/spots/:spotId/comments - Crear nuevo comentario
@@ -29,7 +30,7 @@ export async function POST(
     }
 
     const body: CreateCommentRequest = await req.json();
-    const { content } = body;
+    const { content, parentCommentId } = body;
 
     // Validaciones
     if (!content || typeof content !== 'string') {
@@ -70,6 +71,29 @@ export async function POST(
       return errorResponse('NOT_FOUND', 'Spot no encontrado', 404);
     }
 
+    // Si es una respuesta, verificar que el comentario padre existe
+    let parentComment = null;
+    if (parentCommentId) {
+      parentComment = await prisma.spotComment.findUnique({
+        where: { id: parentCommentId },
+        include: {
+          user: {
+            select: {
+              email: true
+            }
+          }
+        }
+      });
+
+      if (!parentComment) {
+        return errorResponse('NOT_FOUND', 'El comentario padre no existe', 404);
+      }
+
+      if (parentComment.spotId !== spotId) {
+        return errorResponse('VALIDATION_ERROR', 'El comentario padre no pertenece a este spot', 400);
+      }
+    }
+
     // Rate limiting: verificar comentarios recientes del usuario en este spot
     const recentComment = await prisma.spotComment.findFirst({
       where: {
@@ -94,7 +118,8 @@ export async function POST(
       data: {
         spotId,
         userId: userEmail,
-        content: trimmedContent
+        content: trimmedContent,
+        ...(parentCommentId && { parentCommentId })
       },
       include: {
         user: {
@@ -106,6 +131,27 @@ export async function POST(
         }
       }
     });
+
+    // Si es una respuesta y el autor no es el mismo usuario, crear notificación
+    if (parentComment && parentComment.userId !== userEmail) {
+      await prisma.notification.create({
+        data: {
+          userId: parentComment.userId,
+          type: 'comment_reply',
+          title: 'Nueva respuesta a tu comentario',
+          message: `${comment.user?.name || 'Alguien'} respondió tu comentario en ${spot.name}`,
+          link: `/spots?spot=${spot.id}&comment=${comment.id}`,
+          metadata: {
+            spotId: spot.id,
+            spotName: spot.name,
+            commentId: comment.id,
+            parentCommentId: parentCommentId,
+            replierName: comment.user?.name,
+            replyContent: trimmedContent.substring(0, 100)
+          }
+        }
+      });
+    }
 
     // Actualizar lastActivityAt del spot
     await prisma.spot.update({
@@ -177,11 +223,12 @@ export async function GET(
       ? [{ likes: 'desc' as const }, { createdAt: 'desc' as const }]
       : [{ createdAt: 'desc' as const }];
 
-    // Obtener comentarios
+    // Obtener comentarios (solo principales, no respuestas)
     const comments = await prisma.spotComment.findMany({
       where: {
         spotId,
-        isHidden: false // No mostrar comentarios ocultos
+        isHidden: false, // No mostrar comentarios ocultos
+        parentCommentId: null // Solo comentarios principales
       },
       orderBy,
       take: limit,
@@ -194,6 +241,9 @@ export async function GET(
             username: true
           }
         },
+        _count: {
+          select: { replies: true } // Contar respuestas
+        },
         // Incluir votos del usuario actual si está autenticado
         ...(userEmail ? {
           votes: {
@@ -204,18 +254,21 @@ export async function GET(
       }
     });
 
-    // Procesar comentarios para agregar el voto del usuario
+    // Procesar comentarios para agregar el voto del usuario y conteo de respuestas
     const processedComments = comments.map(comment => ({
       ...comment,
       userVote: comment.votes?.[0]?.voteType || null,
-      votes: undefined // No enviar votos al frontend
+      replyCount: comment._count?.replies || 0,
+      votes: undefined, // No enviar votos al frontend
+      _count: undefined // No enviar _count al frontend
     }));
 
-    // Contar total de comentarios
+    // Contar total de comentarios (solo principales)
     const total = await prisma.spotComment.count({
       where: {
         spotId,
-        isHidden: false
+        isHidden: false,
+        parentCommentId: null
       }
     });
 

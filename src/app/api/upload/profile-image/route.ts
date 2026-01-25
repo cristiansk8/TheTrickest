@@ -2,10 +2,10 @@ import { authOptions } from '@/lib/auth';
 import { existsSync } from 'fs';
 import { mkdir, writeFile } from 'fs/promises';
 import { getServerSession } from 'next-auth';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import path from 'path';
 
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
   try {
     const session = await getServerSession(authOptions);
 

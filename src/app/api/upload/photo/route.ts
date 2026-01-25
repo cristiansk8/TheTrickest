@@ -44,15 +44,23 @@ export async function POST(req: Request) {
     const timestamp = Date.now();
     const uniqueFilename = `${fileType}/${session.user.email.replace('@', '_')}_${timestamp}_${filename}`;
 
-    // Subir a Supabase Storage
+    // Subir a Supabase Storage usando service_role key (servidor ya validó al usuario con NextAuth)
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+    if (!supabaseServiceKey) {
+      console.error('SUPABASE_SERVICE_ROLE_KEY no está configurado');
+      return NextResponse.json({
+        error: 'CONFIG_ERROR',
+        message: 'Configuración de servidor inválida'
+      }, { status: 500 });
+    }
 
     const uploadResponse = await fetch(`${supabaseUrl}/storage/v1/object/trickest-spots/${uniqueFilename}`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${supabaseKey}`,
-        'Content-Type': mimeType, // Usar solo el MIME type limpio
+        'Authorization': `Bearer ${supabaseServiceKey}`,
+        'Content-Type': mimeType,
       },
       body: buffer
     });
@@ -71,12 +79,10 @@ export async function POST(req: Request) {
       }, { status: 500 });
     }
 
-    // Obtener URL pública
-    const { publicUrl } = await fetch(`${supabaseUrl}/storage/v1/object/public/trickest-spots/${uniqueFilename}`, {
-      headers: {
-        'Authorization': `Bearer ${supabaseKey}`
-      }
-    }).then(r => r.json());
+    // Obtener URL pública (no requiere autenticación)
+    const publicUrl = `${supabaseUrl}/storage/v1/object/public/trickest-spots/${uniqueFilename}`;
+
+    console.log('✅ Foto subida exitosamente:', publicUrl);
 
     return NextResponse.json({
       success: true,
@@ -122,13 +128,20 @@ export async function DELETE(req: Request) {
     }
 
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-    // Eliminar de Supabase Storage
+    if (!supabaseServiceKey) {
+      return NextResponse.json({
+        error: 'CONFIG_ERROR',
+        message: 'Configuración de servidor inválida'
+      }, { status: 500 });
+    }
+
+    // Eliminar de Supabase Storage usando service_role key
     const deleteResponse = await fetch(`${supabaseUrl}/storage/v1/object/trickest-spots/${filename}`, {
       method: 'DELETE',
       headers: {
-        'Authorization': `Bearer ${supabaseKey}`
+        'Authorization': `Bearer ${supabaseServiceKey}`
       }
     });
 

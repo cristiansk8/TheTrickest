@@ -196,12 +196,12 @@ model InterestedUser {
 model Notification {
   id          Int      @id @default(autoincrement())
   userId      String // Email del usuario que recibe la notificación
-  type        String // "submission_evaluated", "team_invitation", "ranking_update", "new_follower", "vote_received", etc.
+  type        String // "submission_evaluated", "team_invitation", "ranking_update", "new_follower", "vote_received", "comment_reply", "comment_like", etc.
   title       String // Título corto de la notificación
   message     String // Mensaje descriptivo
   link        String? // URL a donde debe redirigir (opcional)
   isRead      Boolean  @default(false) // Si la notificación fue leída
-  metadata    Json? // Datos adicionales en formato JSON (score, judgeEmail, etc.)
+  metadata    Json? // Datos adicionales en formato JSON (score, judgeEmail, commentId, etc.)
   createdAt   DateTime @default(now())
 
   user User @relation("UserNotifications", fields: [userId], references: [email], onDelete: Cascade)
@@ -397,25 +397,29 @@ model UserReputation {
 // ==================== SPOT COMMENTS SYSTEM ====================
 
 model SpotComment {
-  id          Int      @id @default(autoincrement())
-  spotId      Int
-  userId      String // Email del usuario
-  content     String   @db.Text
-  likes       Int      @default(0)
-  dislikes    Int      @default(0)
-  isPinned    Boolean  @default(false) // Comentario fijado por admin
-  isHidden    Boolean  @default(false) // Oculto por baja puntuación o moderación
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id              Int      @id @default(autoincrement())
+  spotId          Int
+  userId          String // Email del usuario
+  content         String   @db.Text
+  likes           Int      @default(0)
+  dislikes        Int      @default(0)
+  isPinned        Boolean  @default(false) // Comentario fijado por admin
+  isHidden        Boolean  @default(false) // Oculto por baja puntuación o moderación
+  parentCommentId Int?     // ID del comentario padre (null = comentario principal)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
-  spot        Spot     @relation(fields: [spotId], references: [id], onDelete: Cascade)
-  user        User     @relation(fields: [userId], references: [email])
+  spot            Spot          @relation(fields: [spotId], references: [id], onDelete: Cascade)
+  user            User          @relation(fields: [userId], references: [email])
+  parentComment   SpotComment?  @relation("CommentReplies", fields: [parentCommentId], references: [id], onDelete: Cascade)
+  replies         SpotComment[] @relation("CommentReplies")
+  votes           CommentVote[]
 
   @@index([spotId])
   @@index([userId])
+  @@index([parentCommentId]) // Para buscar respuestas eficientemente
   @@index([createdAt])
   @@index([likes, dislikes]) // Para ordenar por popularidad
-  votes      CommentVote[]
 }
 
 model CommentVote {

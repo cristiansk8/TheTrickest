@@ -46,7 +46,13 @@
       "Bash(npx next build:*)",
       "Bash(vercel link:*)",
       "Bash(vercel login:*)",
-      "Bash(vercel:*)"
+      "Bash(vercel:*)",
+      "Bash(cmd //c \"taskkill /PID 24320 /F\")",
+      "Bash(cmd //c \"taskkill /PID 25940 /F\")",
+      "Bash(cmd //c \"rd /s /q .next 2>nul & echo done\")",
+      "Bash(cmd:*)",
+      "Bash(find:*)",
+      "Bash(git reset:*)"
     ],
     "deny": [],
     "ask": []

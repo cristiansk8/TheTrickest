@@ -21,6 +21,7 @@ interface Comment {
   user: User;
   userId: string;
   userVote?: 'like' | 'dislike' | null;
+  replyCount?: number; // Número de respuestas
 }
 
 interface SpotCommentsProps {
@@ -182,6 +183,7 @@ export default function SpotComments({ spotId, maxHeight = '400px' }: SpotCommen
               userId={comment.userId}
               spotId={spotId}
               userVote={comment.userVote}
+              replyCount={comment.replyCount}
               onDelete={handleCommentCreated}
               onVoteChange={handleCommentCreated}
             />
