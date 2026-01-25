@@ -63,12 +63,8 @@ export default function CommentThread({ spotId, commentId, replyCount }: Comment
       }
 
       const data = await response.json();
-      console.log('🔍 Respuestas del API:', data);
       const repliesList = data.data?.replies || data.replies || [];
       const totalCount = data.data?.total || data.total || 0;
-
-      console.log('🔍 Replies list:', repliesList);
-      console.log('🔍 Total count:', totalCount);
 
       setReplies(repliesList);
       setTotal(totalCount);

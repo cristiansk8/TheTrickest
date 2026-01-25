@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react';
 import { ThumbsUp, ThumbsDown, Trash2, Edit2, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 import CommentThread from './CommentThread';
+import ReplyForm from './ReplyForm';
 
 interface User {
   name: string | null;
@@ -53,6 +54,7 @@ export default function CommentItem({
   const [currentDislikes, setCurrentDislikes] = useState(dislikes);
   const [currentUserVote, setCurrentUserVote] = useState<'like' | 'dislike' | null>(userVote || null);
   const [isVoting, setIsVoting] = useState(false);
+  const [showReplyForm, setShowReplyForm] = useState(false);
 
   const isOwner = session?.user?.email === userId;
   const isAdmin = session?.user?.role === 'admin';
@@ -189,6 +191,13 @@ export default function CommentItem({
     }
   };
 
+  const handleReplyCreated = () => {
+    // Ocultar formulario
+    setShowReplyForm(false);
+    // Recargar comentarios principales para actualizar el contador de respuestas
+    onVoteChange?.();
+  };
+
   return (
     <div className={`bg-slate-800 rounded-lg p-3 border-2 ${isPinned ? 'border-purple-500' : 'border-slate-700'} ${isOwner ? 'ring-1 ring-purple-500/30' : ''}`}>
       {/* Header: Author + Actions */}
@@ -304,10 +313,7 @@ export default function CommentItem({
         {/* Reply button - solo en comentarios principales */}
         {!isReply && (
           <button
-            onClick={() => {
-              // TODO: Implementar formulario de respuesta inline
-              alert('Próximamente: Responder comentarios');
-            }}
+            onClick={() => setShowReplyForm(!showReplyForm)}
             disabled={!session}
             className={`
               flex items-center gap-1 px-2 py-1 rounded transition-all
@@ -321,6 +327,16 @@ export default function CommentItem({
           </button>
         )}
       </div>
+
+      {/* Reply Form - solo para comentarios principales */}
+      {!isReply && showReplyForm && (
+        <ReplyForm
+          spotId={spotId}
+          parentCommentId={id}
+          onReplyCreated={handleReplyCreated}
+          onCancel={() => setShowReplyForm(false)}
+        />
+      )}
 
       {/* Replies thread - solo para comentarios principales */}
       {!isReply && replyCount > 0 && (
