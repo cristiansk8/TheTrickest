@@ -35,13 +35,17 @@ export default function CommentThread({ spotId, commentId, replyCount }: Comment
   const [isExpanded, setIsExpanded] = useState(false);
   const [total, setTotal] = useState(replyCount);
 
-  const fetchReplies = async () => {
-    if (isExpanded && replies.length > 0) {
-      // Si ya está expandido y tenemos respuestas, solo colapsar
+  const toggleReplies = () => {
+    if (isExpanded) {
+      // Colapsar
       setIsExpanded(false);
-      return;
+    } else {
+      // Expandir - cargar respuestas
+      fetchReplies();
     }
+  };
 
+  const fetchReplies = async () => {
     try {
       setLoading(true);
       setError(null);
@@ -59,8 +63,12 @@ export default function CommentThread({ spotId, commentId, replyCount }: Comment
       }
 
       const data = await response.json();
+      console.log('🔍 Respuestas del API:', data);
       const repliesList = data.data?.replies || data.replies || [];
       const totalCount = data.data?.total || data.total || 0;
+
+      console.log('🔍 Replies list:', repliesList);
+      console.log('🔍 Total count:', totalCount);
 
       setReplies(repliesList);
       setTotal(totalCount);
@@ -76,13 +84,14 @@ export default function CommentThread({ spotId, commentId, replyCount }: Comment
 
   const handleReplyDeleted = () => {
     // Recargar respuestas después de eliminar una
-    setReplies(prev => prev.filter(r => r.id !== r.id)); // Temporal, idealmente recargar
-    setTotal(prev => Math.max(0, prev - 1));
+    fetchReplies();
   };
 
   const handleReplyVoted = () => {
     // Recargar respuestas para actualizar contadores
-    fetchReplies();
+    if (isExpanded) {
+      fetchReplies();
+    }
   };
 
   if (total === 0) {
@@ -93,7 +102,7 @@ export default function CommentThread({ spotId, commentId, replyCount }: Comment
     <div className="ml-8 mt-2 border-l-2 border-slate-700 pl-4">
       {/* Toggle button */}
       <button
-        onClick={fetchReplies}
+        onClick={toggleReplies}
         disabled={loading}
         className="flex items-center gap-2 text-xs font-bold text-slate-400 hover:text-cyan-400 transition-colors disabled:opacity-50"
       >
@@ -147,7 +156,7 @@ export default function CommentThread({ spotId, commentId, replyCount }: Comment
           {/* Load more (if has more) */}
           {replies.length < total && (
             <button
-              onClick={fetchReplies}
+              onClick={() => fetchReplies()}
               className="w-full py-2 px-3 bg-slate-800 hover:bg-slate-700 border border-slate-600 hover:border-cyan-400 rounded-lg font-bold text-xs text-slate-300 hover:text-cyan-400 transition-all"
             >
               Cargar más respuestas ({total - replies.length} restantes)
