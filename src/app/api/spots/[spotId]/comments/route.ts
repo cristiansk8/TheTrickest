@@ -22,6 +22,7 @@ export async function POST(
       return errorResponse('UNAUTHORIZED', 'Debes iniciar sesión para comentar', 401);
     }
 
+    const userEmail = userEmail;
     const spotId = parseInt(params.spotId);
     if (isNaN(spotId)) {
       return errorResponse('VALIDATION_ERROR', 'ID de spot inválido', 400);
@@ -73,7 +74,7 @@ export async function POST(
     const recentComment = await prisma.spotComment.findFirst({
       where: {
         spotId,
-        userId: session.user.email,
+        userId: userEmail,
         createdAt: {
           gte: new Date(Date.now() - 60 * 1000) // Último minuto
         }
@@ -92,7 +93,7 @@ export async function POST(
     const comment = await prisma.spotComment.create({
       data: {
         spotId,
-        userId: session.user.email,
+        userId: userEmail,
         content: trimmedContent
       },
       include: {
@@ -147,6 +148,7 @@ export async function GET(
 ) {
   try {
     const session = await getServerSession(authOptions);
+    const userEmail = session?.user?.email || null;
     const spotId = parseInt(params.spotId);
     if (isNaN(spotId)) {
       return errorResponse('VALIDATION_ERROR', 'ID de spot inválido', 400);
@@ -195,7 +197,7 @@ export async function GET(
         // Incluir votos del usuario actual si está autenticado
         ...(session?.user?.email ? {
           votes: {
-            where: { userId: session.user.email },
+            where: { userId: session?.user?.email || null },
             select: { voteType: true }
           }
         } : {})

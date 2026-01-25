@@ -22,6 +22,7 @@ export async function PATCH(
       return errorResponse('UNAUTHORIZED', 'Debes iniciar sesión', 401);
     }
 
+    const userEmail = session.user.email;
     const spotId = parseInt(params.spotId);
     const commentId = parseInt(params.commentId);
 
@@ -66,7 +67,7 @@ export async function PATCH(
     }
 
     // Verificar que el usuario es el dueño del comentario
-    if (comment.userId !== session.user.email) {
+    if (comment.userId !== userEmail) {
       return errorResponse('FORBIDDEN', 'Solo puedes editar tus propios comentarios', 403);
     }
 
@@ -111,6 +112,7 @@ export async function DELETE(
       return errorResponse('UNAUTHORIZED', 'Debes iniciar sesión', 401);
     }
 
+    const userEmail = session.user.email;
     const spotId = parseInt(params.spotId);
     const commentId = parseInt(params.commentId);
 
@@ -134,12 +136,12 @@ export async function DELETE(
 
     // Verificar permisos (dueño del comentario o admin)
     const user = await prisma.user.findUnique({
-      where: { email: session.user.email },
+      where: { email: userEmail },
       select: { role: true }
     });
 
     const isAdmin = user?.role === 'admin';
-    const isOwner = comment.userId === session.user.email;
+    const isOwner = comment.userId === userEmail;
 
     if (!isAdmin && !isOwner) {
       return errorResponse('FORBIDDEN', 'No puedes eliminar este comentario', 403);

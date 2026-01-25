@@ -13,6 +13,7 @@ export async function GET(
 ) {
   try {
     const session = await getServerSession(authOptions);
+    const userEmail = session?.user?.email || null;
     const spotId = parseInt(params.spotId);
     if (isNaN(spotId)) {
       return errorResponse('VALIDATION_ERROR', 'ID de spot inválido', 400);

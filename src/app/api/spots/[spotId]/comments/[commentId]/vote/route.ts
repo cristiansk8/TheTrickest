@@ -22,6 +22,7 @@ export async function POST(
       return errorResponse('UNAUTHORIZED', 'Debes iniciar sesión para votar', 401);
     }
 
+    const userEmail = userEmail;
     const spotId = parseInt(params.spotId);
     const commentId = parseInt(params.commentId);
 
@@ -46,7 +47,7 @@ export async function POST(
       where: { id: commentId },
       include: {
         votes: {
-          where: { userId: session.user.email }
+          where: { userId: userEmail }
         }
       }
     });
@@ -101,7 +102,7 @@ export async function POST(
         await tx.commentVote.create({
           data: {
             commentId,
-            userId: session.user.email,
+            userId: userEmail,
             voteType
           }
         });
@@ -141,7 +142,7 @@ export async function POST(
       await tx.commentVote.create({
         data: {
           commentId,
-          userId: session.user.email,
+          userId: userEmail,
           voteType
         }
       });
@@ -202,6 +203,7 @@ export async function DELETE(
       return errorResponse('UNAUTHORIZED', 'Debes iniciar sesión', 401);
     }
 
+    const userEmail = session.user.email;
     const spotId = parseInt(params.spotId);
     const commentId = parseInt(params.commentId);
 
@@ -214,7 +216,7 @@ export async function DELETE(
       where: { id: commentId },
       include: {
         votes: {
-          where: { userId: session.user.email }
+          where: { userId: userEmail }
         }
       }
     });

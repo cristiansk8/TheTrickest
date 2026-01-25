@@ -27,6 +27,7 @@ export async function POST(
       return errorResponse('UNAUTHORIZED', 'Debes iniciar sesión', 401);
     }
 
+    const userEmail = userEmail;
     const spotId = parseInt(params.spotId);
     if (isNaN(spotId)) {
       return errorResponse('VALIDATION_ERROR', 'ID de spot inválido', 400);
@@ -68,7 +69,7 @@ export async function POST(
       where: {
         spotId_userId_method: {
           spotId,
-          userId: session.user.email,
+          userId: userEmail,
           method
         }
       }
@@ -83,14 +84,14 @@ export async function POST(
     }
 
     // Obtener reputación del usuario
-    const userReputation = await getUserReputation(session.user.email);
+    const userReputation = await getUserReputation(userEmail);
     const userWeight = userReputation?.validationWeight || 1;
 
     // Crear validación
     const validation = await prisma.spotValidation.create({
       data: {
         spotId,
-        userId: session.user.email,
+        userId: userEmail,
         userWeight,
         method,
         validatedLat: latitude,
@@ -104,7 +105,7 @@ export async function POST(
       await prisma.spotCheckIn.create({
         data: {
           spotId,
-          userId: session.user.email,
+          userId: userEmail,
           latitude,
           longitude,
           accuracy: distance,
@@ -140,7 +141,7 @@ export async function POST(
     });
 
     // Actualizar reputación del usuario
-    await updateUserReputation(session.user.email, {
+    await updateUserReputation(userEmail, {
       validationsGiven: { increment: 1 },
       reputationScore: { increment: getMethodPoints(method) }
     });
