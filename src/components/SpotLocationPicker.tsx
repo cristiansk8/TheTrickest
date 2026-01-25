@@ -59,7 +59,7 @@ export default function SpotLocationPicker({
 
   function MapClickHandler() {
     useMapEvents({
-      click(e) {
+      click(e: any) {
         setLat(e.latlng.lat);
         setLng(e.latlng.lng);
       },
