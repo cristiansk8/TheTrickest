@@ -46,6 +46,8 @@ model User {
   following        Follow[]         @relation("UserFollowing") // Usuarios que sigo
   teamInvitations  TeamInvitation[] @relation("TeamInvitations") // Invitaciones de equipo recibidas
   notifications    Notification[]   @relation("UserNotifications") // Notificaciones recibidas
+  comments         SpotComment[] // Comentarios del usuario
+  commentVotes     CommentVote[] // Votos en comentarios
 }
 
 model SocialMedia {
@@ -269,6 +271,7 @@ model Spot {
   checkIns        SpotCheckIn[]
   photos_records  SpotPhoto[] @relation("SpotPhotos")
   reports         SpotReport[]
+  comments        SpotComment[]
 
   @@index([type])
   @@index([city])
@@ -389,4 +392,44 @@ model UserReputation {
 
   @@index([level])
   @@index([reputationScore])
+}
+
+// ==================== SPOT COMMENTS SYSTEM ====================
+
+model SpotComment {
+  id          Int      @id @default(autoincrement())
+  spotId      Int
+  userId      String // Email del usuario
+  content     String   @db.Text
+  likes       Int      @default(0)
+  dislikes    Int      @default(0)
+  isPinned    Boolean  @default(false) // Comentario fijado por admin
+  isHidden    Boolean  @default(false) // Oculto por baja puntuación o moderación
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  spot        Spot     @relation(fields: [spotId], references: [id], onDelete: Cascade)
+  user        User     @relation(fields: [userId], references: [email])
+
+  @@index([spotId])
+  @@index([userId])
+  @@index([createdAt])
+  @@index([likes, dislikes]) // Para ordenar por popularidad
+  votes      CommentVote[]
+}
+
+model CommentVote {
+  id          Int      @id @default(autoincrement())
+  commentId   Int
+  userId      String // Email del usuario
+  voteType    String // 'like' | 'dislike'
+  createdAt   DateTime @default(now())
+
+  comment     SpotComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  user        User        @relation(fields: [userId], references: [email])
+
+  @@unique([commentId, userId]) // Un voto por usuario por comentario
+  @@index([commentId])
+  @@index([userId])
+  @@index([voteType])
 }

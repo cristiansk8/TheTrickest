@@ -1,10 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { MapPin } from 'lucide-react';
+import { MapPin, X } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import SpotProximityModal from '@/components/SpotProximityModal';
 import SpotFloatingButton from '@/components/SpotFloatingButton';
+import { SpotComments } from '@/components/organisms';
 
 // Dynamic import de UnifiedMap para evitar problemas con SSR
 const UnifiedMap = dynamic(() => import('@/components/organisms/UnifiedMap'), {
@@ -41,6 +42,7 @@ export default function SpotsPage() {
   const [filterVerified, setFilterVerified] = useState(false);
   const [showProximityModal, setShowProximityModal] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
+  const [selectedSpot, setSelectedSpot] = useState<Spot | null>(null);
 
   useEffect(() => {
     fetchSpots();
@@ -88,6 +90,20 @@ export default function SpotsPage() {
 
   const handleProximityAction = () => {
     setShowProximityModal(true);
+  };
+
+  const handleSpotClick = (spot: Spot) => {
+    setSelectedSpot(spot);
+  };
+
+  const handleViewAllComments = () => {
+    // Scroll to comments section
+    setTimeout(() => {
+      const commentsSection = document.getElementById('comments-section');
+      if (commentsSection) {
+        commentsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
   };
 
   return (
@@ -169,8 +185,41 @@ export default function SpotsPage() {
                 </p>
               </div>
             )}
-            <UnifiedMap spots={spots} height="600px" showSkaters={false} />
+            <UnifiedMap
+              spots={spots}
+              height="600px"
+              showSkaters={false}
+              onSpotValidated={handleSpotValidated}
+              onSpotClick={handleSpotClick}
+              onViewAllComments={handleViewAllComments}
+            />
           </>
+        )}
+
+        {/* Comments section - shows when a spot is selected */}
+        {selectedSpot && (
+          <div id="comments-section" className="mt-8 bg-slate-800 border-4 border-cyan-400 rounded-xl p-6 shadow-2xl shadow-cyan-500/30">
+            {/* Header with spot name and close button */}
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h2 className="text-2xl font-black uppercase text-cyan-400">
+                  💬 Comentarios
+                </h2>
+                <p className="text-sm text-slate-300 mt-1">
+                  {selectedSpot.name} ({selectedSpot.type === 'skatepark' ? '🛹 Skatepark' : '🏪 Skateshop'})
+                </p>
+              </div>
+              <button
+                onClick={() => setSelectedSpot(null)}
+                className="p-2 bg-slate-700 hover:bg-slate-600 border-2 border-slate-500 rounded-lg transition-colors"
+                title="Cerrar comentarios"
+              >
+                <X className="w-5 h-5 text-slate-300" />
+              </button>
+            </div>
+
+            <SpotComments spotId={selectedSpot.id} maxHeight="400px" />
+          </div>
         )}
 
         {/* Info adicional */}
@@ -192,8 +241,8 @@ export default function SpotsPage() {
               <p className="text-sm">El spot fue verificado por administradores.</p>
             </div>
             <div>
-              <p className="font-bold mb-2">🔍 Click en el marcador</p>
-              <p className="text-sm">Ver más info: dirección, Instagram, teléfono, web.</p>
+              <p className="font-bold mb-2">💬 <span className="text-cyan-400">Click en marcador</span> = Ver comentarios</p>
+              <p className="text-sm">Haz click en un spot para ver y agregar comentarios.</p>
             </div>
           </div>
         </div>

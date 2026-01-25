@@ -4,6 +4,9 @@ import { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L, { DivIconOptions } from 'leaflet';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
+import { Heart } from 'lucide-react';
+import { TopCommentPreview } from '@/components/molecules';
 
 // Importar CSS de Leaflet solo en el cliente
 if (typeof window !== 'undefined') {
@@ -101,6 +104,8 @@ interface Spot {
   isVerified: boolean;
   rating?: number;
   photos?: string[];
+  validationCount?: number;
+  stage?: string;
 }
 
 interface Skater {
@@ -133,6 +138,9 @@ interface UnifiedMapProps {
   height?: string;
   showSpots?: boolean;
   showSkaters?: boolean;
+  onSpotValidated?: () => void;
+  onSpotClick?: (spot: Spot) => void;
+  onViewAllComments?: () => void;
 }
 
 // Componente para centrar el mapa automáticamente
@@ -162,8 +170,15 @@ export default function UnifiedMap({
   height = '600px',
   showSpots = true,
   showSkaters = true,
+  onSpotValidated,
+  onSpotClick,
+  onViewAllComments,
 }: UnifiedMapProps) {
+  const { data: session } = useSession();
   const [mounted, setMounted] = useState(false);
+  const [validatingSpotId, setValidatingSpotId] = useState<number | null>(null);
+  const [validatedSpotIds, setValidatedSpotIds] = useState<Set<number>>(new Set());
+  const [validationError, setValidationError] = useState<string | null>(null);
 
   // Montar componente solo en el cliente y agregar estilos CSS
   useEffect(() => {
@@ -254,6 +269,86 @@ export default function UnifiedMap({
     }
   }, []);
 
+  // Función para validar un spot
+  const handleValidateSpot = async (spotId: number, spotLat: number, spotLng: number) => {
+    if (!session?.user?.email) {
+      setValidationError('Debes iniciar sesión para validar spots');
+      setTimeout(() => setValidationError(null), 3000);
+      return;
+    }
+
+    setValidatingSpotId(spotId);
+    setValidationError(null);
+
+    try {
+      // Obtener ubicación del usuario
+      const position = await new Promise<GeolocationPosition>((resolve, reject) => {
+        if (!navigator.geolocation) {
+          reject(new Error('Geolocalización no soportada'));
+          return;
+        }
+        navigator.geolocation.getCurrentPosition(
+          resolve,
+          reject,
+          { enableHighAccuracy: true, timeout: 10000 }
+        );
+      });
+
+      const userLat = position.coords.latitude;
+      const userLng = position.coords.longitude;
+
+      // Llamar al endpoint de validación
+      const response = await fetch(`/api/spots/${spotId}/validate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          method: 'GPS_PROXIMITY',
+          latitude: userLat,
+          longitude: userLng
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        // Si el error es por distancia, mostrar mensaje amigable
+        if (data.currentDistance) {
+          setValidationError(
+            `Estás a ${data.currentDistance}m del spot. Debes estar a menos de 50m para validar.`
+          );
+        } else {
+          setValidationError(data.message || 'Error al validar');
+        }
+        setTimeout(() => setValidationError(null), 4000);
+        return;
+      }
+
+      // Marcar como validado
+      setValidatedSpotIds(prev => new Set(prev).add(spotId));
+
+      // Mostrar mensaje de éxito temporal
+      const validationCount = data.data?.validationCount || 1;
+      setValidationError(`✅ Validado! (${validationCount} ${validationCount === 1 ? 'persona' : 'personas'}) +2 pts`);
+      setTimeout(() => setValidationError(null), 3000);
+
+      // Recargar spots para actualizar el contador
+      onSpotValidated?.();
+
+    } catch (error: any) {
+      console.error('Error validando spot:', error);
+      if (error.message?.includes('Geolocalización')) {
+        setValidationError('Activa el GPS para validar spots');
+      } else if (error.message?.includes('timeout')) {
+        setValidationError('Tiempo de espera agotado. Verifica tu GPS.');
+      } else {
+        setValidationError('Error al validar. Inténtalo de nuevo.');
+      }
+      setTimeout(() => setValidationError(null), 3000);
+    } finally {
+      setValidatingSpotId(null);
+    }
+  };
+
   if (!mounted) {
     return (
       <div
@@ -293,6 +388,11 @@ export default function UnifiedMap({
             key={`spot-${spot.id}`}
             position={[spot.latitude, spot.longitude]}
             icon={createSpotIcon(spot.photos, spot.type, spot.name)}
+            eventHandlers={{
+              click: () => {
+                onSpotClick?.(spot);
+              }
+            }}
           >
             <Popup>
               <div className="p-2 min-w-[200px]">
@@ -362,6 +462,65 @@ export default function UnifiedMap({
                     </a>
                   )}
                 </div>
+
+                {/* Validación rápida */}
+                <div className="mt-3 pt-3 border-t border-slate-200">
+                  {spot.validationCount !== undefined && spot.validationCount > 0 && (
+                    <p className="text-xs text-slate-600 mb-2 text-center">
+                      ✓ {spot.validationCount} {spot.validationCount === 1 ? 'validación' : 'validaciones'}
+                      {spot.stage && (
+                        <span className="ml-1 px-1 py-0.5 bg-purple-100 text-purple-700 rounded text-[10px] uppercase">
+                          {spot.stage}
+                        </span>
+                      )}
+                    </p>
+                  )}
+
+                  <button
+                    onClick={() => handleValidateSpot(spot.id, spot.latitude, spot.longitude)}
+                    disabled={validatingSpotId !== null || validatedSpotIds.has(spot.id)}
+                    className={`w-full font-bold py-2 px-3 rounded-lg border-2 transition-all flex items-center justify-center gap-2 ${
+                      validatingSpotId === spot.id
+                        ? 'bg-yellow-500 border-yellow-400 text-white animate-pulse cursor-wait'
+                        : validatedSpotIds.has(spot.id)
+                        ? 'bg-pink-600 border-pink-400 text-white cursor-not-allowed opacity-75'
+                        : 'bg-slate-200 hover:bg-pink-100 border-slate-300 hover:border-pink-400 text-slate-700 hover:text-pink-700 cursor-pointer'
+                    } ${!session ? 'opacity-60 cursor-not-allowed' : ''}`}
+                    title={!session ? 'Inicia sesión para validar' : validatedSpotIds.has(spot.id) ? '✅ Ya validaste este spot' : 'Validar spot (requiere GPS)'}
+                  >
+                    <Heart
+                      className={`w-5 h-5 ${validatedSpotIds.has(spot.id) ? 'fill-white' : validatingSpotId === spot.id ? 'animate-pulse' : ''}`}
+                    />
+                    <span>
+                      {validatingSpotId === spot.id
+                        ? 'Verificando ubicación...'
+                        : validatedSpotIds.has(spot.id)
+                        ? '✅ ¡Validado!'
+                        : 'Validar'}
+                    </span>
+                  </button>
+
+                  {validationError && validatingSpotId === spot.id && (
+                    <p className={`text-xs mt-2 text-center ${validationError.startsWith('✅') ? 'text-green-600' : 'text-red-500'}`}>
+                      {validationError}
+                    </p>
+                  )}
+
+                  {!session && (
+                    <p className="text-[10px] text-slate-500 text-center mt-1">
+                      🔒 Inicia sesión para validar
+                    </p>
+                  )}
+                </div>
+
+                {/* Top comment preview */}
+                {onViewAllComments && (
+                  <TopCommentPreview
+                    spotId={spot.id}
+                    spotName={spot.name}
+                    onViewAllComments={onViewAllComments}
+                  />
+                )}
               </div>
             </Popup>
           </Marker>
