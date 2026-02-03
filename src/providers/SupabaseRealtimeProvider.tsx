@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, useRef, ReactNode } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { RealtimeChannel } from '@supabase/supabase-js';
 import { useSession } from 'next-auth/react';
@@ -24,8 +24,12 @@ export function SupabaseRealtimeProvider({ children }: { children: ReactNode }) 
   const { data: session } = useSession();
   const [unreadCount, setUnreadCount] = useState(0);
   const [hasNewNotifications, setHasNewNotifications] = useState(false);
-  const [channel, setChannel] = useState<RealtimeChannel | null>(null);
-  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+
+  // Usar refs para valores que no causan re-renders ni warnings de dependencias
+  const channelRef = useRef<RealtimeChannel | null>(null);
+  const userIdRef = useRef<string | null>(null);
+  const isSubscribedRef = useRef(false);
+  const retryCountRef = useRef(0);
 
   const refreshUnreadCount = async () => {
     if (!session?.user?.email) return;
@@ -47,30 +51,38 @@ export function SupabaseRealtimeProvider({ children }: { children: ReactNode }) 
 
   useEffect(() => {
     if (!session?.user?.email) {
-      if (channel) {
-        supabase.removeChannel(channel);
-        setChannel(null);
+      console.log('🔴 [Realtime] No hay sesión, limpiando...');
+      if (channelRef.current) {
+        supabase.removeChannel(channelRef.current);
+        channelRef.current = null;
       }
       setUnreadCount(0);
-      setCurrentUserId(null);
+      userIdRef.current = null;
+      isSubscribedRef.current = false;
       return;
     }
 
     const userId = session.user.email;
 
-    if (currentUserId === userId && channel) {
+    // Si ya estamos suscritos a este usuario, no hacer nada
+    if (userIdRef.current === userId && isSubscribedRef.current) {
+      console.log('✅ [Realtime] Ya suscrito y activo para', userId);
       return;
     }
 
-    if (channel) {
-      supabase.removeChannel(channel);
-      setChannel(null);
+    // Limpiar canal anterior si existe
+    if (channelRef.current) {
+      console.log('🔄 [Realtime] Removiendo canal anterior...');
+      supabase.removeChannel(channelRef.current);
+      channelRef.current = null;
     }
 
-    setCurrentUserId(userId);
+    userIdRef.current = userId;
+    isSubscribedRef.current = false;
     refreshUnreadCount();
 
     const channelName = `notifications-${userId}`;
+    console.log('🔔 [Realtime] Suscribiendo a canal:', channelName);
 
     const notificationsChannel = supabase
       .channel(channelName, {
@@ -87,12 +99,14 @@ export function SupabaseRealtimeProvider({ children }: { children: ReactNode }) 
           table: 'Notification'
         },
         async (payload) => {
+          console.log('📨 [Realtime] Evento recibido:', payload);
           if (payload.eventType !== 'INSERT') return;
 
           const newNotification = payload.new as any;
 
           if (newNotification.userId !== userId) return;
 
+          console.log('✅ [Realtime] Notificación para mi:', newNotification);
           if (!newNotification.isRead) {
             setHasNewNotifications(true);
             setUnreadCount(prev => prev + 1);
@@ -116,29 +130,50 @@ export function SupabaseRealtimeProvider({ children }: { children: ReactNode }) 
         }
       )
       .subscribe((status, err) => {
-        if (err) console.error('Error en suscripción:', err);
+        console.log('📡 [Realtime] Status cambio:', status, err);
+        if (err) console.error('❌ [Realtime] Error en suscripción:', err);
 
+        if (status === 'SUBSCRIBED') {
+          console.log('✅ [Realtime] Suscripción exitosa para', userId);
+          isSubscribedRef.current = true;
+          retryCountRef.current = 0;
+        }
         if (status === 'CLOSED' || status === 'CHANNEL_ERROR') {
-          setChannel(null);
-          setCurrentUserId(null);
+          console.error('❌ [Realtime] Canal cerrado con error');
+          isSubscribedRef.current = false;
+          channelRef.current = null;
+
+          // Intentar reconectar automáticamente (máximo 3 reintentos)
+          if (retryCountRef.current < 3) {
+            const delay = Math.pow(2, retryCountRef.current) * 1000; // 1s, 2s, 4s
+            console.log(`🔄 [Realtime] Reintentando en ${delay}ms... (intento ${retryCountRef.current + 1}/3)`);
+            setTimeout(() => {
+              retryCountRef.current++;
+              userIdRef.current = null; // Forzar re-suscripción
+            }, delay);
+          } else {
+            console.error('❌ [Realtime] Máximo de reintentos alcanzado');
+          }
         }
       });
 
-    setChannel(notificationsChannel);
+    channelRef.current = notificationsChannel;
 
     return () => {
-      if (channel) {
-        supabase.removeChannel(channel);
-        setChannel(null);
+      console.log('🧹 [Realtime] Cleanup - removiendo canal');
+      if (channelRef.current) {
+        supabase.removeChannel(channelRef.current);
+        channelRef.current = null;
       }
+      isSubscribedRef.current = false;
     };
-  }, [session?.user?.email]);
+  }, [session?.user?.email]); // Solo depender de session?.user?.email
 
   const unsubscribe = () => {
-    if (channel) {
-      supabase.removeChannel(channel);
-      setChannel(null);
-      setCurrentUserId(null);
+    if (channelRef.current) {
+      supabase.removeChannel(channelRef.current);
+      channelRef.current = null;
+      userIdRef.current = null;
     }
   };
 

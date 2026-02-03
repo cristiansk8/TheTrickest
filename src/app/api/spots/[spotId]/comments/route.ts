@@ -114,6 +114,7 @@ export async function POST(
     }
 
     // Crear comentario
+    console.log('📝 Creando comentario...', { spotId, userEmail, parentCommentId });
     const comment = await prisma.spotComment.create({
       data: {
         spotId,
@@ -131,6 +132,8 @@ export async function POST(
         }
       }
     });
+    console.log('✅ Comentario creado:', comment.id);
+    console.log('🔍 parentCommentId:', parentCommentId, '¿Es null?', parentCommentId === null);
 
     // Si es una respuesta y el autor no es el mismo usuario, crear notificación
     if (parentComment && parentComment.userId !== userEmail) {
@@ -151,6 +154,79 @@ export async function POST(
           }
         }
       });
+    }
+
+    // Si es un comentario principal (no respuesta), notificar al autor del spot y otros comentaristas
+    if (parentCommentId === null || parentCommentId === undefined) {
+      console.log('🔔 Creando notificaciones para comentario principal...');
+      console.log('📍 Spot:', spot.id, spot.name);
+      console.log('👤 Autor del comentario:', userEmail);
+      console.log('👤 Autor del spot:', spot.createdBy);
+
+      // Obtener emails únicos: autor del spot + usuarios que comentaron
+      const otherCommenters = await prisma.spotComment.findMany({
+        where: {
+          spotId,
+          userId: { not: userEmail }
+        },
+        select: { userId: true },
+        distinct: ['userId']
+      });
+
+      console.log('💬 Otros comentaristas encontrados:', otherCommenters.length);
+      console.log('📧 Emails:', otherCommenters.map(c => c.userId));
+
+      // Crear set de emails únicos (autor del spot + comentaristas, excluyendo al autor del comentario)
+      const interestedEmails = new Set<string>();
+
+      // Agregar autor del spot si es diferente al comentarista
+      if (spot.createdBy !== userEmail) {
+        interestedEmails.add(spot.createdBy);
+        console.log('✅ Agregando autor del spot:', spot.createdBy);
+      } else {
+        console.log('⚠️ El autor del comentario es el mismo que el autor del spot, no se notifica');
+      }
+
+      // Agregar otros comentaristas
+      otherCommenters.forEach(record => {
+        if (record.userId !== userEmail) {
+          interestedEmails.add(record.userId);
+          console.log('✅ Agregando comentarista:', record.userId);
+        }
+      });
+
+      console.log('📊 Total de usuarios a notificar:', interestedEmails.size);
+      console.log('📧 Emails finales:', Array.from(interestedEmails));
+
+      // Crear notificaciones para cada usuario interesado
+      if (interestedEmails.size > 0) {
+        try {
+          const notifications = await prisma.notification.createMany({
+            data: Array.from(interestedEmails).map(email => ({
+              userId: email,
+              type: 'new_spot_comment',
+              title: 'Nuevo comentario en un spot que sigues',
+              message: `${comment.user?.name || 'Alguien'} comentó en ${spot.name}`,
+              link: `/spots?spot=${spot.id}&comment=${comment.id}`,
+              metadata: {
+                spotId: spot.id,
+                spotName: spot.name,
+                commentId: comment.id,
+                commenterName: comment.user?.name,
+                commentContent: trimmedContent.substring(0, 100)
+              }
+            }))
+          });
+
+          console.log(`✅ Notificaciones creadas: ${notifications.count} usuarios notificados`);
+        } catch (error) {
+          console.error('❌ Error creando notificaciones:', error);
+        }
+      } else {
+        console.log('⚠️ No hay usuarios a notificar');
+      }
+    } else {
+      console.log('💬 Es una respuesta (parentCommentId:', parentCommentId, '), no se notifica a interesados del spot');
     }
 
     // Actualizar lastActivityAt del spot

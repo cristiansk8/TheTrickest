@@ -27,9 +27,10 @@ interface Comment {
 interface SpotCommentsProps {
   spotId: number;
   maxHeight?: string;
+  highlightCommentId?: number | null;
 }
 
-export default function SpotComments({ spotId, maxHeight = '400px' }: SpotCommentsProps) {
+export default function SpotComments({ spotId, maxHeight = '400px', highlightCommentId }: SpotCommentsProps) {
   const [comments, setComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -96,6 +97,79 @@ export default function SpotComments({ spotId, maxHeight = '400px' }: SpotCommen
   useEffect(() => {
     fetchComments(false);
   }, [spotId, sort]);
+
+  // Scroll al comentario específico cuando terminan de cargar
+  useEffect(() => {
+    if (!highlightCommentId || loading) return;
+
+    console.log('🔍 SpotComments: Buscando comentario', highlightCommentId);
+
+    const scrollToComment = () => {
+      const targetElement = document.getElementById(`comment-${highlightCommentId}`);
+      console.log('📍 Elemento encontrado:', targetElement);
+
+      if (targetElement) {
+        console.log('✅ Haciendo scroll al comentario');
+        targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        targetElement.classList.add('ring-4', 'ring-green-400', 'ring-opacity-75');
+        setTimeout(() => {
+          targetElement.classList.remove('ring-4', 'ring-green-400', 'ring-opacity-75');
+        }, 2000);
+        return true;
+      }
+      return false;
+    };
+
+    // Intentar scroll inmediatamente
+    if (scrollToComment()) {
+      console.log('✅ Scroll inmediato exitoso');
+      return;
+    }
+
+    // Si no se encontró, expandir hilos y reintentar
+    setTimeout(() => {
+      console.log('⏳ Expandiendo hilos para buscar respuesta...');
+
+      // Buscar botones "Ver X respuestas"
+      const allButtons = Array.from(document.querySelectorAll('button'));
+      const threadButtons = allButtons.filter(btn =>
+        btn.textContent?.includes('Ver ') && btn.textContent?.includes(' respuesta')
+      );
+
+      console.log('📂 Hilos encontrados:', threadButtons.length);
+
+      // Expandir todos los hilos
+      threadButtons.forEach((btn, i) => {
+        console.log(`📂 Expandiendo hilo ${i + 1}...`);
+        (btn as HTMLButtonElement).click();
+      });
+
+      // Intentar scroll varias veces después de expandir
+      let attempts = 0;
+      const maxAttempts = 10; // Aumentar a 10 intentos
+
+      const tryScroll = () => {
+        attempts++;
+        console.log(`🔎 Intento ${attempts}/${maxAttempts}`);
+
+        if (scrollToComment()) {
+          console.log('✅ Scroll exitoso');
+          return;
+        }
+
+        if (attempts < maxAttempts) {
+          setTimeout(tryScroll, 800); // Aumentar a 800ms entre intentos
+        } else {
+          console.log('❌ No se encontró el comentario después de expandir todos los hilos');
+          const allComments = document.querySelectorAll('[id^="comment-"]');
+          console.log('📋 Comentarios disponibles:', Array.from(allComments).map(c => c.id));
+          console.log('❌ El comentario', highlightCommentId, 'no existe en ningún hilo');
+        }
+      };
+
+      setTimeout(tryScroll, 1000); // Esperar 1 segundo antes del primer intento
+    }, 1000);
+  }, [highlightCommentId, loading]);
 
   const handleCommentCreated = () => {
     // Reset to first page and refetch
@@ -184,6 +258,7 @@ export default function SpotComments({ spotId, maxHeight = '400px' }: SpotCommen
               spotId={spotId}
               userVote={comment.userVote}
               replyCount={comment.replyCount}
+              highlightReplyId={highlightCommentId}
               onDelete={handleCommentCreated}
               onVoteChange={handleCommentCreated}
             />

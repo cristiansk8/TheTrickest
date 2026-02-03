@@ -26,6 +26,7 @@ interface CommentItemProps {
   userVote?: 'like' | 'dislike' | null; // El voto del usuario actual
   replyCount?: number; // Número de respuestas
   isReply?: boolean; // Si es una respuesta a otro comentario
+  highlightReplyId?: number | null; // Reply to highlight in thread
   onDelete?: () => void;
   onEdit?: () => void;
   onVoteChange?: () => void; // Callback para actualizar comentarios
@@ -44,6 +45,7 @@ export default function CommentItem({
   userVote,
   replyCount = 0,
   isReply = false,
+  highlightReplyId,
   onDelete,
   onEdit,
   onVoteChange,
@@ -199,7 +201,10 @@ export default function CommentItem({
   };
 
   return (
-    <div className={`bg-slate-800 rounded-lg p-3 border-2 ${isPinned ? 'border-purple-500' : 'border-slate-700'} ${isOwner ? 'ring-1 ring-purple-500/30' : ''}`}>
+    <div
+      id={`comment-${id}`}
+      className={`bg-slate-800 rounded-lg p-3 border-2 ${isPinned ? 'border-purple-500' : 'border-slate-700'} ${isOwner ? 'ring-1 ring-purple-500/30' : ''}`}
+    >
       {/* Header: Author + Actions */}
       <div className="flex items-start justify-between mb-2">
         <div className="flex items-center gap-2">
@@ -344,6 +349,7 @@ export default function CommentItem({
           spotId={spotId}
           commentId={id}
           replyCount={replyCount}
+          highlightReplyId={highlightReplyId}
         />
       )}
     </div>

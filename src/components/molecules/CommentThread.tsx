@@ -26,14 +26,23 @@ interface CommentThreadProps {
   spotId: number;
   commentId: number;
   replyCount: number;
+  highlightReplyId?: number | null; // NEW: Reply to highlight
 }
 
-export default function CommentThread({ spotId, commentId, replyCount }: CommentThreadProps) {
+export default function CommentThread({ spotId, commentId, replyCount, highlightReplyId }: CommentThreadProps) {
   const [replies, setReplies] = useState<Reply[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [total, setTotal] = useState(replyCount);
+
+  // Auto-expandir si hay un reply para destacar
+  useEffect(() => {
+    if (highlightReplyId && !isExpanded && !loading) {
+      console.log('🔍 CommentThread: Auto-expandiendo para destacar reply', highlightReplyId);
+      fetchReplies();
+    }
+  }, [highlightReplyId]);
 
   const toggleReplies = () => {
     if (isExpanded) {
@@ -50,8 +59,10 @@ export default function CommentThread({ spotId, commentId, replyCount }: Comment
       setLoading(true);
       setError(null);
 
+      // Si hay un reply para destacar, cargar TODAS las respuestas (máximo 50)
+      const limit = highlightReplyId ? 50 : 10;
       const response = await fetch(
-        `/api/spots/${spotId}/comments/${commentId}/replies?limit=10&offset=0`
+        `/api/spots/${spotId}/comments/${commentId}/replies?limit=${limit}&offset=0`
       );
 
       if (!response.ok) {

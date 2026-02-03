@@ -7,6 +7,7 @@ import { useSession } from 'next-auth/react';
 import SigninButton from './SigninButton';
 import LocationToggle from './LocationToggle';
 import { useRealtime } from '@/providers/SupabaseRealtimeProvider';
+import SpotModal from '@/components/organisms/SpotModal';
 
 interface UserScore {
   totalScore: number;
@@ -32,6 +33,9 @@ const Appbar = () => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(false);
   const [userScore, setUserScore] = useState<UserScore | null>(null);
+  const [showSpotModal, setShowSpotModal] = useState(false);
+  const [modalSpotId, setModalSpotId] = useState<number | null>(null);
+  const [modalCommentId, setModalCommentId] = useState<number | null>(null);
 
 
   // Fetch user score and photo
@@ -114,6 +118,26 @@ const Appbar = () => {
       // Refrescar contador desde el provider
       await refreshUnreadCount();
 
+      // Si es comentario, abrir modal
+      if (notification.type === 'comment_reply' || notification.type === 'comment_mention') {
+        console.log('🔔 Notificación de comentario:', notification);
+        console.log('📦 Metadata:', notification.metadata);
+
+        const spotId = notification.metadata?.spotId;
+        const commentId = notification.metadata?.commentId;
+
+        console.log('✅ Datos extraídos:', { spotId, commentId });
+
+        if (spotId) {
+          console.log('🚀 Abriendo modal con spotId:', spotId, 'commentId:', commentId);
+          setModalSpotId(spotId);
+          setModalCommentId(commentId || null);
+          setShowSpotModal(true);
+          setShowNotifications(false);
+          return;
+        }
+      }
+
       // Redirigir si tiene link
       if (notification.link) {
         window.location.href = notification.link;
@@ -165,6 +189,10 @@ const Appbar = () => {
         return '🎉';
       case 'team_accepted':
         return '🎊';
+      case 'comment_reply':
+        return '💬';
+      case 'comment_mention':
+        return '💬';
       default:
         return '📬';
     }
@@ -316,6 +344,18 @@ const Appbar = () => {
         {/* Botón de Votación Comunitaria */}
 
       </div>
+
+      {/* Modal de Spot con Comentarios */}
+      <SpotModal
+        isOpen={showSpotModal}
+        spotId={modalSpotId}
+        commentId={modalCommentId}
+        onClose={() => {
+          setShowSpotModal(false);
+          setModalSpotId(null);
+          setModalCommentId(null);
+        }}
+      />
     </header>
   );
 };
