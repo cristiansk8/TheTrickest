@@ -1,11 +1,12 @@
 "use client";
 
-import { Vote, Bell } from 'lucide-react';
+import { Bell } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import SigninButton from './SigninButton';
 import LocationToggle from './LocationToggle';
+import { useRealtime } from '@/providers/SupabaseRealtimeProvider';
 
 interface UserScore {
   totalScore: number;
@@ -26,11 +27,12 @@ interface Notification {
 
 const Appbar = () => {
   const { data: session } = useSession();
-  const [notificationsCount, setNotificationsCount] = useState(0);
+  const { unreadCount, markNotificationsSeen, refreshUnreadCount } = useRealtime();
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(false);
   const [userScore, setUserScore] = useState<UserScore | null>(null);
+
 
   // Fetch user score and photo
   useEffect(() => {
@@ -55,28 +57,26 @@ const Appbar = () => {
     fetchUserScore();
   }, [session?.user?.email]);
 
-  // Fetch notifications
-  useEffect(() => {
+  // Fetch notifications on mount and when opening dropdown
+  const fetchNotifications = async () => {
     if (!session?.user?.email) return;
 
-    const fetchNotifications = async () => {
-      try {
-        const res = await fetch('/api/notifications');
-        if (res.ok) {
-          const data = await res.json();
-          setNotifications(data.notifications || []);
-          setNotificationsCount(data.unreadCount || 0);
-        }
-      } catch (err) {
-        console.error('Error fetching notifications:', err);
+    try {
+      const res = await fetch('/api/notifications?limit=10');
+      if (res.ok) {
+        const data = await res.json();
+        setNotifications(data.data?.notifications || []);
       }
-    };
+    } catch (err) {
+      console.error('Error fetching notifications:', err);
+    }
+  };
 
+  // Fetch notifications when session changes
+  useEffect(() => {
     fetchNotifications();
-    // Refresh every 30 seconds
-    const interval = setInterval(fetchNotifications, 30000);
-    return () => clearInterval(interval);
-  }, [session]);
+  }, [session?.user?.email]);
+
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -97,15 +97,22 @@ const Appbar = () => {
     setLoading(true);
     try {
       // Marcar como leída
-      await fetch(`/api/notifications/${notification.id}/read`, {
-        method: 'POST',
+      await fetch('/api/notifications', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          markAll: false,
+          notificationIds: [notification.id]
+        })
       });
 
       // Actualizar estado local
       setNotifications(prev =>
         prev.map(n => n.id === notification.id ? { ...n, isRead: true } : n)
       );
-      setNotificationsCount(prev => Math.max(0, prev - 1));
+
+      // Refrescar contador desde el provider
+      await refreshUnreadCount();
 
       // Redirigir si tiene link
       if (notification.link) {
@@ -121,13 +128,20 @@ const Appbar = () => {
   const handleMarkAllAsRead = async () => {
     setLoading(true);
     try {
-      await fetch('/api/notifications/read-all', {
-        method: 'POST',
+      await fetch('/api/notifications', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          markAll: true,
+          notificationIds: []
+        })
       });
 
       // Actualizar estado local
       setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
-      setNotificationsCount(0);
+
+      // Refrescar contador desde el provider
+      await refreshUnreadCount();
     } catch (err) {
       console.error('Error:', err);
     } finally {
@@ -208,15 +222,23 @@ const Appbar = () => {
         {session?.user?.email && (
           <div className="relative notifications-container">
             <button
-              onClick={() => setShowNotifications(!showNotifications)}
-              className="group relative flex items-center justify-center w-10 h-10 md:w-12 md:h-12 bg-green-600/80 hover:bg-green-500/90 text-white font-bold rounded-lg shadow-lg hover:shadow-green-500/50 transition-all transform hover:scale-105 border-2 border-green-300 backdrop-blur-sm"
+              onClick={async () => {
+                const willOpen = !showNotifications;
+                setShowNotifications(!showNotifications);
+
+                if (willOpen) {
+                  await fetchNotifications();
+                  markNotificationsSeen();
+                }
+              }}
+              className="group relative flex items-center justify-center w-10 h-10 md:w-12 md:h-12 text-white font-bold rounded-lg shadow-lg transition-all transform hover:scale-105 border-2 backdrop-blur-sm bg-green-600/80 hover:bg-green-500/90 border-green-300 hover:shadow-green-500/50"
             >
               <Bell className="w-5 h-5 md:w-6 md:h-6" />
 
               {/* Badge de notificaciones */}
-              {notificationsCount > 0 && (
+              {unreadCount > 0 && (
                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center animate-bounce">
-                  {notificationsCount}
+                  {unreadCount > 9 ? '9+' : unreadCount}
                 </span>
               )}
             </button>
@@ -228,7 +250,7 @@ const Appbar = () => {
                   <h3 className="text-white font-black uppercase text-lg">
                     🔔 Notificaciones
                   </h3>
-                  {notificationsCount > 0 && (
+                  {unreadCount > 0 && (
                     <button
                       onClick={handleMarkAllAsRead}
                       disabled={loading}

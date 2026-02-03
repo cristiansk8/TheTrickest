@@ -134,11 +134,7 @@ export default function LocationToggle() {
       onClick={handleToggle}
       disabled={loading}
       title={showOnMap ? 'Visible en el mapa - Click para ocultar' : 'Aparecer en el mapa - Click para mostrar'}
-      className={`group relative flex items-center justify-center w-10 h-10 md:w-12 md:h-12 font-bold rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 border-2 disabled:opacity-50 disabled:cursor-not-allowed ${
-        showOnMap
-          ? 'bg-yellow-500/90 hover:bg-yellow-400 text-white shadow-yellow-500/30 border-yellow-400'
-          : 'bg-slate-700/80 hover:bg-slate-600/80 text-slate-300 border-slate-500'
-      }`}
+      className="group relative flex items-center justify-center w-10 h-10 md:w-12 md:h-12 text-white font-bold rounded-lg shadow-lg transition-all transform hover:scale-105 border-2 disabled:opacity-50 disabled:cursor-not-allowed bg-green-600/80 hover:bg-green-500/90 border-green-300 hover:shadow-green-500/50"
     >
       <span className="text-lg md:text-xl transition-transform duration-300">
         {loading ? (
