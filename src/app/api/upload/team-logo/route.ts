@@ -9,7 +9,10 @@ export async function POST(request: Request) {
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-      return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
+      return NextResponse.json(
+        { error: 'No autenticado' },
+        { status: 401 }
+      );
     }
 
     const formData = await request.formData();
@@ -44,7 +47,7 @@ export async function POST(request: Request) {
     // Generar nombre único para el archivo
     const timestamp = Date.now();
     const originalName = file.name.replace(/\s/g, '_');
-    const fileName = `profile-photos/${session.user.email.replace('@', '_')}_${timestamp}_${originalName}`;
+    const fileName = `team-logos/${session.user.email.replace('@', '_')}_${timestamp}_${originalName}`;
 
     // Subir a Supabase Storage
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -79,7 +82,7 @@ export async function POST(request: Request) {
         filename: fileName,
       });
       return NextResponse.json(
-        { error: 'Error al subir la imagen a Supabase' },
+        { error: 'Error al subir el logo a Supabase' },
         { status: 500 }
       );
     }
@@ -87,15 +90,15 @@ export async function POST(request: Request) {
     // Obtener URL pública
     const publicUrl = `${supabaseUrl}/storage/v1/object/public/trickest-spots/${fileName}`;
 
-    console.log('✅ Foto de perfil subida exitosamente:', publicUrl);
+    console.log('✅ Logo subido exitosamente:', publicUrl);
 
     return NextResponse.json({
       success: true,
       url: publicUrl,
-      message: 'Imagen subida exitosamente',
+      message: 'Logo subido exitosamente',
     });
   } catch (error) {
-    console.error('Error al subir imagen:', error);
+    console.error('Error al subir logo:', error);
     return NextResponse.json(
       { error: 'Error al procesar la imagen' },
       { status: 500 }
