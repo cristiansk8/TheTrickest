@@ -196,7 +196,7 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
             type="button"
             onClick={() => signIn('google')}
             disabled={isLoading}
-            className="w-full py-4 bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 text-white font-black uppercase tracking-wider text-lg rounded-lg border-4 border-purple-400 shadow-lg shadow-purple-500/50 hover:shadow-purple-400/70 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-4 bg-purple-600 hover:bg-purple-700 text-white font-black uppercase tracking-wider text-lg rounded-lg border-4 border-purple-400 shadow-lg shadow-purple-500/50 hover:shadow-purple-400/70 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             🔐 REGISTRARME CON GOOGLE
           </button>

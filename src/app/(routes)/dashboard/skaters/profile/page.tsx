@@ -2,7 +2,7 @@
 
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import SkateSetupPage from './dream_setup';
 import GeneralInfoForm from './general_info_form';
 
@@ -15,6 +15,7 @@ export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState<'general' | 'setup' | 'social'>(
     'general'
   ); // Tab activo
+  const socialFormRef = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState({
     facebook: '',
     instagram: '',
@@ -103,6 +104,22 @@ export default function ProfilePage() {
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  // Shortcut F2 para guardar formulario de redes sociales (estilo videojuego)
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      // Solo activar cuando estamos en la tab de social y el formulario está visible
+      if (e.key === 'F2' && activeTab === 'social') {
+        e.preventDefault();
+        if (socialFormRef.current && !loading) {
+          socialFormRef.current.requestSubmit();
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [loading, activeTab]);
 
   // Cerrar menú al hacer clic fuera
   useEffect(() => {
@@ -406,8 +423,9 @@ export default function ProfilePage() {
                 </h2>
 
                 <form
+                  ref={socialFormRef}
                   onSubmit={handleSubmit}
-                  className="space-y-4 md:space-y-6"
+                  className="space-y-4 md:space-y-6 pb-24"
                 >
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                     {/* Facebook */}
@@ -474,18 +492,68 @@ export default function ProfilePage() {
                       />
                     </div>
                   </div>
-
-                  {/* Botón de guardar estilo arcade */}
-                  <div className="flex justify-center mt-8">
-                    <button
-                      className="bg-green-500 hover:bg-green-600 text-white font-black py-4 px-12 rounded-lg border-4 border-white uppercase tracking-wider text-lg shadow-2xl transform hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                      type="submit"
-                      disabled={loading}
-                    >
-                      {loading ? '⏳ GUARDANDO...' : '💾 GUARDAR'}
-                    </button>
-                  </div>
                 </form>
+
+                {/* Botón flotante de guardar estilo videojuego (solo para social) */}
+                {activeTab === 'social' && (
+                  <div className="fixed bottom-6 right-6 z-50 flex flex-col items-center gap-2">
+                    {/* Botón de guardar */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (socialFormRef.current && !loading) {
+                          socialFormRef.current.requestSubmit();
+                        }
+                      }}
+                      disabled={loading}
+                      className="relative group"
+                    >
+                      {/* Efecto de pulso */}
+                      <div className="absolute inset-0 bg-green-500 rounded-full animate-ping opacity-20"></div>
+
+                      {/* Botón principal */}
+                      <div className="relative bg-green-500 hover:bg-green-600 border-4 border-white rounded-full p-4 shadow-2xl shadow-green-500/50 transform hover:scale-110 transition-all duration-200">
+                        {loading ? (
+                          <div className="w-8 h-8 flex items-center justify-center">
+                            <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-white"></div>
+                          </div>
+                        ) : (
+                          // Floppy disk detallado
+                          <svg
+                            className="w-8 h-8 text-white"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            {/* Disco externo */}
+                            <rect x="4" y="4" width="16" height="16" rx="2" fill="currentColor" fillOpacity="0.2" />
+                            {/* Etiqueta del disco */}
+                            <path d="M4 16h16" stroke="currentColor" strokeWidth="2" />
+                            {/* Parte metálica superior */}
+                            <rect x="8" y="4" width="8" height="8" fill="currentColor" />
+                            {/* Línea de la etiqueta */}
+                            <line x1="6" y1="18" x2="18" y2="18" stroke="currentColor" strokeWidth="1.5" />
+                            {/* Ranura de protección */}
+                            <rect x="10" y="6" width="4" height="4" fill="white" fillOpacity="0.3" />
+                          </svg>
+                        )}
+                      </div>
+
+                      {/* Tooltip */}
+                      <div className="absolute bottom-full right-0 mb-3 px-3 py-1 bg-slate-900 text-white text-xs font-bold uppercase tracking-wider rounded border-2 border-green-400 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                        💾 Guardar (F2)
+                      </div>
+                    </button>
+
+                    {/* Texto SAVE pequeño */}
+                    <div className="text-green-300 text-[10px] font-black uppercase tracking-widest">
+                      SAVE
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>

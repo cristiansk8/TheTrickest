@@ -11,6 +11,7 @@ export default function SkateSetupPage() {
   const [selectedStance, setSelectedStance] = useState<'regular' | 'goofy'>(
     'regular'
   );
+  const formRef = useRef<HTMLFormElement>(null);
 
   const [formData, setFormData] = useState({
     madero: '',
@@ -98,6 +99,21 @@ export default function SkateSetupPage() {
     setIsClient(true);
   }, []);
 
+  // Shortcut F2 para guardar (estilo videojuego)
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (e.key === 'F2') {
+        e.preventDefault();
+        if (formRef.current && !loading) {
+          formRef.current.requestSubmit();
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [loading]);
+
   useEffect(() => {
     if (status !== 'authenticated' || !session?.user?.email) return;
 
@@ -180,16 +196,6 @@ export default function SkateSetupPage() {
           🛹 Dream Setup - Character Select Style
         </h2>
 
-        {notification && (
-          <div
-            className={`mb-6 p-4 rounded-lg border-4 border-white text-white font-bold text-center animate-pulse ${
-              notification.includes('Error') ? 'bg-red-500' : 'bg-green-500'
-            }`}
-          >
-            {notification}
-          </div>
-        )}
-
         {loading && (
           <div className="text-center py-4">
             <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-4 border-b-4 border-purple-400"></div>
@@ -197,7 +203,7 @@ export default function SkateSetupPage() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-8">
+        <form ref={formRef} onSubmit={handleSubmit} className="space-y-8 pb-24">
           {/* Stance Selector - THPS Style */}
           <div className="bg-gradient-to-br from-cyan-900/50 to-purple-900/50 border-4 border-cyan-500 rounded-xl p-6">
             <h3 className="text-xl font-black text-cyan-400 uppercase mb-4 text-center">
@@ -381,7 +387,7 @@ export default function SkateSetupPage() {
           {/* Botón guardar - THPS Style */}
           <div className="flex justify-center mt-8 pt-6 border-t-4 border-purple-500/30">
             <button
-              className="bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500 hover:from-purple-400 hover:via-pink-400 hover:to-blue-400 text-white font-black py-5 px-16 rounded-xl border-4 border-white uppercase tracking-wider text-xl shadow-2xl transform hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed animate-pulse"
+              className="bg-purple-500 hover:bg-purple-600 text-white font-black py-5 px-16 rounded-xl border-4 border-white uppercase tracking-wider text-xl shadow-2xl transform hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed animate-pulse"
               type="submit"
               disabled={loading}
             >
@@ -389,6 +395,65 @@ export default function SkateSetupPage() {
             </button>
           </div>
         </form>
+
+        {/* Botón flotante de guardar estilo videojuego */}
+        <div className="fixed bottom-6 right-6 z-50 flex flex-col items-center gap-2">
+          {/* Botón de guardar */}
+          <button
+            type="button"
+            onClick={() => {
+              if (formRef.current && !loading) {
+                formRef.current.requestSubmit();
+              }
+            }}
+            disabled={loading}
+            className="relative group"
+          >
+            {/* Efecto de pulso */}
+            <div className="absolute inset-0 bg-purple-500 rounded-full animate-ping opacity-20"></div>
+
+            {/* Botón principal */}
+            <div className="relative bg-purple-500 hover:bg-purple-600 border-4 border-white rounded-full p-4 shadow-2xl shadow-purple-500/50 transform hover:scale-110 transition-all duration-200">
+              {loading ? (
+                <div className="w-8 h-8 flex items-center justify-center">
+                  <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-white"></div>
+                </div>
+              ) : (
+                // Floppy disk detallado
+                <svg
+                  className="w-8 h-8 text-white"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  {/* Disco externo */}
+                  <rect x="4" y="4" width="16" height="16" rx="2" fill="currentColor" fillOpacity="0.2" />
+                  {/* Etiqueta del disco */}
+                  <path d="M4 16h16" stroke="currentColor" strokeWidth="2" />
+                  {/* Parte metálica superior */}
+                  <rect x="8" y="4" width="8" height="8" fill="currentColor" />
+                  {/* Línea de la etiqueta */}
+                  <line x1="6" y1="18" x2="18" y2="18" stroke="currentColor" strokeWidth="1.5" />
+                  {/* Ranura de protección */}
+                  <rect x="10" y="6" width="4" height="4" fill="white" fillOpacity="0.3" />
+                </svg>
+              )}
+            </div>
+
+            {/* Tooltip */}
+            <div className="absolute bottom-full right-0 mb-3 px-3 py-1 bg-slate-900 text-white text-xs font-bold uppercase tracking-wider rounded border-2 border-purple-400 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+              💾 Guardar (F2)
+            </div>
+          </button>
+
+          {/* Texto SAVE pequeño */}
+          <div className="text-purple-300 text-[10px] font-black uppercase tracking-widest">
+            SAVE
+          </div>
+        </div>
 
         {/* Preview del setup completo */}
         {(formData.madero ||

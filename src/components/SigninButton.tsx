@@ -48,15 +48,6 @@ const SigninButton = () => {
     }
   }, [session, hasPassword, status]);
 
-  // Función para hacer scroll a partners
-  const scrollToPartners = () => {
-    const partnersSection = document.getElementById('team');
-    if (partnersSection) {
-      partnersSection.scrollIntoView({ behavior: 'smooth' });
-    }
-    handleMenu();
-  };
-
   // Menú de opciones estilo PS2
   const menuOptions: MenuOption[] = session?.user
     ? [
@@ -69,18 +60,12 @@ const SigninButton = () => {
               : handleModal();
           },
         },
-        { label: '🤝 PARTNERS', action: scrollToPartners },
         {
           label: '❓ CÓMO JUGAR',
           action: () => {
             handleMenu();
             handleVideoModal();
           },
-        },
-        {
-          label: '👤 ' + (session.user.name?.toUpperCase() || 'JUGADOR'),
-          action: null,
-          isHeader: true,
         },
         {
           label: '🚪 SALIR',
@@ -113,7 +98,6 @@ const SigninButton = () => {
             setShowRegisterForm(true);
           },
         },
-        { label: '🤝 PARTNERS', action: scrollToPartners },
         {
           label: '❓ CÓMO JUGAR',
           action: () => {
