@@ -98,6 +98,11 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'ibb.co',
       },
+      // Supabase Storage - para logos de equipos y avatares
+      {
+        protocol: 'https',
+        hostname: '*.supabase.co',
+      },
     ],
   },
 

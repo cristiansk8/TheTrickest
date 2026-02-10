@@ -315,7 +315,7 @@ export const dataTrickets = [
     {
         id: 1,
         name: "cristian",
-        imgURl: "/tricket-1.jpg",        
+        imgURl: "/tricket-1.jpg",
         likes : 2,
         share:2,
         skills: ["U", "Steet"],
@@ -352,7 +352,7 @@ export const highScore = [
     {
         id: 1,
         name: "cristian",
-        imgURl: "/tricket-1.jpg",        
+        imgURl: "/tricket-1.jpg",
         likes : 2,
         share:2,
         skills: ["U", "Steet"],
@@ -394,4 +394,3 @@ export const howToWin = [
       caption: "Haz que tus amigos se sientan parte de la acción compartiendo tus sesiones de skate más épicas en línea. ¡Postea tus clips y fotos para inspirar a otros skaters y fortalecer la comunidad!"
     }
   ]
-  

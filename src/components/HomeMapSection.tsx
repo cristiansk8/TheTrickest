@@ -138,7 +138,7 @@ export default function HomeMapSection() {
               🗺️ EXPLORA SPOTS
             </span>
           </h2>
-          <p className="text-xl text-slate-300 font-bold max-w-2xl mx-auto">
+          <p className="text-slate-300 text-lg md:text-xl font-bold max-w-2xl mx-auto">
             Encuentra skateparks y skateshops en tu ciudad
           </p>
         </div>

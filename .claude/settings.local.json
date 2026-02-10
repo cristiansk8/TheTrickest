@@ -52,7 +52,9 @@
       "Bash(cmd //c \"rd /s /q .next 2>nul & echo done\")",
       "Bash(cmd:*)",
       "Bash(find:*)",
-      "Bash(git reset:*)"
+      "Bash(git reset:*)",
+      "Bash(git ls-tree:*)",
+      "Bash(timeout:*)"
     ],
     "deny": [],
     "ask": []

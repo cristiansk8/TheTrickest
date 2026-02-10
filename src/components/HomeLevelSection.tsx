@@ -160,7 +160,7 @@ export default function HomeLevelSection() {
           <h2 className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-pink-500 to-cyan-400 uppercase tracking-wider mb-4">
             🎮 CHALLENGES
           </h2>
-          <p className="text-cyan-300 text-lg md:text-xl max-w-3xl mx-auto">
+          <p className="text-cyan-300 text-lg md:text-xl font-bold max-w-3xl mx-auto">
             Completa los desafíos, sube tus videos y demuestra que eres el mejor skater
           </p>
         </div>
@@ -270,7 +270,7 @@ export default function HomeLevelSection() {
                         <div className="flex justify-center pt-4">
                           <button
                             onClick={() => window.open(currentLevel.demoVideoUrl, '_blank')}
-                            className="bg-cyan-500 hover:bg-cyan-600 text-white font-black py-3 px-8 rounded-lg border-4 border-white uppercase tracking-wider text-sm shadow-lg transform hover:scale-105 transition-all"
+                            className="bg-cyan-500 hover:bg-cyan-600 text-white font-black py-3 px-8 rounded-lg border-4 border-white uppercase tracking-wider text-base shadow-lg transform hover:scale-105 transition-all"
                           >
                             <div className="flex items-center gap-2">
                               <MdVideoLibrary size={20} />
