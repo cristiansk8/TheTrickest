@@ -26,7 +26,7 @@ const PageDetailEmployee = async ({ params }: Props) => {
                 <TransitionPage/>
                 {
                     <div
-                        className=" bg-surface-deep flex items-center justify-center min-h-screen text-ink-soft">
+                        className="bg-surface-deep flex items-center justify-center min-h-screen text-ink-soft">
                         <section
                             className="w-full max-w-[430px] relative bg-surface-panel/60 rounded-[6px] shadow-[0px_15px_39px_16px_rgba(52,45,91,0.65)] backdrop-blur-sm mx-2 overflow-hidden">
                             <Image
@@ -45,7 +45,7 @@ const PageDetailEmployee = async ({ params }: Props) => {
                                         key={id}
                                         href={src}
                                         target="_blank"
-                                        className="transition-all duration-300 hover:text-watermelon"
+                                        className="transition-all duration-300 hover:text-brand-pink"
                                     >
                                         {logo}
                                     </Link>

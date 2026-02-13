@@ -112,7 +112,7 @@ export default function SetPasswordModal({ isOpen, onClose, onSuccess }: SetPass
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-500 focus:border-accent-yellow-500 focus:outline-none transition-all"
+                className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-400 focus:border-accent-yellow-500 focus:outline-none transition-all"
                 placeholder="Mínimo 6 caracteres"
                 required
                 disabled={loading}
@@ -128,7 +128,7 @@ export default function SetPasswordModal({ isOpen, onClose, onSuccess }: SetPass
                 type="password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-500 focus:border-accent-yellow-500 focus:outline-none transition-all"
+                className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-400 focus:border-accent-yellow-500 focus:outline-none transition-all"
                 placeholder="Repite tu contraseña"
                 required
                 disabled={loading}

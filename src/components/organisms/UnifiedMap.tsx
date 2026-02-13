@@ -8,6 +8,15 @@ import { useSession } from 'next-auth/react';
 import { Heart } from 'lucide-react';
 import { TopCommentPreview } from '@/components/molecules';
 
+const THEME_COLORS = {
+  brandCyan: "#00D9FF",
+  brandPink: "#F35588",
+  brandPurple: "#A855F7",
+  brandPurpleDark: "#9333EA",
+  success: "#22C55E",
+  inkInverse: "#ffffff",
+};
+
 // Importar CSS de Leaflet solo en el cliente
 if (typeof window !== 'undefined') {
   require('leaflet/dist/leaflet.css');
@@ -44,8 +53,8 @@ const createSpotIcon = (photos: string[] | undefined, type: 'skatepark' | 'skate
 
   // Colores según tipo
   const borderColor = type === 'skatepark'
-    ? '#00D9FF' // Cyan para skateparks
-    : '#F35588'; // Pink para skateshops
+    ? THEME_COLORS.brandCyan // Cyan para skateparks
+    : THEME_COLORS.brandPink; // Pink para skateshops
 
   const glowColor = type === 'skatepark'
     ? 'rgba(0, 217, 255, 0.6)'
@@ -71,7 +80,7 @@ const createSpotIcon = (photos: string[] | undefined, type: 'skatepark' | 'skate
           border: 3px solid ${borderColor};
           box-shadow: 0 0 15px ${glowColor}, 0 2px 8px rgba(0, 0, 0, 0.3);
           overflow: hidden;
-          background: white;
+          background: ${THEME_COLORS.inkInverse};
           display: flex;
           align-items: center;
           justify-content: center;
@@ -210,7 +219,7 @@ export default function UnifiedMap({
           width: 40px;
           height: 40px;
           border-radius: 50%;
-          border: 3px solid #A855F7;
+          border: 3px solid ${THEME_COLORS.brandPurple};
           box-shadow: 0 0 10px rgba(168, 85, 247, 0.5), 0 2px 5px rgba(0, 0, 0, 0.3);
           overflow: hidden;
           background: white;
@@ -220,7 +229,7 @@ export default function UnifiedMap({
         .skater-avatar-ring:hover {
           transform: scale(1.1);
           box-shadow: 0 0 15px rgba(168, 85, 247, 0.7), 0 4px 8px rgba(0, 0, 0, 0.4);
-          border-color: #9333EA;
+          border-color: ${THEME_COLORS.brandPurpleDark};
         }
 
         .skater-avatar-image {
@@ -233,7 +242,7 @@ export default function UnifiedMap({
         .skater-avatar-fallback {
           width: 100%;
           height: 100%;
-          background: linear-gradient(135deg, #A855F7, #9333EA);
+          background: linear-gradient(135deg, ${THEME_COLORS.brandPurple}, ${THEME_COLORS.brandPurpleDark});
           display: flex;
           align-items: center;
           justify-content: center;
@@ -248,8 +257,8 @@ export default function UnifiedMap({
           right: -2px;
           width: 14px;
           height: 14px;
-          background: #22C55E;
-          border: 2px solid white;
+          background: ${THEME_COLORS.success};
+          border: 2px solid ${THEME_COLORS.inkInverse};
           border-radius: 50%;
           box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
         }

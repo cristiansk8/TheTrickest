@@ -370,7 +370,7 @@ export default function PublicProfilePage() {
                       className={`font-black uppercase tracking-wider border-4 border-white shadow-lg transform hover:scale-105 transition-all ${
                         following
                           ? 'bg-red-600 hover:bg-red-700 text-white'
-                          : 'bg-budGreen hover:bg-dartmouthGreen text-white'
+                          : 'bg-success-500 hover:bg-success-700 text-white'
                       }`}
                     >
                       {followLoading ? (
@@ -392,7 +392,7 @@ export default function PublicProfilePage() {
                   {/* Share Button */}
                   <Button
                     onClick={handleShare}
-                    className="bg-arcadePurple hover:bg-accent-purple-600 text-white font-black uppercase tracking-wider border-4 border-white shadow-lg transform hover:scale-105 transition-all"
+                    className="bg-accent-purple-500 hover:bg-accent-purple-600 text-white font-black uppercase tracking-wider border-4 border-white shadow-lg transform hover:scale-105 transition-all"
                   >
                     <FaShare className="mr-2" />
                     COMPARTIR

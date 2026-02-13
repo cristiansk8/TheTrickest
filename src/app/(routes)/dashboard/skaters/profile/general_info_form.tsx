@@ -184,7 +184,7 @@ export default function ProfilePage() {
               ✏️ Nombre
             </label>
             <input
-              className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-500 focus:border-accent-cyan-500 focus:outline-none transition-all group-hover:border-accent-cyan-400"
+              className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-400 focus:border-accent-cyan-500 focus:outline-none transition-all group-hover:border-accent-cyan-400"
               type="text"
               id="name"
               name="name"
@@ -203,7 +203,7 @@ export default function ProfilePage() {
               📱 Teléfono
             </label>
             <input
-              className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-500 focus:border-accent-cyan-500 focus:outline-none transition-all group-hover:border-accent-cyan-400"
+              className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-400 focus:border-accent-cyan-500 focus:outline-none transition-all group-hover:border-accent-cyan-400"
               type="text"
               id="phone"
               name="phone"
@@ -222,7 +222,7 @@ export default function ProfilePage() {
               🎂 Fecha de Nacimiento
             </label>
             <input
-              className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-500 focus:border-accent-cyan-500 focus:outline-none transition-all group-hover:border-accent-cyan-400"
+              className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-400 focus:border-accent-cyan-500 focus:outline-none transition-all group-hover:border-accent-cyan-400"
               type="date"
               id="birthdate"
               name="birthdate"
@@ -240,7 +240,7 @@ export default function ProfilePage() {
               🛹 Primera vez en Skate
             </label>
             <input
-              className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-500 focus:border-accent-cyan-500 focus:outline-none transition-all group-hover:border-accent-cyan-400"
+              className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-400 focus:border-accent-cyan-500 focus:outline-none transition-all group-hover:border-accent-cyan-400"
               type="date"
               id="birthskate"
               name="birthskate"
@@ -273,7 +273,7 @@ export default function ProfilePage() {
               🏴 Estado
             </label>
             <input
-              className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-500 focus:border-accent-cyan-500 focus:outline-none transition-all group-hover:border-accent-cyan-400"
+              className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-400 focus:border-accent-cyan-500 focus:outline-none transition-all group-hover:border-accent-cyan-400"
               type="text"
               id="estado"
               name="estado"

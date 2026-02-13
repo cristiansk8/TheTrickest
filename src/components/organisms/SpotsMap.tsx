@@ -6,10 +6,15 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'react-leaflet/dist/react-leaflet.css';
 
+const THEME_COLORS = {
+  brandCyan: "#00D9FF",
+  brandPink: "#F35588",
+};
+
 // Fix para los iconos de Leaflet en Next.js
 const iconSkatepark = new L.Icon({
   iconUrl: 'data:image/svg+xml;base64,' + btoa(`
-    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00D9FF" stroke-width="2">
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="${THEME_COLORS.brandCyan}" stroke-width="2">
       <path d="M12 2L2 7l10 5 10-5-10-5z"/>
       <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
     </svg>
@@ -21,7 +26,7 @@ const iconSkatepark = new L.Icon({
 
 const iconSkateshop = new L.Icon({
   iconUrl: 'data:image/svg+xml;base64,' + btoa(`
-    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#F35588" stroke-width="2">
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="${THEME_COLORS.brandPink}" stroke-width="2">
       <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
       <line x1="3" y1="6" x2="21" y2="6"/>
     </svg>

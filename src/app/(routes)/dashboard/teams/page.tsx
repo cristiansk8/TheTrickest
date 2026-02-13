@@ -494,7 +494,7 @@ export default function TeamsPage() {
                         </button>
                         <button
                           onClick={handleEditTeam}
-                          className="bg-arcadePurple hover:bg-accent-purple-700 text-white font-bold py-2 px-4 rounded-lg transition-colors"
+                          className="bg-accent-purple-500 hover:bg-accent-purple-700 text-white font-bold py-2 px-4 rounded-lg transition-colors"
                         >
                           ✏️ Editar
                         </button>
@@ -571,7 +571,7 @@ export default function TeamsPage() {
             <p className="text-neutral-400 text-lg mb-4">No perteneces a ningún equipo</p>
             <button
               onClick={() => setShowCreateModal(true)}
-              className="bg-arcadePurple hover:bg-accent-purple-600 text-white font-bold py-3 px-6 rounded-lg transition-all transform hover:scale-105 border-4 border-white shadow-lg shadow-arcadePurple/50"
+              className="bg-accent-purple-500 hover:bg-accent-purple-600 text-white font-bold py-3 px-6 rounded-lg transition-all transform hover:scale-105 border-4 border-white shadow-lg shadow-accent-purple-500/50"
             >
               + CREAR EQUIPO
             </button>
@@ -679,7 +679,7 @@ export default function TeamsPage() {
       {/* Create Team Modal */}
       {showCreateModal && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-          <div className="bg-neutral-900 border-4 border-arcadePurple rounded-lg p-6 w-full max-w-md">
+          <div className="bg-neutral-900 border-4 border-accent-purple-500 rounded-lg p-6 w-full max-w-md">
             <h2 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-purple-400 to-accent-pink-400 uppercase mb-6 text-center">
               ⚡ Crear Equipo
             </h2>
@@ -694,13 +694,13 @@ export default function TeamsPage() {
                   type="text"
                   value={newTeamName}
                   onChange={(e) => setNewTeamName(e.target.value)}
-                  className="w-full bg-neutral-800 border-2 border-neutral-600 rounded-lg px-4 py-3 text-white placeholder-neutral-500 focus:border-arcadePurple focus:outline-none transition-colors"
+                  className="w-full bg-neutral-800 border-2 border-neutral-600 rounded-lg px-4 py-3 text-white placeholder-neutral-400 focus:border-accent-purple-500 focus:outline-none transition-colors"
                   placeholder="Los Ollie Masters"
                   required
                   minLength={3}
                   maxLength={30}
                 />
-                <p className="text-neutral-500 text-xs mt-1">
+                <p className="text-neutral-300 text-xs mt-1">
                   Mínimo 3 caracteres. Espacios permitidos.
                 </p>
               </div>
@@ -714,10 +714,10 @@ export default function TeamsPage() {
                   type="url"
                   value={newTeamLogo}
                   onChange={(e) => setNewTeamLogo(e.target.value)}
-                  className="w-full bg-neutral-800 border-2 border-neutral-600 rounded-lg px-4 py-3 text-white placeholder-neutral-500 focus:border-arcadePurple focus:outline-none transition-colors"
+                  className="w-full bg-neutral-800 border-2 border-neutral-600 rounded-lg px-4 py-3 text-white placeholder-neutral-400 focus:border-accent-purple-500 focus:outline-none transition-colors"
                   placeholder="https://i.imgur.com/ejemplo.jpg"
                 />
-                <p className="text-neutral-500 text-xs mt-1">
+                <p className="text-neutral-300 text-xs mt-1">
                   URL directa de imagen (ej: Imgur, Cloudinary). No usar links de Facebook/Instagram, usa la URL directa de la imagen.
                 </p>
               </div>
@@ -752,12 +752,12 @@ export default function TeamsPage() {
                 <textarea
                   value={newTeamDescription}
                   onChange={(e) => setNewTeamDescription(e.target.value)}
-                  className="w-full bg-neutral-800 border-2 border-neutral-600 rounded-lg px-4 py-3 text-white placeholder-neutral-500 focus:border-arcadePurple focus:outline-none resize-none transition-colors"
+                  className="w-full bg-neutral-800 border-2 border-neutral-600 rounded-lg px-4 py-3 text-white placeholder-neutral-400 focus:border-accent-purple-500 focus:outline-none resize-none transition-colors"
                   placeholder="Somos un equipo de skaters apasionados que..."
                   rows={3}
                   maxLength={200}
                 />
-                <p className="text-neutral-500 text-xs mt-1 text-right">
+                <p className="text-neutral-300 text-xs mt-1 text-right">
                   {newTeamDescription.length}/200 caracteres
                 </p>
               </div>
@@ -779,7 +779,7 @@ export default function TeamsPage() {
                 <button
                   type="submit"
                   disabled={creating || !newTeamName.trim() || newTeamName.trim().length < 3}
-                  className="flex-1 bg-arcadePurple hover:bg-accent-purple-600 text-white font-bold py-3 px-4 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed border-4 border-white shadow-lg shadow-arcadePurple/50 uppercase"
+                  className="flex-1 bg-accent-purple-500 hover:bg-accent-purple-600 text-white font-bold py-3 px-4 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed border-4 border-white shadow-lg shadow-accent-purple-500/50 uppercase"
                 >
                   {creating ? '⏳ Creando...' : '✨ Crear'}
                 </button>
@@ -792,7 +792,7 @@ export default function TeamsPage() {
       {/* Edit Team Modal */}
       {showEditModal && myTeam && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-          <div className="bg-neutral-900 border-4 border-arcadePurple rounded-lg p-6 w-full max-w-md">
+          <div className="bg-neutral-900 border-4 border-accent-purple-500 rounded-lg p-6 w-full max-w-md">
             <h2 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-purple-400 to-accent-pink-400 uppercase mb-6 text-center">
               ✏️ Editar Equipo
             </h2>
@@ -807,7 +807,7 @@ export default function TeamsPage() {
                   type="text"
                   value={editTeamName}
                   onChange={(e) => setEditTeamName(e.target.value)}
-                  className="w-full bg-neutral-800 border-2 border-neutral-600 rounded-lg px-4 py-3 text-white placeholder-neutral-500 focus:border-arcadePurple focus:outline-none transition-colors"
+                  className="w-full bg-neutral-800 border-2 border-neutral-600 rounded-lg px-4 py-3 text-white placeholder-neutral-400 focus:border-accent-purple-500 focus:outline-none transition-colors"
                   placeholder="Los Ollie Masters"
                   minLength={3}
                   maxLength={30}
@@ -823,10 +823,10 @@ export default function TeamsPage() {
                   type="url"
                   value={editTeamLogo}
                   onChange={(e) => setEditTeamLogo(e.target.value)}
-                  className="w-full bg-neutral-800 border-2 border-neutral-600 rounded-lg px-4 py-3 text-white placeholder-neutral-500 focus:border-arcadePurple focus:outline-none transition-colors"
+                  className="w-full bg-neutral-800 border-2 border-neutral-600 rounded-lg px-4 py-3 text-white placeholder-neutral-400 focus:border-accent-purple-500 focus:outline-none transition-colors"
                   placeholder="https://i.imgur.com/ejemplo.jpg"
                 />
-                <p className="text-neutral-500 text-xs mt-1">
+                <p className="text-neutral-300 text-xs mt-1">
                   URL directa de imagen. Usa Imgur, Cloudinary, etc.
                 </p>
               </div>
@@ -861,12 +861,12 @@ export default function TeamsPage() {
                 <textarea
                   value={editTeamDescription}
                   onChange={(e) => setEditTeamDescription(e.target.value)}
-                  className="w-full bg-neutral-800 border-2 border-neutral-600 rounded-lg px-4 py-3 text-white placeholder-neutral-500 focus:border-arcadePurple focus:outline-none resize-none transition-colors"
+                  className="w-full bg-neutral-800 border-2 border-neutral-600 rounded-lg px-4 py-3 text-white placeholder-neutral-400 focus:border-accent-purple-500 focus:outline-none resize-none transition-colors"
                   placeholder="Somos un equipo de skaters apasionados que..."
                   rows={3}
                   maxLength={200}
                 />
-                <p className="text-neutral-500 text-xs mt-1 text-right">
+                <p className="text-neutral-300 text-xs mt-1 text-right">
                   {editTeamDescription.length}/200 caracteres
                 </p>
               </div>
@@ -883,7 +883,7 @@ export default function TeamsPage() {
                 <button
                   type="submit"
                   disabled={updating}
-                  className="flex-1 bg-arcadePurple hover:bg-accent-purple-600 text-white font-bold py-3 px-4 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed border-4 border-white shadow-lg shadow-arcadePurple/50 uppercase"
+                  className="flex-1 bg-accent-purple-500 hover:bg-accent-purple-600 text-white font-bold py-3 px-4 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed border-4 border-white shadow-lg shadow-accent-purple-500/50 uppercase"
                 >
                   {updating ? '⏳ Guardando...' : '💾 Guardar'}
                 </button>
@@ -928,11 +928,11 @@ export default function TeamsPage() {
                   onFocus={() => {
                     if (searchResults.length > 0) setShowSearchResults(true);
                   }}
-                  className="w-full bg-neutral-800 border-2 border-neutral-600 rounded-lg px-4 py-3 text-white placeholder-neutral-500 focus:border-green-500 focus:outline-none transition-colors"
+                  className="w-full bg-neutral-800 border-2 border-neutral-600 rounded-lg px-4 py-3 text-white placeholder-neutral-400 focus:border-green-500 focus:outline-none transition-colors"
                   placeholder="Nombre, email o username..."
                   autoComplete="off"
                 />
-                <p className="text-neutral-500 text-xs mt-1">
+                <p className="text-neutral-300 text-xs mt-1">
                   Escribe al menos 2 caracteres para buscar
                 </p>
 

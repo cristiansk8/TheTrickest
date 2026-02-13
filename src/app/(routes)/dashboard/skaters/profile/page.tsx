@@ -416,7 +416,7 @@ export default function ProfilePage() {
                         <span className="text-xl">📘</span> Facebook
                       </label>
                       <input
-                        className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-500 focus:border-accent-blue-500 focus:outline-none transition-all group-hover:border-accent-blue-400"
+                        className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-400 focus:border-accent-blue-500 focus:outline-none transition-all group-hover:border-accent-blue-400"
                         type="text"
                         id="facebook"
                         name="facebook"
@@ -432,7 +432,7 @@ export default function ProfilePage() {
                         <span className="text-xl">📷</span> Instagram
                       </label>
                       <input
-                        className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-500 focus:border-accent-pink-500 focus:outline-none transition-all group-hover:border-accent-pink-400"
+                        className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-400 focus:border-accent-pink-500 focus:outline-none transition-all group-hover:border-accent-pink-400"
                         type="text"
                         id="instagram"
                         name="instagram"
@@ -448,7 +448,7 @@ export default function ProfilePage() {
                         <span className="text-xl">🎵</span> TikTok
                       </label>
                       <input
-                        className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-500 focus:border-accent-teal-500 focus:outline-none transition-all group-hover:border-accent-teal-400"
+                        className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-400 focus:border-accent-teal-500 focus:outline-none transition-all group-hover:border-accent-teal-400"
                         type="text"
                         id="tiktok"
                         name="tiktok"
@@ -464,7 +464,7 @@ export default function ProfilePage() {
                         <span className="text-xl">𝕏</span> Twitter / X
                       </label>
                       <input
-                        className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-500 focus:border-accent-cyan-500 focus:outline-none transition-all group-hover:border-accent-cyan-400"
+                        className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-400 focus:border-accent-cyan-500 focus:outline-none transition-all group-hover:border-accent-cyan-400"
                         type="text"
                         id="twitter"
                         name="twitter"

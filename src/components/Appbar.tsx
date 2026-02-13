@@ -295,7 +295,7 @@ const Appbar = () => {
                       <p className="text-neutral-400">No tienes notificaciones</p>
                     </div>
                   ) : (
-                    <div className="divide-y divide-slate-700">
+                    <div className="divide-y divide-neutral-700">
                       {notifications.map((notification) => (
                         <button
                           key={notification.id}
