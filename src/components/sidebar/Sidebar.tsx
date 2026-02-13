@@ -189,9 +189,9 @@ export const Sidebar = () => {
       {/* Logo Header con estilo arcade */}
       <div className="p-4">
         <Link href="/">
-          <div className="bg-gradient-to-r from-cyan-500 to-purple-600 p-[3px] rounded-lg shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 transition-all cursor-pointer">
+          <div className="bg-cyan-500 p-[3px] rounded-lg shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 transition-all cursor-pointer">
             <div className="bg-slate-900 rounded-lg p-4">
-              <h1 className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 uppercase tracking-wider text-center">
+              <h1 className="text-xl font-black text-cyan-400 uppercase tracking-wider text-center">
                 🛹 TRICKEST
               </h1>
               <p className="text-cyan-400 text-xs text-center font-bold uppercase tracking-wider mt-1">
@@ -204,10 +204,10 @@ export const Sidebar = () => {
 
       {/* Score Card */}
       <div className="px-4 mb-4">
-        <div className="bg-gradient-to-r from-yellow-500 to-orange-500 p-[3px] rounded-lg">
+        <div className="bg-yellow-500 p-[3px] rounded-lg">
           <div className="bg-slate-900 rounded-lg p-3 text-center">
             <p className="text-slate-400 text-xs uppercase font-bold tracking-wider">Tu Score</p>
-            <p className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400">
+            <p className="text-3xl font-black text-yellow-400">
               {totalScore}
             </p>
           </div>
@@ -216,7 +216,7 @@ export const Sidebar = () => {
 
       {/* Perfil del usuario */}
       <div className="px-4 mb-6">
-        <div className="bg-gradient-to-r from-purple-500 to-pink-500 p-[3px] rounded-lg">
+        <div className="bg-purple-500 p-[3px] rounded-lg">
           <div className="bg-slate-900 rounded-lg p-4">
             <p className="text-slate-500 text-xs uppercase font-bold tracking-wider mb-2">
               Bienvenido
@@ -228,7 +228,6 @@ export const Sidebar = () => {
             ) : (
               <div className="flex items-center gap-3">
                 <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-full blur-sm"></div>
                   <Image
                     className="relative rounded-full w-12 h-12 border-2 border-white"
                     src={session?.user?.image || "/logo.png"}
@@ -265,7 +264,7 @@ export const Sidebar = () => {
       <div className="px-4 pb-6 mt-auto">
         <button
           onClick={() => signOut({ callbackUrl: '/' })}
-          className="w-full bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-400 hover:to-pink-400 p-[3px] rounded-lg shadow-lg shadow-red-500/30 hover:shadow-red-500/50 transition-all"
+          className="w-full bg-red-500 hover:bg-red-400 p-[3px] rounded-lg shadow-lg shadow-red-500/30 hover:shadow-red-500/50 transition-all"
         >
           <div className="bg-slate-900 rounded-lg px-4 py-3 flex items-center gap-3 hover:bg-slate-800 transition-all">
             <MdLogout size={24} className="text-red-400" />

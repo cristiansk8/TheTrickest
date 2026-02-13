@@ -4,7 +4,7 @@ import Appbar from "@/components/Appbar";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode; }) {
     return (
-        <div className="bg-slate-100 min-h-screen antialiased text-slate-300 selection:bg-blue-600 selection:text-white">
+        <div className="bg-slate-100 min-h-screen antialiased text-slate-300 selection:bg-blue-600 selection:text-white mt-20">
 
         <Providers>
           {/* Navbar sticky en la parte superior */}
