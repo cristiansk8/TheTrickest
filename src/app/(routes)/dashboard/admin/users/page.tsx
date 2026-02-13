@@ -94,16 +94,16 @@ export default function AdminUsersPage() {
   const getRoleIcon = (role: string) => {
     switch (role) {
       case 'admin': return <MdAdminPanelSettings size={20} className="text-red-400" />;
-      case 'judge': return <MdGavel size={20} className="text-yellow-400" />;
-      default: return <MdOutlineSkateboarding size={20} className="text-cyan-400" />;
+      case 'judge': return <MdGavel size={20} className="text-accent-yellow-400" />;
+      default: return <MdOutlineSkateboarding size={20} className="text-accent-cyan-400" />;
     }
   };
 
   const getRoleBadge = (role: string) => {
     const colors = {
-      admin: 'from-red-500 to-orange-500',
-      judge: 'from-yellow-500 to-amber-500',
-      skater: 'from-cyan-500 to-blue-500',
+      admin: 'from-red-500 to-accent-orange-500',
+      judge: 'from-accent-yellow-500 to-accent-amber-500',
+      skater: 'from-accent-cyan-500 to-accent-blue-500',
     };
 
     return (
@@ -117,16 +117,16 @@ export default function AdminUsersPage() {
     <div className="p-6 space-y-6">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 uppercase tracking-wider mb-2">
+        <h1 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-cyan-400 to-accent-purple-400 uppercase tracking-wider mb-2">
           👥 GESTIÓN DE USUARIOS
         </h1>
-        <p className="text-slate-600 text-lg">
+        <p className="text-neutral-600 text-lg">
           Administra roles y permisos de usuarios
         </p>
       </div>
 
       {/* Filters */}
-      <Card className="bg-slate-900 border-4 border-slate-700">
+      <Card className="bg-neutral-900 border-4 border-neutral-700">
         <CardHeader>
           <h3 className="text-xl font-black text-white uppercase tracking-wider">
             🔍 Filtros
@@ -155,7 +155,7 @@ export default function AdminUsersPage() {
       </Card>
 
       {/* Users List */}
-      <Card className="bg-slate-900 border-4 border-slate-700">
+      <Card className="bg-neutral-900 border-4 border-neutral-700">
         <CardHeader>
           <h3 className="text-xl font-black text-white uppercase tracking-wider">
             👤 Usuarios ({pagination.total})
@@ -164,16 +164,16 @@ export default function AdminUsersPage() {
         <CardBody>
           {loading ? (
             <div className="flex justify-center py-8">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-400"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-accent-cyan-400"></div>
             </div>
           ) : (
             <div className="space-y-4">
               {users.map((user) => (
-                <div key={user.id} className="bg-gradient-to-r from-slate-800 to-slate-700 p-4 rounded-lg border border-slate-600">
+                <div key={user.id} className="bg-gradient-to-r from-neutral-800 to-neutral-700 p-4 rounded-lg border border-neutral-600">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
                       <div className="relative">
-                        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-full blur-sm"></div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 rounded-full blur-sm"></div>
                         <Image
                           className="relative rounded-full w-12 h-12 border-2 border-white"
                           src={user.photo || "/logo.png"}
@@ -184,7 +184,7 @@ export default function AdminUsersPage() {
                       </div>
                       <div>
                         <h4 className="text-white font-bold text-lg">{user.name || 'Sin nombre'}</h4>
-                        <p className="text-slate-400 text-sm">{user.email}</p>
+                        <p className="text-neutral-400 text-sm">{user.email}</p>
                         <div className="flex items-center gap-2 mt-1">
                           {getRoleIcon(user.role)}
                           {getRoleBadge(user.role)}
@@ -194,12 +194,12 @@ export default function AdminUsersPage() {
 
                     <div className="flex items-center gap-6">
                       <div className="text-center">
-                        <p className="text-slate-400 text-xs uppercase tracking-wider">Submissions</p>
-                        <p className="text-2xl font-black text-cyan-400">{user.totalSubmissions}</p>
+                        <p className="text-neutral-400 text-xs uppercase tracking-wider">Submissions</p>
+                        <p className="text-2xl font-black text-accent-cyan-400">{user.totalSubmissions}</p>
                       </div>
                       <div className="text-center">
-                        <p className="text-slate-400 text-xs uppercase tracking-wider">Score Total</p>
-                        <p className="text-2xl font-black text-yellow-400">{user.totalScore}</p>
+                        <p className="text-neutral-400 text-xs uppercase tracking-wider">Score Total</p>
+                        <p className="text-2xl font-black text-accent-yellow-400">{user.totalScore}</p>
                       </div>
 
                       <div className="flex flex-col gap-2">
@@ -222,7 +222,7 @@ export default function AdminUsersPage() {
                         </Select>
                         {updating === user.id && (
                           <div className="flex justify-center">
-                            <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-cyan-400"></div>
+                            <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-accent-cyan-400"></div>
                           </div>
                         )}
                       </div>
@@ -233,7 +233,7 @@ export default function AdminUsersPage() {
 
               {users.length === 0 && (
                 <div className="text-center py-8">
-                  <p className="text-slate-400 text-lg">No se encontraron usuarios</p>
+                  <p className="text-neutral-400 text-lg">No se encontraron usuarios</p>
                 </div>
               )}
             </div>
@@ -247,19 +247,19 @@ export default function AdminUsersPage() {
           <Button
             disabled={pagination.page <= 1}
             onClick={() => setFilters(prev => ({ ...prev, page: prev.page - 1 }))}
-            className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold"
+            className="bg-gradient-to-r from-accent-cyan-500 to-accent-blue-600 text-white font-bold"
           >
             Anterior
           </Button>
 
-          <span className="flex items-center px-4 py-2 bg-slate-800 text-white rounded-lg">
+          <span className="flex items-center px-4 py-2 bg-neutral-800 text-white rounded-lg">
             Página {pagination.page} de {pagination.pages}
           </span>
 
           <Button
             disabled={pagination.page >= pagination.pages}
             onClick={() => setFilters(prev => ({ ...prev, page: prev.page + 1 }))}
-            className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold"
+            className="bg-gradient-to-r from-accent-cyan-500 to-accent-blue-600 text-white font-bold"
           >
             Siguiente
           </Button>

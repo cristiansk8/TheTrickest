@@ -8,11 +8,11 @@ interface FloatingButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEleme
 }
 
 const colorStyles = {
-  cyan: 'bg-cyan-500 hover:bg-cyan-600',
-  purple: 'bg-purple-600 hover:bg-purple-700',
+  cyan: 'bg-accent-cyan-500 hover:bg-accent-cyan-600',
+  purple: 'bg-accent-purple-600 hover:bg-accent-purple-700',
   red: 'bg-red-500 hover:bg-red-600',
   green: 'bg-green-500 hover:bg-green-600',
-  yellow: 'bg-yellow-500 hover:bg-yellow-600',
+  yellow: 'bg-accent-yellow-500 hover:bg-accent-yellow-600',
 };
 
 export const FloatingButton: React.FC<FloatingButtonProps> = ({

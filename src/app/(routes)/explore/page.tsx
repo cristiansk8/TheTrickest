@@ -122,17 +122,17 @@ export default function ExplorePage() {
       case 'admin':
         return <MdAdminPanelSettings size={16} className="text-red-400" />;
       case 'judge':
-        return <MdGavel size={16} className="text-yellow-400" />;
+        return <MdGavel size={16} className="text-accent-yellow-400" />;
       default:
-        return <MdOutlineSkateboarding size={16} className="text-cyan-400" />;
+        return <MdOutlineSkateboarding size={16} className="text-accent-cyan-400" />;
     }
   };
 
   const getRoleBadge = (role: string) => {
     const colors = {
-      admin: 'from-red-500 to-orange-500',
-      judge: 'from-yellow-500 to-amber-500',
-      skater: 'from-cyan-500 to-blue-500',
+      admin: 'from-red-500 to-accent-orange-500',
+      judge: 'from-accent-yellow-500 to-accent-amber-500',
+      skater: 'from-accent-cyan-500 to-accent-blue-500',
     };
 
     return (
@@ -148,15 +148,15 @@ export default function ExplorePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4 md:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-900 via-accent-purple-900 to-neutral-900 p-4 md:p-8">
       {/* Header */}
       <div className="max-w-7xl mx-auto mb-8">
-        <div className="bg-gradient-to-r from-cyan-500 to-purple-600 p-1 rounded-lg shadow-2xl shadow-cyan-500/30">
-          <div className="bg-slate-900 rounded-lg p-6">
-            <h1 className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 uppercase tracking-wider text-center">
+        <div className="bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 p-1 rounded-lg shadow-2xl shadow-accent-cyan-500/30">
+          <div className="bg-neutral-900 rounded-lg p-6">
+            <h1 className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-cyan-400 to-accent-purple-400 uppercase tracking-wider text-center">
               🛹 EXPLORA SKATERS
             </h1>
-            <p className="text-cyan-300 mt-2 text-sm md:text-base text-center">
+            <p className="text-accent-cyan-300 mt-2 text-sm md:text-base text-center">
               Descubre la comunidad Trickest - encuentra skaters para seguir y
               conectar
             </p>
@@ -166,7 +166,7 @@ export default function ExplorePage() {
 
       {/* Filters */}
       <div className="max-w-7xl mx-auto mb-6">
-        <div className="bg-slate-800/50 rounded-lg p-4">
+        <div className="bg-neutral-800/50 rounded-lg p-4">
           <div className="flex flex-wrap gap-4 justify-center">
             <Select
               label="Ordenar por"
@@ -215,7 +215,7 @@ export default function ExplorePage() {
       {/* Skaters Grid */}
       {loading ? (
         <div className="flex justify-center py-12">
-          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-cyan-400"></div>
+          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-accent-cyan-400"></div>
         </div>
       ) : (
         <>
@@ -223,13 +223,13 @@ export default function ExplorePage() {
             {skaters.map((skater) => (
               <Card
                 key={skater.id}
-                className="bg-gradient-to-br from-slate-800 to-slate-700 border-4 border-slate-600 hover:border-cyan-500/50 transition-all hover:scale-105 shadow-lg hover:shadow-cyan-500/20"
+                className="bg-gradient-to-br from-neutral-800 to-neutral-700 border-4 border-neutral-600 hover:border-accent-cyan-500/50 transition-all hover:scale-105 shadow-lg hover:shadow-accent-cyan-500/20"
               >
                 <CardBody className="p-4">
                   {/* Header */}
                   <div className="flex items-center gap-3 mb-4">
                     <div className="relative">
-                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-full blur-sm"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 rounded-full blur-sm"></div>
                       {skater.photo &&
                       !imageErrors.has(skater.id) &&
                       !skater.photo.includes('example.com') ? (
@@ -242,7 +242,7 @@ export default function ExplorePage() {
                           onError={() => handleImageError(skater.id)}
                         />
                       ) : (
-                        <div className="relative w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500 to-purple-600 flex items-center justify-center text-white font-black text-lg border-2 border-white">
+                        <div className="relative w-12 h-12 rounded-full bg-gradient-to-br from-accent-cyan-500 to-accent-purple-600 flex items-center justify-center text-white font-black text-lg border-2 border-white">
                           {skater.name?.charAt(0).toUpperCase() || '?'}
                         </div>
                       )}
@@ -260,14 +260,14 @@ export default function ExplorePage() {
                   {/* Location & Team */}
                   <div className="space-y-2 mb-4">
                     {skater.location && (
-                      <div className="flex items-center gap-2 text-slate-300 text-sm">
-                        <MdLocationOn className="text-cyan-400" />
+                      <div className="flex items-center gap-2 text-neutral-300 text-sm">
+                        <MdLocationOn className="text-accent-cyan-400" />
                         <span className="truncate">{skater.location}</span>
                       </div>
                     )}
                     {skater.team && (
-                      <div className="flex items-center gap-2 text-slate-300 text-sm">
-                        <MdGroups className="text-purple-400" />
+                      <div className="flex items-center gap-2 text-neutral-300 text-sm">
+                        <MdGroups className="text-accent-purple-400" />
                         <span className="truncate">{skater.team.name}</span>
                       </div>
                     )}
@@ -276,32 +276,32 @@ export default function ExplorePage() {
                   {/* Stats */}
                   <div className="grid grid-cols-2 gap-3 mb-4">
                     <div className="text-center">
-                      <p className="text-cyan-400 font-bold text-lg">
+                      <p className="text-accent-cyan-400 font-bold text-lg">
                         {skater.stats.totalScore}
                       </p>
-                      <p className="text-slate-400 text-xs uppercase">Score</p>
+                      <p className="text-neutral-400 text-xs uppercase">Score</p>
                     </div>
                     <div className="text-center">
                       <p className="text-green-400 font-bold text-lg">
                         {skater.stats.approvedSubmissions}
                       </p>
-                      <p className="text-slate-400 text-xs uppercase">Trucos</p>
+                      <p className="text-neutral-400 text-xs uppercase">Trucos</p>
                     </div>
                   </div>
 
                   {/* Social Stats */}
                   <div className="flex justify-between items-center mb-4 text-sm">
                     <div className="text-center">
-                      <p className="text-purple-400 font-bold">
+                      <p className="text-accent-purple-400 font-bold">
                         {skater.stats.followerCount}
                       </p>
-                      <p className="text-slate-500">Seguidores</p>
+                      <p className="text-neutral-500">Seguidores</p>
                     </div>
                     <div className="text-center">
-                      <p className="text-purple-400 font-bold">
+                      <p className="text-accent-purple-400 font-bold">
                         {skater.stats.followingCount}
                       </p>
-                      <p className="text-slate-500">Siguiendo</p>
+                      <p className="text-neutral-500">Siguiendo</p>
                     </div>
                   </div>
 
@@ -312,7 +312,7 @@ export default function ExplorePage() {
                       className="flex-1"
                     >
                       <Button
-                        className="w-full bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-bold uppercase text-sm"
+                        className="w-full bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 text-white font-bold uppercase text-sm"
                         size="sm"
                       >
                         Ver Perfil
@@ -321,7 +321,7 @@ export default function ExplorePage() {
                     <Button
                       isIconOnly
                       size="sm"
-                      className="bg-gradient-to-r from-green-500 to-teal-600 text-white"
+                      className="bg-gradient-to-r from-green-500 to-accent-teal-600 text-white"
                     >
                       <MdPersonAdd size={16} />
                     </Button>
@@ -337,7 +337,7 @@ export default function ExplorePage() {
               <Button
                 onClick={loadMore}
                 isLoading={loadingMore}
-                className="bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-bold uppercase tracking-wider px-8 py-3"
+                className="bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 text-white font-bold uppercase tracking-wider px-8 py-3"
                 startContent={!loadingMore && <MdRefresh size={20} />}
               >
                 {loadingMore ? 'Cargando...' : 'Cargar Más Skaters'}
@@ -347,11 +347,11 @@ export default function ExplorePage() {
 
           {skaters.length === 0 && (
             <div className="text-center py-12">
-              <MdOutlineSkateboarding className="text-slate-600 text-6xl mx-auto mb-4" />
-              <p className="text-slate-500 text-xl">
+              <MdOutlineSkateboarding className="text-neutral-600 text-6xl mx-auto mb-4" />
+              <p className="text-neutral-500 text-xl">
                 No se encontraron skaters
               </p>
-              <p className="text-slate-600 mt-2">
+              <p className="text-neutral-600 mt-2">
                 ¡Sé el primero en registrarte!
               </p>
             </div>
@@ -361,18 +361,18 @@ export default function ExplorePage() {
 
       {/* Footer CTA */}
       <div className="max-w-4xl mx-auto mt-12 text-center">
-        <div className="bg-gradient-to-r from-yellow-500 to-orange-600 p-1 rounded-lg shadow-2xl shadow-yellow-500/30">
-          <div className="bg-slate-900 rounded-lg p-6">
-            <GiTrophy className="text-yellow-400 text-4xl mx-auto mb-4" />
-            <h2 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400 uppercase tracking-wider mb-2">
+        <div className="bg-gradient-to-r from-accent-yellow-500 to-accent-orange-600 p-1 rounded-lg shadow-2xl shadow-accent-yellow-500/30">
+          <div className="bg-neutral-900 rounded-lg p-6">
+            <GiTrophy className="text-accent-yellow-400 text-4xl mx-auto mb-4" />
+            <h2 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-yellow-400 to-accent-orange-400 uppercase tracking-wider mb-2">
               ¡Únete a la Comunidad!
             </h2>
-            <p className="text-slate-300 mb-4">
+            <p className="text-neutral-300 mb-4">
               Regístrate y comienza tu viaje en Trickest. Completa desafíos,
               gana puntos y conecta con otros skaters.
             </p>
             <Link href="/dashboard">
-              <Button className="bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-black uppercase tracking-wider px-8 py-3">
+              <Button className="bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 text-white font-black uppercase tracking-wider px-8 py-3">
                 🚀 Comenzar Ahora
               </Button>
             </Link>

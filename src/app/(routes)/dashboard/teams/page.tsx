@@ -386,25 +386,25 @@ export default function TeamsPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-black">
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-accent-purple-900 via-accent-blue-900 to-black">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-purple-400 mx-auto"></div>
-          <p className="mt-4 text-purple-400 font-bold text-xl">CARGANDO EQUIPOS...</p>
+          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-accent-purple-400 mx-auto"></div>
+          <p className="mt-4 text-accent-purple-400 font-bold text-xl">CARGANDO EQUIPOS...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4 md:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-900 via-accent-purple-900 to-neutral-900 p-4 md:p-8">
       {/* Header */}
       <div className="max-w-6xl mx-auto mb-8">
-        <div className="bg-gradient-to-r from-purple-500 to-pink-600 p-1 rounded-lg shadow-2xl">
-          <div className="bg-slate-900 rounded-lg p-6">
-            <h1 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 uppercase tracking-wider text-center">
+        <div className="bg-gradient-to-r from-accent-purple-500 to-accent-pink-600 p-1 rounded-lg shadow-2xl">
+          <div className="bg-neutral-900 rounded-lg p-6">
+            <h1 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-purple-400 to-accent-pink-400 uppercase tracking-wider text-center">
               👥 EQUIPOS
             </h1>
-            <p className="text-purple-300 mt-2 text-sm md:text-base text-center">
+            <p className="text-accent-purple-300 mt-2 text-sm md:text-base text-center">
               Únete a un equipo o crea el tuyo propio
             </p>
           </div>
@@ -427,8 +427,8 @@ export default function TeamsPage() {
         </h2>
 
         {myTeam ? (
-          <div className="bg-gradient-to-r from-purple-500 to-pink-500 p-1 rounded-lg">
-            <div className="bg-slate-900 rounded-lg p-6">
+          <div className="bg-gradient-to-r from-accent-purple-500 to-accent-pink-500 p-1 rounded-lg">
+            <div className="bg-neutral-900 rounded-lg p-6">
               <div className="flex flex-col md:flex-row gap-6">
                 {/* Team Info */}
                 <div className="flex-1">
@@ -450,14 +450,14 @@ export default function TeamsPage() {
                         />
                       </div>
                     ) : (
-                      <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center text-white font-bold text-2xl">
+                      <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-accent-purple-500 to-accent-pink-600 flex items-center justify-center text-white font-bold text-2xl">
                         {myTeam.name.charAt(0).toUpperCase()}
                       </div>
                     )}
                     <div>
                       <h3 className="text-2xl font-bold text-white">{myTeam.name}</h3>
                       {myTeam.isOwner && (
-                        <span className="text-xs bg-yellow-500 text-black px-2 py-1 rounded-full font-bold">
+                        <span className="text-xs bg-accent-yellow-500 text-black px-2 py-1 rounded-full font-bold">
                           CREADOR
                         </span>
                       )}
@@ -465,16 +465,16 @@ export default function TeamsPage() {
                   </div>
 
                   {myTeam.description && (
-                    <p className="text-slate-400 mb-4">{myTeam.description}</p>
+                    <p className="text-neutral-400 mb-4">{myTeam.description}</p>
                   )}
 
                   <div className="grid grid-cols-2 gap-4 mb-4">
-                    <div className="bg-slate-800 rounded-lg p-3 text-center">
-                      <p className="text-slate-400 text-xs uppercase">Score Total</p>
+                    <div className="bg-neutral-800 rounded-lg p-3 text-center">
+                      <p className="text-neutral-400 text-xs uppercase">Score Total</p>
                       <p className="text-white text-2xl font-black">{myTeam.totalScore}</p>
                     </div>
-                    <div className="bg-slate-800 rounded-lg p-3 text-center">
-                      <p className="text-slate-400 text-xs uppercase">Miembros</p>
+                    <div className="bg-neutral-800 rounded-lg p-3 text-center">
+                      <p className="text-neutral-400 text-xs uppercase">Miembros</p>
                       <p className="text-white text-2xl font-black">
                         {myTeam.memberCount}/{myTeam.maxMembers}
                       </p>
@@ -494,7 +494,7 @@ export default function TeamsPage() {
                         </button>
                         <button
                           onClick={handleEditTeam}
-                          className="bg-arcadePurple hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg transition-colors"
+                          className="bg-arcadePurple hover:bg-accent-purple-700 text-white font-bold py-2 px-4 rounded-lg transition-colors"
                         >
                           ✏️ Editar
                         </button>
@@ -512,7 +512,7 @@ export default function TeamsPage() {
                       <button
                         onClick={handleLeaveTeam}
                         disabled={actionLoading === myTeam.id}
-                        className="bg-orange-600 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded-lg transition-colors disabled:opacity-50"
+                        className="bg-accent-orange-600 hover:bg-accent-orange-700 text-white font-bold py-2 px-4 rounded-lg transition-colors disabled:opacity-50"
                       >
                         {actionLoading === myTeam.id ? 'Saliendo...' : 'Abandonar Equipo'}
                       </button>
@@ -527,7 +527,7 @@ export default function TeamsPage() {
                     {myTeam.members.map((member) => (
                       <div
                         key={member.email}
-                        className="flex items-center gap-3 bg-slate-800 rounded-lg p-2"
+                        className="flex items-center gap-3 bg-neutral-800 rounded-lg p-2"
                       >
                         {member.photo ? (
                           <img
@@ -543,7 +543,7 @@ export default function TeamsPage() {
                           />
                         ) : null}
                         <div
-                          className="w-8 h-8 rounded-full bg-slate-600 flex items-center justify-center text-white text-sm"
+                          className="w-8 h-8 rounded-full bg-neutral-600 flex items-center justify-center text-white text-sm"
                           style={{ display: member.photo ? 'none' : 'flex' }}
                         >
                           {(member.name || 'U').charAt(0).toUpperCase()}
@@ -552,11 +552,11 @@ export default function TeamsPage() {
                           <p className="text-white text-sm font-medium">
                             {member.name || 'Skater'}
                             {member.email === myTeam.owner.email && (
-                              <span className="ml-1 text-yellow-400">👑</span>
+                              <span className="ml-1 text-accent-yellow-400">👑</span>
                             )}
                           </p>
                         </div>
-                        <span className="text-purple-400 font-bold text-sm">
+                        <span className="text-accent-purple-400 font-bold text-sm">
                           {member.score} pts
                         </span>
                       </div>
@@ -567,11 +567,11 @@ export default function TeamsPage() {
             </div>
           </div>
         ) : (
-          <div className="bg-slate-800 border-2 border-dashed border-slate-600 rounded-lg p-8 text-center">
-            <p className="text-slate-400 text-lg mb-4">No perteneces a ningún equipo</p>
+          <div className="bg-neutral-800 border-2 border-dashed border-neutral-600 rounded-lg p-8 text-center">
+            <p className="text-neutral-400 text-lg mb-4">No perteneces a ningún equipo</p>
             <button
               onClick={() => setShowCreateModal(true)}
-              className="bg-arcadePurple hover:bg-purple-600 text-white font-bold py-3 px-6 rounded-lg transition-all transform hover:scale-105 border-4 border-white shadow-lg shadow-arcadePurple/50"
+              className="bg-arcadePurple hover:bg-accent-purple-600 text-white font-bold py-3 px-6 rounded-lg transition-all transform hover:scale-105 border-4 border-white shadow-lg shadow-arcadePurple/50"
             >
               + CREAR EQUIPO
             </button>
@@ -590,9 +590,9 @@ export default function TeamsPage() {
             {invitations.map((invitation) => (
               <div
                 key={invitation.id}
-                className="bg-gradient-to-r from-green-500 to-cyan-500 p-1 rounded-lg"
+                className="bg-gradient-to-r from-green-500 to-accent-cyan-500 p-1 rounded-lg"
               >
-                <div className="bg-slate-900 rounded-lg p-4">
+                <div className="bg-neutral-900 rounded-lg p-4">
                   <div className="flex items-center gap-3 mb-3">
                     {invitation.teamLogo ? (
                       <img
@@ -608,27 +608,27 @@ export default function TeamsPage() {
                       />
                     ) : null}
                     <div
-                      className="w-12 h-12 rounded-lg bg-gradient-to-br from-green-500 to-cyan-600 flex items-center justify-center text-white font-bold text-xl"
+                      className="w-12 h-12 rounded-lg bg-gradient-to-br from-green-500 to-accent-cyan-600 flex items-center justify-center text-white font-bold text-xl"
                       style={{ display: invitation.teamLogo ? 'none' : 'flex' }}
                     >
                       {invitation.teamName.charAt(0).toUpperCase()}
                     </div>
                     <div className="flex-1">
                       <h3 className="text-white font-bold">{invitation.teamName}</h3>
-                      <p className="text-slate-400 text-xs">
+                      <p className="text-neutral-400 text-xs">
                         por {invitation.owner.name || 'Skater'}
                       </p>
                     </div>
                   </div>
 
                   {invitation.teamDescription && (
-                    <p className="text-slate-400 text-sm mb-3 line-clamp-2">
+                    <p className="text-neutral-400 text-sm mb-3 line-clamp-2">
                       {invitation.teamDescription}
                     </p>
                   )}
 
                   <div className="flex justify-between items-center mb-3">
-                    <div className="text-slate-400 text-sm">
+                    <div className="text-neutral-400 text-sm">
                       {invitation.memberCount}/{invitation.maxMembers} miembros
                     </div>
                   </div>
@@ -659,16 +659,16 @@ export default function TeamsPage() {
       {/* Info: Solo por invitación */}
       {!myTeam && invitations.length === 0 && (
         <div className="max-w-6xl mx-auto">
-          <div className="bg-gradient-to-r from-purple-500 to-pink-500 p-1 rounded-lg">
-            <div className="bg-slate-900 rounded-lg p-8 text-center">
+          <div className="bg-gradient-to-r from-accent-purple-500 to-accent-pink-500 p-1 rounded-lg">
+            <div className="bg-neutral-900 rounded-lg p-8 text-center">
               <div className="text-6xl mb-4">📧</div>
               <h3 className="text-2xl font-black text-white uppercase mb-3">
                 Únete por Invitación
               </h3>
-              <p className="text-slate-300 mb-2">
+              <p className="text-neutral-300 mb-2">
                 Solo puedes unirte a un equipo si recibes una invitación del creador.
               </p>
-              <p className="text-slate-400 text-sm">
+              <p className="text-neutral-400 text-sm">
                 O crea tu propio equipo y comienza a invitar a otros skaters.
               </p>
             </div>
@@ -679,53 +679,53 @@ export default function TeamsPage() {
       {/* Create Team Modal */}
       {showCreateModal && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-          <div className="bg-slate-900 border-4 border-arcadePurple rounded-lg p-6 w-full max-w-md">
-            <h2 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 uppercase mb-6 text-center">
+          <div className="bg-neutral-900 border-4 border-arcadePurple rounded-lg p-6 w-full max-w-md">
+            <h2 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-purple-400 to-accent-pink-400 uppercase mb-6 text-center">
               ⚡ Crear Equipo
             </h2>
 
             <form onSubmit={handleCreateTeam} className="space-y-4">
               {/* Nombre del equipo */}
               <div>
-                <label className="text-purple-400 text-sm font-bold uppercase block mb-2">
+                <label className="text-accent-purple-400 text-sm font-bold uppercase block mb-2">
                   Nombre del equipo *
                 </label>
                 <input
                   type="text"
                   value={newTeamName}
                   onChange={(e) => setNewTeamName(e.target.value)}
-                  className="w-full bg-slate-800 border-2 border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:border-arcadePurple focus:outline-none transition-colors"
+                  className="w-full bg-neutral-800 border-2 border-neutral-600 rounded-lg px-4 py-3 text-white placeholder-neutral-500 focus:border-arcadePurple focus:outline-none transition-colors"
                   placeholder="Los Ollie Masters"
                   required
                   minLength={3}
                   maxLength={30}
                 />
-                <p className="text-slate-500 text-xs mt-1">
+                <p className="text-neutral-500 text-xs mt-1">
                   Mínimo 3 caracteres. Espacios permitidos.
                 </p>
               </div>
 
               {/* Logo del equipo */}
               <div>
-                <label className="text-purple-400 text-sm font-bold uppercase block mb-2">
+                <label className="text-accent-purple-400 text-sm font-bold uppercase block mb-2">
                   Logo (URL de imagen)
                 </label>
                 <input
                   type="url"
                   value={newTeamLogo}
                   onChange={(e) => setNewTeamLogo(e.target.value)}
-                  className="w-full bg-slate-800 border-2 border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:border-arcadePurple focus:outline-none transition-colors"
+                  className="w-full bg-neutral-800 border-2 border-neutral-600 rounded-lg px-4 py-3 text-white placeholder-neutral-500 focus:border-arcadePurple focus:outline-none transition-colors"
                   placeholder="https://i.imgur.com/ejemplo.jpg"
                 />
-                <p className="text-slate-500 text-xs mt-1">
+                <p className="text-neutral-500 text-xs mt-1">
                   URL directa de imagen (ej: Imgur, Cloudinary). No usar links de Facebook/Instagram, usa la URL directa de la imagen.
                 </p>
               </div>
 
               {/* Vista previa del logo */}
               {newTeamLogo && (
-                <div className="bg-slate-800 rounded-lg p-3 border-2 border-slate-700">
-                  <p className="text-slate-400 text-xs uppercase mb-2">Vista previa:</p>
+                <div className="bg-neutral-800 rounded-lg p-3 border-2 border-neutral-700">
+                  <p className="text-neutral-400 text-xs uppercase mb-2">Vista previa:</p>
                   <div className="flex items-center gap-3">
                     <img
                       src={newTeamLogo}
@@ -746,18 +746,18 @@ export default function TeamsPage() {
 
               {/* Descripción */}
               <div>
-                <label className="text-purple-400 text-sm font-bold uppercase block mb-2">
+                <label className="text-accent-purple-400 text-sm font-bold uppercase block mb-2">
                   Descripción
                 </label>
                 <textarea
                   value={newTeamDescription}
                   onChange={(e) => setNewTeamDescription(e.target.value)}
-                  className="w-full bg-slate-800 border-2 border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:border-arcadePurple focus:outline-none resize-none transition-colors"
+                  className="w-full bg-neutral-800 border-2 border-neutral-600 rounded-lg px-4 py-3 text-white placeholder-neutral-500 focus:border-arcadePurple focus:outline-none resize-none transition-colors"
                   placeholder="Somos un equipo de skaters apasionados que..."
                   rows={3}
                   maxLength={200}
                 />
-                <p className="text-slate-500 text-xs mt-1 text-right">
+                <p className="text-neutral-500 text-xs mt-1 text-right">
                   {newTeamDescription.length}/200 caracteres
                 </p>
               </div>
@@ -772,14 +772,14 @@ export default function TeamsPage() {
                     setNewTeamDescription('');
                     setNewTeamLogo('');
                   }}
-                  className="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-4 rounded-lg transition-colors border-2 border-slate-600 uppercase"
+                  className="flex-1 bg-neutral-700 hover:bg-neutral-600 text-white font-bold py-3 px-4 rounded-lg transition-colors border-2 border-neutral-600 uppercase"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
                   disabled={creating || !newTeamName.trim() || newTeamName.trim().length < 3}
-                  className="flex-1 bg-arcadePurple hover:bg-purple-600 text-white font-bold py-3 px-4 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed border-4 border-white shadow-lg shadow-arcadePurple/50 uppercase"
+                  className="flex-1 bg-arcadePurple hover:bg-accent-purple-600 text-white font-bold py-3 px-4 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed border-4 border-white shadow-lg shadow-arcadePurple/50 uppercase"
                 >
                   {creating ? '⏳ Creando...' : '✨ Crear'}
                 </button>
@@ -792,22 +792,22 @@ export default function TeamsPage() {
       {/* Edit Team Modal */}
       {showEditModal && myTeam && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-          <div className="bg-slate-900 border-4 border-arcadePurple rounded-lg p-6 w-full max-w-md">
-            <h2 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 uppercase mb-6 text-center">
+          <div className="bg-neutral-900 border-4 border-arcadePurple rounded-lg p-6 w-full max-w-md">
+            <h2 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-purple-400 to-accent-pink-400 uppercase mb-6 text-center">
               ✏️ Editar Equipo
             </h2>
 
             <form onSubmit={handleUpdateTeam} className="space-y-4">
               {/* Nombre del equipo */}
               <div>
-                <label className="text-purple-400 text-sm font-bold uppercase block mb-2">
+                <label className="text-accent-purple-400 text-sm font-bold uppercase block mb-2">
                   Nombre del equipo
                 </label>
                 <input
                   type="text"
                   value={editTeamName}
                   onChange={(e) => setEditTeamName(e.target.value)}
-                  className="w-full bg-slate-800 border-2 border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:border-arcadePurple focus:outline-none transition-colors"
+                  className="w-full bg-neutral-800 border-2 border-neutral-600 rounded-lg px-4 py-3 text-white placeholder-neutral-500 focus:border-arcadePurple focus:outline-none transition-colors"
                   placeholder="Los Ollie Masters"
                   minLength={3}
                   maxLength={30}
@@ -816,25 +816,25 @@ export default function TeamsPage() {
 
               {/* Logo del equipo */}
               <div>
-                <label className="text-purple-400 text-sm font-bold uppercase block mb-2">
+                <label className="text-accent-purple-400 text-sm font-bold uppercase block mb-2">
                   Logo (URL de imagen)
                 </label>
                 <input
                   type="url"
                   value={editTeamLogo}
                   onChange={(e) => setEditTeamLogo(e.target.value)}
-                  className="w-full bg-slate-800 border-2 border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:border-arcadePurple focus:outline-none transition-colors"
+                  className="w-full bg-neutral-800 border-2 border-neutral-600 rounded-lg px-4 py-3 text-white placeholder-neutral-500 focus:border-arcadePurple focus:outline-none transition-colors"
                   placeholder="https://i.imgur.com/ejemplo.jpg"
                 />
-                <p className="text-slate-500 text-xs mt-1">
+                <p className="text-neutral-500 text-xs mt-1">
                   URL directa de imagen. Usa Imgur, Cloudinary, etc.
                 </p>
               </div>
 
               {/* Vista previa del logo */}
               {editTeamLogo && (
-                <div className="bg-slate-800 rounded-lg p-3 border-2 border-slate-700">
-                  <p className="text-slate-400 text-xs uppercase mb-2">Vista previa:</p>
+                <div className="bg-neutral-800 rounded-lg p-3 border-2 border-neutral-700">
+                  <p className="text-neutral-400 text-xs uppercase mb-2">Vista previa:</p>
                   <div className="flex items-center gap-3">
                     <img
                       src={editTeamLogo}
@@ -855,18 +855,18 @@ export default function TeamsPage() {
 
               {/* Descripción */}
               <div>
-                <label className="text-purple-400 text-sm font-bold uppercase block mb-2">
+                <label className="text-accent-purple-400 text-sm font-bold uppercase block mb-2">
                   Descripción
                 </label>
                 <textarea
                   value={editTeamDescription}
                   onChange={(e) => setEditTeamDescription(e.target.value)}
-                  className="w-full bg-slate-800 border-2 border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:border-arcadePurple focus:outline-none resize-none transition-colors"
+                  className="w-full bg-neutral-800 border-2 border-neutral-600 rounded-lg px-4 py-3 text-white placeholder-neutral-500 focus:border-arcadePurple focus:outline-none resize-none transition-colors"
                   placeholder="Somos un equipo de skaters apasionados que..."
                   rows={3}
                   maxLength={200}
                 />
-                <p className="text-slate-500 text-xs mt-1 text-right">
+                <p className="text-neutral-500 text-xs mt-1 text-right">
                   {editTeamDescription.length}/200 caracteres
                 </p>
               </div>
@@ -876,14 +876,14 @@ export default function TeamsPage() {
                 <button
                   type="button"
                   onClick={() => setShowEditModal(false)}
-                  className="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-4 rounded-lg transition-colors border-2 border-slate-600 uppercase"
+                  className="flex-1 bg-neutral-700 hover:bg-neutral-600 text-white font-bold py-3 px-4 rounded-lg transition-colors border-2 border-neutral-600 uppercase"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
                   disabled={updating}
-                  className="flex-1 bg-arcadePurple hover:bg-purple-600 text-white font-bold py-3 px-4 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed border-4 border-white shadow-lg shadow-arcadePurple/50 uppercase"
+                  className="flex-1 bg-arcadePurple hover:bg-accent-purple-600 text-white font-bold py-3 px-4 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed border-4 border-white shadow-lg shadow-arcadePurple/50 uppercase"
                 >
                   {updating ? '⏳ Guardando...' : '💾 Guardar'}
                 </button>
@@ -896,8 +896,8 @@ export default function TeamsPage() {
       {/* Invite Member Modal */}
       {showInviteModal && myTeam && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-          <div className="bg-slate-900 border-4 border-green-500 rounded-lg p-6 w-full max-w-md">
-            <h2 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-cyan-400 uppercase mb-6 text-center">
+          <div className="bg-neutral-900 border-4 border-green-500 rounded-lg p-6 w-full max-w-md">
+            <h2 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-accent-cyan-400 uppercase mb-6 text-center">
               👥 Invitar Miembro
             </h2>
 
@@ -928,11 +928,11 @@ export default function TeamsPage() {
                   onFocus={() => {
                     if (searchResults.length > 0) setShowSearchResults(true);
                   }}
-                  className="w-full bg-slate-800 border-2 border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:border-green-500 focus:outline-none transition-colors"
+                  className="w-full bg-neutral-800 border-2 border-neutral-600 rounded-lg px-4 py-3 text-white placeholder-neutral-500 focus:border-green-500 focus:outline-none transition-colors"
                   placeholder="Nombre, email o username..."
                   autoComplete="off"
                 />
-                <p className="text-slate-500 text-xs mt-1">
+                <p className="text-neutral-500 text-xs mt-1">
                   Escribe al menos 2 caracteres para buscar
                 </p>
 
@@ -945,14 +945,14 @@ export default function TeamsPage() {
 
                 {/* Search Results Dropdown */}
                 {showSearchResults && searchResults.length > 0 && (
-                  <div className="absolute top-full left-0 right-0 mt-1 bg-slate-800 border-2 border-green-500 rounded-lg shadow-xl max-h-64 overflow-y-auto z-10">
+                  <div className="absolute top-full left-0 right-0 mt-1 bg-neutral-800 border-2 border-green-500 rounded-lg shadow-xl max-h-64 overflow-y-auto z-10">
                     {searchResults.map((user) => (
                       <button
                         key={user.email}
                         type="button"
                         onClick={() => handleSelectUser(user)}
                         disabled={user.hasTeam}
-                        className="w-full flex items-center gap-3 p-3 hover:bg-slate-700 transition-colors text-left disabled:opacity-50 disabled:cursor-not-allowed border-b border-slate-700 last:border-0"
+                        className="w-full flex items-center gap-3 p-3 hover:bg-neutral-700 transition-colors text-left disabled:opacity-50 disabled:cursor-not-allowed border-b border-neutral-700 last:border-0"
                       >
                         {/* User Photo */}
                         {user.photo ? (
@@ -969,7 +969,7 @@ export default function TeamsPage() {
                           />
                         ) : null}
                         <div
-                          className="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-cyan-600 flex items-center justify-center text-white font-bold"
+                          className="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-accent-cyan-600 flex items-center justify-center text-white font-bold"
                           style={{ display: user.photo ? 'none' : 'flex' }}
                         >
                           {(user.name || user.username || 'U').charAt(0).toUpperCase()}
@@ -980,7 +980,7 @@ export default function TeamsPage() {
                           <p className="text-white font-bold truncate">
                             {user.name || user.username || 'Skater'}
                           </p>
-                          <p className="text-slate-400 text-xs truncate">
+                          <p className="text-neutral-400 text-xs truncate">
                             @{user.username || user.email.split('@')[0]}
                           </p>
                         </div>
@@ -1002,16 +1002,16 @@ export default function TeamsPage() {
 
                 {/* No Results */}
                 {showSearchResults && searchResults.length === 0 && !searching && searchQuery.length >= 2 && (
-                  <div className="absolute top-full left-0 right-0 mt-1 bg-slate-800 border-2 border-slate-600 rounded-lg p-4 text-center">
-                    <p className="text-slate-400 text-sm">No se encontraron skaters</p>
+                  <div className="absolute top-full left-0 right-0 mt-1 bg-neutral-800 border-2 border-neutral-600 rounded-lg p-4 text-center">
+                    <p className="text-neutral-400 text-sm">No se encontraron skaters</p>
                   </div>
                 )}
               </div>
 
               {/* Email seleccionado */}
               {inviteEmail && (
-                <div className="bg-slate-800 rounded-lg p-3 border-2 border-green-500">
-                  <p className="text-slate-400 text-xs uppercase mb-1">Email seleccionado:</p>
+                <div className="bg-neutral-800 rounded-lg p-3 border-2 border-green-500">
+                  <p className="text-neutral-400 text-xs uppercase mb-1">Email seleccionado:</p>
                   <p className="text-white font-bold truncate">{inviteEmail}</p>
                   <button
                     type="button"
@@ -1027,10 +1027,10 @@ export default function TeamsPage() {
               )}
 
               {/* Info del equipo */}
-              <div className="bg-slate-800 rounded-lg p-4 border-2 border-slate-700">
-                <p className="text-slate-400 text-xs uppercase mb-2">Equipo:</p>
+              <div className="bg-neutral-800 rounded-lg p-4 border-2 border-neutral-700">
+                <p className="text-neutral-400 text-xs uppercase mb-2">Equipo:</p>
                 <p className="text-white font-bold">{myTeam.name}</p>
-                <p className="text-slate-400 text-sm mt-2">
+                <p className="text-neutral-400 text-sm mt-2">
                   Espacios: {myTeam.memberCount}/{myTeam.maxMembers}
                 </p>
               </div>
@@ -1046,7 +1046,7 @@ export default function TeamsPage() {
                     setSearchResults([]);
                     setShowSearchResults(false);
                   }}
-                  className="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-4 rounded-lg transition-colors border-2 border-slate-600 uppercase"
+                  className="flex-1 bg-neutral-700 hover:bg-neutral-600 text-white font-bold py-3 px-4 rounded-lg transition-colors border-2 border-neutral-600 uppercase"
                 >
                   Cancelar
                 </button>

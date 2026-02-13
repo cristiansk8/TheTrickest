@@ -79,25 +79,25 @@ export default function TricksPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-black">
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-accent-purple-900 via-accent-blue-900 to-black">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-cyan-400 mx-auto"></div>
-          <p className="mt-4 text-cyan-400 font-bold text-xl">CARGANDO CHALLENGES...</p>
+          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-accent-cyan-400 mx-auto"></div>
+          <p className="mt-4 text-accent-cyan-400 font-bold text-xl">CARGANDO CHALLENGES...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4 md:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-900 via-accent-purple-900 to-neutral-900 p-4 md:p-8">
       {/* Header */}
       <div className="max-w-7xl mx-auto mb-8">
-        <div className="bg-gradient-to-r from-cyan-500 to-blue-600 p-1 rounded-lg shadow-2xl">
-          <div className="bg-slate-900 rounded-lg p-6">
-            <h1 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 uppercase tracking-wider text-center md:text-left">
+        <div className="bg-gradient-to-r from-accent-cyan-500 to-accent-blue-600 p-1 rounded-lg shadow-2xl">
+          <div className="bg-neutral-900 rounded-lg p-6">
+            <h1 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-cyan-400 to-accent-blue-400 uppercase tracking-wider text-center md:text-left">
               🎯 CHALLENGES
             </h1>
-            <p className="text-cyan-300 mt-2 text-sm md:text-base text-center md:text-left">
+            <p className="text-accent-cyan-300 mt-2 text-sm md:text-base text-center md:text-left">
               Completa trucos para ganar puntos y subir en el ranking
             </p>
           </div>
@@ -107,23 +107,23 @@ export default function TricksPage() {
       {/* Stats Bar */}
       <div className="max-w-7xl mx-auto mb-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-gradient-to-r from-purple-500 to-pink-500 p-1 rounded-lg">
-            <div className="bg-slate-900 rounded-lg p-4 text-center">
-              <p className="text-slate-400 text-xs uppercase">Puntos Disponibles</p>
+          <div className="bg-gradient-to-r from-accent-purple-500 to-accent-pink-500 p-1 rounded-lg">
+            <div className="bg-neutral-900 rounded-lg p-4 text-center">
+              <p className="text-neutral-400 text-xs uppercase">Puntos Disponibles</p>
               <p className="text-white text-2xl font-black">{totalPoints}</p>
             </div>
           </div>
-          <div className="bg-gradient-to-r from-green-500 to-teal-500 p-1 rounded-lg">
-            <div className="bg-slate-900 rounded-lg p-4 text-center">
-              <p className="text-slate-400 text-xs uppercase">Completados</p>
+          <div className="bg-gradient-to-r from-green-500 to-accent-teal-500 p-1 rounded-lg">
+            <div className="bg-neutral-900 rounded-lg p-4 text-center">
+              <p className="text-neutral-400 text-xs uppercase">Completados</p>
               <p className="text-white text-2xl font-black">
                 {completedChallenges} / {challenges.length}
               </p>
             </div>
           </div>
-          <div className="bg-gradient-to-r from-yellow-500 to-orange-500 p-1 rounded-lg">
-            <div className="bg-slate-900 rounded-lg p-4 text-center">
-              <p className="text-slate-400 text-xs uppercase">Puntos Ganados</p>
+          <div className="bg-gradient-to-r from-accent-yellow-500 to-accent-orange-500 p-1 rounded-lg">
+            <div className="bg-neutral-900 rounded-lg p-4 text-center">
+              <p className="text-neutral-400 text-xs uppercase">Puntos Ganados</p>
               <p className="text-white text-2xl font-black">{earnedPoints}</p>
             </div>
           </div>

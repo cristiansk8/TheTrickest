@@ -85,7 +85,7 @@ export default function PhotoUploader({
     <div className="space-y-3">
       <div className="flex items-center justify-between">
         <h3 className="text-white font-black uppercase">📸 Fotos del Spot</h3>
-        <span className="text-cyan-400 text-sm">
+        <span className="text-accent-cyan-400 text-sm">
           {currentPhotos.length}/{maxPhotos}
         </span>
       </div>
@@ -95,7 +95,7 @@ export default function PhotoUploader({
         <button
           onClick={handleCameraClick}
           disabled={uploading || currentPhotos.length >= maxPhotos}
-          className="flex-1 bg-cyan-600 hover:bg-cyan-500 disabled:bg-slate-700 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded border-2 border-cyan-300 transition-all flex items-center justify-center gap-2"
+          className="flex-1 bg-accent-cyan-600 hover:bg-accent-cyan-500 disabled:bg-neutral-700 disabled:cursor-not-allowed text-white font-bold py-3 px-4 rounded border-2 border-accent-cyan-300 transition-all flex items-center justify-center gap-2"
         >
           {uploading ? (
             <>
@@ -128,7 +128,7 @@ export default function PhotoUploader({
               <img
                 src={photo}
                 alt={`Foto ${index + 1}`}
-                className="w-full h-20 object-cover rounded-lg border-2 border-cyan-400"
+                className="w-full h-20 object-cover rounded-lg border-2 border-accent-cyan-400"
               />
               <button
                 onClick={() => {/* TODO: Implementar delete */}}
@@ -142,8 +142,8 @@ export default function PhotoUploader({
       )}
 
       {/* Info */}
-      <div className="bg-slate-800/50 border border-slate-600 rounded p-3">
-        <p className="text-cyan-100 text-xs">
+      <div className="bg-neutral-800/50 border border-neutral-600 rounded p-3">
+        <p className="text-accent-cyan-100 text-xs">
           <strong>Tip:</strong> Las fotos ayudan a que otros skaters reconozcan el spot más rápido.
           {' '}
           Máximo {maxPhotos} fotos de 5MB cada una.

@@ -78,34 +78,34 @@ export default function AdminSettingsPage() {
 
   if (loading || status === 'loading') {
     return (
-      <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-cyan-400"></div>
+      <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-neutral-900 via-accent-purple-900 to-neutral-900">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-accent-cyan-400"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4 md:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-900 via-accent-purple-900 to-neutral-900 p-4 md:p-8">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-600 uppercase tracking-wider mb-2">
+          <h1 className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-cyan-400 to-accent-purple-600 uppercase tracking-wider mb-2">
             ⚙️ Configuración del Sistema
           </h1>
-          <p className="text-slate-400 text-lg">
+          <p className="text-neutral-400 text-lg">
             Administra las configuraciones globales de la plataforma
           </p>
         </div>
 
         {/* Settings Card */}
-        <div className="bg-slate-900 border-4 border-slate-700 rounded-2xl p-6 md:p-8 shadow-2xl">
+        <div className="bg-neutral-900 border-4 border-neutral-700 rounded-2xl p-6 md:p-8 shadow-2xl">
           <div className="space-y-6">
             {/* Total Levels Setting */}
             <div>
-              <label className="block text-cyan-400 font-black text-lg uppercase tracking-wider mb-3">
+              <label className="block text-accent-cyan-400 font-black text-lg uppercase tracking-wider mb-3">
                 🎮 Total de Niveles
               </label>
-              <p className="text-slate-400 text-sm mb-4">
+              <p className="text-neutral-400 text-sm mb-4">
                 Define cuántos niveles totales habrá en el sistema. Los niveles bonus se intercalarán automáticamente entre los niveles regulares.
               </p>
               <div className="flex flex-col md:flex-row gap-4 items-start md:items-center">
@@ -115,21 +115,21 @@ export default function AdminSettingsPage() {
                   max="20"
                   value={totalLevels}
                   onChange={(e) => setTotalLevels(e.target.value)}
-                  className="w-full md:w-32 bg-slate-800 border-4 border-purple-500 text-white text-2xl font-black px-4 py-3 rounded-lg focus:border-cyan-400 focus:outline-none text-center"
+                  className="w-full md:w-32 bg-neutral-800 border-4 border-accent-purple-500 text-white text-2xl font-black px-4 py-3 rounded-lg focus:border-accent-cyan-400 focus:outline-none text-center"
                 />
-                <div className="text-slate-300">
+                <div className="text-neutral-300">
                   <p className="font-bold">Niveles totales (regulares + bonus)</p>
-                  <p className="text-sm text-slate-400">Mínimo: 1, Máximo: 20</p>
+                  <p className="text-sm text-neutral-400">Mínimo: 1, Máximo: 20</p>
                 </div>
               </div>
             </div>
 
             {/* Info Box */}
-            <div className="bg-purple-900/30 border-2 border-purple-500 rounded-lg p-4">
-              <h3 className="text-purple-400 font-black uppercase tracking-wider mb-2 flex items-center gap-2">
+            <div className="bg-accent-purple-900/30 border-2 border-accent-purple-500 rounded-lg p-4">
+              <h3 className="text-accent-purple-400 font-black uppercase tracking-wider mb-2 flex items-center gap-2">
                 <span>ℹ️</span> Información
               </h3>
-              <ul className="text-slate-300 text-sm space-y-2">
+              <ul className="text-neutral-300 text-sm space-y-2">
                 <li>• Los niveles regulares se mostrarán con números (1, 2, 3...)</li>
                 <li>• Los niveles bonus se mostrarán con íconos de estrella ⭐</li>
                 <li>• Los bonus se intercalan automáticamente cada 3 niveles regulares</li>
@@ -153,7 +153,7 @@ export default function AdminSettingsPage() {
               <button
                 onClick={handleSave}
                 disabled={saving}
-                className="bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white font-black text-lg py-4 px-10 rounded-xl border-4 border-white uppercase tracking-wider shadow-2xl transform hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 hover:from-accent-cyan-400 hover:to-accent-purple-500 text-white font-black text-lg py-4 px-10 rounded-xl border-4 border-white uppercase tracking-wider shadow-2xl transform hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {saving ? '💾 Guardando...' : '💾 Guardar Configuración'}
               </button>
@@ -162,14 +162,14 @@ export default function AdminSettingsPage() {
         </div>
 
         {/* Preview Section */}
-        <div className="mt-8 bg-slate-900 border-4 border-slate-700 rounded-2xl p-6 shadow-2xl">
-          <h2 className="text-2xl font-black text-cyan-400 uppercase tracking-wider mb-4">
+        <div className="mt-8 bg-neutral-900 border-4 border-neutral-700 rounded-2xl p-6 shadow-2xl">
+          <h2 className="text-2xl font-black text-accent-cyan-400 uppercase tracking-wider mb-4">
             👁️ Vista Previa
           </h2>
-          <p className="text-slate-400 mb-4">
-            Así se verán los tabs con <span className="text-cyan-400 font-black">{totalLevels}</span> niveles totales:
+          <p className="text-neutral-400 mb-4">
+            Así se verán los tabs con <span className="text-accent-cyan-400 font-black">{totalLevels}</span> niveles totales:
           </p>
-          <div className="flex flex-wrap gap-2 justify-center bg-slate-800 p-4 rounded-lg">
+          <div className="flex flex-wrap gap-2 justify-center bg-neutral-800 p-4 rounded-lg">
             {Array.from({ length: parseInt(totalLevels) || 8 }).map((_, index) => {
               const isBonus = (index === 3 || index === 6 || index === 9 || index === 12 || index === 15 || index === 18);
               return (
@@ -177,8 +177,8 @@ export default function AdminSettingsPage() {
                   key={index}
                   className={`w-12 h-12 md:w-14 md:h-14 rounded-full border-4 flex items-center justify-center font-black text-white ${
                     isBonus
-                      ? 'bg-gradient-to-br from-yellow-500 to-orange-500 border-yellow-400 animate-pulse'
-                      : 'bg-purple-600 border-purple-400'
+                      ? 'bg-gradient-to-br from-accent-yellow-500 to-accent-orange-500 border-accent-yellow-400 animate-pulse'
+                      : 'bg-accent-purple-600 border-accent-purple-400'
                   }`}
                 >
                   {isBonus ? '⭐' : index + 1}

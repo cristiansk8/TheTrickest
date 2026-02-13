@@ -73,7 +73,7 @@ export default function ImageUpload({
     <div className="flex flex-col items-center gap-4">
       {/* Preview de la imagen */}
       <div className="relative group">
-        <div className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-cyan-500 shadow-lg shadow-cyan-500/50 overflow-hidden bg-slate-800 flex items-center justify-center">
+        <div className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-accent-cyan-500 shadow-lg shadow-accent-cyan-500/50 overflow-hidden bg-neutral-800 flex items-center justify-center">
           {preview ? (
             <Image
               src={preview}
@@ -83,7 +83,7 @@ export default function ImageUpload({
               className="w-full h-full object-cover"
             />
           ) : (
-            <Camera className="w-12 h-12 text-slate-600" />
+            <Camera className="w-12 h-12 text-neutral-600" />
           )}
         </div>
 
@@ -101,7 +101,7 @@ export default function ImageUpload({
         {/* Overlay de carga */}
         {uploading && (
           <div className="absolute inset-0 bg-black/70 rounded-full flex items-center justify-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-t-4 border-b-4 border-cyan-400"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-t-4 border-b-4 border-accent-cyan-400"></div>
           </div>
         )}
       </div>
@@ -118,14 +118,14 @@ export default function ImageUpload({
         />
         <label
           htmlFor="profile-image-upload"
-          className={`cursor-pointer bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white font-bold py-2 px-6 rounded-lg border-2 border-white uppercase tracking-wider text-sm shadow-lg transform hover:scale-105 transition-all flex items-center gap-2 ${
+          className={`cursor-pointer bg-gradient-to-r from-accent-cyan-500 to-accent-blue-500 hover:from-accent-cyan-400 hover:to-accent-blue-400 text-white font-bold py-2 px-6 rounded-lg border-2 border-white uppercase tracking-wider text-sm shadow-lg transform hover:scale-105 transition-all flex items-center gap-2 ${
             uploading ? 'opacity-50 cursor-not-allowed' : ''
           }`}
         >
           <Upload className="w-4 h-4" />
           {uploading ? 'Subiendo...' : 'Cambiar Foto'}
         </label>
-        <p className="text-xs text-slate-400 text-center">
+        <p className="text-xs text-neutral-400 text-center">
           JPG, PNG o GIF (máx. 5MB)
         </p>
       </div>

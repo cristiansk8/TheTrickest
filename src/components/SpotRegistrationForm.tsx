@@ -9,9 +9,9 @@ const SpotLocationPicker = dynamic(() => import('./SpotLocationPicker'), {
   ssr: false,
   loading: () => (
     <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[9999]">
-      <div className="bg-slate-800 border-4 border-cyan-400 rounded-xl p-8 text-center">
-        <div className="animate-spin w-12 h-12 border-4 border-cyan-400 border-t-transparent rounded-full mx-auto mb-4"></div>
-        <p className="text-cyan-300 font-bold">Cargando mapa...</p>
+      <div className="bg-neutral-800 border-4 border-accent-cyan-400 rounded-xl p-8 text-center">
+        <div className="animate-spin w-12 h-12 border-4 border-accent-cyan-400 border-t-transparent rounded-full mx-auto mb-4"></div>
+        <p className="text-accent-cyan-300 font-bold">Cargando mapa...</p>
       </div>
     </div>
   )
@@ -134,15 +134,15 @@ export default function SpotRegistrationForm({ onSuccess }: SpotRegistrationForm
   };
 
   return (
-    <div className="bg-slate-800 border-4 border-purple-400 rounded-xl p-6 shadow-2xl shadow-purple-500/30">
-      <h2 className="text-3xl font-black uppercase text-purple-300 mb-6">
+    <div className="bg-neutral-800 border-4 border-accent-purple-400 rounded-xl p-6 shadow-2xl shadow-accent-purple-500/30">
+      <h2 className="text-3xl font-black uppercase text-accent-purple-300 mb-6">
         ➕ Registrar Nuevo Spot
       </h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Nombre */}
         <div>
-          <label className="block text-cyan-300 font-black uppercase text-sm mb-2">
+          <label className="block text-accent-cyan-300 font-black uppercase text-sm mb-2">
             📍 Nombre del Spot
           </label>
           <input
@@ -151,20 +151,20 @@ export default function SpotRegistrationForm({ onSuccess }: SpotRegistrationForm
             minLength={3}
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            className="w-full px-4 py-3 bg-slate-900 border-2 border-cyan-500 rounded-lg text-white font-bold focus:outline-none focus:border-cyan-300"
+            className="w-full px-4 py-3 bg-neutral-900 border-2 border-accent-cyan-500 rounded-lg text-white font-bold focus:outline-none focus:border-accent-cyan-300"
             placeholder="Ej: Skatepark Magdalena"
           />
         </div>
 
         {/* Tipo */}
         <div>
-          <label className="block text-cyan-300 font-black uppercase text-sm mb-2">
+          <label className="block text-accent-cyan-300 font-black uppercase text-sm mb-2">
             🎯 Tipo
           </label>
           <select
             value={formData.type}
             onChange={(e) => setFormData({ ...formData, type: e.target.value as any })}
-            className="w-full px-4 py-3 bg-slate-900 border-2 border-cyan-500 rounded-lg text-white font-bold focus:outline-none focus:border-cyan-300"
+            className="w-full px-4 py-3 bg-neutral-900 border-2 border-accent-cyan-500 rounded-lg text-white font-bold focus:outline-none focus:border-accent-cyan-300"
           >
             <option value="SKATEPARK">🛹 Skatepark</option>
             <option value="SKATESHOP">🏪 Skateshop</option>
@@ -173,15 +173,15 @@ export default function SpotRegistrationForm({ onSuccess }: SpotRegistrationForm
         </div>
 
         {/* Ubicación */}
-        <div className="bg-slate-900 border-2 border-cyan-500 rounded-lg p-4">
-          <label className="block text-cyan-300 font-black uppercase text-sm mb-2">
+        <div className="bg-neutral-900 border-2 border-accent-cyan-500 rounded-lg p-4">
+          <label className="block text-accent-cyan-300 font-black uppercase text-sm mb-2">
             📍 Ubicación GPS
           </label>
           <div className="grid grid-cols-2 gap-2 mb-2">
             <button
               type="button"
               onClick={handleGetLocation}
-              className="bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded flex items-center justify-center gap-2"
+              className="bg-accent-cyan-600 hover:bg-accent-cyan-500 text-white font-bold py-2 px-4 rounded flex items-center justify-center gap-2"
             >
               <MapPin className="w-4 h-4" />
               Usar mi ubicación
@@ -190,7 +190,7 @@ export default function SpotRegistrationForm({ onSuccess }: SpotRegistrationForm
               type="button"
               onClick={handleOpenMap}
               disabled={!formData.latitude || !formData.longitude}
-              className="bg-purple-600 hover:bg-purple-500 disabled:bg-slate-700 disabled:cursor-not-allowed text-white font-bold py-2 px-4 rounded flex items-center justify-center gap-2"
+              className="bg-accent-purple-600 hover:bg-accent-purple-500 disabled:bg-neutral-700 disabled:cursor-not-allowed text-white font-bold py-2 px-4 rounded flex items-center justify-center gap-2"
             >
               🗺️ Ajustar en mapa
             </button>
@@ -202,7 +202,7 @@ export default function SpotRegistrationForm({ onSuccess }: SpotRegistrationForm
               required
               value={formData.latitude || ''}
               onChange={(e) => setFormData({ ...formData, latitude: parseFloat(e.target.value) || 0 })}
-              className="px-3 py-2 bg-slate-800 border border-cyan-600 rounded text-white text-sm"
+              className="px-3 py-2 bg-neutral-800 border border-accent-cyan-600 rounded text-white text-sm"
               placeholder="Latitud"
             />
             <input
@@ -211,12 +211,12 @@ export default function SpotRegistrationForm({ onSuccess }: SpotRegistrationForm
               required
               value={formData.longitude || ''}
               onChange={(e) => setFormData({ ...formData, longitude: parseFloat(e.target.value) || 0 })}
-              className="px-3 py-2 bg-slate-800 border border-cyan-600 rounded text-white text-sm"
+              className="px-3 py-2 bg-neutral-800 border border-accent-cyan-600 rounded text-white text-sm"
               placeholder="Longitud"
             />
           </div>
           {formData.latitude && formData.longitude && (
-            <p className="text-cyan-100 text-xs mt-2">
+            <p className="text-accent-cyan-100 text-xs mt-2">
               ✅ Ubicación establecida: {formData.latitude.toFixed(6)}, {formData.longitude.toFixed(6)}
             </p>
           )}
@@ -224,13 +224,13 @@ export default function SpotRegistrationForm({ onSuccess }: SpotRegistrationForm
 
         {/* Descripción */}
         <div>
-          <label className="block text-cyan-300 font-black uppercase text-sm mb-2">
+          <label className="block text-accent-cyan-300 font-black uppercase text-sm mb-2">
             📝 Descripción (opcional)
           </label>
           <textarea
             value={formData.description}
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-            className="w-full px-4 py-3 bg-slate-900 border-2 border-cyan-500 rounded-lg text-white font-bold focus:outline-none focus:border-cyan-300"
+            className="w-full px-4 py-3 bg-neutral-900 border-2 border-accent-cyan-500 rounded-lg text-white font-bold focus:outline-none focus:border-accent-cyan-300"
             rows={3}
             placeholder="Describe el spot: tipo de terreno, obstáculos, etc."
           />
@@ -238,35 +238,35 @@ export default function SpotRegistrationForm({ onSuccess }: SpotRegistrationForm
 
         {/* Dirección */}
         <div>
-          <label className="block text-cyan-300 font-black uppercase text-sm mb-2">
+          <label className="block text-accent-cyan-300 font-black uppercase text-sm mb-2">
             🏠 Dirección (opcional)
           </label>
           <input
             type="text"
             value={formData.address}
             onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-            className="w-full px-4 py-3 bg-slate-900 border-2 border-cyan-500 rounded-lg text-white font-bold focus:outline-none focus:border-cyan-300"
+            className="w-full px-4 py-3 bg-neutral-900 border-2 border-accent-cyan-500 rounded-lg text-white font-bold focus:outline-none focus:border-accent-cyan-300"
             placeholder="Calle, número, colonia"
           />
         </div>
 
         {/* Ciudad */}
         <div>
-          <label className="block text-cyan-300 font-black uppercase text-sm mb-2">
+          <label className="block text-accent-cyan-300 font-black uppercase text-sm mb-2">
             🏙️ Ciudad (opcional)
           </label>
           <input
             type="text"
             value={formData.city}
             onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-            className="w-full px-4 py-3 bg-slate-900 border-2 border-cyan-500 rounded-lg text-white font-bold focus:outline-none focus:border-cyan-300"
+            className="w-full px-4 py-3 bg-neutral-900 border-2 border-accent-cyan-500 rounded-lg text-white font-bold focus:outline-none focus:border-accent-cyan-300"
             placeholder="Ej: Monterrey"
           />
         </div>
 
         {/* Fotos */}
         <div>
-          <label className="block text-cyan-300 font-black uppercase text-sm mb-2">
+          <label className="block text-accent-cyan-300 font-black uppercase text-sm mb-2">
             📸 Fotos del Spot
           </label>
           <PhotoUploader
@@ -283,7 +283,7 @@ export default function SpotRegistrationForm({ onSuccess }: SpotRegistrationForm
                   <img
                     src={photo}
                     alt={`Foto ${index + 1}`}
-                    className="w-full h-24 object-cover rounded-lg border-2 border-cyan-500"
+                    className="w-full h-24 object-cover rounded-lg border-2 border-accent-cyan-500"
                   />
                   <button
                     type="button"
@@ -297,7 +297,7 @@ export default function SpotRegistrationForm({ onSuccess }: SpotRegistrationForm
             </div>
           )}
 
-          <p className="text-cyan-100 text-xs mt-2">
+          <p className="text-accent-cyan-100 text-xs mt-2">
             {uploadedPhotos.length} foto{uploadedPhotos.length !== 1 ? 's' : ''} agregada{uploadedPhotos.length !== 1 ? 's' : ''}
           </p>
         </div>
@@ -313,17 +313,17 @@ export default function SpotRegistrationForm({ onSuccess }: SpotRegistrationForm
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-purple-600 hover:bg-purple-700 disabled:bg-slate-600 disabled:cursor-not-allowed text-white font-black uppercase tracking-wider text-lg px-8 py-4 rounded-xl border-4 border-white shadow-2xl shadow-purple-500/50 transition-all transform hover:scale-105"
+          className="w-full bg-accent-purple-600 hover:bg-accent-purple-700 disabled:bg-neutral-600 disabled:cursor-not-allowed text-white font-black uppercase tracking-wider text-lg px-8 py-4 rounded-xl border-4 border-white shadow-2xl shadow-accent-purple-500/50 transition-all transform hover:scale-105"
         >
           {loading ? '⏳ Registrando...' : '🚀 REGISTRAR SPOT'}
         </button>
 
         {/* Info */}
-        <div className="bg-slate-900/50 border border-slate-600 rounded p-3">
-          <p className="text-cyan-100 text-xs">
-            <strong>ℹ️ Info:</strong> El spot iniciará en stage <span className="text-yellow-400">GHOST</span> (solo visible para ti).
-            Necesita validaciones de otros usuarios para avanzar a <span className="text-cyan-400">REVIEW</span>,
-            <span className="text-green-400">VERIFIED</span> y <span className="text-purple-400">LEGENDARY</span>.
+        <div className="bg-neutral-900/50 border border-neutral-600 rounded p-3">
+          <p className="text-accent-cyan-100 text-xs">
+            <strong>ℹ️ Info:</strong> El spot iniciará en stage <span className="text-accent-yellow-400">GHOST</span> (solo visible para ti).
+            Necesita validaciones de otros usuarios para avanzar a <span className="text-accent-cyan-400">REVIEW</span>,
+            <span className="text-green-400">VERIFIED</span> y <span className="text-accent-purple-400">LEGENDARY</span>.
           </p>
         </div>
       </form>

@@ -172,14 +172,14 @@ const SigninButton = () => {
       {openMenu && (
         <ModalPortal>
         <div className="fixed inset-0 flex items-center justify-center bg-black/90 backdrop-blur-sm z-[9999] p-4 overflow-y-auto">
-          <div className="w-full max-w-md bg-gradient-to-b from-slate-900 to-black border-4 border-cyan-400 rounded-lg shadow-2xl shadow-cyan-500/50 relative my-auto max-h-[90vh] flex flex-col">
+          <div className="w-full max-w-md bg-gradient-to-b from-neutral-900 to-black border-4 border-accent-cyan-400 rounded-lg shadow-2xl shadow-accent-cyan-500/50 relative my-auto max-h-[90vh] flex flex-col">
             {/* Header del menú */}
-            <div className="bg-gradient-to-r from-cyan-600 to-blue-600 p-4 md:p-6 rounded-t-lg border-b-4 border-cyan-300 flex-shrink-0">
+            <div className="bg-gradient-to-r from-accent-cyan-600 to-accent-blue-600 p-4 md:p-6 rounded-t-lg border-b-4 border-accent-cyan-300 flex-shrink-0">
               <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-widest text-center animate-pulse">
                 {session?.user ? 'JUGADOR ACTIVO' : 'MAIN MENU'}
               </h2>
               {session?.user && (
-                <p className="text-cyan-200 text-xs md:text-sm mt-2 text-center">
+                <p className="text-accent-cyan-200 text-xs md:text-sm mt-2 text-center">
                   ⚡{' '}
                   {profileStatus === 'complete'
                     ? 'PERFIL COMPLETO'
@@ -213,14 +213,14 @@ const SigninButton = () => {
                     disabled={isHeader}
                     className={`w-full text-left px-4 py-3 md:py-4 rounded-lg font-black uppercase tracking-wider transition-all duration-200 ${
                       isHeader
-                        ? 'bg-purple-900/50 text-purple-300 cursor-default border-2 border-purple-700'
+                        ? 'bg-accent-purple-900/50 text-accent-purple-300 cursor-default border-2 border-accent-purple-700'
                         : isPrimary
                         ? isSelected
                           ? 'bg-green-600 text-white scale-105 shadow-lg shadow-green-500/50 border-4 border-white'
                           : 'bg-green-700 hover:bg-green-600 text-white hover:scale-105 border-4 border-green-400'
                         : isSelected
-                        ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white scale-105 shadow-lg shadow-cyan-500/50 border-4 border-white'
-                        : 'bg-slate-800 text-slate-300 hover:bg-slate-700 border-4 border-slate-600 hover:border-cyan-500'
+                        ? 'bg-gradient-to-r from-accent-cyan-600 to-accent-blue-600 text-white scale-105 shadow-lg shadow-accent-cyan-500/50 border-4 border-white'
+                        : 'bg-neutral-800 text-neutral-300 hover:bg-neutral-700 border-4 border-neutral-600 hover:border-accent-cyan-500'
                     } text-sm md:text-base`}
                   >
                     <div className="flex items-center justify-between">
@@ -244,8 +244,8 @@ const SigninButton = () => {
             </div>
 
             {/* Footer con controles */}
-            <div className="p-4 border-t-4 border-slate-700 bg-slate-900/50 rounded-b-lg text-center flex-shrink-0">
-              <p className="text-cyan-300 text-[10px] md:text-xs uppercase tracking-wide">
+            <div className="p-4 border-t-4 border-neutral-700 bg-neutral-900/50 rounded-b-lg text-center flex-shrink-0">
+              <p className="text-accent-cyan-300 text-[10px] md:text-xs uppercase tracking-wide">
                 ⌨️ Use ↑↓ para navegar　|　Enter para seleccionar　|　ESC para
                 cerrar
               </p>
@@ -259,9 +259,9 @@ const SigninButton = () => {
       {openModal && (
         <ModalPortal>
         <div className="fixed inset-0 flex items-center justify-center bg-black/90 backdrop-blur-sm z-[9999] p-4">
-          <div className="w-full max-w-lg bg-gradient-to-b from-slate-900 to-black border-4 border-purple-500 rounded-lg shadow-2xl shadow-purple-500/50 relative">
+          <div className="w-full max-w-lg bg-gradient-to-b from-neutral-900 to-black border-4 border-accent-purple-500 rounded-lg shadow-2xl shadow-accent-purple-500/50 relative">
             {/* Header del modal */}
-            <div className="bg-gradient-to-r from-purple-600 to-pink-600 p-4 rounded-t-lg border-b-4 border-purple-300">
+            <div className="bg-gradient-to-r from-accent-purple-600 to-accent-pink-600 p-4 rounded-t-lg border-b-4 border-accent-purple-300">
               <h2 className="text-xl md:text-2xl font-black text-white uppercase tracking-wider text-center">
                 ⚡ COMPLETAR PERFIL
               </h2>
@@ -291,9 +291,9 @@ const SigninButton = () => {
       {openVideoModal && (
         <ModalPortal>
         <div className="fixed inset-0 flex items-center justify-center bg-black/90 backdrop-blur-sm z-[9999] p-4">
-          <div className="w-full max-w-4xl bg-gradient-to-b from-slate-900 to-black border-4 border-cyan-500 rounded-lg shadow-2xl shadow-cyan-500/50 relative">
+          <div className="w-full max-w-4xl bg-gradient-to-b from-neutral-900 to-black border-4 border-accent-cyan-500 rounded-lg shadow-2xl shadow-accent-cyan-500/50 relative">
             {/* Header del modal */}
-            <div className="bg-gradient-to-r from-cyan-600 to-blue-600 p-4 rounded-t-lg border-b-4 border-cyan-300">
+            <div className="bg-gradient-to-r from-accent-cyan-600 to-accent-blue-600 p-4 rounded-t-lg border-b-4 border-accent-cyan-300">
               <h2 className="text-xl md:text-2xl font-black text-white uppercase tracking-wider text-center">
                 📺 CÓMO JUGAR
               </h2>
@@ -314,7 +314,7 @@ const SigninButton = () => {
                 style={{ paddingBottom: '56.25%' }}
               >
                 <video
-                  className="absolute top-0 left-0 w-full h-full rounded-lg border-4 border-slate-700"
+                  className="absolute top-0 left-0 w-full h-full rounded-lg border-4 border-neutral-700"
                   src="/demo.mp4"
                   autoPlay
                   controls
@@ -322,7 +322,7 @@ const SigninButton = () => {
                 />
               </div>
               <div className="mt-4 text-center">
-                <p className="text-cyan-300 text-sm uppercase tracking-wide">
+                <p className="text-accent-cyan-300 text-sm uppercase tracking-wide">
                   ⌨️ Presiona ESC para cerrar
                 </p>
               </div>

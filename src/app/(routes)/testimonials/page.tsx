@@ -75,7 +75,7 @@ const TestimonialPage = () => {
 
                     </ul>
                     <div className='pt-28 text-center'>
-                        <h1 className='text-slate-200 my-2 text-2xl md:text-4xl font-bold'>Mis trucos</h1>
+                        <h1 className='text-neutral-200 my-2 text-2xl md:text-4xl font-bold'>Mis trucos</h1>
                         <HighScore />
                     </div>
                 </div>

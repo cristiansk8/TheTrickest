@@ -41,7 +41,7 @@ export default function UserScoreBadge() {
   return (
     <div className="fixed top-20 md:top-24 left-4 md:left-6 z-[9980]">
       <Link href="/dashboard/skaters/profile">
-        <div className="bg-gradient-to-r from-slate-900/95 to-slate-800/95 backdrop-blur-sm px-4 py-3 rounded-lg border-2 border-cyan-500 shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 transition-all cursor-pointer hover:scale-105 group">
+        <div className="bg-gradient-to-r from-neutral-900/95 to-neutral-800/95 backdrop-blur-sm px-4 py-3 rounded-lg border-2 border-accent-cyan-500 shadow-lg shadow-accent-cyan-500/30 hover:shadow-accent-cyan-500/50 transition-all cursor-pointer hover:scale-105 group">
           <div className="flex items-center gap-3">
             {/* Avatar/Icon - Prioriza foto de DB, luego session, luego inicial */}
             <div className="flex-shrink-0">
@@ -49,10 +49,10 @@ export default function UserScoreBadge() {
                 <img
                   src={userPhoto || session.user.image || ''}
                   alt={userName || session.user.name || 'User'}
-                  className="w-10 h-10 rounded-full border-2 border-cyan-400 object-cover"
+                  className="w-10 h-10 rounded-full border-2 border-accent-cyan-400 object-cover"
                 />
               ) : (
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center border-2 border-cyan-400">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-accent-cyan-500 to-accent-blue-500 flex items-center justify-center border-2 border-accent-cyan-400">
                   <span className="text-white font-black text-lg">
                     {(userName || session.user.name)?.charAt(0).toUpperCase() || '?'}
                   </span>
@@ -66,8 +66,8 @@ export default function UserScoreBadge() {
                 {userName || session.user.name || 'Skater'}
               </p>
               <div className="flex items-center gap-2 mt-1">
-                <span className="text-yellow-400 text-xs font-black">⭐</span>
-                <span className="text-yellow-400 font-black text-xs">
+                <span className="text-accent-yellow-400 text-xs font-black">⭐</span>
+                <span className="text-accent-yellow-400 font-black text-xs">
                   {isLoading ? '...' : totalScore.toLocaleString()} PTS
                 </span>
               </div>
@@ -75,7 +75,7 @@ export default function UserScoreBadge() {
           </div>
 
           {/* Animated border effect */}
-          <div className="absolute inset-0 rounded-lg border-2 border-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+          <div className="absolute inset-0 rounded-lg border-2 border-accent-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
         </div>
       </Link>
     </div>

@@ -21,7 +21,7 @@ const Team = () => {
               />
             </div>
           
-            <div className='absolute w-full h-full z-20 flex justify-center items-center bg-slate-800  opacity-0 transition duration-300 ease-in-out hover:opacity-70'>
+            <div className='absolute w-full h-full z-20 flex justify-center items-center bg-neutral-800  opacity-0 transition duration-300 ease-in-out hover:opacity-70'>
               <Link className='font-bold' href={`/about/${item.name}` }>
                 Más información
               </Link>

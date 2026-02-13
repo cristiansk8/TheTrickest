@@ -8,8 +8,8 @@ import dynamic from 'next/dynamic';
 const UnifiedMap = dynamic(() => import('@/components/organisms/UnifiedMap'), {
   ssr: false,
   loading: () => (
-    <div className="w-full h-[500px] rounded-xl border-4 border-cyan-400 bg-slate-900 flex items-center justify-center">
-      <div className="text-cyan-400 font-black text-xl animate-pulse">
+    <div className="w-full h-[500px] rounded-xl border-4 border-accent-cyan-400 bg-neutral-900 flex items-center justify-center">
+      <div className="text-accent-cyan-400 font-black text-xl animate-pulse">
         🗺️ CARGANDO MAPA...
       </div>
     </div>
@@ -129,16 +129,16 @@ export default function HomeMapSection() {
   };
 
   return (
-    <div className="py-16 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <div className="py-16 bg-gradient-to-br from-neutral-900 via-accent-purple-900 to-neutral-900">
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-6xl font-black uppercase tracking-wider mb-4">
-            <span className="bg-gradient-to-r from-cyan-400 to-purple-600 text-transparent bg-clip-text">
+            <span className="bg-gradient-to-r from-accent-cyan-400 to-accent-purple-600 text-transparent bg-clip-text">
               🗺️ EXPLORA SPOTS
             </span>
           </h2>
-          <p className="text-xl text-slate-300 font-bold max-w-2xl mx-auto">
+          <p className="text-xl text-neutral-300 font-bold max-w-2xl mx-auto">
             Encuentra skateparks y skateshops en tu ciudad
           </p>
         </div>
@@ -146,41 +146,41 @@ export default function HomeMapSection() {
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
           {/* Total Spots */}
-          <div className="bg-slate-800 border-4 border-purple-400 rounded-xl p-6 text-center shadow-2xl shadow-purple-500/30 hover:scale-105 transition-transform">
-            <div className="text-5xl font-black text-purple-400 mb-2">
+          <div className="bg-neutral-800 border-4 border-accent-purple-400 rounded-xl p-6 text-center shadow-2xl shadow-accent-purple-500/30 hover:scale-105 transition-transform">
+            <div className="text-5xl font-black text-accent-purple-400 mb-2">
               {loading ? '...' : stats.totalSpots}
             </div>
-            <div className="text-slate-300 font-bold uppercase tracking-wider text-sm">
+            <div className="text-neutral-300 font-bold uppercase tracking-wider text-sm">
               📍 Total Spots
             </div>
           </div>
 
           {/* Skateparks */}
-          <div className="bg-slate-800 border-4 border-cyan-400 rounded-xl p-6 text-center shadow-2xl shadow-cyan-500/30 hover:scale-105 transition-transform">
-            <div className="text-5xl font-black text-cyan-400 mb-2">
+          <div className="bg-neutral-800 border-4 border-accent-cyan-400 rounded-xl p-6 text-center shadow-2xl shadow-accent-cyan-500/30 hover:scale-105 transition-transform">
+            <div className="text-5xl font-black text-accent-cyan-400 mb-2">
               {loading ? '...' : stats.skateparks}
             </div>
-            <div className="text-slate-300 font-bold uppercase tracking-wider text-sm">
+            <div className="text-neutral-300 font-bold uppercase tracking-wider text-sm">
               🛹 Skateparks
             </div>
           </div>
 
           {/* Skateshops */}
-          <div className="bg-slate-800 border-4 border-pink-400 rounded-xl p-6 text-center shadow-2xl shadow-pink-500/30 hover:scale-105 transition-transform">
-            <div className="text-5xl font-black text-pink-400 mb-2">
+          <div className="bg-neutral-800 border-4 border-accent-pink-400 rounded-xl p-6 text-center shadow-2xl shadow-accent-pink-500/30 hover:scale-105 transition-transform">
+            <div className="text-5xl font-black text-accent-pink-400 mb-2">
               {loading ? '...' : stats.skateshops}
             </div>
-            <div className="text-slate-300 font-bold uppercase tracking-wider text-sm">
+            <div className="text-neutral-300 font-bold uppercase tracking-wider text-sm">
               🏪 Skateshops
             </div>
           </div>
 
           {/* Total Skaters */}
-          <div className="bg-slate-800 border-4 border-purple-600 rounded-xl p-6 text-center shadow-2xl shadow-purple-600/30 hover:scale-105 transition-transform">
-            <div className="text-5xl font-black text-purple-600 mb-2">
+          <div className="bg-neutral-800 border-4 border-accent-purple-600 rounded-xl p-6 text-center shadow-2xl shadow-accent-purple-600/30 hover:scale-105 transition-transform">
+            <div className="text-5xl font-black text-accent-purple-600 mb-2">
               {loading ? '...' : stats.totalSkaters}
             </div>
-            <div className="text-slate-300 font-bold uppercase tracking-wider text-sm">
+            <div className="text-neutral-300 font-bold uppercase tracking-wider text-sm">
               👤 Skaters
             </div>
           </div>
@@ -192,8 +192,8 @@ export default function HomeMapSection() {
             onClick={() => setShowSpots(!showSpots)}
             className={`px-6 py-3 rounded-lg font-black uppercase tracking-wider transition-all ${
               showSpots
-                ? 'bg-cyan-500 hover:bg-cyan-600 text-white border-2 border-cyan-300'
-                : 'bg-slate-700 hover:bg-slate-600 text-slate-300 border-2 border-slate-600'
+                ? 'bg-accent-cyan-500 hover:bg-accent-cyan-600 text-white border-2 border-accent-cyan-300'
+                : 'bg-neutral-700 hover:bg-neutral-600 text-neutral-300 border-2 border-neutral-600'
             }`}
           >
             📍 {showSpots ? 'Ocultar' : 'Mostrar'} Spots
@@ -203,8 +203,8 @@ export default function HomeMapSection() {
             onClick={() => setShowSkaters(!showSkaters)}
             className={`px-6 py-3 rounded-lg font-black uppercase tracking-wider transition-all ${
               showSkaters
-                ? 'bg-purple-600 hover:bg-purple-700 text-white border-2 border-purple-400'
-                : 'bg-slate-700 hover:bg-slate-600 text-slate-300 border-2 border-slate-600'
+                ? 'bg-accent-purple-600 hover:bg-accent-purple-700 text-white border-2 border-accent-purple-400'
+                : 'bg-neutral-700 hover:bg-neutral-600 text-neutral-300 border-2 border-neutral-600'
             }`}
           >
             👤 {showSkaters ? 'Ocultar' : 'Mostrar'} Skaters
@@ -224,18 +224,18 @@ export default function HomeMapSection() {
 
         {/* Mapa */}
         {loading ? (
-          <div className="w-full h-[500px] rounded-xl border-4 border-cyan-400 bg-slate-900 flex items-center justify-center">
-            <div className="text-cyan-400 font-black text-2xl animate-pulse">
+          <div className="w-full h-[500px] rounded-xl border-4 border-accent-cyan-400 bg-neutral-900 flex items-center justify-center">
+            <div className="text-accent-cyan-400 font-black text-2xl animate-pulse">
               ⏳ CARGANDO MAPA...
             </div>
           </div>
         ) : (spots.length === 0 && skaters.length === 0) ? (
-          <div className="w-full h-[500px] rounded-xl border-4 border-yellow-400 bg-slate-900 flex flex-col items-center justify-center gap-4">
-            <div className="text-yellow-400 font-black text-4xl">🗺️</div>
-            <div className="text-yellow-400 font-black text-2xl uppercase">
+          <div className="w-full h-[500px] rounded-xl border-4 border-accent-yellow-400 bg-neutral-900 flex flex-col items-center justify-center gap-4">
+            <div className="text-accent-yellow-400 font-black text-4xl">🗺️</div>
+            <div className="text-accent-yellow-400 font-black text-2xl uppercase">
               Aún no hay datos en el mapa
             </div>
-            <p className="text-slate-400 font-bold">
+            <p className="text-neutral-400 font-bold">
               ¡Sé el primero en agregar spots o activar tu ubicación!
             </p>
           </div>
@@ -252,11 +252,11 @@ export default function HomeMapSection() {
         {/* CTA */}
         <div className="mt-8 text-center">
           <Link href="/spots">
-            <button className="bg-purple-600 hover:bg-purple-700 text-white font-black uppercase tracking-wider text-lg px-8 py-4 rounded-xl border-4 border-white shadow-2xl shadow-purple-500/50 hover:shadow-purple-400/70 transition-all transform hover:scale-105">
+            <button className="bg-accent-purple-600 hover:bg-accent-purple-700 text-white font-black uppercase tracking-wider text-lg px-8 py-4 rounded-xl border-4 border-white shadow-2xl shadow-accent-purple-500/50 hover:shadow-accent-purple-400/70 transition-all transform hover:scale-105">
               🔍 VER MAPA COMPLETO
             </button>
           </Link>
-          <p className="text-slate-400 text-sm mt-2 font-bold">
+          <p className="text-neutral-400 text-sm mt-2 font-bold">
             Explora todos los skateparks y skateshops en el mapa interactivo
           </p>
         </div>
@@ -264,56 +264,56 @@ export default function HomeMapSection() {
         {/* Info Cards */}
         <div className="grid md:grid-cols-2 gap-6 mt-12">
           {/* Skateparks Card */}
-          <div className="bg-slate-800 border-4 border-cyan-400 rounded-xl p-6 shadow-2xl shadow-cyan-500/20">
+          <div className="bg-neutral-800 border-4 border-accent-cyan-400 rounded-xl p-6 shadow-2xl shadow-accent-cyan-500/20">
             <div className="flex items-center gap-3 mb-4">
               <div className="text-4xl">🛹</div>
-              <h3 className="text-2xl font-black uppercase text-cyan-400">
+              <h3 className="text-2xl font-black uppercase text-accent-cyan-400">
                 SKATEPARKS
               </h3>
             </div>
-            <p className="text-slate-300 mb-4">
+            <p className="text-neutral-300 mb-4">
               Encuentra los mejores lugares para patinar en tu ciudad: rampas,
               bowls, street plazas y más.
             </p>
-            <ul className="space-y-2 text-slate-400">
+            <ul className="space-y-2 text-neutral-400">
               <li className="flex items-center gap-2">
-                <span className="text-cyan-400">✓</span>
+                <span className="text-accent-cyan-400">✓</span>
                 Ubicación exacta con GPS
               </li>
               <li className="flex items-center gap-2">
-                <span className="text-cyan-400">✓</span>
+                <span className="text-accent-cyan-400">✓</span>
                 Features (bowl, street, vert)
               </li>
               <li className="flex items-center gap-2">
-                <span className="text-cyan-400">✓</span>
+                <span className="text-accent-cyan-400">✓</span>
                 Ratings y reviews
               </li>
             </ul>
           </div>
 
           {/* Skateshops Card */}
-          <div className="bg-slate-800 border-4 border-pink-400 rounded-xl p-6 shadow-2xl shadow-pink-500/20">
+          <div className="bg-neutral-800 border-4 border-accent-pink-400 rounded-xl p-6 shadow-2xl shadow-accent-pink-500/20">
             <div className="flex items-center gap-3 mb-4">
               <div className="text-4xl">🏪</div>
-              <h3 className="text-2xl font-black uppercase text-pink-400">
+              <h3 className="text-2xl font-black uppercase text-accent-pink-400">
                 SKATESHOPS
               </h3>
             </div>
-            <p className="text-slate-300 mb-4">
+            <p className="text-neutral-300 mb-4">
               Encuentra tiendas donde comprar tablas, trucks, ruedas y todo el
               equipo que necesitas.
             </p>
-            <ul className="space-y-2 text-slate-400">
+            <ul className="space-y-2 text-neutral-400">
               <li className="flex items-center gap-2">
-                <span className="text-pink-400">✓</span>
+                <span className="text-accent-pink-400">✓</span>
                 Tiendas verificadas
               </li>
               <li className="flex items-center gap-2">
-                <span className="text-pink-400">✓</span>
+                <span className="text-accent-pink-400">✓</span>
                 Contacto directo (teléfono, web)
               </li>
               <li className="flex items-center gap-2">
-                <span className="text-pink-400">✓</span>
+                <span className="text-accent-pink-400">✓</span>
                 Redes sociales
               </li>
             </ul>

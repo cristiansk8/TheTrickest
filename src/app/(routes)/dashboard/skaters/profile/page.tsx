@@ -235,27 +235,27 @@ export default function ProfilePage() {
 
   if (!isClient) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-black">
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-accent-purple-900 via-accent-blue-900 to-black">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-cyan-400 mx-auto"></div>
-          <p className="mt-4 text-cyan-400 font-bold text-xl">LOADING...</p>
+          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-accent-cyan-400 mx-auto"></div>
+          <p className="mt-4 text-accent-cyan-400 font-bold text-xl">LOADING...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4 md:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-900 via-accent-purple-900 to-neutral-900 p-4 md:p-8">
       {/* Header con efecto retro */}
       <div className="max-w-7xl mx-auto mb-8 relative z-50">
-        <div className="bg-gradient-to-r from-cyan-500 to-purple-600 p-1 rounded-lg shadow-2xl">
-          <div className="bg-slate-900 rounded-lg p-6">
+        <div className="bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 p-1 rounded-lg shadow-2xl">
+          <div className="bg-neutral-900 rounded-lg p-6">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div>
-                <h1 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 uppercase tracking-wider text-center md:text-left">
+                <h1 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-cyan-400 to-accent-purple-400 uppercase tracking-wider text-center md:text-left">
                   🎮 Player Profile
                 </h1>
-                <p className="text-cyan-300 mt-2 text-sm md:text-base text-center md:text-left">
+                <p className="text-accent-cyan-300 mt-2 text-sm md:text-base text-center md:text-left">
                   {session?.user?.email || 'Skater'}
                 </p>
               </div>
@@ -265,7 +265,7 @@ export default function ProfilePage() {
                     href={`/profile/${session.user.username}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="bg-yellow-500 hover:bg-yellow-600 text-white font-black py-3 px-6 rounded-lg border-4 border-white uppercase tracking-wider text-sm shadow-lg transform hover:scale-105 transition-all text-center whitespace-nowrap relative z-50"
+                    className="bg-accent-yellow-500 hover:bg-accent-yellow-600 text-white font-black py-3 px-6 rounded-lg border-4 border-white uppercase tracking-wider text-sm shadow-lg transform hover:scale-105 transition-all text-center whitespace-nowrap relative z-50"
                   >
                     👁️ Ver Perfil Público
                   </Link>
@@ -273,19 +273,19 @@ export default function ProfilePage() {
                     <button
                       type="button"
                       onClick={() => setShowShareMenu(!showShareMenu)}
-                      className="w-full md:w-auto bg-purple-600 hover:bg-purple-700 text-white font-black py-3 px-6 rounded-lg border-4 border-white uppercase tracking-wider text-sm shadow-lg transform hover:scale-105 transition-all whitespace-nowrap relative z-50"
+                      className="w-full md:w-auto bg-accent-purple-600 hover:bg-accent-purple-700 text-white font-black py-3 px-6 rounded-lg border-4 border-white uppercase tracking-wider text-sm shadow-lg transform hover:scale-105 transition-all whitespace-nowrap relative z-50"
                     >
                       🔗 Compartir
                     </button>
                     {showShareMenu && (
-                      <div className="absolute left-0 md:right-0 md:left-auto mt-2 w-56 bg-slate-800 border-4 border-purple-500 rounded-lg shadow-2xl z-[60] overflow-hidden">
+                      <div className="absolute left-0 md:right-0 md:left-auto mt-2 w-56 bg-neutral-800 border-4 border-accent-purple-500 rounded-lg shadow-2xl z-[60] overflow-hidden">
                         <button
                           type="button"
                           onClick={() => {
                             shareOnFacebook();
                             setShowShareMenu(false);
                           }}
-                          className="w-full text-left px-4 py-3 text-white hover:bg-blue-600 transition-colors flex items-center gap-3 font-bold"
+                          className="w-full text-left px-4 py-3 text-white hover:bg-accent-blue-600 transition-colors flex items-center gap-3 font-bold"
                         >
                           📘 Facebook
                         </button>
@@ -315,7 +315,7 @@ export default function ProfilePage() {
                             handleShareProfile();
                             setShowShareMenu(false);
                           }}
-                          className="w-full text-left px-4 py-3 text-white hover:bg-purple-600 transition-colors flex items-center gap-3 font-bold border-t-2 border-purple-500"
+                          className="w-full text-left px-4 py-3 text-white hover:bg-accent-purple-600 transition-colors flex items-center gap-3 font-bold border-t-2 border-accent-purple-500"
                         >
                           📋 Copiar Link
                         </button>
@@ -336,8 +336,8 @@ export default function ProfilePage() {
             onClick={() => setActiveTab('general')}
             className={`flex-1 py-3 md:py-4 px-4 md:px-6 font-black uppercase tracking-wider transition-all transform hover:scale-105 ${
               activeTab === 'general'
-                ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white shadow-lg shadow-cyan-500/50 border-4 border-cyan-300'
-                : 'bg-slate-800 text-slate-400 border-4 border-slate-700 hover:border-cyan-500'
+                ? 'bg-gradient-to-r from-accent-cyan-500 to-accent-blue-500 text-white shadow-lg shadow-accent-cyan-500/50 border-4 border-accent-cyan-300'
+                : 'bg-neutral-800 text-neutral-400 border-4 border-neutral-700 hover:border-accent-cyan-500'
             } rounded-lg text-sm md:text-base`}
           >
             👤 INFO GENERAL
@@ -347,8 +347,8 @@ export default function ProfilePage() {
             onClick={() => setActiveTab('setup')}
             className={`flex-1 py-3 md:py-4 px-4 md:px-6 font-black uppercase tracking-wider transition-all transform hover:scale-105 ${
               activeTab === 'setup'
-                ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/50 border-4 border-purple-300'
-                : 'bg-slate-800 text-slate-400 border-4 border-slate-700 hover:border-purple-500'
+                ? 'bg-gradient-to-r from-accent-purple-500 to-accent-pink-500 text-white shadow-lg shadow-accent-purple-500/50 border-4 border-accent-purple-300'
+                : 'bg-neutral-800 text-neutral-400 border-4 border-neutral-700 hover:border-accent-purple-500'
             } rounded-lg text-sm md:text-base`}
           >
             🛹 DREAM SETUP
@@ -358,8 +358,8 @@ export default function ProfilePage() {
             onClick={() => setActiveTab('social')}
             className={`flex-1 py-3 md:py-4 px-4 md:px-6 font-black uppercase tracking-wider transition-all transform hover:scale-105 ${
               activeTab === 'social'
-                ? 'bg-gradient-to-r from-green-500 to-teal-500 text-white shadow-lg shadow-green-500/50 border-4 border-green-300'
-                : 'bg-slate-800 text-slate-400 border-4 border-slate-700 hover:border-green-500'
+                ? 'bg-gradient-to-r from-green-500 to-accent-teal-500 text-white shadow-lg shadow-green-500/50 border-4 border-green-300'
+                : 'bg-neutral-800 text-neutral-400 border-4 border-neutral-700 hover:border-green-500'
             } rounded-lg text-sm md:text-base`}
           >
             🌐 REDES SOCIALES
@@ -399,9 +399,9 @@ export default function ProfilePage() {
         {/* Tab: Redes Sociales */}
         {activeTab === 'social' && (
           <div className="animate-fadeIn">
-            <div className="bg-gradient-to-r from-green-500 to-teal-500 p-1 rounded-lg shadow-2xl">
-              <div className="bg-slate-900 rounded-lg p-6 md:p-8">
-                <h2 className="text-2xl md:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-teal-400 uppercase mb-6 text-center md:text-left">
+            <div className="bg-gradient-to-r from-green-500 to-accent-teal-500 p-1 rounded-lg shadow-2xl">
+              <div className="bg-neutral-900 rounded-lg p-6 md:p-8">
+                <h2 className="text-2xl md:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-accent-teal-400 uppercase mb-6 text-center md:text-left">
                   🌐 Conecta tus redes
                 </h2>
 
@@ -412,11 +412,11 @@ export default function ProfilePage() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                     {/* Facebook */}
                     <div className="group">
-                      <label className="text-cyan-400 font-bold mb-2 uppercase tracking-wide text-sm md:text-base flex items-center gap-2">
+                      <label className="text-accent-cyan-400 font-bold mb-2 uppercase tracking-wide text-sm md:text-base flex items-center gap-2">
                         <span className="text-xl">📘</span> Facebook
                       </label>
                       <input
-                        className="w-full bg-slate-800 border-4 border-slate-600 rounded-lg py-3 px-4 text-white placeholder-slate-500 focus:border-blue-500 focus:outline-none transition-all group-hover:border-blue-400"
+                        className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-500 focus:border-accent-blue-500 focus:outline-none transition-all group-hover:border-accent-blue-400"
                         type="text"
                         id="facebook"
                         name="facebook"
@@ -428,11 +428,11 @@ export default function ProfilePage() {
 
                     {/* Instagram */}
                     <div className="group">
-                      <label className="text-cyan-400 font-bold mb-2 uppercase tracking-wide text-sm md:text-base flex items-center gap-2">
+                      <label className="text-accent-cyan-400 font-bold mb-2 uppercase tracking-wide text-sm md:text-base flex items-center gap-2">
                         <span className="text-xl">📷</span> Instagram
                       </label>
                       <input
-                        className="w-full bg-slate-800 border-4 border-slate-600 rounded-lg py-3 px-4 text-white placeholder-slate-500 focus:border-pink-500 focus:outline-none transition-all group-hover:border-pink-400"
+                        className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-500 focus:border-accent-pink-500 focus:outline-none transition-all group-hover:border-accent-pink-400"
                         type="text"
                         id="instagram"
                         name="instagram"
@@ -444,11 +444,11 @@ export default function ProfilePage() {
 
                     {/* TikTok */}
                     <div className="group">
-                      <label className="text-cyan-400 font-bold mb-2 uppercase tracking-wide text-sm md:text-base flex items-center gap-2">
+                      <label className="text-accent-cyan-400 font-bold mb-2 uppercase tracking-wide text-sm md:text-base flex items-center gap-2">
                         <span className="text-xl">🎵</span> TikTok
                       </label>
                       <input
-                        className="w-full bg-slate-800 border-4 border-slate-600 rounded-lg py-3 px-4 text-white placeholder-slate-500 focus:border-teal-500 focus:outline-none transition-all group-hover:border-teal-400"
+                        className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-500 focus:border-accent-teal-500 focus:outline-none transition-all group-hover:border-accent-teal-400"
                         type="text"
                         id="tiktok"
                         name="tiktok"
@@ -460,11 +460,11 @@ export default function ProfilePage() {
 
                     {/* Twitter/X */}
                     <div className="group">
-                      <label className="text-cyan-400 font-bold mb-2 uppercase tracking-wide text-sm md:text-base flex items-center gap-2">
+                      <label className="text-accent-cyan-400 font-bold mb-2 uppercase tracking-wide text-sm md:text-base flex items-center gap-2">
                         <span className="text-xl">𝕏</span> Twitter / X
                       </label>
                       <input
-                        className="w-full bg-slate-800 border-4 border-slate-600 rounded-lg py-3 px-4 text-white placeholder-slate-500 focus:border-cyan-500 focus:outline-none transition-all group-hover:border-cyan-400"
+                        className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-500 focus:border-accent-cyan-500 focus:outline-none transition-all group-hover:border-accent-cyan-400"
                         type="text"
                         id="twitter"
                         name="twitter"

@@ -110,17 +110,17 @@ export default function CommentForm({
           maxLength={maxLength}
           rows={3}
           className={`
-            w-full px-3 py-2 bg-slate-900 border-2 rounded-lg text-white
-            focus:outline-none focus:border-cyan-400 resize-none
+            w-full px-3 py-2 bg-neutral-900 border-2 rounded-lg text-white
+            focus:outline-none focus:border-accent-cyan-400 resize-none
             disabled:opacity-50 disabled:cursor-not-allowed
-            ${error ? 'border-red-500' : 'border-slate-700'}
+            ${error ? 'border-red-500' : 'border-neutral-700'}
             transition-colors
           `}
         />
 
         {/* Character counter */}
         <div className={`absolute bottom-2 right-2 text-xs font-bold ${
-          remainingChars < 20 ? 'text-red-400' : 'text-slate-500'
+          remainingChars < 20 ? 'text-red-400' : 'text-neutral-500'
         }`}>
           {remainingChars}
         </div>
@@ -133,8 +133,8 @@ export default function CommentForm({
         className={`
           w-full font-bold py-2 px-4 rounded-lg border-2 transition-all flex items-center justify-center gap-2
           ${isSubmitting || !content.trim() || !session
-            ? 'bg-slate-700 border-slate-600 text-slate-500 cursor-not-allowed'
-            : 'bg-purple-600 hover:bg-purple-700 border-purple-400 text-white cursor-pointer'
+            ? 'bg-neutral-700 border-neutral-600 text-neutral-500 cursor-not-allowed'
+            : 'bg-accent-purple-600 hover:bg-accent-purple-700 border-accent-purple-400 text-white cursor-pointer'
           }
         `}
       >
@@ -152,7 +152,7 @@ export default function CommentForm({
       </button>
 
       {!session && (
-        <p className="text-[10px] text-slate-500 text-center">
+        <p className="text-[10px] text-neutral-500 text-center">
           🔒 Necesitas una cuenta para comentar
         </p>
       )}

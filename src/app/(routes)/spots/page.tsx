@@ -11,8 +11,8 @@ import { SpotComments } from '@/components/organisms';
 const UnifiedMap = dynamic(() => import('@/components/organisms/UnifiedMap'), {
   ssr: false,
   loading: () => (
-    <div className="w-full h-[600px] rounded-xl border-4 border-cyan-400 bg-slate-900 flex items-center justify-center">
-      <div className="text-cyan-400 font-black text-xl animate-pulse">
+    <div className="w-full h-[600px] rounded-xl border-4 border-accent-cyan-400 bg-neutral-900 flex items-center justify-center">
+      <div className="text-accent-cyan-400 font-black text-xl animate-pulse">
         🗺️ CARGANDO MAPA...
       </div>
     </div>
@@ -107,32 +107,32 @@ export default function SpotsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-900 via-accent-purple-900 to-neutral-900 py-8 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8 text-center">
           <h1 className="text-4xl md:text-6xl font-black uppercase tracking-wider mb-4">
-            <span className="bg-gradient-to-r from-cyan-400 to-purple-600 text-transparent bg-clip-text">
+            <span className="bg-gradient-to-r from-accent-cyan-400 to-accent-purple-600 text-transparent bg-clip-text">
               🗺️ EXPLORA SPOTS
             </span>
           </h1>
-          <p className="text-xl text-slate-300 font-bold">
+          <p className="text-xl text-neutral-300 font-bold">
             Encuentra skateparks y skateshops cerca de ti
           </p>
         </div>
 
         {/* Filtros */}
-        <div className="bg-slate-800 border-4 border-cyan-400 rounded-xl p-6 mb-6 shadow-2xl shadow-cyan-500/30">
+        <div className="bg-neutral-800 border-4 border-accent-cyan-400 rounded-xl p-6 mb-6 shadow-2xl shadow-accent-cyan-500/30">
           <div className="flex flex-wrap items-center gap-4">
             {/* Filtro de tipo */}
             <div className="flex-1 min-w-[200px]">
-              <label className="block text-cyan-300 font-black uppercase text-sm mb-2">
+              <label className="block text-accent-cyan-300 font-black uppercase text-sm mb-2">
                 🎯 TIPO DE SPOT
               </label>
               <select
                 value={filterType}
                 onChange={(e) => setFilterType(e.target.value as any)}
-                className="w-full px-4 py-3 bg-slate-900 border-2 border-cyan-500 rounded-lg text-white font-bold focus:outline-none focus:border-cyan-300"
+                className="w-full px-4 py-3 bg-neutral-900 border-2 border-accent-cyan-500 rounded-lg text-white font-bold focus:outline-none focus:border-accent-cyan-300"
               >
                 <option value="all">Todos</option>
                 <option value="skatepark">🛹 Skateparks</option>
@@ -157,7 +157,7 @@ export default function SpotsPage() {
 
             {/* Contador */}
             <div className="ml-auto">
-              <div className="bg-purple-600 px-4 py-2 rounded-lg border-2 border-purple-400">
+              <div className="bg-accent-purple-600 px-4 py-2 rounded-lg border-2 border-accent-purple-400">
                 <span className="text-white font-black">
                   {spots.length} {spots.length === 1 ? 'SPOT' : 'SPOTS'}
                 </span>
@@ -168,19 +168,19 @@ export default function SpotsPage() {
 
         {/* Mapa */}
         {loading ? (
-          <div className="w-full h-[600px] rounded-xl border-4 border-cyan-400 bg-slate-900 flex items-center justify-center">
-            <div className="text-cyan-400 font-black text-2xl animate-pulse">
+          <div className="w-full h-[600px] rounded-xl border-4 border-accent-cyan-400 bg-neutral-900 flex items-center justify-center">
+            <div className="text-accent-cyan-400 font-black text-2xl animate-pulse">
               ⏳ CARGANDO SPOTS...
             </div>
           </div>
         ) : (
           <>
             {spots.length === 0 && (
-              <div className="mb-4 bg-yellow-900/30 border-2 border-yellow-500 rounded-lg p-4">
-                <p className="text-yellow-300 font-bold text-center">
+              <div className="mb-4 bg-accent-yellow-900/30 border-2 border-accent-yellow-500 rounded-lg p-4">
+                <p className="text-accent-yellow-300 font-bold text-center">
                   🤷‍♂️ No hay spots {filterType !== 'all' && `de tipo ${filterType}`}
                 </p>
-                <p className="text-slate-400 text-sm text-center mt-1">
+                <p className="text-neutral-400 text-sm text-center mt-1">
                   ¡Usa el botón flotante para agregar el primero!
                 </p>
               </div>
@@ -198,23 +198,23 @@ export default function SpotsPage() {
 
         {/* Comments section - shows when a spot is selected */}
         {selectedSpot && (
-          <div id="comments-section" className="mt-8 bg-slate-800 border-4 border-cyan-400 rounded-xl p-6 shadow-2xl shadow-cyan-500/30">
+          <div id="comments-section" className="mt-8 bg-neutral-800 border-4 border-accent-cyan-400 rounded-xl p-6 shadow-2xl shadow-accent-cyan-500/30">
             {/* Header with spot name and close button */}
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h2 className="text-2xl font-black uppercase text-cyan-400">
+                <h2 className="text-2xl font-black uppercase text-accent-cyan-400">
                   💬 Comentarios
                 </h2>
-                <p className="text-sm text-slate-300 mt-1">
+                <p className="text-sm text-neutral-300 mt-1">
                   {selectedSpot.name} ({selectedSpot.type === 'skatepark' ? '🛹 Skatepark' : '🏪 Skateshop'})
                 </p>
               </div>
               <button
                 onClick={() => setSelectedSpot(null)}
-                className="p-2 bg-slate-700 hover:bg-slate-600 border-2 border-slate-500 rounded-lg transition-colors"
+                className="p-2 bg-neutral-700 hover:bg-neutral-600 border-2 border-neutral-500 rounded-lg transition-colors"
                 title="Cerrar comentarios"
               >
-                <X className="w-5 h-5 text-slate-300" />
+                <X className="w-5 h-5 text-neutral-300" />
               </button>
             </div>
 
@@ -223,17 +223,17 @@ export default function SpotsPage() {
         )}
 
         {/* Info adicional */}
-        <div className="mt-8 bg-slate-800 border-4 border-purple-400 rounded-xl p-6 shadow-2xl shadow-purple-500/30">
-          <h2 className="text-2xl font-black uppercase text-purple-300 mb-4">
+        <div className="mt-8 bg-neutral-800 border-4 border-accent-purple-400 rounded-xl p-6 shadow-2xl shadow-accent-purple-500/30">
+          <h2 className="text-2xl font-black uppercase text-accent-purple-300 mb-4">
             💡 ¿CÓMO USAR EL MAPA?
           </h2>
-          <div className="grid md:grid-cols-2 gap-4 text-slate-300">
+          <div className="grid md:grid-cols-2 gap-4 text-neutral-300">
             <div>
-              <p className="font-bold mb-2">🛹 <span className="text-cyan-400">Iconos Azules</span> = Skateparks</p>
+              <p className="font-bold mb-2">🛹 <span className="text-accent-cyan-400">Iconos Azules</span> = Skateparks</p>
               <p className="text-sm">Lugares para patinar: rampas, bowls, street, etc.</p>
             </div>
             <div>
-              <p className="font-bold mb-2">🏪 <span className="text-pink-400">Iconos Rosados</span> = Skateshops</p>
+              <p className="font-bold mb-2">🏪 <span className="text-accent-pink-400">Iconos Rosados</span> = Skateshops</p>
               <p className="text-sm">Tiendas donde comprar equipo y accesorios.</p>
             </div>
             <div>
@@ -241,7 +241,7 @@ export default function SpotsPage() {
               <p className="text-sm">El spot fue verificado por administradores.</p>
             </div>
             <div>
-              <p className="font-bold mb-2">💬 <span className="text-cyan-400">Click en marcador</span> = Ver comentarios</p>
+              <p className="font-bold mb-2">💬 <span className="text-accent-cyan-400">Click en marcador</span> = Ver comentarios</p>
               <p className="text-sm">Haz click en un spot para ver y agregar comentarios.</p>
             </div>
           </div>
@@ -249,7 +249,7 @@ export default function SpotsPage() {
 
         {/* Hint sobre el botón flotante */}
         <div className="mt-6 text-center">
-          <p className="text-cyan-400 font-bold text-sm flex items-center justify-center gap-2">
+          <p className="text-accent-cyan-400 font-bold text-sm flex items-center justify-center gap-2">
             <MapPin className="w-4 h-4 animate-bounce" />
             Usa el botón de la esquina para registrar spots o validar ubicaciones
           </p>

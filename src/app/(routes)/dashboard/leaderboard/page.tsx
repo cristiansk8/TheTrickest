@@ -102,22 +102,22 @@ export default function LeaderboardPage() {
   const getRankStyle = (rank: number) => {
     switch (rank) {
       case 1:
-        return 'from-yellow-400 to-amber-600 shadow-yellow-500/50';
+        return 'from-accent-yellow-400 to-accent-amber-600 shadow-accent-yellow-500/50';
       case 2:
-        return 'from-slate-300 to-slate-500 shadow-slate-400/50';
+        return 'from-neutral-300 to-neutral-500 shadow-neutral-400/50';
       case 3:
-        return 'from-amber-600 to-amber-800 shadow-amber-600/50';
+        return 'from-accent-amber-600 to-accent-amber-800 shadow-accent-amber-600/50';
       default:
-        return 'from-slate-700 to-slate-800';
+        return 'from-neutral-700 to-neutral-800';
     }
   };
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-black">
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-accent-purple-900 via-accent-blue-900 to-black">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-cyan-400 mx-auto"></div>
-          <p className="mt-4 text-cyan-400 font-bold text-xl">
+          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-accent-cyan-400 mx-auto"></div>
+          <p className="mt-4 text-accent-cyan-400 font-bold text-xl">
             CARGANDO RANKING...
           </p>
         </div>
@@ -126,15 +126,15 @@ export default function LeaderboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4 md:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-900 via-accent-purple-900 to-neutral-900 p-4 md:p-8">
       {/* Header */}
       <div className="max-w-4xl mx-auto mb-8">
-        <div className="bg-gradient-to-r from-yellow-500 to-orange-600 p-1 rounded-lg shadow-2xl">
-          <div className="bg-slate-900 rounded-lg p-6">
-            <h1 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400 uppercase tracking-wider text-center">
+        <div className="bg-gradient-to-r from-accent-yellow-500 to-accent-orange-600 p-1 rounded-lg shadow-2xl">
+          <div className="bg-neutral-900 rounded-lg p-6">
+            <h1 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-yellow-400 to-accent-orange-400 uppercase tracking-wider text-center">
               🏆 LEADERBOARD
             </h1>
-            <p className="text-yellow-300 mt-2 text-sm md:text-base text-center">
+            <p className="text-accent-yellow-300 mt-2 text-sm md:text-base text-center">
               Los mejores skaters y equipos de la plataforma
             </p>
           </div>
@@ -148,8 +148,8 @@ export default function LeaderboardPage() {
             onClick={() => setActiveTab('users')}
             className={`flex-1 py-3 px-4 rounded-lg font-bold uppercase transition-all ${
               activeTab === 'users'
-                ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white'
-                : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
+                ? 'bg-gradient-to-r from-accent-cyan-500 to-accent-blue-600 text-white'
+                : 'bg-neutral-800 text-neutral-400 hover:bg-neutral-700'
             }`}
           >
             👤 Skaters
@@ -158,8 +158,8 @@ export default function LeaderboardPage() {
             onClick={() => setActiveTab('teams')}
             className={`flex-1 py-3 px-4 rounded-lg font-bold uppercase transition-all ${
               activeTab === 'teams'
-                ? 'bg-gradient-to-r from-purple-500 to-pink-600 text-white'
-                : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
+                ? 'bg-gradient-to-r from-accent-purple-500 to-accent-pink-600 text-white'
+                : 'bg-neutral-800 text-neutral-400 hover:bg-neutral-700'
             }`}
           >
             👥 Equipos
@@ -170,10 +170,10 @@ export default function LeaderboardPage() {
       {/* Current User Position (only for users tab) */}
       {activeTab === 'users' && currentUserRank && (
         <div className="max-w-4xl mx-auto mb-8">
-          <div className="bg-gradient-to-r from-cyan-500 to-blue-600 p-1 rounded-lg">
-            <div className="bg-slate-900 rounded-lg p-4 flex items-center justify-between">
+          <div className="bg-gradient-to-r from-accent-cyan-500 to-accent-blue-600 p-1 rounded-lg">
+            <div className="bg-neutral-900 rounded-lg p-4 flex items-center justify-between">
               <div className="flex items-center gap-4">
-                <span className="text-2xl font-black text-cyan-400">
+                <span className="text-2xl font-black text-accent-cyan-400">
                   Tu posición: #{currentUserRank.rank}
                 </span>
               </div>
@@ -181,7 +181,7 @@ export default function LeaderboardPage() {
                 <p className="text-white font-bold text-xl">
                   {currentUserRank.totalScore} pts
                 </p>
-                <p className="text-slate-400 text-sm">
+                <p className="text-neutral-400 text-sm">
                   {currentUserRank.challengesCompleted} challenges completados
                 </p>
               </div>
@@ -203,11 +203,11 @@ export default function LeaderboardPage() {
       {activeTab === 'users' && (
         <div className="max-w-4xl mx-auto">
           {usersLeaderboard.length === 0 ? (
-            <div className="bg-slate-800 border-4 border-slate-700 rounded-lg p-8 text-center">
-              <p className="text-slate-400 text-xl">
+            <div className="bg-neutral-800 border-4 border-neutral-700 rounded-lg p-8 text-center">
+              <p className="text-neutral-400 text-xl">
                 No hay skaters en el ranking aún
               </p>
-              <p className="text-slate-500 mt-2">
+              <p className="text-neutral-500 mt-2">
                 ¡Sé el primero en completar un challenge!
               </p>
             </div>
@@ -222,11 +222,11 @@ export default function LeaderboardPage() {
                     user.rank
                   )} p-1 rounded-lg shadow-lg ${
                     user.email === session?.user?.email
-                      ? 'ring-4 ring-cyan-400'
+                      ? 'ring-4 ring-accent-cyan-400'
                       : ''
                   } hover:scale-[1.02] transition-transform cursor-pointer`}
                 >
-                  <div className="bg-slate-900 rounded-lg p-4 flex items-center gap-4">
+                  <div className="bg-neutral-900 rounded-lg p-4 flex items-center gap-4">
                     <div className="text-4xl w-16 text-center">
                       {getRankIcon(user.rank)}
                     </div>
@@ -240,27 +240,27 @@ export default function LeaderboardPage() {
                           className="rounded-full border-2 border-white"
                         />
                       ) : (
-                        <div className="w-14 h-14 rounded-full bg-gradient-to-br from-cyan-500 to-purple-600 flex items-center justify-center text-white font-bold text-xl">
+                        <div className="w-14 h-14 rounded-full bg-gradient-to-br from-accent-cyan-500 to-accent-purple-600 flex items-center justify-center text-white font-bold text-xl">
                           {user.name.charAt(0).toUpperCase()}
                         </div>
                       )}
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-white font-bold text-lg hover:text-cyan-400 transition-colors">
+                      <h3 className="text-white font-bold text-lg hover:text-accent-cyan-400 transition-colors">
                         {user.name}
                         {user.email === session?.user?.email && (
-                          <span className="ml-2 text-cyan-400 text-sm">
+                          <span className="ml-2 text-accent-cyan-400 text-sm">
                             (Tú)
                           </span>
                         )}
                       </h3>
                       {user.location && (
-                        <p className="text-slate-400 text-sm">
+                        <p className="text-neutral-400 text-sm">
                           📍 {user.location}
                         </p>
                       )}
                       {user.team && (
-                        <p className="text-purple-400 text-sm">
+                        <p className="text-accent-purple-400 text-sm">
                           👥 {user.team.name}
                         </p>
                       )}
@@ -269,13 +269,13 @@ export default function LeaderboardPage() {
                       <p className="text-white font-black text-2xl">
                         {user.totalScore}
                       </p>
-                      <p className="text-slate-400 text-xs uppercase">puntos</p>
+                      <p className="text-neutral-400 text-xs uppercase">puntos</p>
                     </div>
                     <div className="text-right hidden md:block">
-                      <p className="text-cyan-400 font-bold">
+                      <p className="text-accent-cyan-400 font-bold">
                         {user.challengesCompleted}
                       </p>
-                      <p className="text-slate-400 text-xs uppercase">
+                      <p className="text-neutral-400 text-xs uppercase">
                         challenges
                       </p>
                     </div>
@@ -288,13 +288,13 @@ export default function LeaderboardPage() {
                 <Link
                   key={user.email}
                   href={`/profile/${user.username}`}
-                  className={`bg-slate-800 border-2 border-slate-700 rounded-lg p-4 flex items-center gap-4 hover:border-cyan-500 hover:scale-[1.01] transition-all cursor-pointer ${
+                  className={`bg-neutral-800 border-2 border-neutral-700 rounded-lg p-4 flex items-center gap-4 hover:border-accent-cyan-500 hover:scale-[1.01] transition-all cursor-pointer ${
                     user.email === session?.user?.email
-                      ? 'border-cyan-400 bg-slate-800/80'
+                      ? 'border-accent-cyan-400 bg-neutral-800/80'
                       : ''
                   }`}
                 >
-                  <div className="text-slate-400 font-bold text-xl w-12 text-center">
+                  <div className="text-neutral-400 font-bold text-xl w-12 text-center">
                     #{user.rank}
                   </div>
                   <div className="relative">
@@ -304,29 +304,29 @@ export default function LeaderboardPage() {
                         alt={user.name}
                         width={48}
                         height={48}
-                        className="rounded-full border-2 border-slate-600"
+                        className="rounded-full border-2 border-neutral-600"
                       />
                     ) : (
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-slate-600 to-slate-700 flex items-center justify-center text-white font-bold">
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-neutral-600 to-neutral-700 flex items-center justify-center text-white font-bold">
                         {user.name.charAt(0).toUpperCase()}
                       </div>
                     )}
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-white font-bold hover:text-cyan-400 transition-colors">
+                    <h3 className="text-white font-bold hover:text-accent-cyan-400 transition-colors">
                       {user.name}
                       {user.email === session?.user?.email && (
-                        <span className="ml-2 text-cyan-400 text-sm">(Tú)</span>
+                        <span className="ml-2 text-accent-cyan-400 text-sm">(Tú)</span>
                       )}
                     </h3>
                     <div className="flex gap-4 text-sm">
                       {user.location && (
-                        <span className="text-slate-500">
+                        <span className="text-neutral-500">
                           📍 {user.location}
                         </span>
                       )}
                       {user.team && (
-                        <span className="text-purple-400">
+                        <span className="text-accent-purple-400">
                           👥 {user.team.name}
                         </span>
                       )}
@@ -336,13 +336,13 @@ export default function LeaderboardPage() {
                     <p className="text-white font-bold text-lg">
                       {user.totalScore}
                     </p>
-                    <p className="text-slate-500 text-xs">pts</p>
+                    <p className="text-neutral-500 text-xs">pts</p>
                   </div>
                   <div className="text-right hidden md:block">
-                    <p className="text-cyan-400 font-bold">
+                    <p className="text-accent-cyan-400 font-bold">
                       {user.challengesCompleted}
                     </p>
-                    <p className="text-slate-500 text-xs">challenges</p>
+                    <p className="text-neutral-500 text-xs">challenges</p>
                   </div>
                 </Link>
               ))}
@@ -355,11 +355,11 @@ export default function LeaderboardPage() {
       {activeTab === 'teams' && (
         <div className="max-w-4xl mx-auto">
           {teamsLeaderboard.length === 0 ? (
-            <div className="bg-slate-800 border-4 border-slate-700 rounded-lg p-8 text-center">
-              <p className="text-slate-400 text-xl">
+            <div className="bg-neutral-800 border-4 border-neutral-700 rounded-lg p-8 text-center">
+              <p className="text-neutral-400 text-xl">
                 No hay equipos en el ranking aún
               </p>
-              <p className="text-slate-500 mt-2">¡Crea un equipo y compite!</p>
+              <p className="text-neutral-500 mt-2">¡Crea un equipo y compite!</p>
             </div>
           ) : (
             <div className="space-y-3">
@@ -371,7 +371,7 @@ export default function LeaderboardPage() {
                     team.rank
                   )} p-1 rounded-lg shadow-lg`}
                 >
-                  <div className="bg-slate-900 rounded-lg p-4 flex items-center gap-4">
+                  <div className="bg-neutral-900 rounded-lg p-4 flex items-center gap-4">
                     <div className="text-4xl w-16 text-center">
                       {getRankIcon(team.rank)}
                     </div>
@@ -385,7 +385,7 @@ export default function LeaderboardPage() {
                           className="rounded-lg border-2 border-white"
                         />
                       ) : (
-                        <div className="w-14 h-14 rounded-lg bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center text-white font-bold text-xl">
+                        <div className="w-14 h-14 rounded-lg bg-gradient-to-br from-accent-purple-500 to-accent-pink-600 flex items-center justify-center text-white font-bold text-xl">
                           {team.name.charAt(0).toUpperCase()}
                         </div>
                       )}
@@ -394,10 +394,10 @@ export default function LeaderboardPage() {
                       <h3 className="text-white font-bold text-lg">
                         {team.name}
                       </h3>
-                      <p className="text-slate-400 text-sm">
+                      <p className="text-neutral-400 text-sm">
                         👑 {team.owner.name || 'Capitán'}
                       </p>
-                      <p className="text-purple-400 text-sm">
+                      <p className="text-accent-purple-400 text-sm">
                         {team.memberCount}/{team.maxMembers} miembros
                       </p>
                     </div>
@@ -405,13 +405,13 @@ export default function LeaderboardPage() {
                       <p className="text-white font-black text-2xl">
                         {team.totalScore}
                       </p>
-                      <p className="text-slate-400 text-xs uppercase">puntos</p>
+                      <p className="text-neutral-400 text-xs uppercase">puntos</p>
                     </div>
                     <div className="text-right hidden md:block">
-                      <p className="text-purple-400 font-bold">
+                      <p className="text-accent-purple-400 font-bold">
                         {team.challengesCompleted}
                       </p>
-                      <p className="text-slate-400 text-xs uppercase">
+                      <p className="text-neutral-400 text-xs uppercase">
                         challenges
                       </p>
                     </div>
@@ -423,9 +423,9 @@ export default function LeaderboardPage() {
               {teamsLeaderboard.slice(3).map((team) => (
                 <div
                   key={team.id}
-                  className="bg-slate-800 border-2 border-slate-700 rounded-lg p-4 flex items-center gap-4 hover:border-purple-500 transition-colors"
+                  className="bg-neutral-800 border-2 border-neutral-700 rounded-lg p-4 flex items-center gap-4 hover:border-accent-purple-500 transition-colors"
                 >
-                  <div className="text-slate-400 font-bold text-xl w-12 text-center">
+                  <div className="text-neutral-400 font-bold text-xl w-12 text-center">
                     #{team.rank}
                   </div>
                   <div className="relative">
@@ -435,17 +435,17 @@ export default function LeaderboardPage() {
                         alt={team.name}
                         width={48}
                         height={48}
-                        className="rounded-lg border-2 border-slate-600"
+                        className="rounded-lg border-2 border-neutral-600"
                       />
                     ) : (
-                      <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-slate-600 to-slate-700 flex items-center justify-center text-white font-bold">
+                      <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-neutral-600 to-neutral-700 flex items-center justify-center text-white font-bold">
                         {team.name.charAt(0).toUpperCase()}
                       </div>
                     )}
                   </div>
                   <div className="flex-1">
                     <h3 className="text-white font-bold">{team.name}</h3>
-                    <p className="text-slate-500 text-sm">
+                    <p className="text-neutral-500 text-sm">
                       {team.memberCount}/{team.maxMembers} miembros
                     </p>
                   </div>
@@ -453,13 +453,13 @@ export default function LeaderboardPage() {
                     <p className="text-white font-bold text-lg">
                       {team.totalScore}
                     </p>
-                    <p className="text-slate-500 text-xs">pts</p>
+                    <p className="text-neutral-500 text-xs">pts</p>
                   </div>
                   <div className="text-right hidden md:block">
-                    <p className="text-purple-400 font-bold">
+                    <p className="text-accent-purple-400 font-bold">
                       {team.challengesCompleted}
                     </p>
-                    <p className="text-slate-500 text-xs">challenges</p>
+                    <p className="text-neutral-500 text-xs">challenges</p>
                   </div>
                 </div>
               ))}
@@ -470,8 +470,8 @@ export default function LeaderboardPage() {
 
       {/* Legend */}
       <div className="max-w-4xl mx-auto mt-8">
-        <div className="bg-slate-800/50 rounded-lg p-4">
-          <p className="text-slate-400 text-center text-sm">
+        <div className="bg-neutral-800/50 rounded-lg p-4">
+          <p className="text-neutral-400 text-center text-sm">
             {activeTab === 'users'
               ? 'Los puntos se calculan sumando los scores de todas tus submissions aprobadas.'
               : 'Los puntos del equipo son la suma de los puntos de todos sus miembros.'}
