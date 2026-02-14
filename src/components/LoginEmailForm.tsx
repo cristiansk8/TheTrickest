@@ -82,7 +82,7 @@ export default function LoginEmailForm({ isOpen, onClose, onSuccess, onSwitchToR
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full px-4 py-3 bg-slate-800 border-2 border-cyan-500 rounded-lg text-white font-bold focus:outline-none focus:border-cyan-300 focus:shadow-lg focus:shadow-cyan-500/50 transition-all"
+              className="w-full px-4 py-3 bg-neutral-800 border-2 border-cyan-500 rounded-lg text-white font-bold focus:outline-none focus:border-cyan-300 focus:shadow-lg focus:shadow-cyan-500/50 transition-all"
               placeholder="tu@email.com"
               disabled={isLoading}
             />
@@ -99,7 +99,7 @@ export default function LoginEmailForm({ isOpen, onClose, onSuccess, onSwitchToR
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full px-4 py-3 bg-slate-800 border-2 border-cyan-500 rounded-lg text-white font-bold focus:outline-none focus:border-cyan-300 focus:shadow-lg focus:shadow-cyan-500/50 transition-all"
+              className="w-full px-4 py-3 bg-neutral-800 border-2 border-cyan-500 rounded-lg text-white font-bold focus:outline-none focus:border-cyan-300 focus:shadow-lg focus:shadow-cyan-500/50 transition-all"
               placeholder="••••••••"
               disabled={isLoading}
             />
@@ -120,7 +120,7 @@ export default function LoginEmailForm({ isOpen, onClose, onSuccess, onSwitchToR
               <div className="w-full border-t-2 border-slate-700"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-slate-900 text-slate-400 font-bold uppercase">O</span>
+              <span className="px-4 bg-neutral-900 text-neutral-400 font-bold uppercase">O</span>
             </div>
           </div>
 
@@ -129,7 +129,7 @@ export default function LoginEmailForm({ isOpen, onClose, onSuccess, onSwitchToR
             type="button"
             onClick={() => signIn('google')}
             disabled={isLoading}
-            className="w-full py-4 bg-purple-600 hover:bg-purple-700 text-white font-black uppercase tracking-wider text-lg rounded-lg border-4 border-purple-400 shadow-lg shadow-purple-500/50 hover:shadow-purple-400/70 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-4 bg-accent-purple-600 hover:bg-accent-purple-700 text-white font-black uppercase tracking-wider text-lg rounded-lg border-4 border-accent-purple-400 shadow-lg shadow-accent-purple-500/50 hover:shadow-purple-400/70 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             🔐 CONTINUAR CON GOOGLE
           </button>
@@ -137,7 +137,7 @@ export default function LoginEmailForm({ isOpen, onClose, onSuccess, onSwitchToR
           {/* Link to Register */}
           {onSwitchToRegister && (
             <div className="text-center pt-4 border-t-2 border-slate-700">
-              <p className="text-slate-400 text-sm mb-3 font-bold">
+              <p className="text-neutral-400 text-sm mb-3 font-bold">
                 ¿No tienes cuenta?
               </p>
               <button

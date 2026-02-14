@@ -7,10 +7,10 @@ interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> 
 }
 
 const variantStyles = {
-  edit: 'bg-yellow-500 hover:bg-yellow-600 text-black',
+  edit: 'bg-accent-yellow-500 hover:bg-accent-yellow-600 text-black',
   delete: 'bg-red-500 hover:bg-red-600 text-white',
-  view: 'bg-purple-600 hover:bg-purple-700 text-white',
-  info: 'bg-cyan-500 hover:bg-cyan-600 text-white',
+  view: 'bg-accent-purple-600 hover:bg-accent-purple-700 text-white',
+  info: 'bg-accent-cyan-500 hover:bg-accent-cyan-600 text-white',
 };
 
 const sizeStyles = {

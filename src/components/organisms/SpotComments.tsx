@@ -186,21 +186,21 @@ export default function SpotComments({ spotId, maxHeight = '400px', highlightCom
       {/* Header with count and sort */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <MessageSquare className="w-4 h-4 text-cyan-400" />
-          <span className="font-bold text-cyan-400">
+          <MessageSquare className="w-4 h-4 text-accent-cyan-400" />
+          <span className="font-bold text-accent-cyan-400">
             {total} {total === 1 ? 'Comentario' : 'Comentarios'}
           </span>
         </div>
 
         {/* Sort toggle */}
-        <div className="flex items-center gap-1 bg-slate-800 rounded-lg p-1 border border-slate-700">
+        <div className="flex items-center gap-1 bg-neutral-800 rounded-lg p-1 border border-neutral-700">
           <button
             onClick={() => setSort('recent')}
             className={`
               px-2 py-1 rounded text-xs font-bold flex items-center gap-1 transition-all
               ${sort === 'recent'
-                ? 'bg-purple-600 text-white'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-accent-purple-600 text-white'
+                : 'text-neutral-400 hover:text-white'
               }
             `}
           >
@@ -212,8 +212,8 @@ export default function SpotComments({ spotId, maxHeight = '400px', highlightCom
             className={`
               px-2 py-1 rounded text-xs font-bold flex items-center gap-1 transition-all
               ${sort === 'popular'
-                ? 'bg-purple-600 text-white'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-accent-purple-600 text-white'
+                : 'text-neutral-400 hover:text-white'
               }
             `}
           >
@@ -235,9 +235,9 @@ export default function SpotComments({ spotId, maxHeight = '400px', highlightCom
 
       {/* Loading state */}
       {loading && (
-        <div className="bg-slate-800 border-2 border-slate-700 rounded-lg p-6 text-center">
-          <div className="w-8 h-8 animate-spin border-4 border-cyan-400 border-t-transparent rounded-full mx-auto mb-2" />
-          <p className="text-cyan-400 font-bold text-sm">Cargando comentarios...</p>
+        <div className="bg-neutral-800 border-2 border-neutral-700 rounded-lg p-6 text-center">
+          <div className="w-8 h-8 animate-spin border-4 border-accent-cyan-400 border-t-transparent rounded-full mx-auto mb-2" />
+          <p className="text-accent-cyan-400 font-bold text-sm">Cargando comentarios...</p>
         </div>
       )}
 
@@ -269,7 +269,7 @@ export default function SpotComments({ spotId, maxHeight = '400px', highlightCom
             <button
               onClick={handleLoadMore}
               disabled={loadingMore}
-              className="w-full py-2 px-4 bg-slate-800 hover:bg-slate-700 border-2 border-slate-600 hover:border-cyan-400 rounded-lg font-bold text-cyan-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-2 px-4 bg-neutral-800 hover:bg-neutral-700 border-2 border-neutral-600 hover:border-accent-cyan-400 rounded-lg font-bold text-accent-cyan-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loadingMore ? 'Cargando...' : `Cargar más comentarios (${total - comments.length} restantes)`}
             </button>
@@ -279,12 +279,12 @@ export default function SpotComments({ spotId, maxHeight = '400px', highlightCom
 
       {/* Empty state */}
       {!loading && comments.length === 0 && (
-        <div className="bg-slate-800 border-2 border-slate-700 rounded-lg p-6 text-center">
-          <MessageSquare className="w-12 h-12 text-slate-600 mx-auto mb-2" />
-          <p className="text-slate-400 font-bold mb-1">
+        <div className="bg-neutral-800 border-2 border-neutral-700 rounded-lg p-6 text-center">
+          <MessageSquare className="w-12 h-12 text-neutral-600 mx-auto mb-2" />
+          <p className="text-neutral-400 font-bold mb-1">
             Aún no hay comentarios
           </p>
-          <p className="text-slate-500 text-sm">
+          <p className="text-neutral-500 text-sm">
             ¡Sé el primero en compartir tu experiencia!
           </p>
         </div>

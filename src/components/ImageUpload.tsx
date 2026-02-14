@@ -1,8 +1,8 @@
 'use client';
 
-import { Camera, Upload } from 'lucide-react';
+import { Camera, Upload, X } from 'lucide-react';
 import Image from 'next/image';
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState } from 'react';
 
 interface ImageUploadProps {
   currentImage?: string;
@@ -16,11 +16,6 @@ export default function ImageUpload({
   const [preview, setPreview] = useState<string | null>(currentImage || null);
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  // Sincronizar preview con currentImage cuando cambia
-  useEffect(() => {
-    setPreview(currentImage || null);
-  }, [currentImage]);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -66,11 +61,19 @@ export default function ImageUpload({
     }
   };
 
+  const handleRemoveImage = () => {
+    setPreview(null);
+    onImageChange('');
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
   return (
     <div className="flex flex-col items-center gap-4">
       {/* Preview de la imagen */}
       <div className="relative group">
-        <div className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-cyan-500 shadow-lg shadow-cyan-500/50 overflow-hidden bg-slate-800">
+        <div className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-accent-cyan-500 shadow-lg shadow-accent-cyan-500/50 overflow-hidden bg-neutral-800 flex items-center justify-center">
           {preview ? (
             <Image
               src={preview}
@@ -80,26 +83,25 @@ export default function ImageUpload({
               className="w-full h-full object-cover"
             />
           ) : (
-            <div className="w-full h-full bg-slate-700 flex items-center justify-center">
-              <Camera className="w-12 h-12 text-slate-600" />
-            </div>
+            <Camera className="w-12 h-12 text-neutral-600" />
           )}
         </div>
 
-        {/* Overlay con icono de cámara (siempre visible) */}
-        {!uploading && (
-          <label
-            htmlFor="profile-image-upload"
-            className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100 transition-all duration-200"
+        {/* Botón de eliminar (solo si hay imagen) */}
+        {preview && !uploading && (
+          <button
+            type="button"
+            onClick={handleRemoveImage}
+            className="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-2 border-2 border-white shadow-lg transform hover:scale-110 transition-all"
           >
-            <Camera className="w-10 h-10 text-white" />
-          </label>
+            <X className="w-4 h-4" />
+          </button>
         )}
 
         {/* Overlay de carga */}
         {uploading && (
           <div className="absolute inset-0 bg-black/70 rounded-full flex items-center justify-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-t-4 border-b-4 border-cyan-400"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-t-4 border-b-4 border-accent-cyan-400"></div>
           </div>
         )}
       </div>
@@ -116,14 +118,14 @@ export default function ImageUpload({
         />
         <label
           htmlFor="profile-image-upload"
-          className={`cursor-pointer bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-6 rounded-lg border-2 border-white uppercase tracking-wider text-sm shadow-lg transform hover:scale-105 transition-all flex items-center gap-2 ${
+          className={`cursor-pointer bg-accent-cyan-500 hover:from-accent-cyan-400 hover:to-accent-blue-400 text-white font-bold py-2 px-6 rounded-lg border-2 border-white uppercase tracking-wider text-sm shadow-lg transform hover:scale-105 transition-all flex items-center gap-2 ${
             uploading ? 'opacity-50 cursor-not-allowed' : ''
           }`}
         >
           <Upload className="w-4 h-4" />
           {uploading ? 'Subiendo...' : 'Cambiar Foto'}
         </label>
-        <p className="text-xs text-slate-400 text-center">
+        <p className="text-xs text-neutral-400 text-center">
           JPG, PNG o GIF (máx. 5MB)
         </p>
       </div>

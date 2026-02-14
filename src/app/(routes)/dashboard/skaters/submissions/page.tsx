@@ -81,25 +81,25 @@ export default function SubmissionsPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-black">
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-accent-purple-900 via-accent-blue-900 to-black">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-cyan-400 mx-auto"></div>
-          <p className="mt-4 text-cyan-400 font-bold text-xl">CARGANDO HISTORIAL...</p>
+          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-accent-cyan-400 mx-auto"></div>
+          <p className="mt-4 text-accent-cyan-400 font-bold text-xl">CARGANDO HISTORIAL...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4 md:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-900 via-accent-purple-900 to-neutral-900 p-4 md:p-8">
       {/* Header */}
       <div className="max-w-7xl mx-auto mb-8">
-        <div className="bg-gradient-to-r from-purple-500 to-pink-600 p-1 rounded-lg shadow-2xl">
-          <div className="bg-slate-900 rounded-lg p-6">
-            <h1 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 uppercase tracking-wider text-center md:text-left">
+        <div className="bg-gradient-to-r from-accent-purple-500 to-accent-pink-600 p-1 rounded-lg shadow-2xl">
+          <div className="bg-neutral-900 rounded-lg p-6">
+            <h1 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-purple-400 to-accent-pink-400 uppercase tracking-wider text-center md:text-left">
               📹 MY SUBMISSIONS
             </h1>
-            <p className="text-purple-300 mt-2 text-sm md:text-base text-center md:text-left">
+            <p className="text-accent-purple-300 mt-2 text-sm md:text-base text-center md:text-left">
               Historial completo de tus submissions y evaluaciones
             </p>
           </div>
@@ -110,33 +110,33 @@ export default function SubmissionsPage() {
       {stats && (
         <div className="max-w-7xl mx-auto mb-8">
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-            <div className="bg-gradient-to-r from-blue-500 to-cyan-500 p-1 rounded-lg">
-              <div className="bg-slate-900 rounded-lg p-4 text-center">
-                <p className="text-slate-400 text-xs uppercase">Total</p>
+            <div className="bg-gradient-to-r from-accent-blue-500 to-accent-cyan-500 p-1 rounded-lg">
+              <div className="bg-neutral-900 rounded-lg p-4 text-center">
+                <p className="text-neutral-400 text-xs uppercase">Total</p>
                 <p className="text-white text-2xl font-black">{stats.total}</p>
               </div>
             </div>
-            <div className="bg-gradient-to-r from-yellow-500 to-orange-500 p-1 rounded-lg">
-              <div className="bg-slate-900 rounded-lg p-4 text-center">
-                <p className="text-slate-400 text-xs uppercase">Pendientes</p>
+            <div className="bg-gradient-to-r from-accent-yellow-500 to-accent-orange-500 p-1 rounded-lg">
+              <div className="bg-neutral-900 rounded-lg p-4 text-center">
+                <p className="text-neutral-400 text-xs uppercase">Pendientes</p>
                 <p className="text-white text-2xl font-black">{stats.pending}</p>
               </div>
             </div>
-            <div className="bg-gradient-to-r from-green-500 to-teal-500 p-1 rounded-lg">
-              <div className="bg-slate-900 rounded-lg p-4 text-center">
-                <p className="text-slate-400 text-xs uppercase">Aprobados</p>
+            <div className="bg-gradient-to-r from-green-500 to-accent-teal-500 p-1 rounded-lg">
+              <div className="bg-neutral-900 rounded-lg p-4 text-center">
+                <p className="text-neutral-400 text-xs uppercase">Aprobados</p>
                 <p className="text-white text-2xl font-black">{stats.approved}</p>
               </div>
             </div>
-            <div className="bg-gradient-to-r from-red-500 to-pink-500 p-1 rounded-lg">
-              <div className="bg-slate-900 rounded-lg p-4 text-center">
-                <p className="text-slate-400 text-xs uppercase">Rechazados</p>
+            <div className="bg-gradient-to-r from-red-500 to-accent-pink-500 p-1 rounded-lg">
+              <div className="bg-neutral-900 rounded-lg p-4 text-center">
+                <p className="text-neutral-400 text-xs uppercase">Rechazados</p>
                 <p className="text-white text-2xl font-black">{stats.rejected}</p>
               </div>
             </div>
-            <div className="bg-gradient-to-r from-purple-500 to-pink-500 p-1 rounded-lg">
-              <div className="bg-slate-900 rounded-lg p-4 text-center">
-                <p className="text-slate-400 text-xs uppercase">Score Total</p>
+            <div className="bg-gradient-to-r from-accent-purple-500 to-accent-pink-500 p-1 rounded-lg">
+              <div className="bg-neutral-900 rounded-lg p-4 text-center">
+                <p className="text-neutral-400 text-xs uppercase">Score Total</p>
                 <p className="text-white text-2xl font-black">{stats.totalScore}</p>
               </div>
             </div>
@@ -151,8 +151,8 @@ export default function SubmissionsPage() {
             onClick={() => setFilter('all')}
             className={`px-4 py-2 rounded-lg font-bold uppercase text-xs tracking-wider transition-all ${
               filter === 'all'
-                ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white border-2 border-white'
-                : 'bg-slate-800 text-slate-400 border-2 border-slate-700 hover:border-slate-500'
+                ? 'bg-gradient-to-r from-accent-cyan-500 to-accent-blue-500 text-white border-2 border-white'
+                : 'bg-neutral-800 text-neutral-400 border-2 border-neutral-700 hover:border-neutral-500'
             }`}
           >
             Todos ({submissions.length})
@@ -161,8 +161,8 @@ export default function SubmissionsPage() {
             onClick={() => setFilter('pending')}
             className={`px-4 py-2 rounded-lg font-bold uppercase text-xs tracking-wider transition-all ${
               filter === 'pending'
-                ? 'bg-gradient-to-r from-yellow-500 to-orange-500 text-white border-2 border-white'
-                : 'bg-slate-800 text-slate-400 border-2 border-slate-700 hover:border-slate-500'
+                ? 'bg-gradient-to-r from-accent-yellow-500 to-accent-orange-500 text-white border-2 border-white'
+                : 'bg-neutral-800 text-neutral-400 border-2 border-neutral-700 hover:border-neutral-500'
             }`}
           >
             ⏳ Pendientes ({stats?.pending || 0})
@@ -171,8 +171,8 @@ export default function SubmissionsPage() {
             onClick={() => setFilter('approved')}
             className={`px-4 py-2 rounded-lg font-bold uppercase text-xs tracking-wider transition-all ${
               filter === 'approved'
-                ? 'bg-gradient-to-r from-green-500 to-teal-500 text-white border-2 border-white'
-                : 'bg-slate-800 text-slate-400 border-2 border-slate-700 hover:border-slate-500'
+                ? 'bg-gradient-to-r from-green-500 to-accent-teal-500 text-white border-2 border-white'
+                : 'bg-neutral-800 text-neutral-400 border-2 border-neutral-700 hover:border-neutral-500'
             }`}
           >
             ✅ Aprobados ({stats?.approved || 0})
@@ -181,8 +181,8 @@ export default function SubmissionsPage() {
             onClick={() => setFilter('rejected')}
             className={`px-4 py-2 rounded-lg font-bold uppercase text-xs tracking-wider transition-all ${
               filter === 'rejected'
-                ? 'bg-gradient-to-r from-red-500 to-pink-500 text-white border-2 border-white'
-                : 'bg-slate-800 text-slate-400 border-2 border-slate-700 hover:border-slate-500'
+                ? 'bg-gradient-to-r from-red-500 to-accent-pink-500 text-white border-2 border-white'
+                : 'bg-neutral-800 text-neutral-400 border-2 border-neutral-700 hover:border-neutral-500'
             }`}
           >
             ❌ Rechazados ({stats?.rejected || 0})
@@ -202,13 +202,13 @@ export default function SubmissionsPage() {
       {/* Submissions List */}
       <div className="max-w-7xl mx-auto">
         {filteredSubmissions.length === 0 ? (
-          <div className="bg-gradient-to-r from-slate-700 to-slate-800 border-4 border-slate-600 rounded-lg p-8 text-center">
-            <p className="text-slate-300 text-xl font-bold mb-2">
+          <div className="bg-gradient-to-r from-neutral-700 to-neutral-800 border-4 border-neutral-600 rounded-lg p-8 text-center">
+            <p className="text-neutral-300 text-xl font-bold mb-2">
               {filter === 'all'
                 ? '📭 No tienes submissions aún'
                 : `📭 No tienes submissions ${filter === 'pending' ? 'pendientes' : filter === 'approved' ? 'aprobadas' : 'rechazadas'}`}
             </p>
-            <p className="text-slate-400 text-sm mb-4">
+            <p className="text-neutral-400 text-sm mb-4">
               {filter === 'all'
                 ? '¡Comienza a enviar tus videos para los challenges!'
                 : 'Cambia el filtro para ver otras submissions'}
@@ -216,7 +216,7 @@ export default function SubmissionsPage() {
             {filter === 'all' && (
               <button
                 onClick={() => router.push('/dashboard/skaters/tricks')}
-                className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white font-black py-3 px-6 rounded-lg border-4 border-white uppercase tracking-wider shadow-2xl transform hover:scale-105 transition-all"
+                className="bg-gradient-to-r from-accent-cyan-500 to-accent-blue-500 hover:from-accent-cyan-400 hover:to-accent-blue-400 text-white font-black py-3 px-6 rounded-lg border-4 border-white uppercase tracking-wider shadow-2xl transform hover:scale-105 transition-all"
               >
                 🎯 Ver Challenges
               </button>

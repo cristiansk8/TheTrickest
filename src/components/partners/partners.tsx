@@ -28,13 +28,13 @@ const Partners = () => {
     <div>
       <div
         id="team"
-        className={`section relative pt-20 pb-8 md:pt-16 bg-[#2e2257] ${styles.container}`}
+        className={`section relative pt-20 pb-8 md:pt-16 bg-surface-deep ${styles.container}`}
       >
         <div
           className={`container xl:max-w-6xl mx-auto px-4 ${styles.teamContainer}`}
         >
           <header className="text-center mx-auto mb-12">
-            <h2 className="text-2xl leading-normal mb-2 font-bold text-slate-200">
+            <h2 className="text-2xl leading-normal mb-2 font-bold text-neutral-200">
               <span className="font-light">Nuestros</span> Partners
             </h2>
             <svg
@@ -75,7 +75,7 @@ const Partners = () => {
                   className={`flex-shrink max-w-full px-4 w-2/3 sm:w-1/2 md:w-5/12 lg:w-1/4 xl:px-6 ${styles.profile}`}
                 >
                   <div
-                    className={`relative overflow-hidden bg-slate-800/50 mb-12 hover-grayscale-0 wow fadeInUp ${styles.profileContainer}`}
+                    className={`relative overflow-hidden bg-neutral-800/50 mb-12 hover-grayscale-0 wow fadeInUp ${styles.profileContainer}`}
                   >
                     <div
                       className={`relative overflow-hidden px-6 ${styles.imageContainer}`}
@@ -84,7 +84,7 @@ const Partners = () => {
                         width={80}
                         height={80}
                         src={partner.imageSrc}
-                        className="max-w-full h-auto mx-auto rounded-full bg-gray-50 grayscale"
+                        className="max-w-full h-auto mx-auto rounded-full bg-neutral-50 grayscale"
                         alt="title image"
                       />
                     </div>
@@ -95,10 +95,10 @@ const Partners = () => {
                         rel="noopener noreferrer"
                         className="block hover:opacity-80 transition-opacity"
                       >
-                        <p className="text-slate-200 text-lg leading-normal font-bold mb-1">
+                        <p className="text-neutral-200 text-lg leading-normal font-bold mb-1">
                           {partner.name}
                         </p>
-                        <p className="text-slate-400 leading-relaxed font-light">
+                        <p className="text-neutral-400 leading-relaxed font-light">
                           {partner.role}
                         </p>
                       </a>

@@ -39,11 +39,11 @@ export function VotingCallToAction() {
   }, []);
 
   return (
-    <section className="relative py-20 overflow-hidden bg-gradient-to-b from-gray-950 via-gray-900 to-gray-950">
+    <section className="relative py-20 overflow-hidden bg-gradient-to-b from-neutral-950 via-neutral-900 to-neutral-950">
       {/* Background Effects */}
       <div className="absolute inset-0">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-accent-purple-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent-blue-500/10 rounded-full blur-3xl" />
       </div>
 
       <div className="container relative z-10 mx-auto px-4">
@@ -56,23 +56,23 @@ export function VotingCallToAction() {
         >
           {/* Badge */}
           <div className="flex justify-center mb-6">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-purple-500/20 to-blue-500/20 border border-purple-500/30">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-accent-purple-500/20 to-accent-blue-500/20 border border-accent-purple-500/30">
               <div className="relative">
                 <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
                 <div className="absolute inset-0 w-2 h-2 bg-green-500 rounded-full animate-ping" />
               </div>
-              <span className="text-sm font-medium text-gray-300">
+              <span className="text-sm font-medium text-neutral-300">
                 Sistema Activo • Votación en Vivo
               </span>
             </div>
           </div>
 
           {/* Heading */}
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-6 bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-6 bg-gradient-to-r from-accent-purple-400 via-accent-pink-400 to-accent-blue-400 bg-clip-text text-transparent">
             Comunidad en Acción
           </h2>
 
-          <p className="text-xl text-center text-gray-400 mb-12 max-w-2xl mx-auto">
+          <p className="text-xl text-center text-neutral-400 mb-12 max-w-2xl mx-auto">
             La comunidad decide quién gana. Participa votando las mejores
             submissions.
           </p>
@@ -83,11 +83,11 @@ export function VotingCallToAction() {
               {[1, 2, 3].map((i) => (
                 <div
                   key={i}
-                  className="p-6 rounded-2xl bg-gray-800/50 border border-gray-700/50 animate-pulse"
+                  className="p-6 rounded-2xl bg-neutral-800/50 border border-neutral-700/50 animate-pulse"
                 >
-                  <div className="h-10 w-10 bg-gray-700 rounded-xl mb-4" />
-                  <div className="h-8 bg-gray-700 rounded mb-2" />
-                  <div className="h-4 bg-gray-700 rounded w-2/3" />
+                  <div className="h-10 w-10 bg-neutral-700 rounded-xl mb-4" />
+                  <div className="h-8 bg-neutral-700 rounded mb-2" />
+                  <div className="h-4 bg-neutral-700 rounded w-2/3" />
                 </div>
               ))}
             </div>
@@ -98,17 +98,17 @@ export function VotingCallToAction() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="group p-6 rounded-2xl bg-gradient-to-br from-purple-500/10 to-purple-600/5 border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300"
+                className="group p-6 rounded-2xl bg-gradient-to-br from-accent-purple-500/10 to-accent-purple-600/5 border border-accent-purple-500/20 hover:border-accent-purple-500/40 transition-all duration-300"
               >
                 <div className="flex items-center justify-between mb-4">
-                  <div className="p-3 rounded-xl bg-purple-500/20 text-purple-400 group-hover:scale-110 transition-transform">
+                  <div className="p-3 rounded-xl bg-accent-purple-500/20 text-accent-purple-400 group-hover:scale-110 transition-transform">
                     <TrendingUp className="w-6 h-6" />
                   </div>
                 </div>
                 <div className="text-3xl font-bold text-white mb-2">
                   {stats?.pending || 0}
                 </div>
-                <div className="text-sm text-gray-400">
+                <div className="text-sm text-neutral-400">
                   Submissions Pendientes
                 </div>
               </motion.div>
@@ -128,7 +128,7 @@ export function VotingCallToAction() {
                 <div className="text-3xl font-bold text-white mb-2">
                   {stats?.communityApproved || 0}
                 </div>
-                <div className="text-sm text-gray-400">
+                <div className="text-sm text-neutral-400">
                   Aprobadas por Comunidad
                 </div>
               </motion.div>
@@ -138,17 +138,17 @@ export function VotingCallToAction() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="group p-6 rounded-2xl bg-gradient-to-br from-blue-500/10 to-blue-600/5 border border-blue-500/20 hover:border-blue-500/40 transition-all duration-300"
+                className="group p-6 rounded-2xl bg-gradient-to-br from-accent-blue-500/10 to-accent-blue-600/5 border border-accent-blue-500/20 hover:border-accent-blue-500/40 transition-all duration-300"
               >
                 <div className="flex items-center justify-between mb-4">
-                  <div className="p-3 rounded-xl bg-blue-500/20 text-blue-400 group-hover:scale-110 transition-transform">
+                  <div className="p-3 rounded-xl bg-accent-blue-500/20 text-accent-blue-400 group-hover:scale-110 transition-transform">
                     <Users className="w-6 h-6" />
                   </div>
                 </div>
                 <div className="text-3xl font-bold text-white mb-2">
                   {stats?.needingVotes || 0}
                 </div>
-                <div className="text-sm text-gray-400">Necesitan Tu Voto</div>
+                <div className="text-sm text-neutral-400">Necesitan Tu Voto</div>
               </motion.div>
             </div>
           )}
@@ -159,7 +159,7 @@ export function VotingCallToAction() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="group px-8 py-4 rounded-xl bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500 text-white font-semibold text-lg shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 transition-all duration-300"
+                className="group px-8 py-4 rounded-xl bg-gradient-to-r from-accent-purple-500 via-accent-pink-500 to-accent-blue-500 text-white font-semibold text-lg shadow-lg shadow-accent-purple-500/25 hover:shadow-accent-purple-500/40 transition-all duration-300"
               >
                 <span className="flex items-center gap-2">
                   {loading

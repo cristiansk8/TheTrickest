@@ -131,17 +131,17 @@ export default function VotePage() {
 
   if (status === 'loading') {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#0A0A0A]">
+      <div className="min-h-screen flex items-center justify-center bg-surface-base">
         <div className="text-center">
-          <Loader2 className="w-12 h-12 animate-spin text-cyan-400 mx-auto mb-4" />
-          <p className="text-gray-400">Cargando...</p>
+          <Loader2 className="w-12 h-12 animate-spin text-accent-cyan-400 mx-auto mb-4" />
+          <p className="text-neutral-400">Cargando...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white py-8">
+    <div className="min-h-screen bg-surface-base text-white py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -150,14 +150,14 @@ export default function VotePage() {
           className="mb-8"
         >
           <div className="flex items-center gap-3 mb-4">
-            <div className="p-3 bg-cyan-500/20 rounded-lg">
-              <Vote className="w-8 h-8 text-cyan-400" />
+            <div className="p-3 bg-accent-cyan-500/20 rounded-lg">
+              <Vote className="w-8 h-8 text-accent-cyan-400" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-accent-cyan-400 to-accent-blue-500 bg-clip-text text-transparent">
                 Votación Comunitaria
               </h1>
-              <p className="text-gray-400">
+              <p className="text-neutral-400">
                 Ayuda a evaluar los trucos de la comunidad
               </p>
             </div>
@@ -165,23 +165,23 @@ export default function VotePage() {
 
           {/* Stats Banner */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-            <div className="bg-[#0A0F1E] border border-gray-800 rounded-lg p-4">
+            <div className="bg-surface-card border border-neutral-800 rounded-lg p-4">
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-blue-500/20 rounded">
-                  <TrendingUp className="w-5 h-5 text-blue-400" />
+                <div className="p-2 bg-accent-blue-500/20 rounded">
+                  <TrendingUp className="w-5 h-5 text-accent-blue-400" />
                 </div>
                 <div>
                   <p className="text-2xl font-bold text-white">
                     {pagination.total}
                   </p>
-                  <p className="text-sm text-gray-400">
+                  <p className="text-sm text-neutral-400">
                     Submissions pendientes
                   </p>
                 </div>
               </div>
             </div>
 
-            <div className="bg-[#0A0F1E] border border-gray-800 rounded-lg p-4">
+            <div className="bg-surface-card border border-neutral-800 rounded-lg p-4">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-green-500/20 rounded">
                   <Users className="w-5 h-5 text-green-400" />
@@ -193,21 +193,21 @@ export default function VotePage() {
                         .length
                     }
                   </p>
-                  <p className="text-sm text-gray-400">Listas para decisión</p>
+                  <p className="text-sm text-neutral-400">Listas para decisión</p>
                 </div>
               </div>
             </div>
 
-            <div className="bg-[#0A0F1E] border border-gray-800 rounded-lg p-4">
+            <div className="bg-surface-card border border-neutral-800 rounded-lg p-4">
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-purple-500/20 rounded">
-                  <Vote className="w-5 h-5 text-purple-400" />
+                <div className="p-2 bg-accent-purple-500/20 rounded">
+                  <Vote className="w-5 h-5 text-accent-purple-400" />
                 </div>
                 <div>
                   <p className="text-2xl font-bold text-white">
                     {submissions.length}
                   </p>
-                  <p className="text-sm text-gray-400">
+                  <p className="text-sm text-neutral-400">
                     Disponibles para votar
                   </p>
                 </div>
@@ -216,12 +216,12 @@ export default function VotePage() {
           </div>
 
           {/* Info Banner */}
-          <div className="bg-cyan-500/10 border border-cyan-500/30 rounded-lg p-4 mt-4">
+          <div className="bg-accent-cyan-500/10 border border-accent-cyan-500/30 rounded-lg p-4 mt-4">
             <div className="flex items-start gap-3">
-              <AlertCircle className="w-5 h-5 text-cyan-400 mt-0.5 flex-shrink-0" />
-              <div className="text-sm text-cyan-300">
+              <AlertCircle className="w-5 h-5 text-accent-cyan-400 mt-0.5 flex-shrink-0" />
+              <div className="text-sm text-accent-cyan-300">
                 <p className="font-semibold mb-1">¿Cómo funciona?</p>
-                <ul className="space-y-1 text-cyan-400/80">
+                <ul className="space-y-1 text-accent-cyan-400/80">
                   <li>
                     • Vota 👍 si el truco está bien ejecutado y cumple los
                     requisitos
@@ -242,15 +242,15 @@ export default function VotePage() {
         {isLoading && submissions.length === 0 ? (
           <div className="flex items-center justify-center py-20">
             <div className="text-center">
-              <Loader2 className="w-12 h-12 animate-spin text-cyan-400 mx-auto mb-4" />
-              <p className="text-gray-400">Cargando submissions...</p>
+              <Loader2 className="w-12 h-12 animate-spin text-accent-cyan-400 mx-auto mb-4" />
+              <p className="text-neutral-400">Cargando submissions...</p>
             </div>
           </div>
         ) : error ? (
           <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-6 text-center">
             <AlertCircle className="w-12 h-12 text-red-400 mx-auto mb-3" />
             <p className="text-red-400 font-semibold mb-2">Error</p>
-            <p className="text-gray-400">{error}</p>
+            <p className="text-neutral-400">{error}</p>
             <button
               onClick={() => fetchSubmissions(0)}
               className="mt-4 px-4 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-lg transition-colors"
@@ -259,12 +259,12 @@ export default function VotePage() {
             </button>
           </div>
         ) : submissions.length === 0 ? (
-          <div className="bg-[#0A0F1E] border border-gray-800 rounded-lg p-12 text-center">
-            <Vote className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-            <h3 className="text-xl font-bold text-gray-400 mb-2">
+          <div className="bg-surface-card border border-neutral-800 rounded-lg p-12 text-center">
+            <Vote className="w-16 h-16 text-neutral-600 mx-auto mb-4" />
+            <h3 className="text-xl font-bold text-neutral-400 mb-2">
               ¡Todo al día! 🎉
             </h3>
-            <p className="text-gray-500">
+            <p className="text-neutral-500">
               No hay submissions disponibles para votar en este momento.
             </p>
           </div>
@@ -289,7 +289,7 @@ export default function VotePage() {
                 <button
                   onClick={loadMore}
                   disabled={isLoading}
-                  className="px-6 py-3 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-400 rounded-lg font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center gap-2"
+                  className="px-6 py-3 bg-accent-cyan-500/20 hover:bg-accent-cyan-500/30 text-accent-cyan-400 rounded-lg font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center gap-2"
                 >
                   {isLoading ? (
                     <>

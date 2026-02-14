@@ -177,19 +177,19 @@ export default function PublicProfilePage() {
     switch (role) {
       case 'admin':
         return (
-          <span className="text-xs bg-gradient-to-r from-red-500 to-orange-500 text-white px-3 py-1 rounded-full font-black uppercase tracking-wider shadow-lg shadow-red-500/50">
+          <span className="text-xs bg-gradient-to-r from-red-500 to-accent-orange-500 text-white px-3 py-1 rounded-full font-black uppercase tracking-wider shadow-lg shadow-red-500/50">
             ADMIN
           </span>
         );
       case 'judge':
         return (
-          <span className="text-xs bg-gradient-to-r from-yellow-500 to-amber-500 text-black px-3 py-1 rounded-full font-black uppercase tracking-wider shadow-lg shadow-yellow-500/50">
+          <span className="text-xs bg-gradient-to-r from-accent-yellow-500 to-accent-amber-500 text-black px-3 py-1 rounded-full font-black uppercase tracking-wider shadow-lg shadow-accent-yellow-500/50">
             JUEZ
           </span>
         );
       default:
         return (
-          <span className="text-xs bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-3 py-1 rounded-full font-black uppercase tracking-wider shadow-lg shadow-cyan-500/50">
+          <span className="text-xs bg-gradient-to-r from-accent-cyan-500 to-accent-blue-500 text-white px-3 py-1 rounded-full font-black uppercase tracking-wider shadow-lg shadow-accent-cyan-500/50">
             SKATER
           </span>
         );
@@ -203,10 +203,10 @@ export default function PublicProfilePage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-black">
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-accent-purple-900 via-accent-blue-900 to-black">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-cyan-400 mx-auto"></div>
-          <p className="mt-4 text-cyan-400 font-bold text-xl">CARGANDO PERFIL...</p>
+          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-accent-cyan-400 mx-auto"></div>
+          <p className="mt-4 text-accent-cyan-400 font-bold text-xl">CARGANDO PERFIL...</p>
         </div>
       </div>
     );
@@ -214,13 +214,13 @@ export default function PublicProfilePage() {
 
   if (error || !profile) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4 md:p-8 flex items-center justify-center">
-        <div className="bg-gradient-to-r from-red-500 to-orange-500 p-1 rounded-lg shadow-2xl">
-          <div className="bg-slate-900 rounded-lg p-8 text-center">
+      <div className="min-h-screen bg-gradient-to-br from-neutral-900 via-accent-purple-900 to-neutral-900 p-4 md:p-8 flex items-center justify-center">
+        <div className="bg-gradient-to-r from-red-500 to-accent-orange-500 p-1 rounded-lg shadow-2xl">
+          <div className="bg-neutral-900 rounded-lg p-8 text-center">
             <p className="text-red-400 font-bold text-xl">{error || 'Perfil no disponible'}</p>
             <Link
               href="/dashboard/leaderboard"
-              className="inline-block mt-4 text-cyan-400 hover:text-cyan-300 font-bold uppercase"
+              className="inline-block mt-4 text-accent-cyan-400 hover:text-accent-cyan-300 font-bold uppercase"
             >
               ← Volver al Leaderboard
             </Link>
@@ -231,15 +231,15 @@ export default function PublicProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4 md:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-900 via-accent-purple-900 to-neutral-900 p-4 md:p-8">
       {/* Header Card */}
       <div className="max-w-4xl mx-auto mb-8">
-        <div className="bg-gradient-to-r from-cyan-500 to-purple-600 p-1 rounded-lg shadow-2xl shadow-cyan-500/30">
-          <div className="bg-slate-900 rounded-lg p-6">
+        <div className="bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 p-1 rounded-lg shadow-2xl shadow-accent-cyan-500/30">
+          <div className="bg-neutral-900 rounded-lg p-6">
             <div className="flex flex-col md:flex-row items-center gap-6">
               {/* Avatar */}
               <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-full blur-lg opacity-50"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 rounded-full blur-lg opacity-50"></div>
                 {profile.photo ? (
                   <Image
                     src={profile.photo}
@@ -249,7 +249,7 @@ export default function PublicProfilePage() {
                     className="relative rounded-full border-4 border-white shadow-xl"
                   />
                 ) : (
-                  <div className="relative w-28 h-28 rounded-full bg-gradient-to-br from-cyan-500 to-purple-600 flex items-center justify-center text-white font-black text-4xl border-4 border-white">
+                  <div className="relative w-28 h-28 rounded-full bg-gradient-to-br from-accent-cyan-500 to-accent-purple-600 flex items-center justify-center text-white font-black text-4xl border-4 border-white">
                     {profile.name?.charAt(0).toUpperCase() || '?'}
                   </div>
                 )}
@@ -257,7 +257,7 @@ export default function PublicProfilePage() {
 
               {/* Info */}
               <div className="flex-1 text-center md:text-left">
-                <h1 className="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 uppercase tracking-wider">
+                <h1 className="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-cyan-400 to-accent-purple-400 uppercase tracking-wider">
                   {profile.name || 'Skater'}
                 </h1>
 
@@ -265,8 +265,8 @@ export default function PublicProfilePage() {
                   {getRoleBadge(profile.role)}
 
                   {profile.location && (
-                    <span className="text-slate-400 text-sm flex items-center gap-1">
-                      <MdLocationOn className="text-cyan-400" />
+                    <span className="text-neutral-400 text-sm flex items-center gap-1">
+                      <MdLocationOn className="text-accent-cyan-400" />
                       {profile.location}
                     </span>
                   )}
@@ -274,7 +274,7 @@ export default function PublicProfilePage() {
                   {profile.team && (
                     <Link
                       href="/dashboard/teams"
-                      className="text-purple-400 text-sm flex items-center gap-1 hover:text-purple-300"
+                      className="text-accent-purple-400 text-sm flex items-center gap-1 hover:text-accent-purple-300"
                     >
                       <MdGroups />
                       {profile.team.name}
@@ -282,28 +282,28 @@ export default function PublicProfilePage() {
                   )}
                 </div>
 
-                <p className="text-slate-500 text-xs mt-2">
+                <p className="text-neutral-500 text-xs mt-2">
                   Miembro desde {new Date(profile.memberSince).toLocaleDateString('es-ES', { year: 'numeric', month: 'long' })}
                 </p>
 
                 {/* Follow Stats */}
                 <div className="flex items-center gap-6 mt-3 justify-center md:justify-start">
                   <div className="text-center">
-                    <p className="text-cyan-400 font-bold text-lg">{profile.socialStats?.followerCount || 0}</p>
-                    <p className="text-slate-400 text-xs">Seguidores</p>
+                    <p className="text-accent-cyan-400 font-bold text-lg">{profile.socialStats?.followerCount || 0}</p>
+                    <p className="text-neutral-400 text-xs">Seguidores</p>
                   </div>
                   <div className="text-center">
-                    <p className="text-cyan-400 font-bold text-lg">{profile.socialStats?.followingCount || 0}</p>
-                    <p className="text-slate-400 text-xs">Siguiendo</p>
+                    <p className="text-accent-cyan-400 font-bold text-lg">{profile.socialStats?.followingCount || 0}</p>
+                    <p className="text-neutral-400 text-xs">Siguiendo</p>
                   </div>
                 </div>
               </div>
 
               {/* Main Score */}
-              <div className="bg-gradient-to-r from-yellow-500 to-orange-500 p-[3px] rounded-lg">
-                <div className="bg-slate-900 rounded-lg p-4 text-center">
-                  <p className="text-slate-400 text-xs uppercase font-bold tracking-wider">Score Total</p>
-                  <p className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400">
+              <div className="bg-gradient-to-r from-accent-yellow-500 to-accent-orange-500 p-[3px] rounded-lg">
+                <div className="bg-neutral-900 rounded-lg p-4 text-center">
+                  <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider">Score Total</p>
+                  <p className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-yellow-400 to-accent-orange-400">
                     {profile.stats.totalScore}
                   </p>
                 </div>
@@ -318,8 +318,8 @@ export default function PublicProfilePage() {
                   isLoading={followLoading}
                   className={`font-bold uppercase tracking-wider ${
                     following
-                      ? 'bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-400 hover:to-pink-500 text-white'
-                      : 'bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white'
+                      ? 'bg-gradient-to-r from-red-500 to-accent-pink-600 hover:from-red-400 hover:to-accent-pink-500 text-white'
+                      : 'bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 hover:from-accent-cyan-400 hover:to-accent-purple-500 text-white'
                   }`}
                   startContent={following ? <MdPersonRemove size={20} /> : <MdPersonAdd size={20} />}
                 >
@@ -335,45 +335,45 @@ export default function PublicProfilePage() {
       <div className="max-w-4xl mx-auto mb-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
           <div className="bg-gradient-to-r from-green-500 to-emerald-600 p-[3px] rounded-lg">
-            <div className="bg-slate-900 rounded-lg p-4 text-center h-full">
-              <p className="text-slate-400 text-xs uppercase font-bold tracking-wider">Challenges</p>
+            <div className="bg-neutral-900 rounded-lg p-4 text-center h-full">
+              <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider">Challenges</p>
               <p className="text-3xl font-black text-green-400">{profile.stats.challengesCompleted}</p>
             </div>
           </div>
 
-          <div className="bg-gradient-to-r from-blue-500 to-cyan-600 p-[3px] rounded-lg">
-            <div className="bg-slate-900 rounded-lg p-4 text-center h-full">
-              <p className="text-slate-400 text-xs uppercase font-bold tracking-wider">Tasa Éxito</p>
-              <p className="text-3xl font-black text-cyan-400">{profile.stats.successRate}%</p>
+          <div className="bg-gradient-to-r from-accent-blue-500 to-accent-cyan-600 p-[3px] rounded-lg">
+            <div className="bg-neutral-900 rounded-lg p-4 text-center h-full">
+              <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider">Tasa Éxito</p>
+              <p className="text-3xl font-black text-accent-cyan-400">{profile.stats.successRate}%</p>
             </div>
           </div>
 
-          <div className="bg-gradient-to-r from-purple-500 to-pink-600 p-[3px] rounded-lg">
-            <div className="bg-slate-900 rounded-lg p-4 text-center h-full">
-              <p className="text-slate-400 text-xs uppercase font-bold tracking-wider">Racha Actual</p>
-              <p className="text-3xl font-black text-purple-400">{profile.stats.currentStreak}</p>
+          <div className="bg-gradient-to-r from-accent-purple-500 to-accent-pink-600 p-[3px] rounded-lg">
+            <div className="bg-neutral-900 rounded-lg p-4 text-center h-full">
+              <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider">Racha Actual</p>
+              <p className="text-3xl font-black text-accent-purple-400">{profile.stats.currentStreak}</p>
             </div>
           </div>
 
-          <div className="bg-gradient-to-r from-rose-500 to-red-600 p-[3px] rounded-lg">
-            <div className="bg-slate-900 rounded-lg p-4 text-center h-full">
-              <p className="text-slate-400 text-xs uppercase font-bold tracking-wider">Mejor Racha</p>
-              <p className="text-3xl font-black text-rose-400">{profile.stats.bestStreak}</p>
+          <div className="bg-gradient-to-r from-accent-rose-500 to-red-600 p-[3px] rounded-lg">
+            <div className="bg-neutral-900 rounded-lg p-4 text-center h-full">
+              <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider">Mejor Racha</p>
+              <p className="text-3xl font-black text-accent-rose-400">{profile.stats.bestStreak}</p>
             </div>
           </div>
         </div>
 
         {/* XP and Achievements Progress */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-          <div className="bg-gradient-to-r from-yellow-500 to-orange-600 p-[3px] rounded-lg">
-            <div className="bg-slate-900 rounded-lg p-4">
+          <div className="bg-gradient-to-r from-accent-yellow-500 to-accent-orange-600 p-[3px] rounded-lg">
+            <div className="bg-neutral-900 rounded-lg p-4">
               <div className="flex justify-between items-center mb-2">
-                <span className="text-slate-400 text-xs uppercase font-bold tracking-wider">XP Total</span>
-                <span className="text-yellow-400 font-black">{profile.stats.totalXP.toLocaleString()}</span>
+                <span className="text-neutral-400 text-xs uppercase font-bold tracking-wider">XP Total</span>
+                <span className="text-accent-yellow-400 font-black">{profile.stats.totalXP.toLocaleString()}</span>
               </div>
-              <div className="w-full bg-slate-800 rounded-full h-3 border-2 border-slate-700">
+              <div className="w-full bg-neutral-800 rounded-full h-3 border-2 border-neutral-700">
                 <div
-                  className="bg-gradient-to-r from-yellow-500 to-orange-600 h-full rounded-full transition-all duration-500"
+                  className="bg-gradient-to-r from-accent-yellow-500 to-accent-orange-600 h-full rounded-full transition-all duration-500"
                   style={{ width: `${Math.min((profile.stats.achievementsUnlocked / profile.stats.totalAchievements) * 100, 100)}%` }}
                 />
               </div>
@@ -383,21 +383,21 @@ export default function PublicProfilePage() {
             </div>
           </div>
 
-          <div className="bg-gradient-to-r from-cyan-500 to-blue-600 p-[3px] rounded-lg">
-            <div className="bg-slate-900 rounded-lg p-4">
-              <p className="text-slate-400 text-xs uppercase font-bold tracking-wider mb-2">Actividad Reciente</p>
+          <div className="bg-gradient-to-r from-accent-cyan-500 to-accent-blue-600 p-[3px] rounded-lg">
+            <div className="bg-neutral-900 rounded-lg p-4">
+              <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider mb-2">Actividad Reciente</p>
               <div className="space-y-1 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-slate-300">Esta semana:</span>
-                  <span className="text-cyan-400 font-bold">{profile.activitySummary.thisWeek}</span>
+                  <span className="text-neutral-300">Esta semana:</span>
+                  <span className="text-accent-cyan-400 font-bold">{profile.activitySummary.thisWeek}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-300">Este mes:</span>
-                  <span className="text-cyan-400 font-bold">{profile.activitySummary.thisMonth}</span>
+                  <span className="text-neutral-300">Este mes:</span>
+                  <span className="text-accent-cyan-400 font-bold">{profile.activitySummary.thisMonth}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-300">Última submission:</span>
-                  <span className="text-cyan-400 font-bold text-xs">
+                  <span className="text-neutral-300">Última submission:</span>
+                  <span className="text-accent-cyan-400 font-bold text-xs">
                     {profile.activitySummary.lastSubmission
                       ? new Date(profile.activitySummary.lastSubmission).toLocaleDateString('es-ES')
                       : 'Nunca'}
@@ -409,21 +409,21 @@ export default function PublicProfilePage() {
         </div>
 
         {/* Difficulty Stats */}
-        <div className="bg-gradient-to-r from-slate-700 to-slate-800 p-[3px] rounded-lg">
-          <div className="bg-slate-900 rounded-lg p-4">
+        <div className="bg-gradient-to-r from-neutral-700 to-neutral-800 p-[3px] rounded-lg">
+          <div className="bg-neutral-900 rounded-lg p-4">
             <h3 className="text-white font-bold text-lg mb-4 text-center uppercase tracking-wider">Estadísticas por Dificultad</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {Object.entries(profile.stats.difficultyStats).map(([difficulty, stats]) => (
                 <div key={difficulty} className="text-center">
-                  <p className="text-slate-400 text-xs uppercase font-bold tracking-wider mb-1">
+                  <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider mb-1">
                     {difficulty === 'easy' ? 'Fácil' :
                      difficulty === 'medium' ? 'Medio' :
                      difficulty === 'hard' ? 'Difícil' : 'Experto'}
                   </p>
-                  <p className="text-2xl font-black text-cyan-400">{stats.completed}</p>
-                  <p className="text-slate-500 text-xs">completados</p>
+                  <p className="text-2xl font-black text-accent-cyan-400">{stats.completed}</p>
+                  <p className="text-neutral-500 text-xs">completados</p>
                   {stats.avgScore > 0 && (
-                    <p className="text-yellow-400 text-sm font-bold">{stats.avgScore} avg</p>
+                    <p className="text-accent-yellow-400 text-sm font-bold">{stats.avgScore} avg</p>
                   )}
                 </div>
               ))}
@@ -435,22 +435,22 @@ export default function PublicProfilePage() {
       {/* Content Grid */}
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Achievements */}
-        <div className="bg-gradient-to-r from-yellow-500 to-orange-500 p-[3px] rounded-lg">
-          <div className="bg-slate-900 rounded-lg p-6 h-full">
-            <h2 className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400 uppercase mb-4 flex items-center gap-2">
-              <GiTrophy className="text-yellow-400" /> 🏆 LOGROS DESBLOQUEADOS
+        <div className="bg-gradient-to-r from-accent-yellow-500 to-accent-orange-500 p-[3px] rounded-lg">
+          <div className="bg-neutral-900 rounded-lg p-6 h-full">
+            <h2 className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-yellow-400 to-accent-orange-400 uppercase mb-4 flex items-center gap-2">
+              <GiTrophy className="text-accent-yellow-400" /> 🏆 LOGROS DESBLOQUEADOS
             </h2>
 
             {profile.achievements.length > 0 ? (
               <div className="space-y-3 max-h-96 overflow-y-auto">
                 {profile.achievements.map((achievement) => {
                   const rarityColors = {
-                    common: 'border-slate-500 bg-slate-800',
+                    common: 'border-neutral-500 bg-neutral-800',
                     uncommon: 'border-green-400 bg-green-900/20',
-                    rare: 'border-cyan-400 bg-cyan-900/20',
-                    epic: 'border-purple-400 bg-purple-900/20',
-                    legendary: 'border-yellow-400 bg-yellow-900/20',
-                    secret: 'border-rose-400 bg-rose-900/20',
+                    rare: 'border-accent-cyan-400 bg-accent-cyan-900/20',
+                    epic: 'border-accent-purple-400 bg-accent-purple-900/20',
+                    legendary: 'border-accent-yellow-400 bg-accent-yellow-900/20',
+                    secret: 'border-accent-rose-400 bg-accent-rose-900/20',
                   };
 
                   return (
@@ -462,18 +462,18 @@ export default function PublicProfilePage() {
                         <span className="text-2xl">{achievement.icon}</span>
                         <div className="flex-1">
                           <p className="text-white font-bold text-sm uppercase">{achievement.name}</p>
-                          <p className="text-slate-400 text-xs">{achievement.description}</p>
+                          <p className="text-neutral-400 text-xs">{achievement.description}</p>
                           <div className="flex items-center gap-2 mt-1">
                             <span className={`text-xs px-2 py-1 rounded uppercase font-bold ${
-                              achievement.rarity === 'legendary' ? 'bg-yellow-500 text-black' :
-                              achievement.rarity === 'epic' ? 'bg-purple-500 text-white' :
-                              achievement.rarity === 'rare' ? 'bg-cyan-500 text-white' :
-                              'bg-slate-600 text-white'
+                              achievement.rarity === 'legendary' ? 'bg-accent-yellow-500 text-black' :
+                              achievement.rarity === 'epic' ? 'bg-accent-purple-500 text-white' :
+                              achievement.rarity === 'rare' ? 'bg-accent-cyan-500 text-white' :
+                              'bg-neutral-600 text-white'
                             }`}>
                               {achievement.rarity}
                             </span>
                             {achievement.unlockedDate && (
-                              <span className="text-slate-500 text-xs">
+                              <span className="text-neutral-500 text-xs">
                                 {new Date(achievement.unlockedDate).toLocaleDateString('es-ES')}
                               </span>
                             )}
@@ -486,19 +486,19 @@ export default function PublicProfilePage() {
               </div>
             ) : (
               <div className="text-center py-8">
-                <GiTrophy className="text-slate-600 text-4xl mx-auto mb-4" />
-                <p className="text-slate-500">Sin logros desbloqueados aún</p>
-                <p className="text-slate-600 text-sm mt-2">¡Envía tu primera submission para comenzar!</p>
+                <GiTrophy className="text-neutral-600 text-4xl mx-auto mb-4" />
+                <p className="text-neutral-500">Sin logros desbloqueados aún</p>
+                <p className="text-neutral-600 text-sm mt-2">¡Envía tu primera submission para comenzar!</p>
               </div>
             )}
           </div>
         </div>
 
         {/* Recent Activity */}
-        <div className="bg-gradient-to-r from-purple-500 to-pink-500 p-[3px] rounded-lg">
-          <div className="bg-slate-900 rounded-lg p-6 h-full">
-            <h2 className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 uppercase mb-4 flex items-center gap-2">
-              <MdOutlineSkateboarding className="text-purple-400" /> 📅 ACTIVIDAD RECIENTE
+        <div className="bg-gradient-to-r from-accent-purple-500 to-accent-pink-500 p-[3px] rounded-lg">
+          <div className="bg-neutral-900 rounded-lg p-6 h-full">
+            <h2 className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-purple-400 to-accent-pink-400 uppercase mb-4 flex items-center gap-2">
+              <MdOutlineSkateboarding className="text-accent-purple-400" /> 📅 ACTIVIDAD RECIENTE
             </h2>
 
             {profile.recentActivity.length > 0 ? (
@@ -507,7 +507,7 @@ export default function PublicProfilePage() {
                   const statusColors = {
                     approved: 'text-green-400 border-green-500/30 bg-green-500/10',
                     rejected: 'text-red-400 border-red-500/30 bg-red-500/10',
-                    pending: 'text-yellow-400 border-yellow-500/30 bg-yellow-500/10',
+                    pending: 'text-accent-yellow-400 border-accent-yellow-500/30 bg-accent-yellow-500/10',
                   };
 
                   const statusIcons = {
@@ -530,21 +530,21 @@ export default function PublicProfilePage() {
                           <div className="flex items-center gap-2">
                             <span className={`text-xs px-2 py-1 rounded uppercase font-bold ${
                               activity.difficulty === 'easy' ? 'bg-green-500 text-black' :
-                              activity.difficulty === 'medium' ? 'bg-yellow-500 text-black' :
+                              activity.difficulty === 'medium' ? 'bg-accent-yellow-500 text-black' :
                               activity.difficulty === 'hard' ? 'bg-red-500 text-white' :
-                              'bg-purple-500 text-white'
+                              'bg-accent-purple-500 text-white'
                             }`}>
                               {activity.difficulty}
                             </span>
-                            <span className="text-slate-400 text-xs">
+                            <span className="text-neutral-400 text-xs">
                               {new Date(activity.date).toLocaleDateString('es-ES')}
                             </span>
                           </div>
                         </div>
                         {activity.score && (
                           <div className="text-right">
-                            <p className="text-2xl font-black text-yellow-400">{activity.score}</p>
-                            <p className="text-slate-500 text-xs">puntos</p>
+                            <p className="text-2xl font-black text-accent-yellow-400">{activity.score}</p>
+                            <p className="text-neutral-500 text-xs">puntos</p>
                           </div>
                         )}
                       </div>
@@ -554,59 +554,59 @@ export default function PublicProfilePage() {
               </div>
             ) : (
               <div className="text-center py-8">
-                <MdOutlineSkateboarding className="text-slate-600 text-4xl mx-auto mb-4" />
-                <p className="text-slate-500">Sin actividad reciente</p>
-                <p className="text-slate-600 text-sm mt-2">¡Envía tu primera submission!</p>
+                <MdOutlineSkateboarding className="text-neutral-600 text-4xl mx-auto mb-4" />
+                <p className="text-neutral-500">Sin actividad reciente</p>
+                <p className="text-neutral-600 text-sm mt-2">¡Envía tu primera submission!</p>
               </div>
             )}
           </div>
         </div>
 
         {/* Skate Setup */}
-        <div className="bg-gradient-to-r from-green-500 to-teal-500 p-[3px] rounded-lg">
-          <div className="bg-slate-900 rounded-lg p-6 h-full">
-            <h2 className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-teal-400 uppercase mb-4 flex items-center gap-2">
+        <div className="bg-gradient-to-r from-green-500 to-accent-teal-500 p-[3px] rounded-lg">
+          <div className="bg-neutral-900 rounded-lg p-6 h-full">
+            <h2 className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-accent-teal-400 uppercase mb-4 flex items-center gap-2">
               <GiSkateboard className="text-green-400" /> 🛼 DREAM SETUP
             </h2>
 
             {profile.skateSetup ? (
               <div className="space-y-3">
                 {profile.skateSetup.madero && (
-                  <div className="bg-slate-800 border-2 border-slate-700 rounded-lg p-3">
-                    <p className="text-slate-500 text-xs uppercase">Tabla</p>
+                  <div className="bg-neutral-800 border-2 border-neutral-700 rounded-lg p-3">
+                    <p className="text-neutral-500 text-xs uppercase">Tabla</p>
                     <p className="text-white font-bold">{profile.skateSetup.madero}</p>
                   </div>
                 )}
                 {profile.skateSetup.trucks && (
-                  <div className="bg-slate-800 border-2 border-slate-700 rounded-lg p-3">
-                    <p className="text-slate-500 text-xs uppercase">Trucks</p>
+                  <div className="bg-neutral-800 border-2 border-neutral-700 rounded-lg p-3">
+                    <p className="text-neutral-500 text-xs uppercase">Trucks</p>
                     <p className="text-white font-bold">{profile.skateSetup.trucks}</p>
                   </div>
                 )}
                 {profile.skateSetup.ruedas && (
-                  <div className="bg-slate-800 border-2 border-slate-700 rounded-lg p-3">
-                    <p className="text-slate-500 text-xs uppercase">Ruedas</p>
+                  <div className="bg-neutral-800 border-2 border-neutral-700 rounded-lg p-3">
+                    <p className="text-neutral-500 text-xs uppercase">Ruedas</p>
                     <p className="text-white font-bold">{profile.skateSetup.ruedas}</p>
                   </div>
                 )}
                 {profile.skateSetup.rodamientos && (
-                  <div className="bg-slate-800 border-2 border-slate-700 rounded-lg p-3">
-                    <p className="text-slate-500 text-xs uppercase">Rodamientos</p>
+                  <div className="bg-neutral-800 border-2 border-neutral-700 rounded-lg p-3">
+                    <p className="text-neutral-500 text-xs uppercase">Rodamientos</p>
                     <p className="text-white font-bold">{profile.skateSetup.rodamientos}</p>
                   </div>
                 )}
                 {profile.skateSetup.tenis && (
-                  <div className="bg-slate-800 border-2 border-slate-700 rounded-lg p-3">
-                    <p className="text-slate-500 text-xs uppercase">Tenis</p>
+                  <div className="bg-neutral-800 border-2 border-neutral-700 rounded-lg p-3">
+                    <p className="text-neutral-500 text-xs uppercase">Tenis</p>
                     <p className="text-white font-bold">{profile.skateSetup.tenis}</p>
                   </div>
                 )}
               </div>
             ) : (
               <div className="text-center py-8">
-                <GiSkateboard className="text-slate-600 text-4xl mx-auto mb-4" />
-                <p className="text-slate-500">Setup no configurado</p>
-                <p className="text-slate-600 text-sm mt-2">Configura tu dream setup en tu perfil</p>
+                <GiSkateboard className="text-neutral-600 text-4xl mx-auto mb-4" />
+                <p className="text-neutral-500">Setup no configurado</p>
+                <p className="text-neutral-600 text-sm mt-2">Configura tu dream setup en tu perfil</p>
               </div>
             )}
           </div>
@@ -617,9 +617,9 @@ export default function PublicProfilePage() {
       {/* Social Media Section */}
       {profile.socialMedia && (profile.socialMedia.instagram || profile.socialMedia.tiktok || profile.socialMedia.twitter || profile.socialMedia.facebook) && (
         <div className="max-w-4xl mx-auto mb-8">
-          <div className="bg-gradient-to-r from-green-500 to-teal-500 p-[3px] rounded-lg">
-            <div className="bg-slate-900 rounded-lg p-6">
-              <h2 className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-teal-400 uppercase mb-4 text-center">
+          <div className="bg-gradient-to-r from-green-500 to-accent-teal-500 p-[3px] rounded-lg">
+            <div className="bg-neutral-900 rounded-lg p-6">
+              <h2 className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-accent-teal-400 uppercase mb-4 text-center">
                 🌐 Redes Sociales
               </h2>
 
@@ -629,7 +629,7 @@ export default function PublicProfilePage() {
                     href={`https://instagram.com/${profile.socialMedia.instagram.replace('@', '')}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 bg-gradient-to-r from-pink-500 to-purple-500 text-white px-6 py-3 rounded-lg font-bold hover:scale-105 transition-transform"
+                    className="flex items-center gap-2 bg-gradient-to-r from-accent-pink-500 to-accent-purple-500 text-white px-6 py-3 rounded-lg font-bold hover:scale-105 transition-transform"
                   >
                     <FaInstagram size={24} />
                     {profile.socialMedia.instagram}
@@ -640,7 +640,7 @@ export default function PublicProfilePage() {
                     href={`https://tiktok.com/@${profile.socialMedia.tiktok.replace('@', '')}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 bg-gradient-to-r from-slate-800 to-slate-900 text-white px-6 py-3 rounded-lg font-bold border-2 border-slate-600 hover:scale-105 transition-transform"
+                    className="flex items-center gap-2 bg-gradient-to-r from-neutral-800 to-neutral-900 text-white px-6 py-3 rounded-lg font-bold border-2 border-neutral-600 hover:scale-105 transition-transform"
                   >
                     <FaTiktok size={24} />
                     {profile.socialMedia.tiktok}
@@ -651,7 +651,7 @@ export default function PublicProfilePage() {
                     href={`https://twitter.com/${profile.socialMedia.twitter.replace('@', '')}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 bg-gradient-to-r from-blue-400 to-cyan-500 text-white px-6 py-3 rounded-lg font-bold hover:scale-105 transition-transform"
+                    className="flex items-center gap-2 bg-gradient-to-r from-accent-blue-400 to-accent-cyan-500 text-white px-6 py-3 rounded-lg font-bold hover:scale-105 transition-transform"
                   >
                     <FaTwitter size={24} />
                     {profile.socialMedia.twitter}
@@ -662,7 +662,7 @@ export default function PublicProfilePage() {
                     href={`https://facebook.com/${profile.socialMedia.facebook}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-lg font-bold hover:scale-105 transition-transform"
+                    className="flex items-center gap-2 bg-gradient-to-r from-accent-blue-600 to-accent-blue-700 text-white px-6 py-3 rounded-lg font-bold hover:scale-105 transition-transform"
                   >
                     <FaFacebook size={24} />
                     {profile.socialMedia.facebook}
@@ -679,7 +679,7 @@ export default function PublicProfilePage() {
         <div className="max-w-4xl mx-auto mt-8 text-center">
           <Link
             href="/dashboard/skaters/profile"
-            className="inline-block bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white font-black py-3 px-8 rounded-lg border-4 border-white uppercase tracking-wider shadow-lg shadow-cyan-500/30 transform hover:scale-105 transition-all"
+            className="inline-block bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 hover:from-accent-cyan-400 hover:to-accent-purple-500 text-white font-black py-3 px-8 rounded-lg border-4 border-white uppercase tracking-wider shadow-lg shadow-accent-cyan-500/30 transform hover:scale-105 transition-all"
           >
             ✏️ Editar Mi Perfil
           </Link>
@@ -690,7 +690,7 @@ export default function PublicProfilePage() {
       <div className="max-w-4xl mx-auto mt-8 text-center">
         <Link
           href="/dashboard/leaderboard"
-          className="text-cyan-400 hover:text-cyan-300 font-bold uppercase text-sm"
+          className="text-accent-cyan-400 hover:text-accent-cyan-300 font-bold uppercase text-sm"
         >
           ← Volver al Leaderboard
         </Link>

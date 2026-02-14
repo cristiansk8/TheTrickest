@@ -7,6 +7,10 @@ import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim"; // if you are going to use `loadSlim`, install the "@tsparticles/slim" package too.
 // import { loadBasic } from "@tsparticles/basic"; // if you are going to use `loadBasic`, install the "@tsparticles/basic" package too.
 
+const THEME_COLORS = {
+    inkInverse: "#ffffff",
+};
+
 const CoverParticles = () => {
     const [init, setInit] = useState(false);
 
@@ -57,10 +61,10 @@ const CoverParticles = () => {
                 },
                 particles: {
                     color: {
-                        value: "#ffffff",
+                        value: THEME_COLORS.inkInverse,
                     },
                     links: {
-                        color: "#ffffff",
+                        color: THEME_COLORS.inkInverse,
                         distance: 150,
                         enable: true,
                         opacity: 0.5,

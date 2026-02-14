@@ -23,8 +23,8 @@ const Navbar = () => {
               key={item.id}
               className={`
                         px-3 py-2 transition duration-150 rounded-full cursor-pointer
-                        hover:bg-budGreen ${
-                          router === item.link && 'bg-watermelon'
+                        hover:bg-success-500 ${
+                          router === item.link && 'bg-brand-pink'
                         }`}
             >
               <Link href={item.link}> {item.icon} </Link>

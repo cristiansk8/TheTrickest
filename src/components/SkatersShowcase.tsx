@@ -44,11 +44,11 @@ export default function SkatersShowcase() {
 
   return (
     <div className="text-center py-12">
-      <MdOutlineSkateboarding className="text-slate-600 text-4xl mx-auto mb-4" />
-      <p className="text-slate-500 text-lg font-bold mb-2">
+      <MdOutlineSkateboarding className="text-neutral-600 text-4xl mx-auto mb-4" />
+      <p className="text-neutral-500 text-lg font-bold mb-2">
         ¡Únete a la Comunidad Trickest!
       </p>
-      <p className="text-slate-400 text-sm max-w-md mx-auto mb-4">
+      <p className="text-neutral-400 text-sm max-w-md mx-auto mb-4">
         Sé parte de la primera ola de skaters. Regístrate, completa desafíos y
         forma parte de esta comunidad creciente.
       </p>
@@ -56,8 +56,8 @@ export default function SkatersShowcase() {
       <div className="space-y-4">
         {!showForm ? (
           <div className="space-y-3">
-            <div className="bg-slate-800 p-1 rounded-lg inline-block">
-              <div className="bg-slate-900 rounded-lg px-6 py-3">
+            <div className="bg-neutral-800 p-1 rounded-lg inline-block">
+              <div className="bg-neutral-900 rounded-lg px-6 py-3">
                 <span className="text-white font-bold text-sm">
                   🚀 ¡Sé uno de los primeros!
                 </span>
@@ -73,7 +73,7 @@ export default function SkatersShowcase() {
         ) : (
           <form
             onSubmit={handleSubmit}
-            className="bg-slate-800/50 p-6 rounded-lg max-w-md mx-auto"
+            className="bg-neutral-800/50 p-6 rounded-lg max-w-md mx-auto"
           >
             <h3 className="text-white font-bold text-lg mb-4">
               ¡Regístrate para ser el primero!
@@ -84,21 +84,21 @@ export default function SkatersShowcase() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="tu@email.com"
-                className="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-3 text-white placeholder-slate-400 focus:border-cyan-500 focus:outline-none"
+                className="w-full bg-neutral-700 border border-neutral-600 rounded-lg px-4 py-3 text-white placeholder-neutral-400 focus:border-accent-cyan-500 focus:outline-none"
                 required
               />
               <div className="flex gap-2">
                 <button
                   type="submit"
                   disabled={loading}
-                  className="flex-1 bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg transition-all disabled:opacity-50"
+                  className="flex-1 bg-accent-cyan-600 hover:bg-accent-cyan-500 text-white font-bold py-2 px-4 rounded-lg transition-all disabled:opacity-50"
                 >
                   {loading ? '⏳ Enviando...' : '🚀 ¡Quiero ser el primero!'}
                 </button>
                 <button
                   type="button"
                   onClick={() => setShowForm(false)}
-                  className="bg-slate-600 hover:bg-slate-500 text-white font-bold py-2 px-4 rounded-lg transition-all"
+                  className="bg-neutral-600 hover:bg-neutral-500 text-white font-bold py-2 px-4 rounded-lg transition-all"
                 >
                   ✕
                 </button>
@@ -119,11 +119,11 @@ export default function SkatersShowcase() {
           </div>
         )}
 
-        <p className="text-slate-500 text-xs">
+        <p className="text-neutral-500 text-xs">
           Explora perfiles en{' '}
           <Link
             href="/explore"
-            className="text-cyan-400 hover:text-cyan-300 underline"
+            className="text-accent-cyan-400 hover:text-accent-cyan-300 underline"
           >
             /explore
           </Link>

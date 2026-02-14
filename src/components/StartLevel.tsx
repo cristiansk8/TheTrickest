@@ -12,7 +12,7 @@ const StartLevel = () => {
           START LEVEL
         </h1>
         <button
-          className="mt-8 px-8 py-4 bg-blue-600 text-white text-2xl font-bold border-4 border-blue-400 rounded-lg hover:bg-blue-700 transition-colors"
+          className="mt-8 px-8 py-4 bg-accent-blue-600 text-white text-2xl font-bold border-4 border-accent-blue-400 rounded-lg hover:bg-accent-blue-700 transition-colors"
           style={{ fontFamily: 'monospace' }}
         >
           START LEVEL

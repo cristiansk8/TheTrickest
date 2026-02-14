@@ -256,10 +256,10 @@ const achievements = [
 
 const rarityColors: Record<string, { bg: string; border: string; text: string; glow: string }> = {
   common: {
-    bg: 'from-slate-600 to-slate-700',
-    border: 'border-slate-500',
-    text: 'text-slate-300',
-    glow: 'shadow-slate-500/30',
+    bg: 'from-neutral-600 to-neutral-700',
+    border: 'border-neutral-500',
+    text: 'text-neutral-300',
+    glow: 'shadow-neutral-500/30',
   },
   uncommon: {
     bg: 'from-green-600 to-emerald-700',
@@ -268,28 +268,28 @@ const rarityColors: Record<string, { bg: string; border: string; text: string; g
     glow: 'shadow-green-500/50',
   },
   rare: {
-    bg: 'from-blue-600 to-cyan-700',
-    border: 'border-cyan-400',
-    text: 'text-cyan-400',
-    glow: 'shadow-cyan-500/50',
+    bg: 'from-accent-blue-600 to-accent-cyan-700',
+    border: 'border-accent-cyan-400',
+    text: 'text-accent-cyan-400',
+    glow: 'shadow-accent-cyan-500/50',
   },
   epic: {
-    bg: 'from-purple-600 to-pink-700',
-    border: 'border-purple-400',
-    text: 'text-purple-400',
-    glow: 'shadow-purple-500/50',
+    bg: 'from-accent-purple-600 to-accent-pink-700',
+    border: 'border-accent-purple-400',
+    text: 'text-accent-purple-400',
+    glow: 'shadow-accent-purple-500/50',
   },
   legendary: {
-    bg: 'from-yellow-500 to-orange-600',
-    border: 'border-yellow-400',
-    text: 'text-yellow-400',
-    glow: 'shadow-yellow-500/50',
+    bg: 'from-accent-yellow-500 to-accent-orange-600',
+    border: 'border-accent-yellow-400',
+    text: 'text-accent-yellow-400',
+    glow: 'shadow-accent-yellow-500/50',
   },
   secret: {
-    bg: 'from-rose-600 to-red-700',
-    border: 'border-rose-400',
-    text: 'text-rose-400',
-    glow: 'shadow-rose-500/50',
+    bg: 'from-accent-rose-600 to-red-700',
+    border: 'border-accent-rose-400',
+    text: 'text-accent-rose-400',
+    glow: 'shadow-accent-rose-500/50',
   },
 };
 
@@ -321,15 +321,15 @@ export default function LogrosPage() {
   const categories = ['all', 'principiante', 'intermedio', 'avanzado', 'experto', 'legendario', 'social', 'secreto'];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4 md:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-900 via-accent-purple-900 to-neutral-900 p-4 md:p-8">
       {/* Header */}
       <div className="max-w-7xl mx-auto mb-8">
-        <div className="bg-gradient-to-r from-yellow-500 to-orange-600 p-1 rounded-lg shadow-2xl shadow-yellow-500/30">
-          <div className="bg-slate-900 rounded-lg p-6">
-            <h1 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400 uppercase tracking-wider text-center">
+        <div className="bg-gradient-to-r from-accent-yellow-500 to-accent-orange-600 p-1 rounded-lg shadow-2xl shadow-accent-yellow-500/30">
+          <div className="bg-neutral-900 rounded-lg p-6">
+            <h1 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-yellow-400 to-accent-orange-400 uppercase tracking-wider text-center">
               🏆 ACHIEVEMENTS
             </h1>
-            <p className="text-yellow-300 mt-2 text-sm md:text-base text-center">
+            <p className="text-accent-yellow-300 mt-2 text-sm md:text-base text-center">
               Desbloquea logros completando trucos y desafíos
             </p>
           </div>
@@ -340,15 +340,15 @@ export default function LogrosPage() {
       <div className="max-w-7xl mx-auto mb-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {/* Progress */}
-          <div className="md:col-span-2 bg-gradient-to-r from-cyan-500 to-purple-600 p-[3px] rounded-lg">
-            <div className="bg-slate-900 rounded-lg p-4">
+          <div className="md:col-span-2 bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 p-[3px] rounded-lg">
+            <div className="bg-neutral-900 rounded-lg p-4">
               <div className="flex justify-between items-center mb-2">
-                <span className="text-slate-400 text-xs uppercase font-bold tracking-wider">Progreso Total</span>
-                <span className="text-cyan-400 font-black">{unlockedAchievements}/{totalAchievements}</span>
+                <span className="text-neutral-400 text-xs uppercase font-bold tracking-wider">Progreso Total</span>
+                <span className="text-accent-cyan-400 font-black">{unlockedAchievements}/{totalAchievements}</span>
               </div>
-              <div className="w-full bg-slate-800 rounded-full h-4 border-2 border-slate-700">
+              <div className="w-full bg-neutral-800 rounded-full h-4 border-2 border-neutral-700">
                 <div
-                  className="bg-gradient-to-r from-cyan-500 to-purple-600 h-full rounded-full transition-all duration-500"
+                  className="bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 h-full rounded-full transition-all duration-500"
                   style={{ width: `${progressPercent}%` }}
                 />
               </div>
@@ -357,20 +357,20 @@ export default function LogrosPage() {
           </div>
 
           {/* XP Total */}
-          <div className="bg-gradient-to-r from-yellow-500 to-orange-500 p-[3px] rounded-lg">
-            <div className="bg-slate-900 rounded-lg p-4 text-center">
-              <p className="text-slate-400 text-xs uppercase font-bold tracking-wider">XP Total</p>
-              <p className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400">
+          <div className="bg-gradient-to-r from-accent-yellow-500 to-accent-orange-500 p-[3px] rounded-lg">
+            <div className="bg-neutral-900 rounded-lg p-4 text-center">
+              <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider">XP Total</p>
+              <p className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-yellow-400 to-accent-orange-400">
                 {totalXP.toLocaleString()}
               </p>
             </div>
           </div>
 
           {/* Raros */}
-          <div className="bg-gradient-to-r from-purple-500 to-pink-500 p-[3px] rounded-lg">
-            <div className="bg-slate-900 rounded-lg p-4 text-center">
-              <p className="text-slate-400 text-xs uppercase font-bold tracking-wider">Legendarios</p>
-              <p className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
+          <div className="bg-gradient-to-r from-accent-purple-500 to-accent-pink-500 p-[3px] rounded-lg">
+            <div className="bg-neutral-900 rounded-lg p-4 text-center">
+              <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider">Legendarios</p>
+              <p className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-purple-400 to-accent-pink-400">
                 {achievements.filter(a => a.rarity === 'legendary' && a.unlocked).length}/{achievements.filter(a => a.rarity === 'legendary').length}
               </p>
             </div>
@@ -387,8 +387,8 @@ export default function LogrosPage() {
               onClick={() => setSelectedCategory(cat)}
               className={`px-4 py-2 rounded-lg font-bold uppercase text-sm transition-all ${
                 selectedCategory === cat
-                  ? 'bg-gradient-to-r from-cyan-500 to-purple-600 text-white shadow-lg shadow-cyan-500/30'
-                  : 'bg-slate-800 text-slate-400 hover:bg-slate-700 border-2 border-slate-700'
+                  ? 'bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 text-white shadow-lg shadow-accent-cyan-500/30'
+                  : 'bg-neutral-800 text-neutral-400 hover:bg-neutral-700 border-2 border-neutral-700'
               }`}
             >
               {cat === 'all' ? '🎮 TODOS' : categoryNames[cat]}
@@ -414,13 +414,13 @@ export default function LogrosPage() {
                 <div className={`bg-gradient-to-r ${rarity.bg} p-[3px] rounded-lg ${
                   !isLocked ? `shadow-lg ${rarity.glow}` : ''
                 }`}>
-                  <div className="bg-slate-900 rounded-lg p-4 h-full">
+                  <div className="bg-neutral-900 rounded-lg p-4 h-full">
                     {/* Rarity Badge */}
                     <div className="flex justify-between items-start mb-3">
-                      <span className={`text-xs font-black uppercase tracking-wider px-2 py-1 rounded ${rarity.text} bg-slate-800`}>
+                      <span className={`text-xs font-black uppercase tracking-wider px-2 py-1 rounded ${rarity.text} bg-neutral-800`}>
                         {achievement.rarity === 'secret' && isLocked ? '???' : achievement.rarity}
                       </span>
-                      <span className="text-yellow-400 text-xs font-bold">
+                      <span className="text-accent-yellow-400 text-xs font-bold">
                         +{achievement.xp} XP
                       </span>
                     </div>
@@ -428,11 +428,11 @@ export default function LogrosPage() {
                     {/* Icon */}
                     <div className={`flex justify-center mb-4 ${rarity.text}`}>
                       {isLocked && achievement.rarity === 'secret' ? (
-                        <div className="text-slate-600">
+                        <div className="text-neutral-600">
                           <GiSkeletonKey size={60} />
                         </div>
                       ) : (
-                        <div className={isLocked ? 'text-slate-600' : ''}>
+                        <div className={isLocked ? 'text-neutral-600' : ''}>
                           {achievement.icon}
                         </div>
                       )}
@@ -440,12 +440,12 @@ export default function LogrosPage() {
 
                     {/* Name & Description */}
                     <h3 className={`text-center font-black uppercase tracking-wider text-lg mb-1 ${
-                      isLocked ? 'text-slate-500' : 'text-white'
+                      isLocked ? 'text-neutral-500' : 'text-white'
                     }`}>
                       {isLocked && achievement.rarity === 'secret' ? '???' : achievement.name}
                     </h3>
                     <p className={`text-center text-sm ${
-                      isLocked ? 'text-slate-600' : 'text-slate-400'
+                      isLocked ? 'text-neutral-600' : 'text-neutral-400'
                     }`}>
                       {achievement.description}
                     </p>
@@ -455,10 +455,10 @@ export default function LogrosPage() {
                       {achievement.unlocked ? (
                         <div className="flex flex-col items-center">
                           <span className="text-green-400 font-bold text-sm uppercase">✓ Desbloqueado</span>
-                          <span className="text-slate-500 text-xs">{achievement.unlockedDate}</span>
+                          <span className="text-neutral-500 text-xs">{achievement.unlockedDate}</span>
                         </div>
                       ) : (
-                        <span className="text-slate-600 font-bold text-sm uppercase flex items-center justify-center gap-1">
+                        <span className="text-neutral-600 font-bold text-sm uppercase flex items-center justify-center gap-1">
                           🔒 Bloqueado
                         </span>
                       )}
@@ -478,15 +478,15 @@ export default function LogrosPage() {
 
       {/* Legend */}
       <div className="max-w-7xl mx-auto mt-8">
-        <div className="bg-slate-800/50 rounded-lg p-4">
-          <p className="text-slate-500 text-center text-xs uppercase font-bold tracking-wider mb-3">Rareza de Logros</p>
+        <div className="bg-neutral-800/50 rounded-lg p-4">
+          <p className="text-neutral-500 text-center text-xs uppercase font-bold tracking-wider mb-3">Rareza de Logros</p>
           <div className="flex flex-wrap justify-center gap-4">
-            <span className="text-slate-400 text-sm">⬜ Común</span>
+            <span className="text-neutral-400 text-sm">⬜ Común</span>
             <span className="text-green-400 text-sm">🟩 Poco Común</span>
-            <span className="text-cyan-400 text-sm">🟦 Raro</span>
-            <span className="text-purple-400 text-sm">🟪 Épico</span>
-            <span className="text-yellow-400 text-sm">🟨 Legendario</span>
-            <span className="text-rose-400 text-sm">🔮 Secreto</span>
+            <span className="text-accent-cyan-400 text-sm">🟦 Raro</span>
+            <span className="text-accent-purple-400 text-sm">🟪 Épico</span>
+            <span className="text-accent-yellow-400 text-sm">🟨 Legendario</span>
+            <span className="text-accent-rose-400 text-sm">🔮 Secreto</span>
           </div>
         </div>
       </div>

@@ -203,7 +203,7 @@ export default function CommentItem({
   return (
     <div
       id={`comment-${id}`}
-      className={`bg-slate-800 rounded-lg p-3 border-2 ${isPinned ? 'border-purple-500' : 'border-slate-700'} ${isOwner ? 'ring-1 ring-purple-500/30' : ''}`}
+      className={`bg-neutral-800 rounded-lg p-3 border-2 ${isPinned ? 'border-accent-purple-500' : 'border-neutral-700'} ${isOwner ? 'ring-1 ring-accent-purple-500/30' : ''}`}
     >
       {/* Header: Author + Actions */}
       <div className="flex items-start justify-between mb-2">
@@ -212,10 +212,10 @@ export default function CommentItem({
             <img
               src={user.photo}
               alt={user.name || 'Usuario'}
-              className="w-8 h-8 rounded-full border-2 border-cyan-400 object-cover"
+              className="w-8 h-8 rounded-full border-2 border-accent-cyan-400 object-cover"
             />
           ) : (
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-400 to-purple-600 flex items-center justify-center text-white font-bold text-sm">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-accent-cyan-400 to-accent-purple-600 flex items-center justify-center text-white font-bold text-sm">
               {user.name?.charAt(0).toUpperCase() || '?'}
             </div>
           )}
@@ -223,11 +223,11 @@ export default function CommentItem({
           <div>
             <Link
               href={user.username ? `/profile/${user.username}` : '#'}
-              className="font-bold text-sm text-cyan-400 hover:text-cyan-300"
+              className="font-bold text-sm text-accent-cyan-400 hover:text-accent-cyan-300"
             >
               {user.name || 'Usuario'}
             </Link>
-            <p className="text-[10px] text-slate-500">{formatDate(createdAt)}</p>
+            <p className="text-[10px] text-neutral-500">{formatDate(createdAt)}</p>
           </div>
         </div>
 
@@ -235,7 +235,7 @@ export default function CommentItem({
         {(isOwner || isAdmin) && (
           <div className="flex items-center gap-1">
             {isPinned && (
-              <span className="text-[10px] bg-purple-600 text-white px-2 py-0.5 rounded font-bold">
+              <span className="text-[10px] bg-accent-purple-600 text-white px-2 py-0.5 rounded font-bold">
                 FIJADO
               </span>
             )}
@@ -243,7 +243,7 @@ export default function CommentItem({
               <button
                 onClick={onEdit}
                 disabled={isDeleting}
-                className="p-1 hover:bg-slate-700 rounded text-slate-400 hover:text-cyan-400 transition-colors"
+                className="p-1 hover:bg-neutral-700 rounded text-neutral-400 hover:text-accent-cyan-400 transition-colors"
                 title="Editar comentario"
               >
                 <Edit2 className="w-3 h-3" />
@@ -252,7 +252,7 @@ export default function CommentItem({
             <button
               onClick={handleDelete}
               disabled={isDeleting}
-              className="p-1 hover:bg-slate-700 rounded text-slate-400 hover:text-red-400 transition-colors"
+              className="p-1 hover:bg-neutral-700 rounded text-neutral-400 hover:text-red-400 transition-colors"
               title="Eliminar comentario"
             >
               {isDeleting ? (
@@ -266,7 +266,7 @@ export default function CommentItem({
       </div>
 
       {/* Content */}
-      <p className="text-sm text-slate-200 mb-2 whitespace-pre-wrap break-words">
+      <p className="text-sm text-neutral-200 mb-2 whitespace-pre-wrap break-words">
         {content}
       </p>
 
@@ -280,7 +280,7 @@ export default function CommentItem({
             flex items-center gap-1 px-2 py-1 rounded transition-all
             ${currentUserVote === 'like'
               ? 'bg-green-600 text-white cursor-pointer'
-              : 'bg-slate-700 text-slate-300 hover:bg-green-600 hover:text-white'
+              : 'bg-neutral-700 text-neutral-300 hover:bg-green-600 hover:text-white'
             }
             ${!session ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
             ${isVoting ? 'opacity-50' : ''}
@@ -299,7 +299,7 @@ export default function CommentItem({
             flex items-center gap-1 px-2 py-1 rounded transition-all
             ${currentUserVote === 'dislike'
               ? 'bg-red-600 text-white cursor-pointer'
-              : 'bg-slate-700 text-slate-300 hover:bg-red-600 hover:text-white'
+              : 'bg-neutral-700 text-neutral-300 hover:bg-red-600 hover:text-white'
             }
             ${!session ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
             ${isVoting ? 'opacity-50' : ''}
@@ -311,7 +311,7 @@ export default function CommentItem({
         </button>
 
         {/* Total votes */}
-        <span className="text-slate-500">
+        <span className="text-neutral-500">
           {currentLikes + currentDislikes} {currentLikes + currentDislikes === 1 ? 'voto' : 'votos'}
         </span>
 
@@ -322,7 +322,7 @@ export default function CommentItem({
             disabled={!session}
             className={`
               flex items-center gap-1 px-2 py-1 rounded transition-all
-              bg-slate-700 text-slate-300 hover:bg-cyan-600 hover:text-white
+              bg-neutral-700 text-neutral-300 hover:bg-accent-cyan-600 hover:text-white
               ${!session ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
             `}
             title={session ? 'Responder comentario' : 'Inicia sesión para responder'}

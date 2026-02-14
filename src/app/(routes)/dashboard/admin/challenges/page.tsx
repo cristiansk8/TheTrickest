@@ -145,10 +145,10 @@ export default function AdminChallengesPage() {
 
   const getDifficultyColor = (difficulty: string) => {
     const colors = {
-      easy: 'from-green-500 to-teal-500',
-      medium: 'from-yellow-500 to-orange-500',
-      hard: 'from-red-500 to-pink-500',
-      expert: 'from-purple-500 to-indigo-500',
+      easy: 'from-green-500 to-accent-teal-500',
+      medium: 'from-accent-yellow-500 to-accent-orange-500',
+      hard: 'from-red-500 to-accent-pink-500',
+      expert: 'from-accent-purple-500 to-indigo-500',
     };
     return colors[difficulty as keyof typeof colors] || colors.easy;
   };
@@ -166,10 +166,10 @@ export default function AdminChallengesPage() {
       {/* Header */}
       <div className="mb-16 pb-8">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 uppercase tracking-wider mb-2">
+          <h1 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-cyan-400 to-accent-purple-400 uppercase tracking-wider mb-2">
             🛹 GESTIÓN DE DESAFÍOS
           </h1>
-          <p className="text-slate-600 text-lg mb-10">
+          <p className="text-neutral-600 text-lg mb-10">
             Crea y administra los challenges de la plataforma
           </p>
         </div>
@@ -188,16 +188,16 @@ export default function AdminChallengesPage() {
       {/* Challenges Grid */}
       {loading ? (
         <div className="flex justify-center py-12">
-          <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-cyan-400"></div>
+          <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-accent-cyan-400"></div>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {challenges.map((challenge) => (
-            <Card key={challenge.id} className="bg-slate-900 border-4 border-slate-700 shadow-lg hover:shadow-cyan-500/20 transition-all">
+            <Card key={challenge.id} className="bg-neutral-900 border-4 border-neutral-700 shadow-lg hover:shadow-accent-cyan-500/20 transition-all">
               <CardHeader className="pb-2">
                 <div className="flex items-start justify-between w-full gap-3">
                   <div className="flex items-start gap-3 flex-1 min-w-0">
-                    <MdSportsKabaddi size={24} className="text-cyan-400 flex-shrink-0 mt-1" />
+                    <MdSportsKabaddi size={24} className="text-accent-cyan-400 flex-shrink-0 mt-1" />
                     <div className="flex-1 min-w-0">
                       <h3 className="text-white font-black text-lg uppercase tracking-wider mb-2 break-words">
                         {challenge.name}
@@ -205,7 +205,7 @@ export default function AdminChallengesPage() {
                       <div className="flex flex-wrap items-center gap-2">
                         {getDifficultyBadge(challenge.difficulty)}
                         {challenge.isBonus && (
-                          <span className="text-xs bg-yellow-500 text-black px-2 py-1 rounded-full font-black uppercase">
+                          <span className="text-xs bg-accent-yellow-500 text-black px-2 py-1 rounded-full font-black uppercase">
                             🌟 BONUS
                           </span>
                         )}
@@ -229,21 +229,21 @@ export default function AdminChallengesPage() {
                 </div>
               </CardHeader>
               <CardBody className="space-y-4">
-                <p className="text-slate-300 text-sm leading-relaxed">
+                <p className="text-neutral-300 text-sm leading-relaxed">
                   {challenge.description}
                 </p>
 
                 <div className="flex justify-between items-center">
                   <div className="text-center">
-                    <p className="text-slate-400 text-xs uppercase tracking-wider">Puntos</p>
-                    <p className="text-2xl font-black text-yellow-400">{challenge.points}</p>
+                    <p className="text-neutral-400 text-xs uppercase tracking-wider">Puntos</p>
+                    <p className="text-2xl font-black text-accent-yellow-400">{challenge.points}</p>
                   </div>
                   <div className="text-center">
-                    <p className="text-slate-400 text-xs uppercase tracking-wider">Submissions</p>
-                    <p className="text-2xl font-black text-cyan-400">{challenge.totalSubmissions}</p>
+                    <p className="text-neutral-400 text-xs uppercase tracking-wider">Submissions</p>
+                    <p className="text-2xl font-black text-accent-cyan-400">{challenge.totalSubmissions}</p>
                   </div>
                   <div className="text-center">
-                    <p className="text-slate-400 text-xs uppercase tracking-wider">Avg Score</p>
+                    <p className="text-neutral-400 text-xs uppercase tracking-wider">Avg Score</p>
                     <p className="text-2xl font-black text-green-400">
                       {challenge.averageScore > 0 ? challenge.averageScore.toFixed(1) : '-'}
                     </p>
@@ -255,9 +255,9 @@ export default function AdminChallengesPage() {
                     <p className="text-green-400 text-xs font-bold uppercase tracking-wider">Aprobadas</p>
                     <p className="text-green-400 font-black">{challenge.approvedSubmissions}</p>
                   </div>
-                  <div className="flex-1 bg-yellow-500/20 p-2 rounded text-center">
-                    <p className="text-yellow-400 text-xs font-bold uppercase tracking-wider">Pendientes</p>
-                    <p className="text-yellow-400 font-black">{challenge.pendingSubmissions}</p>
+                  <div className="flex-1 bg-accent-yellow-500/20 p-2 rounded text-center">
+                    <p className="text-accent-yellow-400 text-xs font-bold uppercase tracking-wider">Pendientes</p>
+                    <p className="text-accent-yellow-400 font-black">{challenge.pendingSubmissions}</p>
                   </div>
                   <div className="flex-1 bg-red-500/20 p-2 rounded text-center">
                     <p className="text-red-400 text-xs font-bold uppercase tracking-wider">Rechazadas</p>
@@ -293,11 +293,11 @@ export default function AdminChallengesPage() {
         isOpen={isOpen}
         onClose={onClose}
         size="3xl"
-        className="bg-slate-900 border-4 border-slate-700"
+        className="bg-neutral-900 border-4 border-neutral-700"
         scrollBehavior="inside"
       >
         <ModalContent>
-          <ModalHeader className="text-white font-black uppercase tracking-wider text-center pb-4 pt-8 border-b-2 border-slate-700">
+          <ModalHeader className="text-white font-black uppercase tracking-wider text-center pb-4 pt-8 border-b-2 border-neutral-700">
             {editingChallenge ? '✏️ EDITAR DESAFÍO' : '➕ CREAR NUEVO DESAFÍO'}
           </ModalHeader>
 
@@ -305,7 +305,7 @@ export default function AdminChallengesPage() {
             <div className="space-y-8">
               {/* Nombre del Desafío */}
               <div>
-                <label className="block text-slate-300 font-bold uppercase tracking-wider text-sm mb-3">
+                <label className="block text-neutral-300 font-bold uppercase tracking-wider text-sm mb-3">
                   Nombre del Desafío
                 </label>
                 <Input
@@ -315,15 +315,15 @@ export default function AdminChallengesPage() {
                   className="text-white"
                   size="lg"
                   classNames={{
-                    input: "text-white bg-slate-800",
-                    inputWrapper: "bg-slate-800 border-2 border-slate-600 hover:border-cyan-500"
+                    input: "text-white bg-neutral-800",
+                    inputWrapper: "bg-neutral-800 border-2 border-neutral-600 hover:border-accent-cyan-500"
                   }}
                 />
               </div>
 
               {/* Descripción */}
               <div>
-                <label className="block text-slate-300 font-bold uppercase tracking-wider text-sm mb-3">
+                <label className="block text-neutral-300 font-bold uppercase tracking-wider text-sm mb-3">
                   Descripción
                 </label>
                 <Textarea
@@ -334,8 +334,8 @@ export default function AdminChallengesPage() {
                   minRows={4}
                   size="lg"
                   classNames={{
-                    input: "text-white bg-slate-800",
-                    inputWrapper: "bg-slate-800 border-2 border-slate-600 hover:border-cyan-500"
+                    input: "text-white bg-neutral-800",
+                    inputWrapper: "bg-neutral-800 border-2 border-neutral-600 hover:border-accent-cyan-500"
                   }}
                 />
               </div>
@@ -343,7 +343,7 @@ export default function AdminChallengesPage() {
               {/* Dificultad y Puntos */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
-                  <label className="block text-slate-300 font-bold uppercase tracking-wider text-sm mb-3">
+                  <label className="block text-neutral-300 font-bold uppercase tracking-wider text-sm mb-3">
                     Dificultad
                   </label>
                   <Select
@@ -354,7 +354,7 @@ export default function AdminChallengesPage() {
                     }))}
                     size="lg"
                     classNames={{
-                      trigger: "bg-slate-800 border-2 border-slate-600 hover:border-cyan-500"
+                      trigger: "bg-neutral-800 border-2 border-neutral-600 hover:border-accent-cyan-500"
                     }}
                   >
                     <SelectItem key="easy" value="easy">Fácil</SelectItem>
@@ -365,7 +365,7 @@ export default function AdminChallengesPage() {
                 </div>
 
                 <div>
-                  <label className="block text-slate-300 font-bold uppercase tracking-wider text-sm mb-3">
+                  <label className="block text-neutral-300 font-bold uppercase tracking-wider text-sm mb-3">
                     Puntos
                   </label>
                   <Input
@@ -375,8 +375,8 @@ export default function AdminChallengesPage() {
                     onChange={(e) => setFormData(prev => ({ ...prev, points: parseInt(e.target.value) || 0 }))}
                     size="lg"
                     classNames={{
-                      input: "text-white bg-slate-800",
-                      inputWrapper: "bg-slate-800 border-2 border-slate-600 hover:border-cyan-500"
+                      input: "text-white bg-neutral-800",
+                      inputWrapper: "bg-neutral-800 border-2 border-neutral-600 hover:border-accent-cyan-500"
                     }}
                   />
                 </div>
@@ -384,7 +384,7 @@ export default function AdminChallengesPage() {
 
               {/* URL del Video */}
               <div>
-                <label className="block text-slate-300 font-bold uppercase tracking-wider text-sm mb-3">
+                <label className="block text-neutral-300 font-bold uppercase tracking-wider text-sm mb-3">
                   URL del Video Demo (YouTube)
                 </label>
                 <Input
@@ -393,31 +393,31 @@ export default function AdminChallengesPage() {
                   onChange={(e) => setFormData(prev => ({ ...prev, demoVideoUrl: e.target.value }))}
                   size="lg"
                   classNames={{
-                    input: "text-white bg-slate-800",
-                    inputWrapper: "bg-slate-800 border-2 border-slate-600 hover:border-cyan-500"
+                    input: "text-white bg-neutral-800",
+                    inputWrapper: "bg-neutral-800 border-2 border-neutral-600 hover:border-accent-cyan-500"
                   }}
                 />
               </div>
 
               {/* Challenge Bonus */}
               <div>
-                <label className="flex items-start gap-4 cursor-pointer bg-slate-800 p-5 rounded-xl border-2 border-slate-600 hover:border-yellow-500 transition-all">
+                <label className="flex items-start gap-4 cursor-pointer bg-neutral-800 p-5 rounded-xl border-2 border-neutral-600 hover:border-accent-yellow-500 transition-all">
                   <input
                     type="checkbox"
                     checked={formData.isBonus}
                     onChange={(e) => setFormData(prev => ({ ...prev, isBonus: e.target.checked }))}
-                    className="w-6 h-6 mt-1 rounded border-2 border-slate-600 bg-slate-900 checked:bg-yellow-500 checked:border-yellow-500 cursor-pointer flex-shrink-0"
+                    className="w-6 h-6 mt-1 rounded border-2 border-neutral-600 bg-neutral-900 checked:bg-accent-yellow-500 checked:border-accent-yellow-500 cursor-pointer flex-shrink-0"
                   />
                   <div className="flex-1">
                     <p className="text-white font-bold uppercase tracking-wider mb-1">🌟 Challenge Bonus</p>
-                    <p className="text-slate-400 text-sm leading-relaxed">Este desafío otorgará puntos extra y aparecerá destacado en la plataforma</p>
+                    <p className="text-neutral-400 text-sm leading-relaxed">Este desafío otorgará puntos extra y aparecerá destacado en la plataforma</p>
                   </div>
                 </label>
               </div>
             </div>
           </ModalBody>
 
-          <ModalFooter className="pt-6 pb-8 px-8 gap-4 border-t-2 border-slate-700">
+          <ModalFooter className="pt-6 pb-8 px-8 gap-4 border-t-2 border-neutral-700">
             <Button
               onClick={onClose}
               variant="secondary"

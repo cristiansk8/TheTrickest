@@ -21,7 +21,7 @@ const Team = () => {
               />
             </div>
           
-            <div className='absolute w-full h-full z-20 flex justify-center items-center bg-slate-800  opacity-0 transition duration-300 ease-in-out hover:opacity-70'>
+            <div className='absolute w-full h-full z-20 flex justify-center items-center bg-neutral-800 opacity-0 transition duration-300 ease-in-out hover:opacity-70'>
               <Link className='font-bold' href={`/about/${item.name}` }>
                 Más información
               </Link>
@@ -32,7 +32,7 @@ const Team = () => {
         }
       </div>
       <div className='m-2 text-center'>
-        <h2 className='text-7xl text-watermelon '>Conoce al equipo</h2>
+        <h2 className='text-7xl text-brand-pink '>Conoce al equipo</h2>
         <br />
         <p className='text-xl'>
           Empleamos un personal de servicio completo y apasionado, Nuestro equipo está formado por profesionales comprometidos con la excelencia y la satisfacción del cliente.

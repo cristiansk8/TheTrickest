@@ -36,8 +36,8 @@ export default function SimpleProfilePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-900 p-8 text-white text-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-cyan-400 mx-auto mb-4"></div>
+      <div className="min-h-screen bg-neutral-900 p-8 text-white text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-accent-cyan-400 mx-auto mb-4"></div>
         <p>Cargando perfil...</p>
       </div>
     );
@@ -45,14 +45,14 @@ export default function SimpleProfilePage() {
 
   if (!profile) {
     return (
-      <div className="min-h-screen bg-slate-900 p-8 text-white text-center">
+      <div className="min-h-screen bg-neutral-900 p-8 text-white text-center">
         <p>Perfil no encontrado</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-900 p-8 text-white">
+    <div className="min-h-screen bg-neutral-900 p-8 text-white">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl font-bold mb-8">Perfil de {profile.name}</h1>
 
@@ -65,7 +65,7 @@ export default function SimpleProfilePage() {
               const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
               window.open(twitterUrl, '_blank');
             }}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2"
+            className="bg-accent-blue-500 hover:bg-accent-blue-600 text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2"
           >
             <FaTwitter /> Twitter
           </button>
@@ -76,7 +76,7 @@ export default function SimpleProfilePage() {
               const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
               window.open(facebookUrl, '_blank');
             }}
-            className="bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2"
+            className="bg-accent-blue-700 hover:bg-accent-blue-800 text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2"
           >
             <FaFacebook /> Facebook
           </button>
@@ -86,41 +86,41 @@ export default function SimpleProfilePage() {
               navigator.clipboard.writeText(window.location.href);
               alert('Enlace copiado!');
             }}
-            className="bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2"
+            className="bg-neutral-700 hover:bg-neutral-600 text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2"
           >
             <FaShare /> Copiar
           </button>
         </div>
 
         {/* Profile Info */}
-        <div className="bg-slate-800 rounded-lg p-6">
+        <div className="bg-neutral-800 rounded-lg p-6">
           <div className="flex items-center gap-4 mb-4">
             {profile.photo && (
               <img
                 src={profile.photo}
                 alt={profile.name}
-                className="w-16 h-16 rounded-full border-2 border-cyan-400"
+                className="w-16 h-16 rounded-full border-2 border-accent-cyan-400"
               />
             )}
             <div>
               <h2 className="text-2xl font-bold">{profile.name}</h2>
-              <p className="text-cyan-400">@{username}</p>
-              <p className="text-slate-400">{profile.role}</p>
+              <p className="text-accent-cyan-400">@{username}</p>
+              <p className="text-neutral-400">{profile.role}</p>
             </div>
           </div>
 
           <div className="grid grid-cols-3 gap-4">
             <div className="text-center">
-              <p className="text-2xl font-bold text-yellow-400">{profile.stats?.totalScore || 0}</p>
-              <p className="text-slate-400">Puntos</p>
+              <p className="text-2xl font-bold text-accent-yellow-400">{profile.stats?.totalScore || 0}</p>
+              <p className="text-neutral-400">Puntos</p>
             </div>
             <div className="text-center">
               <p className="text-2xl font-bold text-green-400">{profile.stats?.approvedSubmissions || 0}</p>
-              <p className="text-slate-400">Trucos</p>
+              <p className="text-neutral-400">Trucos</p>
             </div>
             <div className="text-center">
-              <p className="text-2xl font-bold text-purple-400">{profile.socialStats?.followerCount || 0}</p>
-              <p className="text-slate-400">Seguidores</p>
+              <p className="text-2xl font-bold text-accent-purple-400">{profile.socialStats?.followerCount || 0}</p>
+              <p className="text-neutral-400">Seguidores</p>
             </div>
           </div>
         </div>

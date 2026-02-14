@@ -93,7 +93,7 @@ const SkateProfileCompletionModal: React.FC<ModalProps> = ({ openModal, handleMo
     return (
         <div className="fixed inset-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50">
             <div className="w-full h-full md:max-w-[460px] md:h-auto bg-white shadow-lg py-2 rounded-md flex flex-col">
-                <h2 className="text-sm font-medium text-gray-900 border-b border-gray-300 py-3 px-4 mb-4">
+                <h2 className="text-sm font-medium text-neutral-900 border-b border-neutral-300 py-3 px-4 mb-4">
                     Completa tu registro
                 </h2>
 
@@ -107,13 +107,13 @@ const SkateProfileCompletionModal: React.FC<ModalProps> = ({ openModal, handleMo
                 <form onSubmit={handleSubmit} className="space-y-4 px-4 pb-4 flex-grow">
                     {/* Campo Teléfono */}
                     <div>
-                        <label className="block text-gray-700 text-sm font-bold mb-2">Teléfono:</label>
+                        <label className="block text-neutral-700 text-sm font-bold mb-2">Teléfono:</label>
                         <input
                             type="tel"
                             name="phone"
                             value={formData.phone}
                             onChange={handleChange}
-                            className="w-full px-3 py-2 border rounded shadow-sm focus:outline-none bg-white text-gray-900"
+                            className="w-full px-3 py-2 border rounded shadow-sm focus:outline-none bg-white text-neutral-900"
                             required
                         />
                     </div>
@@ -129,7 +129,7 @@ const SkateProfileCompletionModal: React.FC<ModalProps> = ({ openModal, handleMo
                     {/* Botón Enviar */}
                     <button
                         type="submit"
-                        className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        className="w-full bg-accent-blue-500 hover:bg-accent-blue-700 text-white font-bold py-2 px-4 rounded"
                         disabled={loading}
                     >
                         {loading ? "Cargando..." : "Enviar"}
@@ -137,8 +137,8 @@ const SkateProfileCompletionModal: React.FC<ModalProps> = ({ openModal, handleMo
                 </form>
 
                 {/* Botón Cerrar */}
-                <div className="border-t border-gray-300 flex justify-between items-center px-4 pt-2">
-                    <button type="button" className="h-8 px-2 text-sm rounded-md bg-gray-700 text-white" onClick={handleModal}>
+                <div className="border-t border-neutral-300 flex justify-between items-center px-4 pt-2">
+                    <button type="button" className="h-8 px-2 text-sm rounded-md bg-neutral-700 text-white" onClick={handleModal}>
                         Cerrar
                     </button>
                 </div>

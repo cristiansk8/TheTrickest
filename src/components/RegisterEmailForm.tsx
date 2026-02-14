@@ -112,7 +112,7 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              className="w-full px-4 py-3 bg-slate-800 border-2 border-pink-500 rounded-lg text-white font-bold focus:outline-none focus:border-pink-300 focus:shadow-lg focus:shadow-pink-500/50 transition-all"
+              className="w-full px-4 py-3 bg-neutral-800 border-2 border-pink-500 rounded-lg text-white font-bold focus:outline-none focus:border-pink-300 focus:shadow-lg focus:shadow-pink-500/50 transition-all"
               placeholder="Tu nombre"
               disabled={isLoading}
             />
@@ -129,7 +129,7 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full px-4 py-3 bg-slate-800 border-2 border-pink-500 rounded-lg text-white font-bold focus:outline-none focus:border-pink-300 focus:shadow-lg focus:shadow-pink-500/50 transition-all"
+              className="w-full px-4 py-3 bg-neutral-800 border-2 border-pink-500 rounded-lg text-white font-bold focus:outline-none focus:border-pink-300 focus:shadow-lg focus:shadow-pink-500/50 transition-all"
               placeholder="tu@email.com"
               disabled={isLoading}
             />
@@ -147,11 +147,11 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
               onChange={(e) => setPassword(e.target.value)}
               required
               minLength={6}
-              className="w-full px-4 py-3 bg-slate-800 border-2 border-pink-500 rounded-lg text-white font-bold focus:outline-none focus:border-pink-300 focus:shadow-lg focus:shadow-pink-500/50 transition-all"
+              className="w-full px-4 py-3 bg-neutral-800 border-2 border-pink-500 rounded-lg text-white font-bold focus:outline-none focus:border-pink-300 focus:shadow-lg focus:shadow-pink-500/50 transition-all"
               placeholder="••••••••"
               disabled={isLoading}
             />
-            <p className="text-xs text-slate-400 mt-1 font-bold">Mínimo 6 caracteres</p>
+            <p className="text-xs text-neutral-400 mt-1 font-bold">Mínimo 6 caracteres</p>
           </div>
 
           {/* Confirm Password Input */}
@@ -166,7 +166,7 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
               minLength={6}
-              className="w-full px-4 py-3 bg-slate-800 border-2 border-pink-500 rounded-lg text-white font-bold focus:outline-none focus:border-pink-300 focus:shadow-lg focus:shadow-pink-500/50 transition-all"
+              className="w-full px-4 py-3 bg-neutral-800 border-2 border-pink-500 rounded-lg text-white font-bold focus:outline-none focus:border-pink-300 focus:shadow-lg focus:shadow-pink-500/50 transition-all"
               placeholder="••••••••"
               disabled={isLoading}
             />
@@ -187,7 +187,7 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
               <div className="w-full border-t-2 border-slate-700"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-slate-900 text-slate-400 font-bold uppercase">O</span>
+              <span className="px-4 bg-neutral-900 text-neutral-400 font-bold uppercase">O</span>
             </div>
           </div>
 
@@ -196,7 +196,7 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
             type="button"
             onClick={() => signIn('google')}
             disabled={isLoading}
-            className="w-full py-4 bg-purple-600 hover:bg-purple-700 text-white font-black uppercase tracking-wider text-lg rounded-lg border-4 border-purple-400 shadow-lg shadow-purple-500/50 hover:shadow-purple-400/70 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-4 bg-accent-purple-600 hover:bg-accent-purple-700 text-white font-black uppercase tracking-wider text-lg rounded-lg border-4 border-accent-purple-400 shadow-lg shadow-accent-purple-500/50 hover:shadow-purple-400/70 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             🔐 REGISTRARME CON GOOGLE
           </button>
@@ -204,7 +204,7 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
           {/* Link to Login */}
           {onSwitchToLogin && (
             <div className="text-center pt-4 border-t-2 border-slate-700">
-              <p className="text-slate-400 text-sm mb-3 font-bold">
+              <p className="text-neutral-400 text-sm mb-3 font-bold">
                 ¿Ya tienes cuenta?
               </p>
               <button

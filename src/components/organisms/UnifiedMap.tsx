@@ -8,6 +8,15 @@ import { useSession } from 'next-auth/react';
 import { Heart } from 'lucide-react';
 import { TopCommentPreview } from '@/components/molecules';
 
+const THEME_COLORS = {
+  brandCyan: "#00D9FF",
+  brandPink: "#F35588",
+  brandPurple: "#A855F7",
+  brandPurpleDark: "#9333EA",
+  success: "#22C55E",
+  inkInverse: "#ffffff",
+};
+
 // Importar CSS de Leaflet solo en el cliente
 if (typeof window !== 'undefined') {
   require('leaflet/dist/leaflet.css');
@@ -44,8 +53,8 @@ const createSpotIcon = (photos: string[] | undefined, type: 'skatepark' | 'skate
 
   // Colores según tipo
   const borderColor = type === 'skatepark'
-    ? '#00D9FF' // Cyan para skateparks
-    : '#F35588'; // Pink para skateshops
+    ? THEME_COLORS.brandCyan // Cyan para skateparks
+    : THEME_COLORS.brandPink; // Pink para skateshops
 
   const glowColor = type === 'skatepark'
     ? 'rgba(0, 217, 255, 0.6)'
@@ -71,7 +80,7 @@ const createSpotIcon = (photos: string[] | undefined, type: 'skatepark' | 'skate
           border: 3px solid ${borderColor};
           box-shadow: 0 0 15px ${glowColor}, 0 2px 8px rgba(0, 0, 0, 0.3);
           overflow: hidden;
-          background: white;
+          background: ${THEME_COLORS.inkInverse};
           display: flex;
           align-items: center;
           justify-content: center;
@@ -210,7 +219,7 @@ export default function UnifiedMap({
           width: 40px;
           height: 40px;
           border-radius: 50%;
-          border: 3px solid #A855F7;
+          border: 3px solid ${THEME_COLORS.brandPurple};
           box-shadow: 0 0 10px rgba(168, 85, 247, 0.5), 0 2px 5px rgba(0, 0, 0, 0.3);
           overflow: hidden;
           background: white;
@@ -220,7 +229,7 @@ export default function UnifiedMap({
         .skater-avatar-ring:hover {
           transform: scale(1.1);
           box-shadow: 0 0 15px rgba(168, 85, 247, 0.7), 0 4px 8px rgba(0, 0, 0, 0.4);
-          border-color: #9333EA;
+          border-color: ${THEME_COLORS.brandPurpleDark};
         }
 
         .skater-avatar-image {
@@ -233,7 +242,7 @@ export default function UnifiedMap({
         .skater-avatar-fallback {
           width: 100%;
           height: 100%;
-          background: linear-gradient(135deg, #A855F7, #9333EA);
+          background: linear-gradient(135deg, ${THEME_COLORS.brandPurple}, ${THEME_COLORS.brandPurpleDark});
           display: flex;
           align-items: center;
           justify-content: center;
@@ -248,8 +257,8 @@ export default function UnifiedMap({
           right: -2px;
           width: 14px;
           height: 14px;
-          background: #22C55E;
-          border: 2px solid white;
+          background: ${THEME_COLORS.success};
+          border: 2px solid ${THEME_COLORS.inkInverse};
           border-radius: 50%;
           box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
         }
@@ -352,10 +361,10 @@ export default function UnifiedMap({
   if (!mounted) {
     return (
       <div
-        className="w-full rounded-xl border-4 border-cyan-400 bg-slate-900 flex items-center justify-center"
+        className="w-full rounded-xl border-4 border-accent-cyan-400 bg-neutral-900 flex items-center justify-center"
         style={{ height }}
       >
-        <div className="text-cyan-400 font-black text-xl">
+        <div className="text-accent-cyan-400 font-black text-xl">
           🗺️ CARGANDO MAPA...
         </div>
       </div>
@@ -366,7 +375,7 @@ export default function UnifiedMap({
   const displaySkaters = showSkaters ? skaters : [];
 
   return (
-    <div className="w-full rounded-xl border-4 border-cyan-400 overflow-hidden shadow-2xl shadow-cyan-500/50" style={{ height }}>
+    <div className="w-full rounded-xl border-4 border-accent-cyan-400 overflow-hidden shadow-2xl shadow-accent-cyan-500/50" style={{ height }}>
       <MapContainer
         center={center}
         zoom={zoom}
@@ -402,10 +411,10 @@ export default function UnifiedMap({
                     <img
                       src={spot.photos[0]}
                       alt={spot.name}
-                      className="w-full h-40 object-cover rounded-lg border-2 border-cyan-400"
+                      className="w-full h-40 object-cover rounded-lg border-2 border-accent-cyan-400"
                     />
                     {spot.photos.length > 1 && (
-                      <p className="text-xs text-slate-500 mt-1 text-center">
+                      <p className="text-xs text-neutral-500 mt-1 text-center">
                         +{spot.photos.length - 1} más
                       </p>
                     )}
@@ -413,7 +422,7 @@ export default function UnifiedMap({
                 )}
 
                 <div className="flex items-start justify-between mb-2">
-                  <h3 className="font-black text-lg uppercase text-slate-900">
+                  <h3 className="font-black text-lg uppercase text-neutral-900">
                     {spot.name}
                   </h3>
                   {spot.isVerified && (
@@ -424,8 +433,8 @@ export default function UnifiedMap({
                 <div className="mb-2">
                   <span className={`px-2 py-1 rounded text-xs font-bold uppercase ${
                     spot.type === 'skatepark'
-                      ? 'bg-cyan-100 text-cyan-700'
-                      : 'bg-pink-100 text-pink-700'
+                      ? 'bg-accent-cyan-100 text-accent-cyan-700'
+                      : 'bg-accent-pink-100 text-accent-pink-700'
                   }`}>
                     {spot.type === 'skatepark' ? '🛹 Skatepark' : '🏪 Skateshop'}
                   </span>
@@ -433,19 +442,19 @@ export default function UnifiedMap({
 
                 {spot.rating !== undefined && spot.rating > 0 && (
                   <div className="mb-2">
-                    <span className="text-yellow-500">{'⭐'.repeat(Math.round(spot.rating))}</span>
-                    <span className="text-slate-600 text-sm ml-1">{spot.rating.toFixed(1)}</span>
+                    <span className="text-accent-yellow-500">{'⭐'.repeat(Math.round(spot.rating))}</span>
+                    <span className="text-neutral-600 text-sm ml-1">{spot.rating.toFixed(1)}</span>
                   </div>
                 )}
 
-                {spot.description && <p className="text-sm text-slate-700 mb-2">{spot.description}</p>}
-                {spot.address && <p className="text-xs text-slate-600 mb-1">📍 {spot.address}</p>}
-                {spot.city && <p className="text-xs text-slate-600 mb-2">🏙️ {spot.city}</p>}
+                {spot.description && <p className="text-sm text-neutral-700 mb-2">{spot.description}</p>}
+                {spot.address && <p className="text-xs text-neutral-600 mb-1">📍 {spot.address}</p>}
+                {spot.city && <p className="text-xs text-neutral-600 mb-2">🏙️ {spot.city}</p>}
 
                 <div className="flex flex-wrap gap-2 mt-3">
                   {spot.instagram && (
                     <a href={`https://instagram.com/${spot.instagram}`} target="_blank" rel="noopener noreferrer"
-                       className="text-xs bg-purple-600 text-white px-2 py-1 rounded font-bold hover:bg-purple-700">
+                       className="text-xs bg-accent-purple-600 text-white px-2 py-1 rounded font-bold hover:bg-accent-purple-700">
                       📸 Instagram
                     </a>
                   )}
@@ -457,19 +466,19 @@ export default function UnifiedMap({
                   )}
                   {spot.website && (
                     <a href={spot.website} target="_blank" rel="noopener noreferrer"
-                       className="text-xs bg-blue-600 text-white px-2 py-1 rounded font-bold hover:bg-blue-700">
+                       className="text-xs bg-accent-blue-600 text-white px-2 py-1 rounded font-bold hover:bg-accent-blue-700">
                       🌐 Web
                     </a>
                   )}
                 </div>
 
                 {/* Validación rápida */}
-                <div className="mt-3 pt-3 border-t border-slate-200">
+                <div className="mt-3 pt-3 border-t border-neutral-200">
                   {spot.validationCount !== undefined && spot.validationCount > 0 && (
-                    <p className="text-xs text-slate-600 mb-2 text-center">
+                    <p className="text-xs text-neutral-600 mb-2 text-center">
                       ✓ {spot.validationCount} {spot.validationCount === 1 ? 'validación' : 'validaciones'}
                       {spot.stage && (
-                        <span className="ml-1 px-1 py-0.5 bg-purple-100 text-purple-700 rounded text-[10px] uppercase">
+                        <span className="ml-1 px-1 py-0.5 bg-accent-purple-100 text-accent-purple-700 rounded text-[10px] uppercase">
                           {spot.stage}
                         </span>
                       )}
@@ -481,10 +490,10 @@ export default function UnifiedMap({
                     disabled={validatingSpotId !== null || validatedSpotIds.has(spot.id)}
                     className={`w-full font-bold py-2 px-3 rounded-lg border-2 transition-all flex items-center justify-center gap-2 ${
                       validatingSpotId === spot.id
-                        ? 'bg-yellow-500 border-yellow-400 text-white animate-pulse cursor-wait'
+                        ? 'bg-accent-yellow-500 border-accent-yellow-400 text-white animate-pulse cursor-wait'
                         : validatedSpotIds.has(spot.id)
-                        ? 'bg-pink-600 border-pink-400 text-white cursor-not-allowed opacity-75'
-                        : 'bg-slate-200 hover:bg-pink-100 border-slate-300 hover:border-pink-400 text-slate-700 hover:text-pink-700 cursor-pointer'
+                        ? 'bg-accent-pink-600 border-accent-pink-400 text-white cursor-not-allowed opacity-75'
+                        : 'bg-neutral-200 hover:bg-accent-pink-100 border-neutral-300 hover:border-accent-pink-400 text-neutral-700 hover:text-accent-pink-700 cursor-pointer'
                     } ${!session ? 'opacity-60 cursor-not-allowed' : ''}`}
                     title={!session ? 'Inicia sesión para validar' : validatedSpotIds.has(spot.id) ? '✅ Ya validaste este spot' : 'Validar spot (requiere GPS)'}
                   >
@@ -507,7 +516,7 @@ export default function UnifiedMap({
                   )}
 
                   {!session && (
-                    <p className="text-[10px] text-slate-500 text-center mt-1">
+                    <p className="text-[10px] text-neutral-500 text-center mt-1">
                       🔒 Inicia sesión para validar
                     </p>
                   )}
@@ -540,26 +549,26 @@ export default function UnifiedMap({
                     <img
                       src={skater.photo}
                       alt={skater.name}
-                      className="w-12 h-12 rounded-full border-2 border-purple-500 object-cover"
+                      className="w-12 h-12 rounded-full border-2 border-accent-purple-500 object-cover"
                     />
                   ) : (
-                    <div className="w-12 h-12 rounded-full bg-purple-500 flex items-center justify-center text-white font-black text-xl">
+                    <div className="w-12 h-12 rounded-full bg-accent-purple-500 flex items-center justify-center text-white font-black text-xl">
                       {skater.name?.charAt(0).toUpperCase() || '?'}
                     </div>
                   )}
                   <div>
-                    <h3 className="font-black text-lg text-slate-900">
+                    <h3 className="font-black text-lg text-neutral-900">
                       {skater.name}
                     </h3>
-                    <p className="text-xs text-slate-600">@{skater.username}</p>
+                    <p className="text-xs text-neutral-600">@{skater.username}</p>
                   </div>
                 </div>
 
                 <div className="mb-2">
                   <span className={`px-2 py-1 rounded text-xs font-bold uppercase ${
                     skater.role === 'admin' ? 'bg-red-100 text-red-700' :
-                    skater.role === 'judge' ? 'bg-yellow-100 text-yellow-700' :
-                    'bg-purple-100 text-purple-700'
+                    skater.role === 'judge' ? 'bg-accent-yellow-100 text-accent-yellow-700' :
+                    'bg-accent-purple-100 text-accent-purple-700'
                   }`}>
                     {skater.role === 'admin' && '👑 Admin'}
                     {skater.role === 'judge' && '⚖️ Judge'}
@@ -568,30 +577,30 @@ export default function UnifiedMap({
                 </div>
 
                 {skater.city && (
-                  <p className="text-xs text-slate-600 mb-2">
+                  <p className="text-xs text-neutral-600 mb-2">
                     📍 {skater.city}{skater.state && `, ${skater.state}`}
                   </p>
                 )}
 
                 {skater.team && (
-                  <p className="text-xs text-slate-600 mb-2">
+                  <p className="text-xs text-neutral-600 mb-2">
                     👥 Team: {skater.team.name}
                   </p>
                 )}
 
                 <div className="grid grid-cols-2 gap-2 mb-3 text-center">
                   <div>
-                    <p className="text-purple-600 font-bold">{skater.stats.totalScore}</p>
-                    <p className="text-xs text-slate-500">Score</p>
+                    <p className="text-accent-purple-600 font-bold">{skater.stats.totalScore}</p>
+                    <p className="text-xs text-neutral-500">Score</p>
                   </div>
                   <div>
                     <p className="text-green-600 font-bold">{skater.stats.approvedSubmissions}</p>
-                    <p className="text-xs text-slate-500">Trucos</p>
+                    <p className="text-xs text-neutral-500">Trucos</p>
                   </div>
                 </div>
 
                 <Link href={`/profile/${skater.username}`}>
-                  <button className="w-full bg-purple-600 text-white px-3 py-2 rounded font-bold hover:bg-purple-700 text-sm">
+                  <button className="w-full bg-accent-purple-600 text-white px-3 py-2 rounded font-bold hover:bg-accent-purple-700 text-sm">
                     Ver Perfil
                   </button>
                 </Link>

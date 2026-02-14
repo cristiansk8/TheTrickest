@@ -145,15 +145,15 @@ export default function AdminSubmissionsPage() {
     switch (status) {
       case 'approved': return <MdCheckCircle size={20} className="text-green-400" />;
       case 'rejected': return <MdCancel size={20} className="text-red-400" />;
-      default: return <MdSchedule size={20} className="text-yellow-400" />;
+      default: return <MdSchedule size={20} className="text-accent-yellow-400" />;
     }
   };
 
   const getStatusBadge = (status: string) => {
     const colors = {
-      pending: 'from-yellow-500 to-orange-500',
-      approved: 'from-green-500 to-teal-500',
-      rejected: 'from-red-500 to-pink-500',
+      pending: 'from-accent-yellow-500 to-accent-orange-500',
+      approved: 'from-green-500 to-accent-teal-500',
+      rejected: 'from-red-500 to-accent-pink-500',
     };
 
     return (
@@ -165,10 +165,10 @@ export default function AdminSubmissionsPage() {
 
   const getDifficultyBadge = (difficulty: string) => {
     const colors = {
-      easy: 'from-green-500 to-teal-500',
-      medium: 'from-yellow-500 to-orange-500',
-      hard: 'from-red-500 to-pink-500',
-      expert: 'from-purple-500 to-indigo-500',
+      easy: 'from-green-500 to-accent-teal-500',
+      medium: 'from-accent-yellow-500 to-accent-orange-500',
+      hard: 'from-red-500 to-accent-pink-500',
+      expert: 'from-accent-purple-500 to-indigo-500',
     };
 
     return (
@@ -182,17 +182,17 @@ export default function AdminSubmissionsPage() {
     <div className="p-6 space-y-6">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 uppercase tracking-wider mb-2">
+        <h1 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-cyan-400 to-accent-purple-400 uppercase tracking-wider mb-2">
           📹 GESTIÓN DE SUBMISSIONS
         </h1>
-        <p className="text-slate-600 text-lg">
+        <p className="text-neutral-600 text-lg">
           Revisa y re-evalúa los envíos de los usuarios
         </p>
       </div>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="bg-gradient-to-br from-yellow-500 to-orange-600 border-4 border-white shadow-lg shadow-yellow-500/30">
+        <Card className="bg-gradient-to-br from-accent-yellow-500 to-accent-orange-600 border-4 border-white shadow-lg shadow-accent-yellow-500/30">
           <CardBody className="text-center">
             <MdSchedule size={32} className="text-white mx-auto mb-2" />
             <p className="text-white text-sm font-bold uppercase tracking-wider">Pendientes</p>
@@ -200,7 +200,7 @@ export default function AdminSubmissionsPage() {
           </CardBody>
         </Card>
 
-        <Card className="bg-gradient-to-br from-green-500 to-teal-600 border-4 border-white shadow-lg shadow-green-500/30">
+        <Card className="bg-gradient-to-br from-green-500 to-accent-teal-600 border-4 border-white shadow-lg shadow-green-500/30">
           <CardBody className="text-center">
             <MdCheckCircle size={32} className="text-white mx-auto mb-2" />
             <p className="text-white text-sm font-bold uppercase tracking-wider">Aprobadas</p>
@@ -208,7 +208,7 @@ export default function AdminSubmissionsPage() {
           </CardBody>
         </Card>
 
-        <Card className="bg-gradient-to-br from-red-500 to-pink-600 border-4 border-white shadow-lg shadow-red-500/30">
+        <Card className="bg-gradient-to-br from-red-500 to-accent-pink-600 border-4 border-white shadow-lg shadow-red-500/30">
           <CardBody className="text-center">
             <MdCancel size={32} className="text-white mx-auto mb-2" />
             <p className="text-white text-sm font-bold uppercase tracking-wider">Rechazadas</p>
@@ -218,7 +218,7 @@ export default function AdminSubmissionsPage() {
       </div>
 
       {/* Filters */}
-      <Card className="bg-slate-900 border-4 border-slate-700">
+      <Card className="bg-neutral-900 border-4 border-neutral-700">
         <CardHeader>
           <h3 className="text-xl font-black text-white uppercase tracking-wider">
             🔍 Filtros
@@ -273,7 +273,7 @@ export default function AdminSubmissionsPage() {
                   page: 1,
                   limit: 20,
                 })}
-                className="bg-slate-700 text-white font-bold"
+                className="bg-neutral-700 text-white font-bold"
               >
                 Limpiar Filtros
               </Button>
@@ -283,7 +283,7 @@ export default function AdminSubmissionsPage() {
       </Card>
 
       {/* Submissions List */}
-      <Card className="bg-slate-900 border-4 border-slate-700">
+      <Card className="bg-neutral-900 border-4 border-neutral-700">
         <CardHeader>
           <h3 className="text-xl font-black text-white uppercase tracking-wider">
             📋 Submissions ({pagination.total})
@@ -292,16 +292,16 @@ export default function AdminSubmissionsPage() {
         <CardBody>
           {loading ? (
             <div className="flex justify-center py-8">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-400"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-accent-cyan-400"></div>
             </div>
           ) : (
             <div className="space-y-4">
               {submissions.map((submission) => (
-                <div key={submission.id} className="bg-gradient-to-r from-slate-800 to-slate-700 p-4 rounded-lg border border-slate-600">
+                <div key={submission.id} className="bg-gradient-to-r from-neutral-800 to-neutral-700 p-4 rounded-lg border border-neutral-600">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
                       <div className="relative">
-                        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-full blur-sm"></div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 rounded-full blur-sm"></div>
                         <Image
                           className="relative rounded-full w-12 h-12 border-2 border-white"
                           src={submission.user.photo || "/logo.png"}
@@ -312,7 +312,7 @@ export default function AdminSubmissionsPage() {
                       </div>
                       <div>
                         <h4 className="text-white font-bold text-lg">{submission.user.name}</h4>
-                        <p className="text-slate-400 text-sm">{submission.user.email}</p>
+                        <p className="text-neutral-400 text-sm">{submission.user.email}</p>
                         <div className="flex items-center gap-2 mt-1">
                           {getStatusIcon(submission.status)}
                           {getStatusBadge(submission.status)}
@@ -322,14 +322,14 @@ export default function AdminSubmissionsPage() {
 
                     <div className="flex items-center gap-6">
                       <div className="text-center">
-                        <p className="text-slate-400 text-xs uppercase tracking-wider">Challenge</p>
-                        <p className="text-cyan-400 font-bold">{submission.challenge.name}</p>
+                        <p className="text-neutral-400 text-xs uppercase tracking-wider">Challenge</p>
+                        <p className="text-accent-cyan-400 font-bold">{submission.challenge.name}</p>
                         {getDifficultyBadge(submission.challenge.difficulty)}
                       </div>
 
                       <div className="text-center">
-                        <p className="text-slate-400 text-xs uppercase tracking-wider">Score</p>
-                        <p className="text-2xl font-black text-yellow-400">
+                        <p className="text-neutral-400 text-xs uppercase tracking-wider">Score</p>
+                        <p className="text-2xl font-black text-accent-yellow-400">
                           {submission.score !== null ? submission.score : '-'}
                         </p>
                       </div>
@@ -341,7 +341,7 @@ export default function AdminSubmissionsPage() {
                           target="_blank"
                           rel="noopener noreferrer"
                           isIconOnly
-                          className="bg-gradient-to-r from-purple-500 to-pink-600 text-white"
+                          className="bg-gradient-to-r from-accent-purple-500 to-accent-pink-600 text-white"
                         >
                           <MdPlayArrow size={16} />
                         </Button>
@@ -349,7 +349,7 @@ export default function AdminSubmissionsPage() {
                         <Button
                           onClick={() => openReevaluateModal(submission)}
                           isIconOnly
-                          className="bg-gradient-to-r from-yellow-500 to-orange-500 text-black"
+                          className="bg-gradient-to-r from-accent-yellow-500 to-accent-orange-500 text-black"
                         >
                           <MdRefresh size={16} />
                         </Button>
@@ -358,9 +358,9 @@ export default function AdminSubmissionsPage() {
                   </div>
 
                   {submission.feedback && (
-                    <div className="mt-4 p-3 bg-slate-800/50 rounded-lg">
-                      <p className="text-slate-300 text-sm">
-                        <strong className="text-cyan-400">Feedback:</strong> {submission.feedback}
+                    <div className="mt-4 p-3 bg-neutral-800/50 rounded-lg">
+                      <p className="text-neutral-300 text-sm">
+                        <strong className="text-accent-cyan-400">Feedback:</strong> {submission.feedback}
                       </p>
                     </div>
                   )}
@@ -369,7 +369,7 @@ export default function AdminSubmissionsPage() {
 
               {submissions.length === 0 && (
                 <div className="text-center py-8">
-                  <p className="text-slate-400 text-lg">No se encontraron submissions</p>
+                  <p className="text-neutral-400 text-lg">No se encontraron submissions</p>
                 </div>
               )}
             </div>
@@ -383,19 +383,19 @@ export default function AdminSubmissionsPage() {
           <Button
             disabled={pagination.page <= 1}
             onClick={() => setFilters(prev => ({ ...prev, page: prev.page - 1 }))}
-            className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold"
+            className="bg-gradient-to-r from-accent-cyan-500 to-accent-blue-600 text-white font-bold"
           >
             Anterior
           </Button>
 
-          <span className="flex items-center px-4 py-2 bg-slate-800 text-white rounded-lg">
+          <span className="flex items-center px-4 py-2 bg-neutral-800 text-white rounded-lg">
             Página {pagination.page} de {pagination.pages}
           </span>
 
           <Button
             disabled={pagination.page >= pagination.pages}
             onClick={() => setFilters(prev => ({ ...prev, page: prev.page + 1 }))}
-            className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold"
+            className="bg-gradient-to-r from-accent-cyan-500 to-accent-blue-600 text-white font-bold"
           >
             Siguiente
           </Button>
@@ -407,7 +407,7 @@ export default function AdminSubmissionsPage() {
         isOpen={isOpen}
         onClose={onClose}
         size="lg"
-        className="bg-slate-900 border-4 border-slate-700"
+        className="bg-neutral-900 border-4 border-neutral-700"
       >
         <ModalContent>
           <ModalHeader className="text-white font-black uppercase tracking-wider">
@@ -415,9 +415,9 @@ export default function AdminSubmissionsPage() {
           </ModalHeader>
           <ModalBody className="space-y-4">
             {selectedSubmission && (
-              <div className="bg-slate-800 p-4 rounded-lg">
+              <div className="bg-neutral-800 p-4 rounded-lg">
                 <p className="text-white font-bold">{selectedSubmission.user.name}</p>
-                <p className="text-slate-400 text-sm">{selectedSubmission.challenge.name}</p>
+                <p className="text-neutral-400 text-sm">{selectedSubmission.challenge.name}</p>
               </div>
             )}
 
@@ -441,14 +441,14 @@ export default function AdminSubmissionsPage() {
           <ModalFooter>
             <Button
               onClick={onClose}
-              className="bg-slate-700 text-white"
+              className="bg-neutral-700 text-white"
             >
               Cancelar
             </Button>
             <Button
               onClick={handleReevaluate}
               isLoading={reevaluating !== null}
-              className="bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-bold uppercase tracking-wider"
+              className="bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 text-white font-bold uppercase tracking-wider"
             >
               Re-evaluar
             </Button>

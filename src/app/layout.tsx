@@ -20,7 +20,7 @@ export const metadata = {
   description: "Patina, graba y postea tus mejores trucos. Compite con skaters de todo el mundo.",
   keywords: 'skateboarding, skate, trucos, tricks, challenges, competencia, skaters, patineta',
   manifest: '/manifest.json',
-  themeColor: '#F35588',
+  themeColor: "rgb(var(--brand-pink))",
   icons: {
     icon: [
       { url: '/logo.png', sizes: 'any', type: 'image/png' },

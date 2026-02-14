@@ -18,13 +18,13 @@ const GalerryLevels = () => {
                                 <h3>{tricket.name}</h3>
                                 <ul className="mt-3 flex flex-wrap">
                                     <li className="mr-auto">
-                                        <a href="#" className="flex text-gray-400 hover:text-gray-600">
+                                        <a href="#" className="flex text-neutral-400 hover:text-neutral-600">
                                             <IoIosShareAlt />
                                             {tricket.share}
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#" className="flex text-gray-400 hover:text-gray-600">
+                                        <a href="#" className="flex text-neutral-400 hover:text-neutral-600">
                                             <FaHeart />
                                             {tricket.likes}
                                         </a>

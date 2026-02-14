@@ -106,12 +106,12 @@ export default function CommentThread({ spotId, commentId, replyCount, highlight
   }
 
   return (
-    <div className="ml-8 mt-2 border-l-2 border-slate-700 pl-4">
+    <div className="ml-8 mt-2 border-l-2 border-neutral-700 pl-4">
       {/* Toggle button */}
       <button
         onClick={toggleReplies}
         disabled={loading}
-        className="flex items-center gap-2 text-xs font-bold text-slate-400 hover:text-cyan-400 transition-colors disabled:opacity-50"
+        className="flex items-center gap-2 text-xs font-bold text-neutral-400 hover:text-accent-cyan-400 transition-colors disabled:opacity-50"
       >
         <MessageSquare className="w-3 h-3" />
         {isExpanded ? (
@@ -126,7 +126,7 @@ export default function CommentThread({ spotId, commentId, replyCount, highlight
           </>
         )}
         {loading && (
-          <div className="w-3 h-3 animate-spin border-2 border-cyan-400 border-t-transparent rounded-full" />
+          <div className="w-3 h-3 animate-spin border-2 border-accent-cyan-400 border-t-transparent rounded-full" />
         )}
       </button>
 
@@ -141,7 +141,7 @@ export default function CommentThread({ spotId, commentId, replyCount, highlight
       {isExpanded && !loading && replies.length > 0 && (
         <div className="mt-3 space-y-3">
           {replies.map((reply) => (
-            <div key={reply.id} className="bg-slate-800/50 rounded-lg p-3 border border-slate-700">
+            <div key={reply.id} className="bg-neutral-800/50 rounded-lg p-3 border border-neutral-700">
               <CommentItem
                 id={reply.id}
                 content={reply.content}
@@ -164,7 +164,7 @@ export default function CommentThread({ spotId, commentId, replyCount, highlight
           {replies.length < total && (
             <button
               onClick={() => fetchReplies()}
-              className="w-full py-2 px-3 bg-slate-800 hover:bg-slate-700 border border-slate-600 hover:border-cyan-400 rounded-lg font-bold text-xs text-slate-300 hover:text-cyan-400 transition-all"
+              className="w-full py-2 px-3 bg-neutral-800 hover:bg-neutral-700 border border-neutral-600 hover:border-accent-cyan-400 rounded-lg font-bold text-xs text-neutral-300 hover:text-accent-cyan-400 transition-all"
             >
               Cargar más respuestas ({total - replies.length} restantes)
             </button>
@@ -174,7 +174,7 @@ export default function CommentThread({ spotId, commentId, replyCount, highlight
 
       {/* No replies */}
       {isExpanded && !loading && replies.length === 0 && (
-        <div className="mt-2 text-xs text-slate-500">
+        <div className="mt-2 text-xs text-neutral-500">
           Aún no hay respuestas. ¡Sé el primero!
         </div>
       )}

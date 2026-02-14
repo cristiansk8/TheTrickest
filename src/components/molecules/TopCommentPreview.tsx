@@ -74,9 +74,9 @@ export default function TopCommentPreview({
 
   if (loading) {
     return (
-      <div className="mt-3 pt-3 border-t border-slate-200">
+      <div className="mt-3 pt-3 border-t border-neutral-200">
         <div className="flex items-center justify-center py-2">
-          <div className="w-4 h-4 animate-spin border-2 border-cyan-400 border-t-transparent rounded-full" />
+          <div className="w-4 h-4 animate-spin border-2 border-accent-cyan-400 border-t-transparent rounded-full" />
         </div>
       </div>
     );
@@ -85,10 +85,10 @@ export default function TopCommentPreview({
   // No hay comentarios
   if (!topComment) {
     return (
-      <div className="mt-3 pt-3 border-t border-slate-200">
+      <div className="mt-3 pt-3 border-t border-neutral-200">
         <button
           onClick={onViewAllComments}
-          className="w-full py-2 px-3 bg-cyan-600 hover:bg-cyan-700 border-2 border-cyan-400 rounded-lg text-white font-bold transition-all flex items-center justify-center gap-2"
+          className="w-full py-2 px-3 bg-accent-cyan-600 hover:bg-accent-cyan-700 border-2 border-accent-cyan-400 rounded-lg text-white font-bold transition-all flex items-center justify-center gap-2"
         >
           <MessageSquare className="w-4 h-4" />
           Sé el primero en comentar
@@ -99,7 +99,7 @@ export default function TopCommentPreview({
 
   // Hay comentarios - mostrar el top
   return (
-    <div className="mt-3 pt-3 border-t border-slate-200">
+    <div className="mt-3 pt-3 border-t border-neutral-200">
       {/* Header del preview */}
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-1 text-sm">
@@ -108,38 +108,38 @@ export default function TopCommentPreview({
             Comentario destacado
           </span>
         </div>
-        <span className="text-xs text-slate-500">
+        <span className="text-xs text-neutral-500">
           {totalComments} {totalComments === 1 ? 'comentario' : 'comentarios'}
         </span>
       </div>
 
       {/* Top comment preview */}
-      <div className="bg-slate-50 border border-slate-300 rounded-lg p-3">
+      <div className="bg-neutral-50 border border-neutral-300 rounded-lg p-3">
         {/* Autor */}
         <div className="flex items-center gap-2 mb-2">
           {topComment.user.photo ? (
             <img
               src={topComment.user.photo}
               alt={topComment.user.name || 'Usuario'}
-              className="w-6 h-6 rounded-full border border-slate-300 object-cover"
+              className="w-6 h-6 rounded-full border border-neutral-300 object-cover"
             />
           ) : (
-            <div className="w-6 h-6 rounded-full bg-gradient-to-br from-cyan-400 to-purple-600 flex items-center justify-center text-white font-bold text-xs">
+            <div className="w-6 h-6 rounded-full bg-gradient-to-br from-accent-cyan-400 to-accent-purple-600 flex items-center justify-center text-white font-bold text-xs">
               {topComment.user.name?.charAt(0).toUpperCase() || '?'}
             </div>
           )}
           <div className="flex-1 min-w-0">
-            <p className="text-xs font-bold text-slate-900 truncate">
+            <p className="text-xs font-bold text-neutral-900 truncate">
               {topComment.user.name || 'Usuario'}
             </p>
-            <p className="text-[10px] text-slate-500">
+            <p className="text-[10px] text-neutral-500">
               {formatDate(topComment.createdAt)}
             </p>
           </div>
         </div>
 
         {/* Contenido (truncado) */}
-        <p className="text-xs text-slate-700 line-clamp-2 mb-2">
+        <p className="text-xs text-neutral-700 line-clamp-2 mb-2">
           {topComment.content.length > 100
             ? topComment.content.substring(0, 100) + '...'
             : topComment.content}
@@ -157,7 +157,7 @@ export default function TopCommentPreview({
           {/* Botón "Ver más" */}
           <button
             onClick={onViewAllComments}
-            className="text-xs font-bold text-cyan-600 hover:text-cyan-700 flex items-center gap-1"
+            className="text-xs font-bold text-accent-cyan-600 hover:text-accent-cyan-700 flex items-center gap-1"
           >
             Ver todos
             <ChevronDown className="w-3 h-3" />
@@ -168,14 +168,14 @@ export default function TopCommentPreview({
       {/* Botón completo */}
       <button
         onClick={onViewAllComments}
-        className="w-full mt-2 py-2 px-3 bg-slate-100 hover:bg-cyan-50 border-2 border-slate-300 hover:border-cyan-400 rounded-lg font-bold text-slate-700 hover:text-cyan-700 transition-all text-sm flex items-center justify-center gap-2"
+        className="w-full mt-2 py-2 px-3 bg-neutral-100 hover:bg-accent-cyan-50 border-2 border-neutral-300 hover:border-accent-cyan-400 rounded-lg font-bold text-neutral-700 hover:text-accent-cyan-700 transition-all text-sm flex items-center justify-center gap-2"
       >
         <MessageSquare className="w-4 h-4" />
         Ver todos los comentarios ({totalComments})
       </button>
 
       {!session && (
-        <p className="text-[10px] text-slate-500 text-center mt-1">
+        <p className="text-[10px] text-neutral-500 text-center mt-1">
           🔒 Inicia sesión para comentar
         </p>
       )}

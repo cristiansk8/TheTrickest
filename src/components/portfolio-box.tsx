@@ -18,8 +18,7 @@ const PortfolioBox = (props: PortfolioBoxProps) => {
     return (
         <div
             key={id}
-            className="rounded-lg shadow-2xl shadow-darkBg bg-darkBg
-            hover:shadow-md hover:shadow-budGreen transform hover:scale-105 transition duration-500 ease-in-out"
+            className="rounded-lg shadow-2xl shadow-surface-card bg-surface-card hover:shadow-md hover:shadow-success-500/50 transform hover:scale-105 transition duration-500 ease-in-out"
         >
             <Image
                 src={image}
@@ -32,7 +31,7 @@ const PortfolioBox = (props: PortfolioBoxProps) => {
                     <Link
                         href={urlGithub}
                         target="_blank"
-                        className="p-2 transition duration-150 rounded-lg bg-budGreen hover:bg-budGreen/80"
+                        className="p-2 transition duration-150 rounded-lg bg-success-500 hover:bg-success-500/80"
                     >
                         Github
                     </Link>
@@ -40,7 +39,7 @@ const PortfolioBox = (props: PortfolioBoxProps) => {
                     <Link
                         href={urlDemo}
                         target="_blank"
-                        className="p-2 transition duration-150 rounded-lg bg-watermelon hover:bg-watermelon/80"
+                        className="p-2 transition duration-150 rounded-lg bg-brand-pink hover:bg-brand-pink/80"
                     >
                         Live demo
                     </Link>

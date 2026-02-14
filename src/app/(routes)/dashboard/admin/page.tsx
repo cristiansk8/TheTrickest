@@ -42,17 +42,17 @@ export default async function AdminDashboard() {
     <div className="p-6 space-y-6">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 uppercase tracking-wider mb-2">
+        <h1 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-cyan-400 to-accent-purple-400 uppercase tracking-wider mb-2">
           🎮 ADMIN PANEL
         </h1>
-        <p className="text-slate-600 text-lg">
+        <p className="text-neutral-600 text-lg">
           Gestión completa de la plataforma Trickest
         </p>
       </div>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="bg-gradient-to-br from-cyan-500 to-blue-600 border-4 border-white shadow-lg shadow-cyan-500/30">
+        <Card className="bg-gradient-to-br from-accent-cyan-500 to-accent-blue-600 border-4 border-white shadow-lg shadow-accent-cyan-500/30">
           <CardHeader className="pb-2">
             <div className="flex items-center gap-3">
               <MdPeople size={32} className="text-white" />
@@ -70,7 +70,7 @@ export default async function AdminDashboard() {
           </CardBody>
         </Card>
 
-        <Card className="bg-gradient-to-br from-purple-500 to-pink-600 border-4 border-white shadow-lg shadow-purple-500/30">
+        <Card className="bg-gradient-to-br from-accent-purple-500 to-accent-pink-600 border-4 border-white shadow-lg shadow-accent-purple-500/30">
           <CardHeader className="pb-2">
             <div className="flex items-center gap-3">
               <MdVideoLibrary size={32} className="text-white" />
@@ -88,7 +88,7 @@ export default async function AdminDashboard() {
           </CardBody>
         </Card>
 
-        <Card className="bg-gradient-to-br from-green-500 to-teal-600 border-4 border-white shadow-lg shadow-green-500/30">
+        <Card className="bg-gradient-to-br from-green-500 to-accent-teal-600 border-4 border-white shadow-lg shadow-green-500/30">
           <CardHeader className="pb-2">
             <div className="flex items-center gap-3">
               <MdSportsKabaddi size={32} className="text-white" />
@@ -106,7 +106,7 @@ export default async function AdminDashboard() {
           </CardBody>
         </Card>
 
-        <Card className="bg-gradient-to-br from-yellow-500 to-orange-600 border-4 border-white shadow-lg shadow-yellow-500/30">
+        <Card className="bg-gradient-to-br from-accent-yellow-500 to-accent-orange-600 border-4 border-white shadow-lg shadow-accent-yellow-500/30">
           <CardHeader className="pb-2">
             <div className="flex items-center gap-3">
               <MdAdminPanelSettings size={32} className="text-white" />
@@ -127,18 +127,18 @@ export default async function AdminDashboard() {
 
       {/* Recent Activity Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="bg-slate-900 border-4 border-slate-700">
+        <Card className="bg-neutral-900 border-4 border-neutral-700">
           <CardHeader>
             <h3 className="text-xl font-black text-white uppercase tracking-wider">
               📊 Submissions por Estado
             </h3>
           </CardHeader>
           <CardBody className="space-y-4">
-            <div className="flex justify-between items-center p-3 bg-yellow-500/10 rounded-lg border border-yellow-500/20">
-              <span className="text-yellow-400 font-bold uppercase tracking-wider">
+            <div className="flex justify-between items-center p-3 bg-accent-yellow-500/10 rounded-lg border border-accent-yellow-500/20">
+              <span className="text-accent-yellow-400 font-bold uppercase tracking-wider">
                 Pendientes
               </span>
-              <span className="text-2xl font-black text-yellow-400">
+              <span className="text-2xl font-black text-accent-yellow-400">
                 {stats?.pendingSubmissions || 0}
               </span>
             </div>
@@ -161,26 +161,26 @@ export default async function AdminDashboard() {
           </CardBody>
         </Card>
 
-        <Card className="bg-slate-900 border-4 border-slate-700">
+        <Card className="bg-neutral-900 border-4 border-neutral-700">
           <CardHeader>
             <h3 className="text-xl font-black text-white uppercase tracking-wider">
               👥 Distribución de Roles
             </h3>
           </CardHeader>
           <CardBody className="space-y-4">
-            <div className="flex justify-between items-center p-3 bg-cyan-500/10 rounded-lg border border-cyan-500/20">
-              <span className="text-cyan-400 font-bold uppercase tracking-wider">
+            <div className="flex justify-between items-center p-3 bg-accent-cyan-500/10 rounded-lg border border-accent-cyan-500/20">
+              <span className="text-accent-cyan-400 font-bold uppercase tracking-wider">
                 Skaters
               </span>
-              <span className="text-2xl font-black text-cyan-400">
+              <span className="text-2xl font-black text-accent-cyan-400">
                 {stats?.skaterCount || 0}
               </span>
             </div>
-            <div className="flex justify-between items-center p-3 bg-yellow-500/10 rounded-lg border border-yellow-500/20">
-              <span className="text-yellow-400 font-bold uppercase tracking-wider">
+            <div className="flex justify-between items-center p-3 bg-accent-yellow-500/10 rounded-lg border border-accent-yellow-500/20">
+              <span className="text-accent-yellow-400 font-bold uppercase tracking-wider">
                 Jueces
               </span>
-              <span className="text-2xl font-black text-yellow-400">
+              <span className="text-2xl font-black text-accent-yellow-400">
                 {stats?.judgeCount || 0}
               </span>
             </div>

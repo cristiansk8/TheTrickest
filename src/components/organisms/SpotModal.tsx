@@ -86,48 +86,48 @@ export default function SpotModal({ isOpen, spotId, commentId, onClose }: SpotMo
         >
           <div className="relative w-full max-w-4xl bg-white rounded-xl shadow-2xl max-h-[90vh] overflow-hidden flex flex-col">
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-gray-100 bg-white">
-              <h2 className="text-lg font-bold text-gray-900">
+            <div className="flex items-center justify-between p-4 border-b border-neutral-100 bg-white">
+              <h2 className="text-lg font-bold text-neutral-900">
                 {spot?.name || `Spot #${spotId}`}
               </h2>
               <button
                 onClick={onClose}
-                className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                className="p-2 hover:bg-neutral-100 rounded-full transition-colors"
                 aria-label="Cerrar"
               >
-                <X className="w-5 h-5 text-gray-600" />
+                <X className="w-5 h-5 text-neutral-600" />
               </button>
             </div>
 
             {/* Content */}
             <div className="flex-1 overflow-y-auto">
               {/* Spot Info */}
-              <div className="p-6 border-b border-gray-200">
+              <div className="p-6 border-b border-neutral-200">
                 {loading ? (
                   <div className="space-y-4">
-                    <div className="aspect-video bg-gray-200 rounded-lg animate-pulse"></div>
-                    <div className="h-6 bg-gray-200 rounded animate-pulse"></div>
-                    <div className="h-4 bg-gray-200 rounded animate-pulse w-3/4"></div>
+                    <div className="aspect-video bg-neutral-200 rounded-lg animate-pulse"></div>
+                    <div className="h-6 bg-neutral-200 rounded animate-pulse"></div>
+                    <div className="h-4 bg-neutral-200 rounded animate-pulse w-3/4"></div>
                   </div>
                 ) : spot ? (
                   <div className="space-y-4">
-                    <div className="aspect-video bg-gradient-to-br from-green-500 to-cyan-500 rounded-lg flex items-center justify-center">
+                    <div className="aspect-video bg-gradient-to-br from-green-500 to-accent-cyan-500 rounded-lg flex items-center justify-center">
                       <span className="text-white text-6xl">🛹</span>
                     </div>
 
                     <div>
-                      <h3 className="text-xl font-bold text-gray-900">{spot.name}</h3>
-                      <div className="flex items-center gap-2 mt-2 text-sm text-gray-600">
+                      <h3 className="text-xl font-bold text-neutral-900">{spot.name}</h3>
+                      <div className="flex items-center gap-2 mt-2 text-sm text-neutral-600">
                         <MapPin className="w-4 h-4" />
                         <span>
                           {[spot.city, spot.state, spot.country].filter(Boolean).join(', ')}
                         </span>
                       </div>
                       {spot.description && (
-                        <p className="mt-3 text-gray-700">{spot.description}</p>
+                        <p className="mt-3 text-neutral-700">{spot.description}</p>
                       )}
                       <div className="flex items-center gap-2 mt-3">
-                        <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+                        <Star className="w-4 h-4 text-accent-yellow-500 fill-accent-yellow-500" />
                         <span className="text-sm font-medium">
                           {spot.confidenceScore}% confianza
                         </span>
@@ -138,26 +138,26 @@ export default function SpotModal({ isOpen, spotId, commentId, onClose }: SpotMo
                     </div>
                   </div>
                 ) : (
-                  <p className="text-gray-500">No se encontró el spot</p>
+                  <p className="text-neutral-500">No se encontró el spot</p>
                 )}
               </div>
 
               {/* Comments */}
               <div className="p-6">
                 <div className="mb-4">
-                  <h3 className="text-lg font-bold text-gray-900">Comentarios</h3>
+                  <h3 className="text-lg font-bold text-neutral-900">Comentarios</h3>
                 </div>
                 <SpotComments spotId={spotId} maxHeight="none" highlightCommentId={commentId} />
               </div>
             </div>
 
             {/* Footer */}
-            <div className="p-4 border-t border-gray-100 bg-white">
-              <div className="bg-gray-50 border border-gray-200 rounded-lg p-3">
+            <div className="p-4 border-t border-neutral-100 bg-white">
+              <div className="bg-neutral-50 border border-neutral-200 rounded-lg p-3">
                 <input
                   type="text"
                   placeholder="Escribe un comentario..."
-                  className="w-full outline-none text-gray-900 placeholder-gray-400"
+                  className="w-full outline-none text-neutral-900 placeholder-neutral-400"
                 />
               </div>
             </div>

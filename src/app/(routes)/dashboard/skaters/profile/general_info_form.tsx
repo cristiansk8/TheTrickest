@@ -98,7 +98,6 @@ export default function ProfilePage() {
   ) => {
     e.preventDefault();
     setLoading(true);
-    setNotification(''); // Reiniciar notificación antes de enviar
 
     console.log('📝 Iniciando actualización de perfil...');
     console.log('👤 Session user:', session?.user);
@@ -106,7 +105,7 @@ export default function ProfilePage() {
 
     if (!session?.user?.email) {
       console.error('❌ No hay email en la sesión:', session?.user);
-      setNotification('⚠️ No estás autenticado o falta email.');
+      alert('⚠️ No estás autenticado o falta email.');
       setLoading(false);
       return;
     }
@@ -149,16 +148,16 @@ export default function ProfilePage() {
 
   return (
     <>
-    <div className="bg-gradient-to-r from-cyan-500 to-blue-500 p-1 rounded-lg shadow-2xl">
-      <div className="bg-slate-900 rounded-lg p-6 md:p-8">
-        <h2 className="text-2xl md:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 uppercase mb-6 text-center md:text-left">
+    <div className="bg-gradient-to-r from-accent-cyan-500 to-accent-blue-500 p-1 rounded-lg shadow-2xl">
+      <div className="bg-neutral-900 rounded-lg p-6 md:p-8">
+        <h2 className="text-2xl md:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-cyan-400 to-accent-blue-400 uppercase mb-6 text-center md:text-left">
           👤 Datos Personales
         </h2>
 
         {loading && (
           <div className="text-center py-4">
-            <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-4 border-b-4 border-cyan-400"></div>
-            <p className="text-cyan-400 mt-2 font-bold">Cargando...</p>
+            <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-4 border-b-4 border-accent-cyan-400"></div>
+            <p className="text-accent-cyan-400 mt-2 font-bold">Cargando...</p>
           </div>
         )}
 
@@ -181,12 +180,12 @@ export default function ProfilePage() {
           <div className="group">
             <label
               htmlFor="name"
-              className="block text-cyan-400 font-bold mb-2 uppercase tracking-wide text-sm md:text-base"
+              className="block text-accent-cyan-400 font-bold mb-2 uppercase tracking-wide text-sm md:text-base"
             >
               ✏️ Nombre
             </label>
             <input
-              className="w-full bg-slate-800 border-4 border-slate-600 rounded-lg py-3 px-4 text-white placeholder-slate-500 focus:border-cyan-500 focus:outline-none transition-all group-hover:border-cyan-400"
+              className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-400 focus:border-accent-cyan-500 focus:outline-none transition-all group-hover:border-accent-cyan-400"
               type="text"
               id="name"
               name="name"
@@ -200,12 +199,12 @@ export default function ProfilePage() {
           <div className="group">
             <label
               htmlFor="phone"
-              className="block text-cyan-400 font-bold mb-2 uppercase tracking-wide text-sm md:text-base"
+              className="block text-accent-cyan-400 font-bold mb-2 uppercase tracking-wide text-sm md:text-base"
             >
               📱 Teléfono
             </label>
             <input
-              className="w-full bg-slate-800 border-4 border-slate-600 rounded-lg py-3 px-4 text-white placeholder-slate-500 focus:border-cyan-500 focus:outline-none transition-all group-hover:border-cyan-400"
+              className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-400 focus:border-accent-cyan-500 focus:outline-none transition-all group-hover:border-accent-cyan-400"
               type="text"
               id="phone"
               name="phone"
@@ -219,12 +218,12 @@ export default function ProfilePage() {
           <div className="group">
             <label
               htmlFor="birthdate"
-              className="block text-cyan-400 font-bold mb-2 uppercase tracking-wide text-sm md:text-base"
+              className="block text-accent-cyan-400 font-bold mb-2 uppercase tracking-wide text-sm md:text-base"
             >
               🎂 Fecha de Nacimiento
             </label>
             <input
-              className="w-full bg-slate-800 border-4 border-slate-600 rounded-lg py-3 px-4 text-white placeholder-slate-500 focus:border-cyan-500 focus:outline-none transition-all group-hover:border-cyan-400"
+              className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-400 focus:border-accent-cyan-500 focus:outline-none transition-all group-hover:border-accent-cyan-400"
               type="date"
               id="birthdate"
               name="birthdate"
@@ -237,12 +236,12 @@ export default function ProfilePage() {
           <div className="group">
             <label
               htmlFor="birthskate"
-              className="block text-cyan-400 font-bold mb-2 uppercase tracking-wide text-sm md:text-base"
+              className="block text-accent-cyan-400 font-bold mb-2 uppercase tracking-wide text-sm md:text-base"
             >
               🛹 Primera vez en Skate
             </label>
             <input
-              className="w-full bg-slate-800 border-4 border-slate-600 rounded-lg py-3 px-4 text-white placeholder-slate-500 focus:border-cyan-500 focus:outline-none transition-all group-hover:border-cyan-400"
+              className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-400 focus:border-accent-cyan-500 focus:outline-none transition-all group-hover:border-accent-cyan-400"
               type="date"
               id="birthskate"
               name="birthskate"
@@ -253,7 +252,7 @@ export default function ProfilePage() {
 
           {/* Ubicación */}
           <div className="col-span-1 md:col-span-2">
-            <label className="block text-cyan-400 font-bold mb-4 uppercase tracking-wide text-sm md:text-base">
+            <label className="block text-accent-cyan-400 font-bold mb-4 uppercase tracking-wide text-sm md:text-base">
               📍 Ubicación
             </label>
             <LocationSelector
@@ -270,12 +269,12 @@ export default function ProfilePage() {
           <div className="group col-span-1 md:col-span-2">
             <label
               htmlFor="estado"
-              className="block text-cyan-400 font-bold mb-2 uppercase tracking-wide text-sm md:text-base"
+              className="block text-accent-cyan-400 font-bold mb-2 uppercase tracking-wide text-sm md:text-base"
             >
               🏴 Estado
             </label>
             <input
-              className="w-full bg-slate-800 border-4 border-slate-600 rounded-lg py-3 px-4 text-white placeholder-slate-500 focus:border-cyan-500 focus:outline-none transition-all group-hover:border-cyan-400"
+              className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-400 focus:border-accent-cyan-500 focus:outline-none transition-all group-hover:border-accent-cyan-400"
               type="text"
               id="estado"
               name="estado"
@@ -334,7 +333,7 @@ export default function ProfilePage() {
             </div>
 
             {/* Tooltip */}
-            <div className="absolute bottom-full right-0 mb-3 px-3 py-1 bg-slate-900 text-white text-xs font-bold uppercase tracking-wider rounded border-2 border-cyan-400 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            <div className="absolute bottom-full right-0 mb-3 px-3 py-1 bg-slate-900 text-white text-xs font-bold uppercase tracking-wider rounded border-2 border-accent-cyan-400 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
               💾 Guardar (F2)
             </div>
           </button>

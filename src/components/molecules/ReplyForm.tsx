@@ -86,16 +86,16 @@ export default function ReplyForm({
   };
 
   return (
-    <div className="mt-3 p-3 bg-slate-900/50 border border-cyan-500/30 rounded-lg">
+    <div className="mt-3 p-3 bg-neutral-900/50 border border-accent-cyan-500/30 rounded-lg">
       {/* Header */}
       <div className="flex items-center justify-between mb-2">
-        <span className="text-xs font-bold text-cyan-400">
+        <span className="text-xs font-bold text-accent-cyan-400">
           💬 Respondiendo
         </span>
         <button
           onClick={onCancel}
           disabled={isSubmitting}
-          className="text-slate-400 hover:text-slate-200 transition-colors disabled:opacity-50"
+          className="text-neutral-400 hover:text-neutral-200 transition-colors disabled:opacity-50"
         >
           <X className="w-4 h-4" />
         </button>
@@ -119,17 +119,17 @@ export default function ReplyForm({
             maxLength={maxLength}
             rows={2}
             className={`
-              w-full px-3 py-2 bg-slate-800 border-2 rounded-lg text-white text-sm
-              focus:outline-none focus:border-cyan-400 resize-none
+              w-full px-3 py-2 bg-neutral-800 border-2 rounded-lg text-white text-sm
+              focus:outline-none focus:border-accent-cyan-400 resize-none
               disabled:opacity-50 disabled:cursor-not-allowed
-              ${error ? 'border-red-500' : 'border-slate-600'}
+              ${error ? 'border-red-500' : 'border-neutral-600'}
               transition-colors
             `}
           />
 
           {/* Character counter */}
           <div className={`absolute bottom-2 right-2 text-xs font-bold ${
-            remainingChars < 20 ? 'text-red-400' : 'text-slate-500'
+            remainingChars < 20 ? 'text-red-400' : 'text-neutral-500'
           }`}>
             {remainingChars}
           </div>
@@ -141,7 +141,7 @@ export default function ReplyForm({
             type="button"
             onClick={onCancel}
             disabled={isSubmitting}
-            className="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 border border-slate-500 rounded text-xs font-bold text-slate-300 transition-colors disabled:opacity-50"
+            className="px-3 py-1.5 bg-neutral-700 hover:bg-neutral-600 border border-neutral-500 rounded text-xs font-bold text-neutral-300 transition-colors disabled:opacity-50"
           >
             Cancelar
           </button>
@@ -152,8 +152,8 @@ export default function ReplyForm({
             className={`
               flex-1 font-bold py-1.5 px-3 rounded-lg border-2 transition-all flex items-center justify-center gap-1 text-xs
               ${isSubmitting || !content.trim() || !session
-                ? 'bg-slate-700 border-slate-600 text-slate-500 cursor-not-allowed'
-                : 'bg-cyan-600 hover:bg-cyan-700 border-cyan-400 text-white cursor-pointer'
+                ? 'bg-neutral-700 border-neutral-600 text-neutral-500 cursor-not-allowed'
+                : 'bg-accent-cyan-600 hover:bg-accent-cyan-700 border-accent-cyan-400 text-white cursor-pointer'
               }
             `}
           >
@@ -172,7 +172,7 @@ export default function ReplyForm({
         </div>
 
         {!session && (
-          <p className="text-[10px] text-slate-500 text-center">
+          <p className="text-[10px] text-neutral-500 text-center">
             🔒 Necesitas una cuenta para responder
           </p>
         )}

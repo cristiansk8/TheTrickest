@@ -121,14 +121,14 @@ export default function LocationForm() {
   };
 
   return (
-    <div className="bg-gradient-to-r from-yellow-500 to-orange-500 p-1 rounded-lg shadow-2xl">
-      <div className="bg-slate-900 rounded-lg p-8 md:p-12">
+    <div className="bg-gradient-to-r from-accent-yellow-500 to-accent-orange-500 p-1 rounded-lg shadow-2xl">
+      <div className="bg-neutral-900 rounded-lg p-8 md:p-12">
         {/* Header */}
         <div className="text-center mb-8">
-          <h2 className="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400 uppercase mb-4">
+          <h2 className="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-yellow-400 to-accent-orange-400 uppercase mb-4">
             📍 Comparte tu Ubicación
           </h2>
-          <p className="text-slate-300 text-lg max-w-2xl mx-auto">
+          <p className="text-neutral-300 text-lg max-w-2xl mx-auto">
             Permite que otros skaters te encuentren en el mapa de la comunidad
           </p>
         </div>
@@ -151,7 +151,7 @@ export default function LocationForm() {
           <button
             onClick={handleActivateLocation}
             disabled={loading}
-            className="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-black py-6 px-8 rounded-xl border-4 border-white uppercase tracking-wider text-xl shadow-2xl transform hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+            className="w-full bg-accent-yellow-500 hover:bg-accent-yellow-600 text-white font-black py-6 px-8 rounded-xl border-4 border-white uppercase tracking-wider text-xl shadow-2xl transform hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
           >
             {loading ? (
               <>⏳ OBTENIENDO UBICACIÓN...</>
@@ -165,13 +165,13 @@ export default function LocationForm() {
 
         {/* Info de ubicación obtenida */}
         {locationData.latitude && locationData.longitude && (
-          <div className="bg-slate-800 border-4 border-green-500 rounded-xl p-6 mb-8">
+          <div className="bg-neutral-800 border-4 border-green-500 rounded-xl p-6 mb-8">
             <div className="text-center">
               <div className="text-green-400 text-6xl mb-4">✅</div>
               <h3 className="text-white font-black text-xl uppercase mb-3">
                 Ubicación Detectada
               </h3>
-              <div className="text-slate-300 space-y-2">
+              <div className="text-neutral-300 space-y-2">
                 <p className="font-bold">
                   📍 Coordenadas: {locationData.latitude.toFixed(4)}, {locationData.longitude.toFixed(4)}
                 </p>
@@ -186,7 +186,7 @@ export default function LocationForm() {
         )}
 
         {/* Toggle para aparecer en el mapa */}
-        <div className="bg-purple-900/40 border-4 border-purple-500 rounded-xl p-6 mb-8">
+        <div className="bg-accent-purple-900/40 border-4 border-accent-purple-500 rounded-xl p-6 mb-8">
           <label className="flex items-center gap-4 cursor-pointer">
             <input
               type="checkbox"
@@ -198,7 +198,7 @@ export default function LocationForm() {
               <p className="text-white font-black text-lg uppercase tracking-wide">
                 🗺️ Aparecer en el mapa público
               </p>
-              <p className="text-slate-400 text-sm mt-1">
+              <p className="text-neutral-400 text-sm mt-1">
                 Los demás skaters podrán verte en el mapa de la comunidad
               </p>
             </div>
@@ -210,7 +210,7 @@ export default function LocationForm() {
           <button
             onClick={handleSave}
             disabled={loading}
-            className="bg-purple-600 hover:bg-purple-700 text-white font-black py-5 px-16 rounded-xl border-4 border-white uppercase tracking-wider text-xl shadow-2xl transform hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="bg-accent-purple-600 hover:bg-accent-purple-700 text-white font-black py-5 px-16 rounded-xl border-4 border-white uppercase tracking-wider text-xl shadow-2xl transform hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? '⏳ GUARDANDO...' : '💾 GUARDAR'}
           </button>
@@ -218,7 +218,7 @@ export default function LocationForm() {
 
         {/* Info adicional */}
         <div className="mt-8 text-center">
-          <p className="text-slate-400 text-sm">
+          <p className="text-neutral-400 text-sm">
             💡 <strong>Tip:</strong> Tu ubicación exacta no se comparte. Solo tu ciudad aproximada aparecerá en el mapa.
           </p>
         </div>
