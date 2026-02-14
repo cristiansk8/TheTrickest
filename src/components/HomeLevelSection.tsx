@@ -134,17 +134,17 @@ export default function HomeLevelSection() {
 
   const getDifficultyColor = (difficulty: string) => {
     const colors = {
-      easy: 'from-green-500 to-accent-teal-500',
-      medium: 'accent-yellow-500
-      hard: 'from-red-500 to-accent-pink-500',
-      expert: 'from-accent-purple-500 to-indigo-500',
+      easy: 'accent-green-500',
+      medium: 'accent-yellow-500',
+      hard: 'accent-red-500',
+      expert: 'accent-purple-500',
     };
     return colors[difficulty as keyof typeof colors] || colors.easy;
   };
 
   if (loading) {
     return (
-      <div className="flex justify-center py-20 bg-gradient-to-br from-neutral-900 via-accent-purple-900 to-neutral-900">
+      <div className="flex justify-center py-20 bg-neutral-900">
         <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-accent-cyan-400"></div>
       </div>
     );
@@ -153,11 +153,11 @@ export default function HomeLevelSection() {
   console.log('🎯 Renderizando tabs con', allLevels.length, 'levels');
 
   return (
-    <div className="py-20 bg-gradient-to-br from-neutral-900 via-accent-purple-900 to-neutral-900">
+    <div className="py-20 bg-neutral-900">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-yellow-400 via-accent-pink-500 to-accent-cyan-400 uppercase tracking-wider mb-4">
+          <h2 className="text-4xl md:text-6xl font-black text-transparent bg-clip-text accent-yellow-400 uppercase tracking-wider mb-4">
             🎮 CHALLENGES
           </h2>
           <p className="text-accent-cyan-300 text-lg md:text-xl max-w-3xl mx-auto">
@@ -182,11 +182,11 @@ export default function HomeLevelSection() {
                   ${
                     activeLevel === level.displayLevel && !level.isLocked
                       ? level.isBonus
-                        ? 'bg-gradient-to-br accent-yellow-400 border-accent-yellow-300 shadow-lg shadow-accent-yellow-500/50 scale-110'
+                        ? 'bg-gradient-to-br from-accent-yellow-400 to-accent-pink-500 border-accent-yellow-300 shadow-lg shadow-accent-yellow-500/50 scale-110'
                         : 'bg-accent-cyan-500 border-accent-cyan-300 shadow-lg shadow-accent-cyan-500/50 scale-110'
                       : !level.isLocked
                       ? level.isBonus
-                        ? 'bg-gradient-to-br accent-yellow-500 border-accent-yellow-400 shadow-md hover:scale-110 animate-pulse'
+                        ? 'bg-gradient-to-br from-accent-yellow-500 to-accent-orange-500 border-accent-yellow-400 shadow-md hover:scale-110 animate-pulse'
                         : 'bg-accent-purple-600 border-accent-purple-400 shadow-md hover:bg-accent-purple-500 hover:scale-110'
                       : 'bg-neutral-600 border-neutral-700 opacity-50 cursor-not-allowed'
                   }
@@ -228,10 +228,10 @@ export default function HomeLevelSection() {
                   {/* Title */}
                   <h2 className={`text-3xl md:text-5xl font-black text-transparent bg-clip-text uppercase tracking-wider ${
                     currentLevel.isLocked
-                      ? 'bg-gradient-to-r from-neutral-400 to-neutral-500'
+                      ? 'bg-neutral-400'
                       : currentLevel.isBonus
                       ? 'bg-gradient-to-r from-accent-yellow-400 via-accent-pink-500 to-accent-purple-500'
-                      : 'bg-accent-yellow-400
+                      : 'bg-accent-yellow-400'
                   }`}>
                     {currentLevel.isBonus && '🌟 '}{currentLevel.name}
                   </h2>
