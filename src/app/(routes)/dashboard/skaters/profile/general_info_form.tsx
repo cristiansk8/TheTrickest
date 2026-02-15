@@ -98,7 +98,6 @@ export default function ProfilePage() {
   ) => {
     e.preventDefault();
     setLoading(true);
-    setNotification(''); // Reiniciar notificación antes de enviar
 
     console.log('📝 Iniciando actualización de perfil...');
     console.log('👤 Session user:', session?.user);
@@ -106,7 +105,7 @@ export default function ProfilePage() {
 
     if (!session?.user?.email) {
       console.error('❌ No hay email en la sesión:', session?.user);
-      setNotification('⚠️ No estás autenticado o falta email.');
+      alert('⚠️ No estás autenticado o falta email.');
       setLoading(false);
       return;
     }
