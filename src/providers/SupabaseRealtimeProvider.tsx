@@ -5,10 +5,17 @@ import { createClient } from '@supabase/supabase-js';
 import { RealtimeChannel } from '@supabase/supabase-js';
 import { useSession } from 'next-auth/react';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+// Lazy initialization - only create client when needed
+const getSupabaseClient = () => {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+  if (!supabaseUrl || !supabaseAnonKey) {
+    return null;
+  }
+
+  return createClient(supabaseUrl, supabaseAnonKey);
+};
 
 interface RealtimeContextType {
   unreadCount: number;
@@ -24,6 +31,9 @@ export function SupabaseRealtimeProvider({ children }: { children: ReactNode }) 
   const { data: session } = useSession();
   const [unreadCount, setUnreadCount] = useState(0);
   const [hasNewNotifications, setHasNewNotifications] = useState(false);
+
+  // Lazy initialize Supabase client
+  const supabase = getSupabaseClient();
 
   // Usar refs para valores que no causan re-renders ni warnings de dependencias
   const channelRef = useRef<RealtimeChannel | null>(null);
@@ -50,6 +60,11 @@ export function SupabaseRealtimeProvider({ children }: { children: ReactNode }) 
   };
 
   useEffect(() => {
+    if (!supabase) {
+      console.log('⚠️ [Realtime] Supabase client not available');
+      return;
+    }
+
     if (!session?.user?.email) {
       console.log('🔴 [Realtime] No hay sesión, limpiando...');
       if (channelRef.current) {
@@ -170,6 +185,8 @@ export function SupabaseRealtimeProvider({ children }: { children: ReactNode }) 
   }, [session?.user?.email]); // Solo depender de session?.user?.email
 
   const unsubscribe = () => {
+    if (!supabase) return;
+
     if (channelRef.current) {
       supabase.removeChannel(channelRef.current);
       channelRef.current = null;
