@@ -56,7 +56,9 @@
       "Bash(git ls-tree:*)",
       "Bash(timeout:*)",
       "Bash(tasklist:*)",
-      "Bash(powershell -Command \"Remove-Item -Path .next -Recurse -Force -ErrorAction SilentlyContinue\")"
+      "Bash(powershell -Command \"Remove-Item -Path .next -Recurse -Force -ErrorAction SilentlyContinue\")",
+      "Bash(npm i:*)",
+      "Bash(npm view:*)"
     ],
     "deny": [],
     "ask": []
