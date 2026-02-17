@@ -1,3 +1,4 @@
+import type { Prisma } from '@prisma/client';
 import prisma from '@/app/lib/prisma';
 
 /**
@@ -27,7 +28,7 @@ export async function createNotification({
         title,
         message,
         link: link || null,
-        metadata: metadata || null,
+        metadata: metadata as Prisma.JsonValue || undefined,
       },
     });
   } catch (error) {

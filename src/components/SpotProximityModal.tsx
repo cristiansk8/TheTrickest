@@ -34,7 +34,7 @@ function DynamicMap({ components, center, onLocationConfirm }: {
 
   function MapClickHandler() {
     useMapEvents({
-      click(e: React.MouseEvent) {
+      click(e: any) {
         setPosition({ lat: e.latlng.lat, lng: e.latlng.lng });
         onLocationConfirm({ lat: e.latlng.lat, lng: e.latlng.lng });
       },

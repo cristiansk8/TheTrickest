@@ -238,9 +238,12 @@ async function updateUserReputation(userId: string, updates: Prisma.UserReputati
     where: { userId },
     create: {
       userId,
-      ...updates,
       level: 'NEW',
-      validationWeight: 1
+      validationWeight: 1,
+      validationsGiven: 0,
+      reputationScore: 0,
+      spotsVerified: 0,
+      badges: []
     },
     update: updates
   });

@@ -90,7 +90,7 @@ export default function SubmitTrickModal({
 
     } catch (error) {
       console.error('Error:', error);
-      setError(error.message || 'Error al enviar la submission');
+      setError(error instanceof Error ? error.message : 'Error al enviar la submission');
     } finally {
       setLoading(false);
     }

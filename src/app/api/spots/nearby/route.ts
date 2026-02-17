@@ -8,15 +8,15 @@ export const dynamic = 'force-dynamic';
 
 interface NearbySpot {
   id: number;
-  uuid?: string;
+  uuid: string | null;
   name: string;
   type: string;
   stage: string;
   confidenceScore: number;
   latitude: number;
   longitude: number;
-  city?: string;
-  state?: string;
+  city: string | null;
+  state: string | null;
   isHot: boolean;
   distance: number; // Calculado
 }
@@ -48,31 +48,33 @@ export async function GET(req: Request) {
     const delta = radius / 111;
 
     // Construir filtro where
-    const whereClause: Prisma.SpotWhereInput = {
-      AND: [
-        { latitude: { gte: lat - delta } },
-        { latitude: { lte: lat + delta } },
-        { longitude: { gte: lng - delta } },
-        { longitude: { lte: lng + delta } }
-      ]
-    };
+    const andFilters: Prisma.SpotWhereInput[] = [
+      { latitude: { gte: lat - delta } },
+      { latitude: { lte: lat + delta } },
+      { longitude: { gte: lng - delta } },
+      { longitude: { lte: lng + delta } }
+    ];
 
     // Filtrar por stage si se especifica
     if (stageFilter) {
-      whereClause.AND.push({ stage: stageFilter });
+      andFilters.push({ stage: stageFilter });
     }
 
     // Filtrar por tipo si se especifica
     if (typeFilter) {
-      whereClause.AND.push({ type: typeFilter });
+      andFilters.push({ type: typeFilter });
     }
 
     // Si NO está autenticado, solo mostrar spots REVIEW+
     if (!session?.user?.email) {
-      whereClause.AND.push({
+      andFilters.push({
         stage: { in: ['REVIEW', 'VERIFIED', 'LEGENDARY'] }
       });
     }
+
+    const whereClause: Prisma.SpotWhereInput = {
+      AND: andFilters
+    };
 
     const spots = await prisma.spot.findMany({
       where: whereClause,

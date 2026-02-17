@@ -123,8 +123,8 @@ const Appbar = () => {
         console.log('🔔 Notificación de comentario:', notification);
         console.log('📦 Metadata:', notification.metadata);
 
-        const spotId = notification.metadata?.spotId;
-        const commentId = notification.metadata?.commentId;
+        const spotId = notification.metadata?.spotId as number | undefined;
+        const commentId = notification.metadata?.commentId as number | undefined;
 
         console.log('✅ Datos extraídos:', { spotId, commentId });
 

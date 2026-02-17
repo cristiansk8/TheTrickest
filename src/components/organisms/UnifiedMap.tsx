@@ -336,9 +336,10 @@ export default function UnifiedMap({
 
     } catch (error) {
       console.error('Error validando spot:', error);
-      if (error.message?.includes('Geolocalización')) {
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      if (errorMessage.includes('Geolocalización')) {
         setValidationError('Activa el GPS para validar spots');
-      } else if (error.message?.includes('timeout')) {
+      } else if (errorMessage.includes('timeout')) {
         setValidationError('Tiempo de espera agotado. Verifica tu GPS.');
       } else {
         setValidationError('Error al validar. Inténtalo de nuevo.');

@@ -68,8 +68,8 @@ export async function GET(req: Request) {
     console.error('❌ Error obteniendo submissions pendientes:', error);
     console.error('Error details:', {
       message: error instanceof Error ? error.message : String(error),
-      code: error.code,
-      stack: error.stack,
+      code: error && typeof error === 'object' && 'code' in error ? error.code : undefined,
+      stack: error instanceof Error ? error.stack : undefined,
     });
     return NextResponse.json({
       error: 'Error del servidor',
