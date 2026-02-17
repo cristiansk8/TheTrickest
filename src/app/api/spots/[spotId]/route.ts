@@ -92,7 +92,6 @@ export async function PUT(
       instagram,
       photos,
       features,
-      isVerified,
     } = body;
 
     // Validaciones
@@ -128,10 +127,6 @@ export async function PUT(
       ...(photos && { photos }),
       ...(features && { features }),
     };
-
-    if (isAdmin && isVerified !== undefined) {
-      updateData.isVerified = isVerified;
-    }
 
     const spot = await prisma.spot.update({
       where: { id: spotId },

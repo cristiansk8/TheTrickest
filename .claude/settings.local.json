@@ -62,7 +62,9 @@
       "Bash(npm run test:*)",
       "Bash(npm uninstall:*)",
       "Bash(npx vitest:*)",
-      "Bash(npx vitest@latest run:*)"
+      "Bash(npx vitest@latest run:*)",
+      "Bash(npm run lint)",
+      "Bash(npx next lint:*)"
     ],
     "deny": [],
     "ask": []

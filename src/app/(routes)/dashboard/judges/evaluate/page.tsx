@@ -80,8 +80,9 @@ export default function JudgeEvaluatePage() {
       setSubmissions(data.submissions || []);
     } catch (error) {
       console.error('❌ Error fetching submissions:', error);
-      console.error('Error message:', error.message);
-      setNotification('❌ Error al cargar las submissions pendientes: ' + error.message);
+      const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
+      console.error('Error message:', errorMessage);
+      setNotification('❌ Error al cargar las submissions pendientes: ' + errorMessage);
     } finally {
       setLoading(false);
     }
@@ -106,8 +107,9 @@ export default function JudgeEvaluatePage() {
       setSubmissions(data.submissions || []);
     } catch (error) {
       console.error('❌ Error fetching evaluated submissions:', error);
-      console.error('Error message:', error.message);
-      setNotification('❌ Error al cargar las submissions evaluadas: ' + error.message);
+      const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
+      console.error('Error message:', errorMessage);
+      setNotification('❌ Error al cargar las submissions evaluadas: ' + errorMessage);
     } finally {
       setLoading(false);
     }

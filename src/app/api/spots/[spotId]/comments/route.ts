@@ -246,7 +246,7 @@ export async function POST(
     console.error('Error creando comentario:', error);
 
     // Detectar si es un error de tabla no existe
-    if (error.code === 'P2021') {
+    if (error && typeof error === 'object' && 'code' in error && error.code === 'P2021') {
       return errorResponse(
         'TABLE_NOT_FOUND',
         'La tabla de comentarios no existe. Ejecuta: npx prisma db push',
@@ -358,7 +358,7 @@ export async function GET(
     console.error('Error obteniendo comentarios:', error);
 
     // Detectar si es un error de tabla no existe
-    if (error.code === 'P2021') {
+    if (error && typeof error === 'object' && 'code' in error && error.code === 'P2021') {
       return errorResponse(
         'TABLE_NOT_FOUND',
         'La tabla de comentarios no existe. Ejecuta: npx prisma db push',
