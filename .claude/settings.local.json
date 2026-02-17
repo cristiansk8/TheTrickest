@@ -58,7 +58,11 @@
       "Bash(tasklist:*)",
       "Bash(powershell -Command \"Remove-Item -Path .next -Recurse -Force -ErrorAction SilentlyContinue\")",
       "Bash(npm i:*)",
-      "Bash(npm view:*)"
+      "Bash(npm view:*)",
+      "Bash(npm run test:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(npx vitest:*)",
+      "Bash(npx vitest@latest run:*)"
     ],
     "deny": [],
     "ask": []
