@@ -93,11 +93,11 @@ export async function GET(
       hasMore: offset + processedReplies.length < total
     });
 
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error obteniendo respuestas:', error);
 
     const message = process.env.NODE_ENV === 'development'
-      ? error.message || 'Error al obtener las respuestas'
+      ? (error instanceof Error ? error.message : 'Error al obtener las respuestas')
       : 'Error al obtener las respuestas';
 
     return errorResponse('INTERNAL_ERROR', message, 500);

@@ -13,7 +13,7 @@ export async function GET(req: Request) {
     const city = searchParams.get('city');
     console.log('[DEBUG /api/map/skaters] City filter:', city || 'none');
 
-    const where: any = {
+    const where: Prisma.UserWhereInput = {
       showOnMap: true, // Solo los que quieren aparecer
       latitude: { not: null }, // Tienen coordenadas
       longitude: { not: null },

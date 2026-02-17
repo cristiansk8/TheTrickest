@@ -17,7 +17,7 @@ export async function createNotification({
   title: string;
   message: string;
   link?: string;
-  metadata?: any;
+  metadata?: Record<string, unknown>;
 }) {
   try {
     await prisma.notification.create({

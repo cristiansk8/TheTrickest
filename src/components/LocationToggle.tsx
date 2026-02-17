@@ -98,7 +98,10 @@ export default function LocationToggle() {
         console.log('[LocationToggle] Nuevo estado:', newShowOnMapState);
 
         // Construir cuerpo de la petición: solo enviar showOnMap, preservar coordenadas existentes
-        const requestBody: any = {
+        const requestBody: {
+          email: string;
+          showOnMap: boolean;
+        } = {
           email: session.user.email,
           showOnMap: newShowOnMapState,
         };

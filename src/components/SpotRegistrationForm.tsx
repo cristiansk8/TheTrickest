@@ -18,7 +18,13 @@ const SpotLocationPicker = dynamic(() => import('./SpotLocationPicker'), {
 });
 
 interface SpotRegistrationFormProps {
-  onSuccess?: (spot: any) => void;
+  onSuccess?: (spot: {
+    id: number;
+    name: string;
+    type: string;
+    confidenceScore: number;
+    stage: string;
+  }) => void;
 }
 
 export default function SpotRegistrationForm({ onSuccess }: SpotRegistrationFormProps) {

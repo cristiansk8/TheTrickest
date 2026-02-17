@@ -119,7 +119,7 @@ export async function GET(req: Request) {
     );
 
     // Calcular distancia para cada spot y agregar validaciones
-    const spotsWithDistance: NearbySpot[] = spots.map((spot: any) => ({
+    const spotsWithDistance: NearbySpot[] = spots.map((spot) => ({
       ...spot,
       distance: calculateDistance(lat, lng, spot.latitude, spot.longitude),
       validationCount: validationMap.get(spot.id) || 0

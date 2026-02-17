@@ -13,7 +13,7 @@ export async function GET(request: Request) {
     const role = searchParams.get('role') || 'all'; // all, skater, judge, admin
 
     // Build where clause
-    const where: any = {
+    const where: Prisma.UserWhereInput = {
       isActive: true,
     };
 
@@ -22,7 +22,7 @@ export async function GET(request: Request) {
     }
 
     // Build order by - simplified for now
-    let orderBy: any = { createdAt: 'desc' }; // default: most recent
+    let orderBy: Prisma.UserFindManyArgs['orderBy'] = { createdAt: 'desc' }; // default: most recent
 
     // For now, we'll use simple sorting. Complex sorting can be added later
     switch (sortBy) {

@@ -164,9 +164,9 @@ export async function POST(req: Request) {
           invitedUserEmail: invitedUser.email,
         },
       });
-    } catch (prismaError: any) {
+    } catch (prismaError) {
       // Error de constraint único - ya existe una invitación
-      if (prismaError.code === 'P2002') {
+      if (prismaError && typeof prismaError === 'object' && 'code' in prismaError && prismaError.code === 'P2002') {
         console.log('Invitación duplicada detectada, buscando invitación existente...');
         const existingInv = await prisma.teamInvitation.findUnique({
           where: {

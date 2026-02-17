@@ -1,3 +1,4 @@
+import type { Prisma } from '@prisma/client';
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
@@ -232,7 +233,7 @@ async function getUserReputation(userId: string) {
   });
 }
 
-async function updateUserReputation(userId: string, updates: any) {
+async function updateUserReputation(userId: string, updates: Prisma.UserReputationUpdateInput) {
   await prisma.userReputation.upsert({
     where: { userId },
     create: {

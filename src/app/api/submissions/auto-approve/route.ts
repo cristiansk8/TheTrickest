@@ -201,7 +201,23 @@ export async function GET(request: Request) {
       }),
     };
 
-    const response: any = {
+    interface AutoApprovalStatsResponse {
+      config: typeof AUTO_APPROVAL_CONFIG;
+      stats: typeof stats;
+      eligibleSubmissions?: Array<{
+        id: number;
+        user: string;
+        challenge: string;
+        level: number;
+        upvotes: number;
+        downvotes: number;
+        voteCount: number;
+        positivePercentage: string | number;
+        submittedAt: Date;
+      }>;
+    }
+
+    const response: AutoApprovalStatsResponse = {
       config: AUTO_APPROVAL_CONFIG,
       stats,
     };

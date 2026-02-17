@@ -31,6 +31,13 @@ export enum CrowdLevel {
   CROWDED = 'CROWDED'
 }
 
+export interface SpotStatusHistory {
+  stage: SpotStage;
+  confidenceScore: number;
+  timestamp: Date;
+  reason: string;
+}
+
 export interface Spot {
   id: number;
   uuid?: string;
@@ -46,7 +53,7 @@ export interface Spot {
   confidenceScore: number;
   stage: SpotStage;
   lastVerifiedAt: Date;
-  statusHistory: any[];
+  statusHistory: SpotStatusHistory[];
   isHot: boolean;
   hotUntil?: Date;
   lastActivityAt: Date;

@@ -1,3 +1,4 @@
+import type { Prisma } from '@prisma/client';
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import prisma from '@/app/lib/prisma';
@@ -111,7 +112,7 @@ export async function PUT(
     }
 
     // Solo admin puede verificar spots
-    const updateData: any = {
+    const updateData: Prisma.SpotUpdateInput = {
       ...(name && { name }),
       ...(type && { type }),
       ...(description !== undefined && { description }),

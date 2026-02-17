@@ -23,7 +23,7 @@ interface Notification {
   link: string | null;
   isRead: boolean;
   createdAt: string;
-  metadata: any;
+  metadata?: Record<string, unknown>;
 }
 
 const Appbar = () => {
