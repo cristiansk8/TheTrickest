@@ -1,3 +1,4 @@
+import type { Prisma } from '@prisma/client';
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import prisma from '@/app/lib/prisma';
@@ -14,7 +15,7 @@ export async function GET(req: Request) {
     const stage = searchParams.get('stage'); // Filter by stage: GHOST, REVIEW, VERIFIED, LEGENDARY
     const verified = searchParams.get('verified'); // "true" para solo verificados (VERIFIED or LEGENDARY)
 
-    const where: any = {};
+    const where: Prisma.SpotWhereInput = {};
 
     if (type) {
       // Convert "skateshop" to "SKATESHOP" if needed

@@ -88,7 +88,7 @@ export default function SubmitTrickModal({
         onClose();
       }, 1500);
 
-    } catch (error: any) {
+    } catch (error) {
       console.error('Error:', error);
       setError(error.message || 'Error al enviar la submission');
     } finally {

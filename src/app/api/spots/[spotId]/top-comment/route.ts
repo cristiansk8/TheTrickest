@@ -84,7 +84,7 @@ export async function GET(
       totalComments
     });
 
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error obteniendo top comentario:', error);
 
     // Detectar si es un error de tabla no existe
@@ -98,7 +98,7 @@ export async function GET(
 
     // En desarrollo, mostrar el error completo
     const message = process.env.NODE_ENV === 'development'
-      ? error.message || 'Error al obtener el comentario'
+      ? error instanceof Error ? error.message : String(error) || 'Error al obtener el comentario'
       : 'Error al obtener el comentario';
 
     return errorResponse('INTERNAL_ERROR', message, 500);

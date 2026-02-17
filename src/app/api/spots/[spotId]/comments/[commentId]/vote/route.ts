@@ -175,7 +175,7 @@ export async function POST(
       comment: updatedComment
     });
 
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error votando comentario:', error);
 
     // Detectar si es un error de tabla no existe
@@ -271,7 +271,7 @@ export async function DELETE(
       comment: updatedComment
     });
 
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error eliminando voto:', error);
     return errorResponse('INTERNAL_ERROR', 'Error al eliminar voto', 500);
   }

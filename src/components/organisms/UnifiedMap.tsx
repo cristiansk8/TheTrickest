@@ -334,7 +334,7 @@ export default function UnifiedMap({
       // Recargar spots para actualizar el contador
       onSpotValidated?.();
 
-    } catch (error: any) {
+    } catch (error) {
       console.error('Error validando spot:', error);
       if (error.message?.includes('Geolocalización')) {
         setValidationError('Activa el GPS para validar spots');

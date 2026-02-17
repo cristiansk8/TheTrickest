@@ -65,8 +65,8 @@ export default function SetPasswordModal({ isOpen, onClose, onSuccess }: SetPass
 
       onSuccess();
       onClose();
-    } catch (err: any) {
-      setError(err.message || 'Error al establecer contraseña');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err) || 'Error al establecer contraseña');
     } finally {
       setLoading(false);
     }

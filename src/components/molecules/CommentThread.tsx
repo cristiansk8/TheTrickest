@@ -81,9 +81,9 @@ export default function CommentThread({ spotId, commentId, replyCount, highlight
       setTotal(totalCount);
       setIsExpanded(true);
 
-    } catch (err: any) {
+    } catch (err) {
       console.error('Error cargando respuestas:', err);
-      setError(err.message || 'Error al cargar respuestas');
+      setError(err instanceof Error ? err.message : String(err) || 'Error al cargar respuestas');
     } finally {
       setLoading(false);
     }

@@ -83,9 +83,9 @@ export default function SpotComments({ spotId, maxHeight = '400px', highlightCom
       setOffset(currentOffset + commentsList.length);
       setError(null);
 
-    } catch (err: any) {
+    } catch (err) {
       console.error('Error cargando comentarios:', err);
-      setError(err.message || 'Error al cargar comentarios');
+      setError(err instanceof Error ? err.message : String(err) || 'Error al cargar comentarios');
       // Asegurar que comments siempre sea un array
       setComments([]);
     } finally {

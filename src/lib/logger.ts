@@ -22,7 +22,7 @@ const developmentConfig = {
       translateTime: 'HH:MM:ss',
       ignore: 'pid,hostname',
       singleLine: false,
-      messageFormat: (log: any) => {
+      messageFormat: (log: { level: string; msg: string }) => {
         // Add emojis for better readability in dev
         if (log.level === 'error') return `❌ ${log.msg}`;
         if (log.level === 'warn') return `⚠️ ${log.msg}`;

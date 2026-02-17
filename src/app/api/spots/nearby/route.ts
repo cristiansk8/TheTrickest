@@ -1,3 +1,4 @@
+import type { Prisma } from '@prisma/client';
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
@@ -47,7 +48,7 @@ export async function GET(req: Request) {
     const delta = radius / 111;
 
     // Construir filtro where
-    const whereClause: any = {
+    const whereClause: Prisma.SpotWhereInput = {
       AND: [
         { latitude: { gte: lat - delta } },
         { latitude: { lte: lat + delta } },

@@ -34,7 +34,7 @@ function DynamicMap({ components, center, onLocationConfirm }: {
 
   function MapClickHandler() {
     useMapEvents({
-      click(e: any) {
+      click(e: React.MouseEvent) {
         setPosition({ lat: e.latlng.lat, lng: e.latlng.lng });
         onLocationConfirm({ lat: e.latlng.lat, lng: e.latlng.lng });
       },
@@ -259,8 +259,8 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
       setTimeout(() => {
         handleClose();
       }, 2500);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err));
     } finally {
       setValidatingSpotId(null);
     }
@@ -347,8 +347,8 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
       setTimeout(() => {
         handleClose();
       }, 2500);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err));
     } finally {
       setLoading(false);
     }
@@ -399,7 +399,7 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
           console.error('Upload failed:', data);
           setPhoto(null);
         }
-      } catch (err: any) {
+      } catch (err) {
         console.error('Upload error:', err);
         setPhoto(null);
       } finally {

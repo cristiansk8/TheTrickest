@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import prisma from '@/app/lib/prisma';
+import prisma, { Prisma } from '@/app/lib/prisma';
 
 export const dynamic = 'force-dynamic';
 
@@ -68,7 +68,7 @@ export async function PUT(req: Request) {
     }
 
     // Construir objeto de actualización condicional
-    const updateData: any = {};
+    const updateData: Prisma.UserUpdateInput = {};
 
     if (ciudad !== undefined) updateData.ciudad = ciudad || null;
     if (departamento !== undefined) updateData.departamento = departamento || null;

@@ -26,7 +26,7 @@ export async function GET(req: Request) {
     }
 
     // Constramar el where clause
-    const where: any = { userId: userEmail };
+    const where: Prisma.NotificationWhereInput = { userId: userEmail };
     if (unreadOnly) {
       where.isRead = false;
     }
@@ -57,11 +57,11 @@ export async function GET(req: Request) {
       hasMore: offset + notifications.length < total
     });
 
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error obteniendo notificaciones:', error);
 
     const message = process.env.NODE_ENV === 'development'
-      ? error.message || 'Error al obtener notificaciones'
+      ? error instanceof Error ? error.message : 'Error al obtener notificaciones'
       : 'Error al obtener notificaciones';
 
     return errorResponse('INTERNAL_ERROR', message, 500);
@@ -157,11 +157,11 @@ export async function PATCH(req: Request) {
 
     return errorResponse('VALIDATION_ERROR', 'Debe proporcionar notificationIds o markAll=true', 400);
 
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error marcando notificaciones:', error);
 
     const message = process.env.NODE_ENV === 'development'
-      ? error.message || 'Error al marcar notificaciones'
+      ? error instanceof Error ? error.message : 'Error al marcar notificaciones'
       : 'Error al marcar notificaciones';
 
     return errorResponse('INTERNAL_ERROR', message, 500);

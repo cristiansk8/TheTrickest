@@ -78,7 +78,7 @@ export default function JudgeEvaluatePage() {
       console.log('✅ Data received:', data);
       console.log('📊 Submissions count:', data.submissions?.length || 0);
       setSubmissions(data.submissions || []);
-    } catch (error: any) {
+    } catch (error) {
       console.error('❌ Error fetching submissions:', error);
       console.error('Error message:', error.message);
       setNotification('❌ Error al cargar las submissions pendientes: ' + error.message);
@@ -104,7 +104,7 @@ export default function JudgeEvaluatePage() {
       console.log('✅ Data received:', data);
       console.log('📊 Evaluated submissions count:', data.submissions?.length || 0);
       setSubmissions(data.submissions || []);
-    } catch (error: any) {
+    } catch (error) {
       console.error('❌ Error fetching evaluated submissions:', error);
       console.error('Error message:', error.message);
       setNotification('❌ Error al cargar las submissions evaluadas: ' + error.message);

@@ -84,16 +84,16 @@ export async function GET(req: Request) {
       stats,
       count: submissions.length,
     });
-  } catch (error: any) {
+  } catch (error) {
     console.error('❌ Error obteniendo submissions evaluadas:', error);
     console.error('Error details:', {
-      message: error.message,
+      message: error instanceof Error ? error.message : String(error),
       code: error.code,
       stack: error.stack,
     });
     return NextResponse.json({
       error: 'Error del servidor',
-      message: error.message || 'Error desconocido',
+      message: error instanceof Error ? error.message : String(error) || 'Error desconocido',
     }, { status: 500 });
   }
 }

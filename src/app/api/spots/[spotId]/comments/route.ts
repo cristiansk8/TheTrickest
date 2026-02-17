@@ -242,7 +242,7 @@ export async function POST(
       message: 'Comentario creado exitosamente'
     });
 
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error creando comentario:', error);
 
     // Detectar si es un error de tabla no existe
@@ -256,7 +256,7 @@ export async function POST(
 
     // En desarrollo, mostrar el error completo
     const message = process.env.NODE_ENV === 'development'
-      ? error.message || 'Error al crear el comentario'
+      ? error instanceof Error ? error.message : String(error) || 'Error al crear el comentario'
       : 'Error al crear el comentario';
 
     return errorResponse('INTERNAL_ERROR', message, 500);
@@ -354,7 +354,7 @@ export async function GET(
       hasMore: offset + processedComments.length < total
     });
 
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error obteniendo comentarios:', error);
 
     // Detectar si es un error de tabla no existe
@@ -368,7 +368,7 @@ export async function GET(
 
     // En desarrollo, mostrar el error completo
     const message = process.env.NODE_ENV === 'development'
-      ? error.message || 'Error al obtener los comentarios'
+      ? error instanceof Error ? error.message : String(error) || 'Error al obtener los comentarios'
       : 'Error al obtener los comentarios';
 
     return errorResponse('INTERNAL_ERROR', message, 500);

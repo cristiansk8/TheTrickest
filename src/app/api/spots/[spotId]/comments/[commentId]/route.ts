@@ -94,7 +94,7 @@ export async function PATCH(
       message: 'Comentario actualizado'
     });
 
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error editando comentario:', error);
     return errorResponse('INTERNAL_ERROR', 'Error al editar comentario', 500);
   }
@@ -156,7 +156,7 @@ export async function DELETE(
       message: 'Comentario eliminado'
     });
 
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error eliminando comentario:', error);
     return errorResponse('INTERNAL_ERROR', 'Error al eliminar comentario', 500);
   }

@@ -1,3 +1,4 @@
+import type { Prisma } from '@prisma/client';
 import { authOptions } from '@/lib/auth';
 import { PrismaClient } from '@prisma/client';
 import { getServerSession } from 'next-auth';
@@ -21,7 +22,7 @@ export async function GET(request: Request) {
     const challengeId = searchParams.get('challengeId');
 
     // Construir filtros
-    const whereClause: any = {
+    const whereClause: Prisma.SubmissionWhereInput = {
       status: 'pending', // Solo submissions pendientes
       userId: {
         not: session.user.email, // No incluir propias submissions
