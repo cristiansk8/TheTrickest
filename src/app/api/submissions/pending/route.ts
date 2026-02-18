@@ -13,8 +13,8 @@ export async function GET(req: Request) {
     console.log('👤 Session user email:', session?.user?.email);
 
     if (!session?.user?.email) {
-      console.log('❌ No autenticado');
-      return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
+      console.log('❌ Not authenticated');
+      return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
 
     // Verificar que el usuario sea juez o admin
@@ -26,8 +26,8 @@ export async function GET(req: Request) {
     console.log('👨‍⚖️ User role:', user?.role);
 
     if (!user || (user.role !== 'judge' && user.role !== 'admin')) {
-      console.log('❌ No autorizado - role:', user?.role);
-      return NextResponse.json({ error: 'No autorizado' }, { status: 403 });
+      console.log('❌ Not authorized - role:', user?.role);
+      return NextResponse.json({ error: 'Not authorized' }, { status: 403 });
     }
 
     console.log('🔍 Buscando submissions pendientes...');
@@ -72,7 +72,7 @@ export async function GET(req: Request) {
       stack: error.stack,
     });
     return NextResponse.json({
-      error: 'Error del servidor',
+      error: 'Server error',
       message: error.message || 'Error desconocido',
     }, { status: 500 });
   }

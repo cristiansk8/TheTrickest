@@ -74,7 +74,7 @@ export default function AdminDashboard() {
               🎮 ADMIN PANEL
             </h1>
             <p className="text-red-300 mt-2 text-center">
-              Panel de administración - Trickest
+              Administration panel - Trickest
             </p>
           </div>
         </div>
@@ -84,23 +84,23 @@ export default function AdminDashboard() {
           <div className="bg-gradient-to-br from-neutral-800 to-neutral-700 border-4 border-neutral-600 rounded-lg p-6">
             <div className="flex items-center gap-3 mb-4">
               <MdPeople className="text-accent-cyan-400 text-2xl" />
-              <h3 className="text-white font-bold text-lg">Usuarios</h3>
+              <h3 className="text-white font-bold text-lg">Users</h3>
             </div>
             <p className="text-3xl font-black text-accent-cyan-400">
               {stats.totalUsers}
             </p>
-            <p className="text-neutral-400 text-sm">Registrados</p>
+            <p className="text-neutral-400 text-sm">Registered</p>
           </div>
 
           <div className="bg-gradient-to-br from-neutral-800 to-neutral-700 border-4 border-neutral-600 rounded-lg p-6">
             <div className="flex items-center gap-3 mb-4">
               <MdEmail className="text-green-400 text-2xl" />
-              <h3 className="text-white font-bold text-lg">Interesados</h3>
+              <h3 className="text-white font-bold text-lg">Interested</h3>
             </div>
             <p className="text-3xl font-black text-green-400">
               {stats.interestedUsers}
             </p>
-            <p className="text-neutral-400 text-sm">Emails capturados</p>
+            <p className="text-neutral-400 text-sm">Captured emails</p>
           </div>
 
           <div className="bg-gradient-to-br from-neutral-800 to-neutral-700 border-4 border-neutral-600 rounded-lg p-6">
@@ -111,7 +111,7 @@ export default function AdminDashboard() {
             <p className="text-3xl font-black text-accent-purple-400">
               {stats.totalSubmissions}
             </p>
-            <p className="text-neutral-400 text-sm">Total enviados</p>
+            <p className="text-neutral-400 text-sm">Total submitted</p>
           </div>
 
           <div className="bg-gradient-to-br from-neutral-800 to-neutral-700 border-4 border-neutral-600 rounded-lg p-6">
@@ -122,7 +122,7 @@ export default function AdminDashboard() {
             <p className="text-3xl font-black text-accent-yellow-400">
               {stats.activeChallenges}
             </p>
-            <p className="text-neutral-400 text-sm">Activos</p>
+            <p className="text-neutral-400 text-sm">Active</p>
           </div>
         </div>
 
@@ -133,11 +133,11 @@ export default function AdminDashboard() {
               <div className="flex items-center gap-3 mb-4">
                 <MdPeople className="text-accent-cyan-400 text-2xl group-hover:scale-110 transition-transform" />
                 <h3 className="text-white font-bold text-lg">
-                  Gestionar Usuarios
+                  Manage Users
                 </h3>
               </div>
               <p className="text-neutral-400 text-sm">
-                Ver, editar y administrar usuarios registrados
+                View, edit and manage registered users
               </p>
             </div>
           </Link>
@@ -147,11 +147,11 @@ export default function AdminDashboard() {
               <div className="flex items-center gap-3 mb-4">
                 <MdEmail className="text-green-400 text-2xl group-hover:scale-110 transition-transform" />
                 <h3 className="text-white font-bold text-lg">
-                  Emails Interesados
+                  Interested Emails
                 </h3>
               </div>
               <p className="text-neutral-400 text-sm">
-                Lista de emails capturados del home page
+                List of captured emails from the home page
               </p>
             </div>
           </Link>
@@ -163,7 +163,7 @@ export default function AdminDashboard() {
                 <h3 className="text-white font-bold text-lg">Challenges</h3>
               </div>
               <p className="text-neutral-400 text-sm">
-                Gestionar desafíos y submissions
+                Manage challenges and submissions
               </p>
             </div>
           </Link>
@@ -173,17 +173,17 @@ export default function AdminDashboard() {
         <div className="mt-12 text-center">
           <div className="bg-neutral-800/50 rounded-lg p-6">
             <h3 className="text-white font-bold text-lg mb-2">
-              🔐 Panel de Administración
+              🔐 Administration Panel
             </h3>
             <p className="text-neutral-400 text-sm">
-              Solo usuarios con rol &apos;admin&apos; pueden acceder a esta
-              sección.
+              Only users with &apos;admin&apos; role can access this
+              section.
               <br />
-              Usa{' '}
+              Use{' '}
               <kbd className="bg-neutral-700 px-2 py-1 rounded text-xs">
                 Ctrl+Shift+A
               </kbd>{' '}
-              para acceso rápido.
+              for quick access.
             </p>
           </div>
         </div>

@@ -14,13 +14,13 @@ export async function POST(
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-      return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
+      return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
 
     const invitationId = parseInt(params.id);
 
     if (isNaN(invitationId)) {
-      return NextResponse.json({ error: 'ID inválido' }, { status: 400 });
+      return NextResponse.json({ error: 'Invalid ID' }, { status: 400 });
     }
 
     // Obtener la invitación
@@ -30,7 +30,7 @@ export async function POST(
 
     if (!invitation) {
       return NextResponse.json(
-        { error: 'Invitación no encontrada' },
+        { error: 'Invitation not found' },
         { status: 404 }
       );
     }
@@ -38,7 +38,7 @@ export async function POST(
     // Verificar que la invitación es para el usuario actual
     if (invitation.invitedUserEmail !== session.user.email) {
       return NextResponse.json(
-        { error: 'Esta invitación no es para ti' },
+        { error: 'This invitation is not for you' },
         { status: 403 }
       );
     }
@@ -46,7 +46,7 @@ export async function POST(
     // Verificar que la invitación está pendiente
     if (invitation.status !== 'pending') {
       return NextResponse.json(
-        { error: 'Esta invitación ya fue procesada' },
+        { error: 'This invitation has already been processed' },
         { status: 400 }
       );
     }
@@ -61,7 +61,7 @@ export async function POST(
   } catch (error) {
     console.error('Error rechazando invitación:', error);
     return NextResponse.json(
-      { error: 'Error al rechazar la invitación' },
+      { error: 'Error rejecting invitation' },
       { status: 500 }
     );
   }

@@ -14,13 +14,13 @@ export async function POST(
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-      return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
+      return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
 
     const teamId = parseInt(params.id);
 
     if (isNaN(teamId)) {
-      return NextResponse.json({ error: 'ID inválido' }, { status: 400 });
+      return NextResponse.json({ error: 'Invalid ID' }, { status: 400 });
     }
 
     // Verificar si el usuario ya tiene un team
@@ -31,7 +31,7 @@ export async function POST(
 
     if (user?.teamId) {
       return NextResponse.json(
-        { error: 'Ya perteneces a un equipo. Debes salir primero.' },
+        { error: 'You already belong to a team. You must leave first.' },
         { status: 400 }
       );
     }
@@ -48,14 +48,14 @@ export async function POST(
 
     if (!team) {
       return NextResponse.json(
-        { error: 'Team no encontrado' },
+        { error: 'Team not found' },
         { status: 404 }
       );
     }
 
     if (!team.isActive) {
       return NextResponse.json(
-        { error: 'Este equipo no está activo' },
+        { error: 'This team is not active' },
         { status: 400 }
       );
     }
@@ -63,7 +63,7 @@ export async function POST(
     // Verificar si hay espacio
     if (team.members.length >= team.maxMembers) {
       return NextResponse.json(
-        { error: 'El equipo está lleno' },
+        { error: 'The team is full' },
         { status: 400 }
       );
     }
@@ -76,12 +76,12 @@ export async function POST(
 
     return NextResponse.json({
       success: true,
-      message: `Te has unido al equipo ${team.name}`,
+      message: `You have joined team ${team.name}`,
     });
   } catch (error) {
     console.error('Error uniéndose al team:', error);
     return NextResponse.json(
-      { error: 'Error al unirse al team' },
+      { error: 'Error joining team' },
       { status: 500 }
     );
   }

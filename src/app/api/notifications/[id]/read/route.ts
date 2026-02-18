@@ -14,13 +14,13 @@ export async function POST(
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-      return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
+      return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
 
     const notificationId = parseInt(params.id);
 
     if (isNaN(notificationId)) {
-      return NextResponse.json({ error: 'ID inválido' }, { status: 400 });
+      return NextResponse.json({ error: 'Invalid ID' }, { status: 400 });
     }
 
     // Verificar que la notificación pertenece al usuario
@@ -37,7 +37,7 @@ export async function POST(
 
     if (notification.userId !== session.user.email) {
       return NextResponse.json(
-        { error: 'No autorizado' },
+        { error: 'Not authorized' },
         { status: 403 }
       );
     }

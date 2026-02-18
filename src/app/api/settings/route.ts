@@ -22,7 +22,7 @@ export async function GET(req: Request) {
         if (key === 'total_levels') {
           return NextResponse.json({ key, value: '8', description: 'Total de niveles en el sistema' });
         }
-        return NextResponse.json({ error: 'Setting no encontrado' }, { status: 404 });
+        return NextResponse.json({ error: 'Setting not found' }, { status: 404 });
       }
 
       return NextResponse.json(setting);
@@ -34,7 +34,7 @@ export async function GET(req: Request) {
 
   } catch (error) {
     console.error('Error obteniendo settings:', error);
-    return NextResponse.json({ error: 'Error del servidor' }, { status: 500 });
+    return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }
 
@@ -45,7 +45,7 @@ export async function POST(req: Request) {
 
     // Verificar que el usuario es admin
     if (!session?.user?.email) {
-      return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
+      return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
 
     const user = await prisma.user.findUnique({
@@ -54,21 +54,21 @@ export async function POST(req: Request) {
     });
 
     if (user?.role !== 'admin') {
-      return NextResponse.json({ error: 'No autorizado. Solo admins pueden modificar configuraciones.' }, { status: 403 });
+      return NextResponse.json({ error: 'Not authorized. Only admins can modify settings.' }, { status: 403 });
     }
 
     const body = await req.json();
     const { key, value, description } = body;
 
     if (!key || !value) {
-      return NextResponse.json({ error: 'Key y value son requeridos' }, { status: 400 });
+      return NextResponse.json({ error: 'Key and value are required' }, { status: 400 });
     }
 
     // Validar según el tipo de setting
     if (key === 'total_levels') {
       const numValue = parseInt(value);
       if (isNaN(numValue) || numValue < 1 || numValue > 20) {
-        return NextResponse.json({ error: 'El total de niveles debe ser entre 1 y 20' }, { status: 400 });
+        return NextResponse.json({ error: 'Total levels must be between 1 and 20' }, { status: 400 });
       }
     }
 
@@ -83,7 +83,7 @@ export async function POST(req: Request) {
       create: {
         key,
         value,
-        description: description || `Configuración de ${key}`,
+        description: description || `Configuration for ${key}`,
         updatedBy: user.email,
       },
     });
@@ -92,6 +92,6 @@ export async function POST(req: Request) {
 
   } catch (error) {
     console.error('Error actualizando settings:', error);
-    return NextResponse.json({ error: 'Error del servidor' }, { status: 500 });
+    return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }

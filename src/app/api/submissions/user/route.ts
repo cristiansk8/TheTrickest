@@ -14,8 +14,8 @@ export async function GET(req: Request) {
 
     // Verificar autenticación
     if (!session?.user?.email) {
-      console.log('❌ No autenticado - no email en sesión');
-      return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
+      console.log('❌ Not authenticated - no email en sesión');
+      return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
 
     console.log('🔍 Buscando submissions para:', session.user.email);
@@ -101,7 +101,7 @@ export async function GET(req: Request) {
       stack: error.stack,
     });
     return NextResponse.json({
-      error: 'Error del servidor',
+      error: 'Server error',
       message: error.message || 'Error desconocido',
     }, { status: 500 });
   }

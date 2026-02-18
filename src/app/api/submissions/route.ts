@@ -14,7 +14,7 @@ export async function POST(req: Request) {
 
     // Verificar autenticación
     if (!session?.user?.email) {
-      return errorResponse('UNAUTHORIZED', 'No autenticado', 401);
+      return errorResponse('UNAUTHORIZED', 'Not authenticated', 401);
     }
 
     // Rate limiting: 10 por minuto por usuario
@@ -34,7 +34,7 @@ export async function POST(req: Request) {
     if (!validateYouTubeUrl(videoUrl)) {
       return errorResponse(
         'INVALID_VIDEO_URL',
-        'Por favor ingresa una URL válida de YouTube. Ejemplo: https://www.youtube.com/watch?v=VIDEO_ID',
+        'Please enter a valid YouTube URL. Example: https://www.youtube.com/watch?v=VIDEO_ID',
         400
       );
     }
@@ -48,7 +48,7 @@ export async function POST(req: Request) {
     });
 
     if (!challenge) {
-      return errorResponse('CHALLENGE_NOT_FOUND', 'Challenge no encontrado', 404);
+      return errorResponse('CHALLENGE_NOT_FOUND', 'Challenge not found', 404);
     }
 
     // Verificar si ya existe una submission para este challenge
@@ -62,7 +62,7 @@ export async function POST(req: Request) {
     if (existingSubmission) {
       return errorResponse(
         'DUPLICATE_SUBMISSION',
-        `Ya enviaste una submission para el challenge "${challenge.name}". Estado: ${existingSubmission.status}`,
+        `You already submitted for the challenge "${challenge.name}". Status: ${existingSubmission.status}`,
         409
       );
     }
@@ -92,7 +92,7 @@ export async function POST(req: Request) {
     });
 
     return successResponse({
-      message: 'Submission creada exitosamente',
+      message: 'Submission created successfully',
       submission,
     }, 201);
 
@@ -107,6 +107,6 @@ export async function POST(req: Request) {
       timestamp: new Date().toISOString(),
     });
 
-    return errorResponse('INTERNAL_ERROR', 'Error del servidor', 500);
+    return errorResponse('INTERNAL_ERROR', 'Server error', 500);
   }
 }

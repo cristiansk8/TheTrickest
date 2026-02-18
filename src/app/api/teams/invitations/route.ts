@@ -12,7 +12,7 @@ export async function GET() {
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-      return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
+      return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
 
     const invitations = await prisma.teamInvitation.findMany({
@@ -73,7 +73,7 @@ export async function POST(req: Request) {
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-      return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
+      return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
 
     const body = await req.json();
@@ -121,7 +121,7 @@ export async function POST(req: Request) {
         match: user.team.ownerId === user.username
       });
       return NextResponse.json(
-        { error: 'Solo el creador del equipo puede enviar invitaciones' },
+        { error: 'Only the team creator can send invitations' },
         { status: 403 }
       );
     }
@@ -129,7 +129,7 @@ export async function POST(req: Request) {
     // Verificar que el equipo no esté lleno
     if (user.team.members.length >= user.team.maxMembers) {
       return NextResponse.json(
-        { error: 'El equipo está lleno' },
+        { error: 'The team is full' },
         { status: 400 }
       );
     }
@@ -179,7 +179,7 @@ export async function POST(req: Request) {
 
         if (existingInv?.status === 'pending') {
           return NextResponse.json(
-            { error: 'Ya enviaste una invitación a este usuario' },
+            { error: 'You already sent an invitation to this user' },
             { status: 400 }
           );
         } else if (existingInv?.status === 'rejected') {
@@ -190,7 +190,7 @@ export async function POST(req: Request) {
           });
         } else if (existingInv?.status === 'accepted') {
           return NextResponse.json(
-            { error: 'Este usuario ya aceptó una invitación previa' },
+            { error: 'This user already accepted a previous invitation' },
             { status: 400 }
           );
         }
@@ -211,7 +211,7 @@ export async function POST(req: Request) {
   } catch (error) {
     console.error('Error enviando invitación:', error);
     return NextResponse.json(
-      { error: 'Error al enviar la invitación' },
+      { error: 'Error sending invitation' },
       { status: 500 }
     );
   }

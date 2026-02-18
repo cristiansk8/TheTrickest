@@ -64,7 +64,7 @@ export async function GET(
 
     if (!user) {
       return NextResponse.json(
-        { error: 'Usuario no encontrado' },
+        { error: 'User not found' },
         { status: 404 }
       );
     }

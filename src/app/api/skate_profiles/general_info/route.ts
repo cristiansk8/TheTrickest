@@ -10,7 +10,7 @@ export async function GET(req: Request) {
 
     if (!email) {
       return NextResponse.json(
-        { error: 'Email es requerido' },
+        { error: 'Email is required' },
         { status: 400 }
       );
     }
@@ -23,7 +23,7 @@ export async function GET(req: Request) {
 
     if (!user) {
       return NextResponse.json(
-        { registered: false, message: 'Usuario no encontrado' },
+        { registered: false, message: 'User not found' },
         { status: 404 }
       );
     }
@@ -59,14 +59,14 @@ export async function PUT(req: Request) {
     } = data;
 
     if (!email) {
-      return NextResponse.json({ error: 'Email requerido' }, { status: 400 });
+      return NextResponse.json({ error: 'Email required' }, { status: 400 });
     }
 
     // Verificar si el usuario existe
     const existingUser = await prisma.user.findUnique({ where: { email } });
     if (!existingUser) {
       return NextResponse.json(
-        { error: 'Usuario no encontrado' },
+        { error: 'User not found' },
         { status: 404 }
       );
     }
@@ -102,7 +102,7 @@ export async function PUT(req: Request) {
   } catch (error) {
     console.error('Error al actualizar el usuario:', error);
     return NextResponse.json(
-      { error: 'Hubo un error en la actualización' },
+      { error: 'There was an error updating' },
       { status: 500 }
     );
   }

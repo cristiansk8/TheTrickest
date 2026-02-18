@@ -14,7 +14,7 @@ export async function GET(
     const spotId = parseInt(params.spotId);
 
     if (isNaN(spotId)) {
-      return NextResponse.json({ error: 'ID inválido' }, { status: 400 });
+      return NextResponse.json({ error: 'Invalid ID' }, { status: 400 });
     }
 
     const spot = await prisma.spot.findUnique({
@@ -22,13 +22,13 @@ export async function GET(
     });
 
     if (!spot) {
-      return NextResponse.json({ error: 'Spot no encontrado' }, { status: 404 });
+      return NextResponse.json({ error: 'Spot not found' }, { status: 404 });
     }
 
     return NextResponse.json({ spot });
   } catch (error) {
     console.error('Error obteniendo spot:', error);
-    return NextResponse.json({ error: 'Error del servidor' }, { status: 500 });
+    return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }
 
@@ -41,13 +41,13 @@ export async function PUT(
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-      return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
+      return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
 
     const spotId = parseInt(params.spotId);
 
     if (isNaN(spotId)) {
-      return NextResponse.json({ error: 'ID inválido' }, { status: 400 });
+      return NextResponse.json({ error: 'Invalid ID' }, { status: 400 });
     }
 
     // Verificar que el spot existe
@@ -56,7 +56,7 @@ export async function PUT(
     });
 
     if (!existingSpot) {
-      return NextResponse.json({ error: 'Spot no encontrado' }, { status: 404 });
+      return NextResponse.json({ error: 'Spot not found' }, { status: 404 });
     }
 
     // Verificar permisos (solo creador o admin)
@@ -140,7 +140,7 @@ export async function PUT(
     return NextResponse.json({ success: true, spot });
   } catch (error) {
     console.error('Error actualizando spot:', error);
-    return NextResponse.json({ error: 'Error del servidor' }, { status: 500 });
+    return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }
 
@@ -153,13 +153,13 @@ export async function DELETE(
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-      return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
+      return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
 
     const spotId = parseInt(params.spotId);
 
     if (isNaN(spotId)) {
-      return NextResponse.json({ error: 'ID inválido' }, { status: 400 });
+      return NextResponse.json({ error: 'Invalid ID' }, { status: 400 });
     }
 
     // Verificar que el spot existe
@@ -168,7 +168,7 @@ export async function DELETE(
     });
 
     if (!existingSpot) {
-      return NextResponse.json({ error: 'Spot no encontrado' }, { status: 404 });
+      return NextResponse.json({ error: 'Spot not found' }, { status: 404 });
     }
 
     // Verificar permisos (solo creador o admin)
@@ -182,7 +182,7 @@ export async function DELETE(
 
     if (!isAdmin && !isCreator) {
       return NextResponse.json(
-        { error: 'No tienes permiso para eliminar este spot' },
+        { error: 'You do not have permission to delete this spot' },
         { status: 403 }
       );
     }
@@ -194,6 +194,6 @@ export async function DELETE(
     return NextResponse.json({ success: true, message: 'Spot eliminado' });
   } catch (error) {
     console.error('Error eliminando spot:', error);
-    return NextResponse.json({ error: 'Error del servidor' }, { status: 500 });
+    return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }

@@ -24,13 +24,13 @@ export async function POST(
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-      return errorResponse('UNAUTHORIZED', 'Debes iniciar sesión', 401);
+      return errorResponse('UNAUTHORIZED', 'You must log in', 401);
     }
 
     const userEmail = session.user.email;
     const spotId = parseInt(params.spotId);
     if (isNaN(spotId)) {
-      return errorResponse('VALIDATION_ERROR', 'ID de spot inválido', 400);
+      return errorResponse('VALIDATION_ERROR', 'Invalid spot ID', 400);
     }
 
     const body: ValidateSpotRequest = await req.json();
@@ -45,7 +45,7 @@ export async function POST(
     });
 
     if (!spot) {
-      return errorResponse('NOT_FOUND', 'Spot no encontrado', 404);
+      return errorResponse('NOT_FOUND', 'Spot not found', 404);
     }
 
     // Validar coordenadas GPS
@@ -152,7 +152,7 @@ export async function POST(
       pointsEarned: getMethodPoints(method),
       newScore,
       validationCount: uniqueValidationCount, // Total de validaciones únicas
-      message: '¡Spot validado exitosamente!'
+      message: '¡Spot validado successfully!'
     });
 
   } catch (error) {

@@ -10,7 +10,7 @@ export async function GET(req: Request) {
     console.log("🔍 Email recibido en la API:", email);
 
     if (!email) {
-      return NextResponse.json({ error: "Email es requerido" }, { status: 400 });
+      return NextResponse.json({ error: "Email is required" }, { status: 400 });
     }
 
     const wishSkate = await prisma.wishSkate.findUnique({
@@ -21,7 +21,7 @@ export async function GET(req: Request) {
 
     if (!wishSkate) {
       return NextResponse.json(
-        { exists: false, message: "WishSkate no encontrado" },
+        { exists: false, message: "WishSkate not found" },
         { status: 404 }
       );
     }
@@ -47,7 +47,7 @@ export async function PUT(req: Request) {
     const { email, madero, trucks, ruedas, rodamientos, tenis } = data;
 
     if (!email) {
-      return NextResponse.json({ error: "Email requerido" }, { status: 400 });
+      return NextResponse.json({ error: "Email required" }, { status: 400 });
     }
 
     // Usar upsert para crear o actualizar WishSkate

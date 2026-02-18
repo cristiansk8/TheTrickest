@@ -64,7 +64,7 @@ export async function GET(
 
     if (!user) {
       return NextResponse.json(
-        { error: 'Usuario no encontrado' },
+        { error: 'User not found' },
         { status: 404 }
       );
     }
@@ -146,7 +146,7 @@ export async function GET(
       {
         id: 'first_blood',
         name: 'FIRST BLOOD',
-        description: 'Envía tu primera submission',
+        description: 'Submit your first submission',
         icon: '🩸',
         category: 'principiante',
         rarity: 'common',
@@ -157,7 +157,7 @@ export async function GET(
       {
         id: 'approved',
         name: 'APPROVED!',
-        description: 'Primera submission aprobada',
+        description: 'First approved submission',
         icon: '✅',
         category: 'principiante',
         rarity: 'common',
@@ -168,7 +168,7 @@ export async function GET(
       {
         id: 'score_100',
         name: 'CENTURY CLUB',
-        description: 'Alcanza 100 puntos totales',
+        description: 'Reach 100 total points',
         icon: '💯',
         category: 'intermedio',
         rarity: 'uncommon',
@@ -179,7 +179,7 @@ export async function GET(
       {
         id: 'streak_master',
         name: 'STREAK MASTER',
-        description: '5 submissions aprobadas seguidas',
+        description: '5 approved submissions in a row',
         icon: '🔥',
         category: 'intermedio',
         rarity: 'rare',
@@ -190,7 +190,7 @@ export async function GET(
       {
         id: 'perfect_score',
         name: 'PERFECT SCORE',
-        description: 'Obtén 100 puntos en un challenge',
+        description: 'Get 100 points in a challenge',
         icon: '🎯',
         category: 'avanzado',
         rarity: 'epic',
@@ -277,7 +277,7 @@ export async function GET(
   } catch (error) {
     console.error('Error fetching public profile:', error);
     return NextResponse.json(
-      { error: 'Error al obtener el perfil' },
+      { error: 'Error fetching profile' },
       { status: 500 }
     );
   }

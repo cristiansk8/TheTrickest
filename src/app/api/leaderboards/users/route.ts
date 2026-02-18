@@ -58,7 +58,7 @@ export async function GET(req: Request) {
 
         return {
           email: user.email,
-          name: user.name || 'Skater Anónimo',
+          name: user.name || 'Anonymous Skater',
           photo: user.photo,
           location: user.ciudad
             ? `${user.ciudad}, ${user.departamento}`

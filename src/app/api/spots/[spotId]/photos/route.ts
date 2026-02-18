@@ -25,7 +25,7 @@ export async function POST(
     if (!session?.user?.email) {
       return NextResponse.json({
         error: 'UNAUTHORIZED',
-        message: 'Debes iniciar sesión'
+        message: 'You must log in'
       }, { status: 401 });
     }
 
@@ -33,7 +33,7 @@ export async function POST(
     if (isNaN(spotId)) {
       return NextResponse.json({
         error: 'VALIDATION_ERROR',
-        message: 'ID de spot inválido'
+        message: 'Invalid spot ID'
       }, { status: 400 });
     }
 
@@ -48,7 +48,7 @@ export async function POST(
     if (!spot) {
       return NextResponse.json({
         error: 'NOT_FOUND',
-        message: 'Spot no encontrado'
+        message: 'Spot not found'
       }, { status: 404 });
     }
 
@@ -93,7 +93,7 @@ export async function POST(
       success: true,
       photo,
       spot: updatedSpot,
-      message: 'Foto agregada exitosamente'
+      message: 'Foto agregada successfully'
     });
 
   } catch (error) {

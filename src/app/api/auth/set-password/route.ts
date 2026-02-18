@@ -27,7 +27,7 @@ export async function POST(req: Request) {
     });
 
     if (!user) {
-      return errorResponse('USER_NOT_FOUND', 'Usuario no encontrado', 404);
+      return errorResponse('USER_NOT_FOUND', 'User not found', 404);
     }
 
     // Hashear contraseña
@@ -42,7 +42,7 @@ export async function POST(req: Request) {
     });
 
     return successResponse({
-      message: 'Contraseña establecida exitosamente',
+      message: 'Password set successfully',
     });
 
   } catch (error) {
@@ -56,6 +56,6 @@ export async function POST(req: Request) {
       timestamp: new Date().toISOString(),
     });
 
-    return errorResponse('INTERNAL_ERROR', 'Error al establecer contraseña', 500);
+    return errorResponse('INTERNAL_ERROR', 'Error setting password', 500);
   }
 }

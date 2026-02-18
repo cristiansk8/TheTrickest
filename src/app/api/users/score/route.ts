@@ -9,7 +9,7 @@ export async function GET(req: Request) {
     const email = searchParams.get('email');
 
     if (!email) {
-      return NextResponse.json({ error: 'Email es requerido' }, { status: 400 });
+      return NextResponse.json({ error: 'Email is required' }, { status: 400 });
     }
 
     // Obtener el usuario con su foto
@@ -46,6 +46,6 @@ export async function GET(req: Request) {
 
   } catch (error) {
     console.error('Error obteniendo score:', error);
-    return NextResponse.json({ error: 'Error al obtener el score' }, { status: 500 });
+    return NextResponse.json({ error: 'Error fetching score' }, { status: 500 });
   }
 }

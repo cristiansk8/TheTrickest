@@ -14,7 +14,7 @@ export async function GET(
     const teamId = parseInt(params.id);
 
     if (isNaN(teamId)) {
-      return NextResponse.json({ error: 'ID inválido' }, { status: 400 });
+      return NextResponse.json({ error: 'Invalid ID' }, { status: 400 });
     }
 
     const team = await prisma.team.findUnique({
@@ -45,7 +45,7 @@ export async function GET(
 
     if (!team) {
       return NextResponse.json(
-        { error: 'Team no encontrado' },
+        { error: 'Team not found' },
         { status: 404 }
       );
     }
@@ -88,7 +88,7 @@ export async function GET(
   } catch (error) {
     console.error('Error obteniendo team:', error);
     return NextResponse.json(
-      { error: 'Error al obtener el team' },
+      { error: 'Error fetching team' },
       { status: 500 }
     );
   }
@@ -103,13 +103,13 @@ export async function PUT(
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-      return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
+      return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
 
     const teamId = parseInt(params.id);
 
     if (isNaN(teamId)) {
-      return NextResponse.json({ error: 'ID inválido' }, { status: 400 });
+      return NextResponse.json({ error: 'Invalid ID' }, { status: 400 });
     }
 
     const body = await req.json();
@@ -121,7 +121,7 @@ export async function PUT(
 
     if (!team) {
       return NextResponse.json(
-        { error: 'Team no encontrado' },
+        { error: 'Team not found' },
         { status: 404 }
       );
     }
@@ -134,7 +134,7 @@ export async function PUT(
 
     if (!user?.username || team.ownerId !== user.username) {
       return NextResponse.json(
-        { error: 'Solo el creador puede editar el equipo' },
+        { error: 'Only the creator can edit the team' },
         { status: 403 }
       );
     }
@@ -153,7 +153,7 @@ export async function PUT(
   } catch (error) {
     console.error('Error actualizando team:', error);
     return NextResponse.json(
-      { error: 'Error al actualizar el team' },
+      { error: 'Error updating team' },
       { status: 500 }
     );
   }
@@ -168,13 +168,13 @@ export async function DELETE(
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-      return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
+      return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
 
     const teamId = parseInt(params.id);
 
     if (isNaN(teamId)) {
-      return NextResponse.json({ error: 'ID inválido' }, { status: 400 });
+      return NextResponse.json({ error: 'Invalid ID' }, { status: 400 });
     }
 
     const team = await prisma.team.findUnique({
@@ -183,7 +183,7 @@ export async function DELETE(
 
     if (!team) {
       return NextResponse.json(
-        { error: 'Team no encontrado' },
+        { error: 'Team not found' },
         { status: 404 }
       );
     }
@@ -196,7 +196,7 @@ export async function DELETE(
 
     if (!user?.username || team.ownerId !== user.username) {
       return NextResponse.json(
-        { error: 'Solo el creador puede eliminar el equipo' },
+        { error: 'Only the creator can delete the team' },
         { status: 403 }
       );
     }
@@ -216,7 +216,7 @@ export async function DELETE(
   } catch (error) {
     console.error('Error eliminando team:', error);
     return NextResponse.json(
-      { error: 'Error al eliminar el team' },
+      { error: 'Error deleting team' },
       { status: 500 }
     );
   }

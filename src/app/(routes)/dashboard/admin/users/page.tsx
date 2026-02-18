@@ -118,10 +118,10 @@ export default function AdminUsersPage() {
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-cyan-400 to-accent-purple-400 uppercase tracking-wider mb-2">
-          👥 GESTIÓN DE USUARIOS
+          👥 USER MANAGEMENT
         </h1>
         <p className="text-neutral-600 text-lg">
-          Administra roles y permisos de usuarios
+          Manage user roles and permissions
         </p>
       </div>
 
@@ -129,14 +129,14 @@ export default function AdminUsersPage() {
       <Card className="bg-neutral-900 border-4 border-neutral-700">
         <CardHeader>
           <h3 className="text-xl font-black text-white uppercase tracking-wider">
-            🔍 Filtros
+            🔍 Filters
           </h3>
         </CardHeader>
         <CardBody>
           <div className="flex gap-4 flex-wrap">
             <Select
-              label="Rol"
-              placeholder="Todos los roles"
+              label="Role"
+              placeholder="All roles"
               selectedKeys={[filters.role]}
               onSelectionChange={(keys) => setFilters(prev => ({
                 ...prev,
@@ -145,9 +145,9 @@ export default function AdminUsersPage() {
               }))}
               className="w-48"
             >
-              <SelectItem key="all" value="all">Todos</SelectItem>
+              <SelectItem key="all" value="all">All</SelectItem>
               <SelectItem key="skater" value="skater">Skater</SelectItem>
-              <SelectItem key="judge" value="judge">Juez</SelectItem>
+              <SelectItem key="judge" value="judge">Judge</SelectItem>
               <SelectItem key="admin" value="admin">Admin</SelectItem>
             </Select>
           </div>
@@ -158,7 +158,7 @@ export default function AdminUsersPage() {
       <Card className="bg-neutral-900 border-4 border-neutral-700">
         <CardHeader>
           <h3 className="text-xl font-black text-white uppercase tracking-wider">
-            👤 Usuarios ({pagination.total})
+            👤 Users ({pagination.total})
           </h3>
         </CardHeader>
         <CardBody>
@@ -183,7 +183,7 @@ export default function AdminUsersPage() {
                         />
                       </div>
                       <div>
-                        <h4 className="text-white font-bold text-lg">{user.name || 'Sin nombre'}</h4>
+                        <h4 className="text-white font-bold text-lg">{user.name || 'No name'}</h4>
                         <p className="text-neutral-400 text-sm">{user.email}</p>
                         <div className="flex items-center gap-2 mt-1">
                           {getRoleIcon(user.role)}
@@ -205,7 +205,7 @@ export default function AdminUsersPage() {
                       <div className="flex flex-col gap-2">
                         <Select
                           size="sm"
-                          placeholder="Cambiar rol"
+                          placeholder="Change role"
                           selectedKeys={[user.role]}
                           onSelectionChange={(keys) => {
                             const newRole = Array.from(keys)[0] as string;
@@ -217,7 +217,7 @@ export default function AdminUsersPage() {
                           className="w-40"
                         >
                           <SelectItem key="skater" value="skater">Skater</SelectItem>
-                          <SelectItem key="judge" value="judge">Juez</SelectItem>
+                          <SelectItem key="judge" value="judge">Judge</SelectItem>
                           <SelectItem key="admin" value="admin">Admin</SelectItem>
                         </Select>
                         {updating === user.id && (
@@ -233,7 +233,7 @@ export default function AdminUsersPage() {
 
               {users.length === 0 && (
                 <div className="text-center py-8">
-                  <p className="text-neutral-400 text-lg">No se encontraron usuarios</p>
+                  <p className="text-neutral-400 text-lg">No users found</p>
                 </div>
               )}
             </div>
@@ -249,11 +249,11 @@ export default function AdminUsersPage() {
             onClick={() => setFilters(prev => ({ ...prev, page: prev.page - 1 }))}
             className="bg-gradient-to-r from-accent-cyan-500 to-accent-blue-600 text-white font-bold"
           >
-            Anterior
+            Previous
           </Button>
 
           <span className="flex items-center px-4 py-2 bg-neutral-800 text-white rounded-lg">
-            Página {pagination.page} de {pagination.pages}
+            Page {pagination.page} of {pagination.pages}
           </span>
 
           <Button
@@ -261,7 +261,7 @@ export default function AdminUsersPage() {
             onClick={() => setFilters(prev => ({ ...prev, page: prev.page + 1 }))}
             className="bg-gradient-to-r from-accent-cyan-500 to-accent-blue-600 text-white font-bold"
           >
-            Siguiente
+            Next
           </Button>
         </div>
       )}

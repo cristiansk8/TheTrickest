@@ -63,10 +63,10 @@ export default function AdminInterestedPage() {
         <div className="bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 p-1 rounded-lg shadow-2xl mb-8">
           <div className="bg-neutral-900 rounded-lg p-6">
             <h1 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-cyan-400 to-accent-purple-400 uppercase tracking-wider text-center">
-              📧 Usuarios Interesados
+              📧 Interested Users
             </h1>
             <p className="text-accent-cyan-300 mt-2 text-center">
-              Total registrados:{' '}
+              Total registered:{' '}
               <span className="text-accent-yellow-400 font-bold">{total}</span>
             </p>
           </div>
@@ -84,13 +84,13 @@ export default function AdminInterestedPage() {
             <div className="text-center">
               <div className="text-4xl font-black text-green-400">📧</div>
               <div className="text-neutral-400 text-sm uppercase">
-                Interesados
+                Interested
               </div>
             </div>
             <div className="text-center">
               <div className="text-4xl font-black text-accent-purple-400">🚀</div>
               <div className="text-neutral-400 text-sm uppercase">
-                Potenciales Usuarios
+                Potential Users
               </div>
             </div>
           </div>
@@ -98,31 +98,31 @@ export default function AdminInterestedPage() {
 
         {/* Info */}
         <div className="bg-neutral-800/50 rounded-lg p-6">
-          <h2 className="text-xl font-bold text-white mb-4">💡 Información</h2>
+          <h2 className="text-xl font-bold text-white mb-4">💡 Information</h2>
           <div className="space-y-3 text-neutral-300">
             <p>
-              • Los emails se guardan automáticamente cuando alguien se registra
-              desde el home.
+              • Emails are automatically saved when someone registers
+              from the home page.
             </p>
-            <p>• Cada email es único - no se permiten duplicados.</p>
-            <p>• Los datos incluyen fecha de registro para seguimiento.</p>
+            <p>• Each email is unique - no duplicates allowed.</p>
+            <p>• Data includes registration date for tracking.</p>
             <p>
-              • Usa estos emails para notificar sobre lanzamientos y
-              actualizaciones.
+              • Use these emails to notify about launches and
+              updates.
             </p>
           </div>
 
           <div className="mt-6 pt-6 border-t border-neutral-700">
             <h3 className="text-lg font-bold text-white mb-3">
-              📊 Próximos pasos recomendados:
+              📊 Recommended next steps:
             </h3>
             <ul className="space-y-2 text-neutral-300">
-              <li>1. Exportar la lista de emails para campañas de marketing</li>
-              <li>2. Crear sistema de newsletters</li>
+              <li>1. Export email list for marketing campaigns</li>
+              <li>2. Create newsletter system</li>
               <li>
-                3. Enviar actualizaciones sobre el progreso de la plataforma
+                3. Send updates about platform progress
               </li>
-              <li>4. Invitar a los primeros usuarios a pruebas beta</li>
+              <li>4. Invite first users to beta testing</li>
             </ul>
           </div>
         </div>

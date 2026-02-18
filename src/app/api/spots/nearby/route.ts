@@ -140,7 +140,7 @@ export async function GET(req: Request) {
   } catch (error) {
     console.error('Error buscando spots cercanos:', error);
     return NextResponse.json({
-      error: 'Error del servidor',
+      error: 'Server error',
       message: 'Error al buscar spots cercanos'
     }, { status: 500 });
   }

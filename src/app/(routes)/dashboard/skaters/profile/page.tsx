@@ -420,7 +420,7 @@ export default function ProfilePage() {
                         type="text"
                         id="facebook"
                         name="facebook"
-                        placeholder="tu.perfil"
+                        placeholder="your.profile"
                         value={formData.facebook}
                         onChange={handleChange}
                       />

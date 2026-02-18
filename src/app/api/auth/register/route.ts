@@ -27,7 +27,7 @@ export async function POST(req: Request) {
     });
 
     if (existingUser) {
-      return errorResponse('USER_EXISTS', 'Este email ya está registrado', 400);
+      return errorResponse('USER_EXISTS', 'This email is already registered', 400);
     }
 
     // Hashear contraseña
@@ -44,7 +44,7 @@ export async function POST(req: Request) {
     });
 
     return successResponse({
-      message: 'Usuario creado exitosamente',
+      message: 'User created successfully',
       user: {
         id: user.id,
         email: user.email,
@@ -63,6 +63,6 @@ export async function POST(req: Request) {
       timestamp: new Date().toISOString(),
     });
 
-    return errorResponse('INTERNAL_ERROR', 'Error al crear usuario', 500);
+    return errorResponse('INTERNAL_ERROR', 'Error creating user', 500);
   }
 }

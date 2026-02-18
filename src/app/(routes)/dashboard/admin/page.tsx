@@ -46,7 +46,7 @@ export default async function AdminDashboard() {
           🎮 ADMIN PANEL
         </h1>
         <p className="text-neutral-600 text-lg">
-          Gestión completa de la plataforma Trickest
+          Complete management of the Trickest platform
         </p>
       </div>
 
@@ -58,7 +58,7 @@ export default async function AdminDashboard() {
               <MdPeople size={32} className="text-white" />
               <div>
                 <p className="text-white text-sm font-bold uppercase tracking-wider">
-                  Usuarios Totales
+                  Total Users
                 </p>
               </div>
             </div>
@@ -112,7 +112,7 @@ export default async function AdminDashboard() {
               <MdAdminPanelSettings size={32} className="text-white" />
               <div>
                 <p className="text-white text-sm font-bold uppercase tracking-wider">
-                  Jueces Activos
+                  Active Judges
                 </p>
               </div>
             </div>
@@ -130,13 +130,13 @@ export default async function AdminDashboard() {
         <Card className="bg-neutral-900 border-4 border-neutral-700">
           <CardHeader>
             <h3 className="text-xl font-black text-white uppercase tracking-wider">
-              📊 Submissions por Estado
+              📊 Submissions by Status
             </h3>
           </CardHeader>
           <CardBody className="space-y-4">
             <div className="flex justify-between items-center p-3 bg-accent-yellow-500/10 rounded-lg border border-accent-yellow-500/20">
               <span className="text-accent-yellow-400 font-bold uppercase tracking-wider">
-                Pendientes
+                Pending
               </span>
               <span className="text-2xl font-black text-accent-yellow-400">
                 {stats?.pendingSubmissions || 0}
@@ -144,7 +144,7 @@ export default async function AdminDashboard() {
             </div>
             <div className="flex justify-between items-center p-3 bg-green-500/10 rounded-lg border border-green-500/20">
               <span className="text-green-400 font-bold uppercase tracking-wider">
-                Aprobadas
+                Approved
               </span>
               <span className="text-2xl font-black text-green-400">
                 {stats?.approvedSubmissions || 0}
@@ -152,7 +152,7 @@ export default async function AdminDashboard() {
             </div>
             <div className="flex justify-between items-center p-3 bg-red-500/10 rounded-lg border border-red-500/20">
               <span className="text-red-400 font-bold uppercase tracking-wider">
-                Rechazadas
+                Rejected
               </span>
               <span className="text-2xl font-black text-red-400">
                 {stats?.rejectedSubmissions || 0}
@@ -164,7 +164,7 @@ export default async function AdminDashboard() {
         <Card className="bg-neutral-900 border-4 border-neutral-700">
           <CardHeader>
             <h3 className="text-xl font-black text-white uppercase tracking-wider">
-              👥 Distribución de Roles
+              👥 Role Distribution
             </h3>
           </CardHeader>
           <CardBody className="space-y-4">
@@ -178,7 +178,7 @@ export default async function AdminDashboard() {
             </div>
             <div className="flex justify-between items-center p-3 bg-accent-yellow-500/10 rounded-lg border border-accent-yellow-500/20">
               <span className="text-accent-yellow-400 font-bold uppercase tracking-wider">
-                Jueces
+                Judges
               </span>
               <span className="text-2xl font-black text-accent-yellow-400">
                 {stats?.judgeCount || 0}
