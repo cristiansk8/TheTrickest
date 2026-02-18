@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 
 const prisma = new PrismaClient();
 
-// Configuración de auto-aprobación
+// Configuration for auto-aprobación
 const AUTO_APPROVAL_CONFIG = {
   minVotes: 10, // Mínimo de votos requeridos
   minPositivePercentage: 80, // Porcentaje mínimo de votos positivos
@@ -18,7 +18,7 @@ export async function POST(request: Request) {
 
     // Si hay un CRON_SECRET configurado, validarlo
     if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
-      return NextResponse.json({ error: 'No autorizado' }, { status: 401 });
+      return NextResponse.json({ error: 'Not authorized' }, { status: 401 });
     }
 
     console.log('🔄 Iniciando proceso de auto-aprobación...');
@@ -85,7 +85,7 @@ export async function POST(request: Request) {
             score: AUTO_APPROVAL_CONFIG.autoApproveScore,
             communityApproved: true,
             autoApprovedAt: new Date(),
-            feedback: `✅ Aprobado automáticamente por la comunidad con ${positivePercentage.toFixed(
+            feedback: `✅ Automatically approved by the community con ${positivePercentage.toFixed(
               1
             )}% de votos positivos (${
               submission.upvotes
@@ -164,7 +164,7 @@ export async function POST(request: Request) {
     console.error('❌ Error en auto-aprobación:', error);
     return NextResponse.json(
       {
-        error: 'Error al procesar auto-aprobación',
+        error: 'Error processing auto-approval',
         details: error instanceof Error ? error.message : 'Error desconocido',
       },
       { status: 500 }
@@ -259,7 +259,7 @@ export async function GET(request: Request) {
   } catch (error) {
     console.error('Error al obtener estadísticas:', error);
     return NextResponse.json(
-      { error: 'Error al obtener estadísticas' },
+      { error: 'Error fetching statistics' },
       { status: 500 }
     );
   }

@@ -21,7 +21,7 @@ interface Comment {
   user: User;
   userId: string;
   userVote?: 'like' | 'dislike' | null;
-  replyCount?: number; // Número de respuestas
+  replyCount?: number; // Number of replies
 }
 
 interface SpotCommentsProps {
@@ -58,16 +58,16 @@ export default function SpotComments({ spotId, maxHeight = '400px', highlightCom
 
       if (!response.ok) {
         const data = await response.json();
-        // El error puede ser un objeto o un string
+        // Error can be an object or a string
         const errorMessage = typeof data.error === 'string'
           ? data.error
-          : data.error?.message || data.data?.message || 'Error al cargar comentarios';
+          : data.error?.message || data.data?.message || 'Error loading comments';
         throw new Error(errorMessage);
       }
 
       const data = await response.json();
 
-      // Validar que la respuesta tenga la estructura esperada
+      // Validate that response has the expected structure
       const commentsList = data.data?.comments || data.comments || [];
       const totalCount = data.data?.total || data.total || 0;
       const hasMoreValue = data.data?.hasMore ?? data.hasMore ?? false;
@@ -83,10 +83,10 @@ export default function SpotComments({ spotId, maxHeight = '400px', highlightCom
       setOffset(currentOffset + commentsList.length);
       setError(null);
 
-    } catch (err) {
-      console.error('Error cargando comentarios:', err);
-      setError(err instanceof Error ? err.message : String(err) || 'Error al cargar comentarios');
-      // Asegurar que comments siempre sea un array
+    } catch (err: any) {
+      console.error('Error loading comments:', err);
+      setError(err.message || 'Error loading comments');
+      // Ensure comments is always an array
       setComments([]);
     } finally {
       setLoading(false);
@@ -98,18 +98,18 @@ export default function SpotComments({ spotId, maxHeight = '400px', highlightCom
     fetchComments(false);
   }, [spotId, sort]);
 
-  // Scroll al comentario específico cuando terminan de cargar
+  // Scroll to specific comment when loading finishes
   useEffect(() => {
     if (!highlightCommentId || loading) return;
 
-    console.log('🔍 SpotComments: Buscando comentario', highlightCommentId);
+    console.log('🔍 SpotComments: Looking for comment', highlightCommentId);
 
     const scrollToComment = () => {
       const targetElement = document.getElementById(`comment-${highlightCommentId}`);
-      console.log('📍 Elemento encontrado:', targetElement);
+      console.log('📍 Element found:', targetElement);
 
       if (targetElement) {
-        console.log('✅ Haciendo scroll al comentario');
+        console.log('✅ Scrolling to comment');
         targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
         targetElement.classList.add('ring-4', 'ring-green-400', 'ring-opacity-75');
         setTimeout(() => {
@@ -120,54 +120,54 @@ export default function SpotComments({ spotId, maxHeight = '400px', highlightCom
       return false;
     };
 
-    // Intentar scroll inmediatamente
+    // Try scroll immediately
     if (scrollToComment()) {
-      console.log('✅ Scroll inmediato exitoso');
+      console.log('✅ Immediate scroll successful');
       return;
     }
 
-    // Si no se encontró, expandir hilos y reintentar
+    // If not found, expand threads and retry
     setTimeout(() => {
-      console.log('⏳ Expandiendo hilos para buscar respuesta...');
+      console.log('⏳ Expanding threads to find reply...');
 
-      // Buscar botones "Ver X respuestas"
+      // Find "View X replies" buttons
       const allButtons = Array.from(document.querySelectorAll('button'));
       const threadButtons = allButtons.filter(btn =>
-        btn.textContent?.includes('Ver ') && btn.textContent?.includes(' respuesta')
+        btn.textContent?.includes('View ') && btn.textContent?.includes(' repl')
       );
 
-      console.log('📂 Hilos encontrados:', threadButtons.length);
+      console.log('📂 Threads found:', threadButtons.length);
 
-      // Expandir todos los hilos
+      // Expand all threads
       threadButtons.forEach((btn, i) => {
-        console.log(`📂 Expandiendo hilo ${i + 1}...`);
+        console.log(`📂 Expanding thread ${i + 1}...`);
         (btn as HTMLButtonElement).click();
       });
 
-      // Intentar scroll varias veces después de expandir
+      // Try scroll multiple times after expanding
       let attempts = 0;
-      const maxAttempts = 10; // Aumentar a 10 intentos
+      const maxAttempts = 10; // Increase to 10 attempts
 
       const tryScroll = () => {
         attempts++;
-        console.log(`🔎 Intento ${attempts}/${maxAttempts}`);
+        console.log(`🔎 Attempt ${attempts}/${maxAttempts}`);
 
         if (scrollToComment()) {
-          console.log('✅ Scroll exitoso');
+          console.log('✅ Scroll successful');
           return;
         }
 
         if (attempts < maxAttempts) {
-          setTimeout(tryScroll, 800); // Aumentar a 800ms entre intentos
+          setTimeout(tryScroll, 800); // Increase to 800ms between attempts
         } else {
-          console.log('❌ No se encontró el comentario después de expandir todos los hilos');
+          console.log('❌ Comment not found after expanding all threads');
           const allComments = document.querySelectorAll('[id^="comment-"]');
-          console.log('📋 Comentarios disponibles:', Array.from(allComments).map(c => c.id));
-          console.log('❌ El comentario', highlightCommentId, 'no existe en ningún hilo');
+          console.log('📋 Available comments:', Array.from(allComments).map(c => c.id));
+          console.log('❌ Comment', highlightCommentId, 'does not exist in any thread');
         }
       };
 
-      setTimeout(tryScroll, 1000); // Esperar 1 segundo antes del primer intento
+      setTimeout(tryScroll, 1000); // Wait 1 second before first attempt
     }, 1000);
   }, [highlightCommentId, loading]);
 
@@ -186,39 +186,39 @@ export default function SpotComments({ spotId, maxHeight = '400px', highlightCom
       {/* Header with count and sort */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <MessageSquare className="w-4 h-4 text-cyan-400" />
-          <span className="font-bold text-cyan-400">
-            {total} {total === 1 ? 'Comentario' : 'Comentarios'}
+          <MessageSquare className="w-4 h-4 text-accent-cyan-400" />
+          <span className="font-bold text-accent-cyan-400">
+            {total} {total === 1 ? 'Comment' : 'Comments'}
           </span>
         </div>
 
         {/* Sort toggle */}
-        <div className="flex items-center gap-1 bg-slate-800 rounded-lg p-1 border border-slate-700">
+        <div className="flex items-center gap-1 bg-neutral-800 rounded-lg p-1 border border-neutral-700">
           <button
             onClick={() => setSort('recent')}
             className={`
               px-2 py-1 rounded text-xs font-bold flex items-center gap-1 transition-all
               ${sort === 'recent'
-                ? 'bg-purple-600 text-white'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-accent-purple-600 text-white'
+                : 'text-neutral-400 hover:text-white'
               }
             `}
           >
             <Clock className="w-3 h-3" />
-            Recientes
+            Recent
           </button>
           <button
             onClick={() => setSort('popular')}
             className={`
               px-2 py-1 rounded text-xs font-bold flex items-center gap-1 transition-all
               ${sort === 'popular'
-                ? 'bg-purple-600 text-white'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-accent-purple-600 text-white'
+                : 'text-neutral-400 hover:text-white'
               }
             `}
           >
             <TrendingUp className="w-3 h-3" />
-            Populares
+            Popular
           </button>
         </div>
       </div>
@@ -235,9 +235,9 @@ export default function SpotComments({ spotId, maxHeight = '400px', highlightCom
 
       {/* Loading state */}
       {loading && (
-        <div className="bg-slate-800 border-2 border-slate-700 rounded-lg p-6 text-center">
-          <div className="w-8 h-8 animate-spin border-4 border-cyan-400 border-t-transparent rounded-full mx-auto mb-2" />
-          <p className="text-cyan-400 font-bold text-sm">Cargando comentarios...</p>
+        <div className="bg-neutral-800 border-2 border-neutral-700 rounded-lg p-6 text-center">
+          <div className="w-8 h-8 animate-spin border-4 border-accent-cyan-400 border-t-transparent rounded-full mx-auto mb-2" />
+          <p className="text-accent-cyan-400 font-bold text-sm">Loading comments...</p>
         </div>
       )}
 
@@ -269,9 +269,9 @@ export default function SpotComments({ spotId, maxHeight = '400px', highlightCom
             <button
               onClick={handleLoadMore}
               disabled={loadingMore}
-              className="w-full py-2 px-4 bg-slate-800 hover:bg-slate-700 border-2 border-slate-600 hover:border-cyan-400 rounded-lg font-bold text-cyan-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-2 px-4 bg-neutral-800 hover:bg-neutral-700 border-2 border-neutral-600 hover:border-accent-cyan-400 rounded-lg font-bold text-accent-cyan-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loadingMore ? 'Cargando...' : `Cargar más comentarios (${total - comments.length} restantes)`}
+              {loadingMore ? 'Loading...' : `Load more comments (${total - comments.length} remaining)`}
             </button>
           )}
         </div>
@@ -279,13 +279,13 @@ export default function SpotComments({ spotId, maxHeight = '400px', highlightCom
 
       {/* Empty state */}
       {!loading && comments.length === 0 && (
-        <div className="bg-slate-800 border-2 border-slate-700 rounded-lg p-6 text-center">
-          <MessageSquare className="w-12 h-12 text-slate-600 mx-auto mb-2" />
-          <p className="text-slate-400 font-bold mb-1">
-            Aún no hay comentarios
+        <div className="bg-neutral-800 border-2 border-neutral-700 rounded-lg p-6 text-center">
+          <MessageSquare className="w-12 h-12 text-neutral-600 mx-auto mb-2" />
+          <p className="text-neutral-400 font-bold mb-1">
+            No comments yet
           </p>
-          <p className="text-slate-500 text-sm">
-            ¡Sé el primero en compartir tu experiencia!
+          <p className="text-neutral-500 text-sm">
+            Be the first to share your experience!
           </p>
         </div>
       )}

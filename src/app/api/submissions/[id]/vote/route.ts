@@ -14,13 +14,13 @@ export async function POST(
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-      return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
+      return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
 
     const submissionId = parseInt(params.id);
     if (isNaN(submissionId)) {
       return NextResponse.json(
-        { error: 'ID de submission inválido' },
+        { error: 'Invalid submission ID' },
         { status: 400 }
       );
     }
@@ -31,7 +31,7 @@ export async function POST(
     // Validar voteType
     if (!voteType || !['upvote', 'downvote'].includes(voteType)) {
       return NextResponse.json(
-        { error: 'Tipo de voto inválido. Debe ser "upvote" o "downvote"' },
+        { error: 'Invalid vote type. Must be "upvote" or "downvote"' },
         { status: 400 }
       );
     }
@@ -52,7 +52,7 @@ export async function POST(
     // Verificar que no sea su propia submission
     if (submission.userId === session.user.email!) {
       return NextResponse.json(
-        { error: 'No puedes votar en tu propia submission' },
+        { error: 'You cannot vote on your own submission' },
         { status: 403 }
       );
     }
@@ -134,7 +134,7 @@ export async function POST(
       });
 
       return NextResponse.json({
-        message: 'Voto actualizado exitosamente',
+        message: 'Vote updated successfully',
         submission: updatedSubmission,
       });
     } else {
@@ -189,7 +189,7 @@ export async function POST(
       });
 
       return NextResponse.json({
-        message: 'Voto registrado exitosamente',
+        message: 'Vote registered successfully',
         submission: updatedSubmission,
       });
     }
@@ -211,13 +211,13 @@ export async function GET(
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-      return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
+      return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
 
     const submissionId = parseInt(params.id);
     if (isNaN(submissionId)) {
       return NextResponse.json(
-        { error: 'ID de submission inválido' },
+        { error: 'Invalid submission ID' },
         { status: 400 }
       );
     }
@@ -252,13 +252,13 @@ export async function DELETE(
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-      return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
+      return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
 
     const submissionId = parseInt(params.id);
     if (isNaN(submissionId)) {
       return NextResponse.json(
-        { error: 'ID de submission inválido' },
+        { error: 'Invalid submission ID' },
         { status: 400 }
       );
     }
@@ -302,7 +302,7 @@ export async function DELETE(
     });
 
     return NextResponse.json({
-      message: 'Voto eliminado exitosamente',
+      message: 'Vote removed successfully',
     });
   } catch (error) {
     console.error('Error al eliminar voto:', error);

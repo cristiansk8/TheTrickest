@@ -8,7 +8,7 @@ export async function GET(req: Request) {
         const email = searchParams.get('email');
 
         if (!email) {
-            return NextResponse.json({ error: 'Email requerido' }, { status: 400 });
+            return NextResponse.json({ error: 'Email required' }, { status: 400 });
         }
 
         const user = await prisma.user.findUnique({
@@ -30,7 +30,7 @@ export async function POST(req: Request) {
 
         // Validamos los campos obligatorios
         if (!email || !name || !phone || !photo || !departamento || !ciudad) {
-            return NextResponse.json({ error: 'Todos los campos del usuario son requeridos' }, { status: 400 });
+            return NextResponse.json({ error: 'All user fields are required' }, { status: 400 });
         }
 
         // Crear el usuario
@@ -84,7 +84,7 @@ export async function POST(req: Request) {
         return NextResponse.json({ message: 'Tabla soñada creados con éxito', user, socialMedia }, { status: 201 });
     } catch (error) {
         console.error('Error:', error);
-        return NextResponse.json({ error: 'Hubo un error al crear la tabla soñada' }, { status: 500 });
+        return NextResponse.json({ error: 'There was an error creating the dream setup' }, { status: 500 });
     }
 }
 

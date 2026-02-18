@@ -27,7 +27,7 @@ export async function POST(
     const commentId = parseInt(params.commentId);
 
     if (isNaN(spotId) || isNaN(commentId)) {
-      return errorResponse('VALIDATION_ERROR', 'IDs inválidos', 400);
+      return errorResponse('VALIDATION_ERROR', 'Invalid IDs', 400);
     }
 
     const body: VoteRequest = await req.json();
@@ -53,7 +53,7 @@ export async function POST(
     });
 
     if (!comment) {
-      return errorResponse('NOT_FOUND', 'Comentario no encontrado', 404);
+      return errorResponse('NOT_FOUND', 'Comment not found', 404);
     }
 
     // Verificar que el comentario pertenece al spot (seguridad)
@@ -200,7 +200,7 @@ export async function DELETE(
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-      return errorResponse('UNAUTHORIZED', 'Debes iniciar sesión', 401);
+      return errorResponse('UNAUTHORIZED', 'You must log in', 401);
     }
 
     const userEmail = session.user.email;
@@ -208,7 +208,7 @@ export async function DELETE(
     const commentId = parseInt(params.commentId);
 
     if (isNaN(spotId) || isNaN(commentId)) {
-      return errorResponse('VALIDATION_ERROR', 'IDs inválidos', 400);
+      return errorResponse('VALIDATION_ERROR', 'Invalid IDs', 400);
     }
 
     // Verificar que el comentario existe y obtener el voto del usuario
@@ -222,7 +222,7 @@ export async function DELETE(
     });
 
     if (!comment) {
-      return errorResponse('NOT_FOUND', 'Comentario no encontrado', 404);
+      return errorResponse('NOT_FOUND', 'Comment not found', 404);
     }
 
     // Verificar que el comentario pertenece al spot (seguridad)
@@ -273,6 +273,6 @@ export async function DELETE(
 
   } catch (error) {
     console.error('Error eliminando voto:', error);
-    return errorResponse('INTERNAL_ERROR', 'Error al eliminar voto', 500);
+    return errorResponse('INTERNAL_ERROR', 'Error deleting vote', 500);
   }
 }

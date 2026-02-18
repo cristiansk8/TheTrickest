@@ -100,6 +100,6 @@ export async function GET(req: Request) {
     console.error('[DEBUG /api/map/skaters] ERROR:', error);
     console.error('[DEBUG /api/map/skaters] Error message:', error instanceof Error ? error.message : 'unknown');
     console.error('[DEBUG /api/map/skaters] Error stack:', error instanceof Error ? error.stack : 'no stack');
-    return NextResponse.json({ error: 'Error del servidor' }, { status: 500 });
+    return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }

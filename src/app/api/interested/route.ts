@@ -9,7 +9,7 @@ export async function POST(request: Request) {
 
     // Validar email
     if (!email || !email.includes('@')) {
-      return NextResponse.json({ error: 'Email inválido' }, { status: 400 });
+      return NextResponse.json({ error: 'Invalid email' }, { status: 400 });
     }
 
     // Verificar si el email ya existe
@@ -33,7 +33,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(
       {
-        message: 'Email registrado exitosamente',
+        message: 'Email registered successfully',
         user: interestedUser,
       },
       { status: 201 }

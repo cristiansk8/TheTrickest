@@ -23,13 +23,13 @@ interface CommentItemProps {
   user: User;
   userId: string;
   spotId: number;
-  userVote?: 'like' | 'dislike' | null; // El voto del usuario actual
-  replyCount?: number; // Número de respuestas
-  isReply?: boolean; // Si es una respuesta a otro comentario
+  userVote?: 'like' | 'dislike' | null; // Current user's vote
+  replyCount?: number; // Number of replies
+  isReply?: boolean; // Whether this is a reply to another comment
   highlightReplyId?: number | null; // Reply to highlight in thread
   onDelete?: () => void;
   onEdit?: () => void;
-  onVoteChange?: () => void; // Callback para actualizar comentarios
+  onVoteChange?: () => void; // Callback to update comments
 }
 
 export default function CommentItem({
@@ -69,11 +69,11 @@ export default function CommentItem({
     const diffHours = Math.floor(diffMs / 3600000);
     const diffDays = Math.floor(diffMs / 86400000);
 
-    if (diffMins < 1) return 'ahora mismo';
-    if (diffMins < 60) return `hace ${diffMins} min`;
-    if (diffHours < 24) return `hace ${diffHours}h`;
-    if (diffDays < 7) return `hace ${diffDays}d`;
-    return date.toLocaleDateString('es-ES');
+    if (diffMins < 1) return 'just now';
+    if (diffMins < 60) return `${diffMins} min ago`;
+    if (diffHours < 24) return `${diffHours}h ago`;
+    if (diffDays < 7) return `${diffDays}d ago`;
+    return date.toLocaleDateString('en-US');
   };
 
   const handleVote = async (voteType: 'like' | 'dislike') => {
@@ -92,19 +92,19 @@ export default function CommentItem({
       if (!response.ok) {
         const errorMessage = typeof data.error === 'string'
           ? data.error
-          : data.error?.message || data.data?.message || 'Error al votar';
+          : data.error?.message || data.data?.message || 'Error voting';
         alert(errorMessage);
         return;
       }
 
-      // Actualizar estado local
+      // Update local state
       if (currentUserVote === voteType) {
-        // Si ya votó lo mismo, no hacer nada (el endpoint retorna idempotente)
+        // If already voted the same, do nothing (endpoint returns idempotent)
         return;
       }
 
       if (currentUserVote) {
-        // Cambió de like a dislike o viceversa
+        // Changed from like to dislike or vice versa
         if (currentUserVote === 'like') {
           setCurrentLikes((prev) => prev - 1);
         } else {
@@ -112,7 +112,7 @@ export default function CommentItem({
         }
       }
 
-      // Sumar el nuevo voto
+      // Add the new vote
       if (voteType === 'like') {
         setCurrentLikes((prev) => prev + 1);
       } else {
@@ -120,10 +120,10 @@ export default function CommentItem({
       }
 
       setCurrentUserVote(voteType);
-      onVoteChange?.(); // Refrescar lista de comentarios
+      onVoteChange?.(); // Refresh comment list
     } catch (error) {
-      console.error('Error votando:', error);
-      alert('Error al votar');
+      console.error('Error voting:', error);
+      alert('Error voting');
     } finally {
       setIsVoting(false);
     }
@@ -143,12 +143,12 @@ export default function CommentItem({
       if (!response.ok) {
         const errorMessage = typeof data.error === 'string'
           ? data.error
-          : data.error?.message || data.data?.message || 'Error al eliminar voto';
+          : data.error?.message || data.data?.message || 'Error removing vote';
         alert(errorMessage);
         return;
       }
 
-      // Actualizar estado local
+      // Update local state
       if (currentUserVote === 'like') {
         setCurrentLikes((prev) => prev - 1);
       } else if (currentUserVote === 'dislike') {
@@ -158,15 +158,15 @@ export default function CommentItem({
       setCurrentUserVote(null);
       onVoteChange?.();
     } catch (error) {
-      console.error('Error eliminando voto:', error);
-      alert('Error al eliminar voto');
+      console.error('Error removing vote:', error);
+      alert('Error removing vote');
     } finally {
       setIsVoting(false);
     }
   };
 
   const handleDelete = async () => {
-    if (!confirm('¿Estás seguro de eliminar este comentario?')) return;
+    if (!confirm('Are you sure you want to delete this comment?')) return;
 
     setIsDeleting(true);
     try {
@@ -176,34 +176,34 @@ export default function CommentItem({
 
       if (!response.ok) {
         const data = await response.json();
-        // El error puede ser un objeto o un string
+        // Error can be an object or a string
         const errorMessage = typeof data.error === 'string'
           ? data.error
-          : data.error?.message || data.data?.message || 'Error al eliminar comentario';
+          : data.error?.message || data.data?.message || 'Error deleting comment';
         alert(errorMessage);
         return;
       }
 
       onDelete?.();
     } catch (error) {
-      console.error('Error eliminando comentario:', error);
-      alert('Error al eliminar comentario');
+      console.error('Error deleting comment:', error);
+      alert('Error deleting comment');
     } finally {
       setIsDeleting(false);
     }
   };
 
   const handleReplyCreated = () => {
-    // Ocultar formulario
+    // Hide form
     setShowReplyForm(false);
-    // Recargar comentarios principales para actualizar el contador de respuestas
+    // Reload main comments to update reply counter
     onVoteChange?.();
   };
 
   return (
     <div
       id={`comment-${id}`}
-      className={`bg-slate-800 rounded-lg p-3 border-2 ${isPinned ? 'border-purple-500' : 'border-slate-700'} ${isOwner ? 'ring-1 ring-purple-500/30' : ''}`}
+      className={`bg-neutral-800 rounded-lg p-3 border-2 ${isPinned ? 'border-accent-purple-500' : 'border-neutral-700'} ${isOwner ? 'ring-1 ring-accent-purple-500/30' : ''}`}
     >
       {/* Header: Author + Actions */}
       <div className="flex items-start justify-between mb-2">
@@ -211,11 +211,11 @@ export default function CommentItem({
           {user.photo ? (
             <img
               src={user.photo}
-              alt={user.name || 'Usuario'}
-              className="w-8 h-8 rounded-full border-2 border-cyan-400 object-cover"
+              alt={user.name || 'User'}
+              className="w-8 h-8 rounded-full border-2 border-accent-cyan-400 object-cover"
             />
           ) : (
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-400 to-purple-600 flex items-center justify-center text-white font-bold text-sm">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-accent-cyan-400 to-accent-purple-600 flex items-center justify-center text-white font-bold text-sm">
               {user.name?.charAt(0).toUpperCase() || '?'}
             </div>
           )}
@@ -223,11 +223,11 @@ export default function CommentItem({
           <div>
             <Link
               href={user.username ? `/profile/${user.username}` : '#'}
-              className="font-bold text-sm text-cyan-400 hover:text-cyan-300"
+              className="font-bold text-sm text-accent-cyan-400 hover:text-accent-cyan-300"
             >
-              {user.name || 'Usuario'}
+              {user.name || 'User'}
             </Link>
-            <p className="text-[10px] text-slate-500">{formatDate(createdAt)}</p>
+            <p className="text-[10px] text-neutral-500">{formatDate(createdAt)}</p>
           </div>
         </div>
 
@@ -235,16 +235,16 @@ export default function CommentItem({
         {(isOwner || isAdmin) && (
           <div className="flex items-center gap-1">
             {isPinned && (
-              <span className="text-[10px] bg-purple-600 text-white px-2 py-0.5 rounded font-bold">
-                FIJADO
+              <span className="text-[10px] bg-accent-purple-600 text-white px-2 py-0.5 rounded font-bold">
+                PINNED
               </span>
             )}
             {isOwner && onEdit && (
               <button
                 onClick={onEdit}
                 disabled={isDeleting}
-                className="p-1 hover:bg-slate-700 rounded text-slate-400 hover:text-cyan-400 transition-colors"
-                title="Editar comentario"
+                className="p-1 hover:bg-neutral-700 rounded text-neutral-400 hover:text-accent-cyan-400 transition-colors"
+                title="Edit comment"
               >
                 <Edit2 className="w-3 h-3" />
               </button>
@@ -252,8 +252,8 @@ export default function CommentItem({
             <button
               onClick={handleDelete}
               disabled={isDeleting}
-              className="p-1 hover:bg-slate-700 rounded text-slate-400 hover:text-red-400 transition-colors"
-              title="Eliminar comentario"
+              className="p-1 hover:bg-neutral-700 rounded text-neutral-400 hover:text-red-400 transition-colors"
+              title="Delete comment"
             >
               {isDeleting ? (
                 <div className="w-3 h-3 animate-spin border-2 border-red-400 border-t-transparent rounded-full" />
@@ -266,7 +266,7 @@ export default function CommentItem({
       </div>
 
       {/* Content */}
-      <p className="text-sm text-slate-200 mb-2 whitespace-pre-wrap break-words">
+      <p className="text-sm text-neutral-200 mb-2 whitespace-pre-wrap break-words">
         {content}
       </p>
 
@@ -280,12 +280,12 @@ export default function CommentItem({
             flex items-center gap-1 px-2 py-1 rounded transition-all
             ${currentUserVote === 'like'
               ? 'bg-green-600 text-white cursor-pointer'
-              : 'bg-slate-700 text-slate-300 hover:bg-green-600 hover:text-white'
+              : 'bg-neutral-700 text-neutral-300 hover:bg-green-600 hover:text-white'
             }
             ${!session ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
             ${isVoting ? 'opacity-50' : ''}
           `}
-          title={session ? (currentUserVote === 'like' ? 'Quitar like' : 'Me gusta') : 'Inicia sesión para votar'}
+          title={session ? (currentUserVote === 'like' ? 'Remove like' : 'Like') : 'Sign in to vote'}
         >
           <ThumbsUp className="w-3 h-3" />
           <span className="font-bold">{currentLikes}</span>
@@ -299,33 +299,33 @@ export default function CommentItem({
             flex items-center gap-1 px-2 py-1 rounded transition-all
             ${currentUserVote === 'dislike'
               ? 'bg-red-600 text-white cursor-pointer'
-              : 'bg-slate-700 text-slate-300 hover:bg-red-600 hover:text-white'
+              : 'bg-neutral-700 text-neutral-300 hover:bg-red-600 hover:text-white'
             }
             ${!session ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
             ${isVoting ? 'opacity-50' : ''}
           `}
-          title={session ? (currentUserVote === 'dislike' ? 'Quitar dislike' : 'No me gusta') : 'Inicia sesión para votar'}
+          title={session ? (currentUserVote === 'dislike' ? 'Remove dislike' : 'Dislike') : 'Sign in to vote'}
         >
           <ThumbsDown className="w-3 h-3" />
           <span className="font-bold">{currentDislikes}</span>
         </button>
 
         {/* Total votes */}
-        <span className="text-slate-500">
-          {currentLikes + currentDislikes} {currentLikes + currentDislikes === 1 ? 'voto' : 'votos'}
+        <span className="text-neutral-500">
+          {currentLikes + currentDislikes} {currentLikes + currentDislikes === 1 ? 'vote' : 'votes'}
         </span>
 
-        {/* Reply button - solo en comentarios principales */}
+        {/* Reply button - only on main comments */}
         {!isReply && (
           <button
             onClick={() => setShowReplyForm(!showReplyForm)}
             disabled={!session}
             className={`
               flex items-center gap-1 px-2 py-1 rounded transition-all
-              bg-slate-700 text-slate-300 hover:bg-cyan-600 hover:text-white
+              bg-neutral-700 text-neutral-300 hover:bg-accent-cyan-600 hover:text-white
               ${!session ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
             `}
-            title={session ? 'Responder comentario' : 'Inicia sesión para responder'}
+            title={session ? 'Reply to comment' : 'Sign in to reply'}
           >
             <MessageCircle className="w-3 h-3" />
             {replyCount > 0 && <span className="font-bold">{replyCount}</span>}
@@ -333,7 +333,7 @@ export default function CommentItem({
         )}
       </div>
 
-      {/* Reply Form - solo para comentarios principales */}
+      {/* Reply Form - only for main comments */}
       {!isReply && showReplyForm && (
         <ReplyForm
           spotId={spotId}
@@ -343,7 +343,7 @@ export default function CommentItem({
         />
       )}
 
-      {/* Replies thread - solo para comentarios principales */}
+      {/* Replies thread - only for main comments */}
       {!isReply && replyCount > 0 && (
         <CommentThread
           spotId={spotId}

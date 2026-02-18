@@ -117,14 +117,14 @@ export default function LevelNavigatorExample() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4 md:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-900 via-accent-purple-900 to-neutral-900 p-4 md:p-8">
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-pink-500 to-cyan-400 uppercase tracking-wider mb-4">
+          <h1 className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-yellow-400 via-accent-pink-500 to-accent-cyan-400 uppercase tracking-wider mb-4">
             🛹 TRICKEST CHALLENGES
           </h1>
-          <p className="text-cyan-300 text-lg md:text-xl">
+          <p className="text-accent-cyan-300 text-lg md:text-xl">
             Completa los desafíos y conviértete en una leyenda del skate
           </p>
         </div>
@@ -141,16 +141,16 @@ export default function LevelNavigatorExample() {
 
         {/* Stats Section (opcional) */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
-          <div className="bg-slate-900 border-4 border-yellow-500 rounded-xl p-6 text-center">
-            <p className="text-yellow-400 font-black text-4xl mb-2">1/5</p>
+          <div className="bg-neutral-900 border-4 border-accent-yellow-500 rounded-xl p-6 text-center">
+            <p className="text-accent-yellow-400 font-black text-4xl mb-2">1/5</p>
             <p className="text-white uppercase tracking-wider font-bold">Levels Completed</p>
           </div>
-          <div className="bg-slate-900 border-4 border-cyan-500 rounded-xl p-6 text-center">
-            <p className="text-cyan-400 font-black text-4xl mb-2">500</p>
+          <div className="bg-neutral-900 border-4 border-accent-cyan-500 rounded-xl p-6 text-center">
+            <p className="text-accent-cyan-400 font-black text-4xl mb-2">500</p>
             <p className="text-white uppercase tracking-wider font-bold">Total Points</p>
           </div>
-          <div className="bg-slate-900 border-4 border-pink-500 rounded-xl p-6 text-center">
-            <p className="text-pink-400 font-black text-4xl mb-2">#12</p>
+          <div className="bg-neutral-900 border-4 border-accent-pink-500 rounded-xl p-6 text-center">
+            <p className="text-accent-pink-400 font-black text-4xl mb-2">#12</p>
             <p className="text-white uppercase tracking-wider font-bold">Global Rank</p>
           </div>
         </div>

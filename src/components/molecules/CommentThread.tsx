@@ -36,20 +36,20 @@ export default function CommentThread({ spotId, commentId, replyCount, highlight
   const [isExpanded, setIsExpanded] = useState(false);
   const [total, setTotal] = useState(replyCount);
 
-  // Auto-expandir si hay un reply para destacar
+  // Auto-expand if there's a reply to highlight
   useEffect(() => {
     if (highlightReplyId && !isExpanded && !loading) {
-      console.log('🔍 CommentThread: Auto-expandiendo para destacar reply', highlightReplyId);
+      console.log('🔍 CommentThread: Auto-expanding to highlight reply', highlightReplyId);
       fetchReplies();
     }
   }, [highlightReplyId]);
 
   const toggleReplies = () => {
     if (isExpanded) {
-      // Colapsar
+      // Collapse
       setIsExpanded(false);
     } else {
-      // Expandir - cargar respuestas
+      // Expand - load replies
       fetchReplies();
     }
   };
@@ -59,7 +59,7 @@ export default function CommentThread({ spotId, commentId, replyCount, highlight
       setLoading(true);
       setError(null);
 
-      // Si hay un reply para destacar, cargar TODAS las respuestas (máximo 50)
+      // If there's a reply to highlight, load ALL replies (max 50)
       const limit = highlightReplyId ? 50 : 10;
       const response = await fetch(
         `/api/spots/${spotId}/comments/${commentId}/replies?limit=${limit}&offset=0`
@@ -69,7 +69,7 @@ export default function CommentThread({ spotId, commentId, replyCount, highlight
         const data = await response.json();
         const errorMessage = typeof data.error === 'string'
           ? data.error
-          : data.error?.message || data.data?.message || 'Error al cargar respuestas';
+          : data.error?.message || data.data?.message || 'Error loading replies';
         throw new Error(errorMessage);
       }
 
@@ -81,21 +81,21 @@ export default function CommentThread({ spotId, commentId, replyCount, highlight
       setTotal(totalCount);
       setIsExpanded(true);
 
-    } catch (err) {
-      console.error('Error cargando respuestas:', err);
-      setError(err instanceof Error ? err.message : String(err) || 'Error al cargar respuestas');
+    } catch (err: any) {
+      console.error('Error loading replies:', err);
+      setError(err.message || 'Error loading replies');
     } finally {
       setLoading(false);
     }
   };
 
   const handleReplyDeleted = () => {
-    // Recargar respuestas después de eliminar una
+    // Reload replies after deleting one
     fetchReplies();
   };
 
   const handleReplyVoted = () => {
-    // Recargar respuestas para actualizar contadores
+    // Reload replies to update counters
     if (isExpanded) {
       fetchReplies();
     }
@@ -106,27 +106,27 @@ export default function CommentThread({ spotId, commentId, replyCount, highlight
   }
 
   return (
-    <div className="ml-8 mt-2 border-l-2 border-slate-700 pl-4">
+    <div className="ml-8 mt-2 border-l-2 border-neutral-700 pl-4">
       {/* Toggle button */}
       <button
         onClick={toggleReplies}
         disabled={loading}
-        className="flex items-center gap-2 text-xs font-bold text-slate-400 hover:text-cyan-400 transition-colors disabled:opacity-50"
+        className="flex items-center gap-2 text-xs font-bold text-neutral-400 hover:text-accent-cyan-400 transition-colors disabled:opacity-50"
       >
         <MessageSquare className="w-3 h-3" />
         {isExpanded ? (
           <>
             <ChevronUp className="w-3 h-3" />
-            Ocultar {total} {total === 1 ? 'respuesta' : 'respuestas'}
+            Hide {total} {total === 1 ? 'reply' : 'replies'}
           </>
         ) : (
           <>
             <ChevronDown className="w-3 h-3" />
-            Ver {total} {total === 1 ? 'respuesta' : 'respuestas'}
+            View {total} {total === 1 ? 'reply' : 'replies'}
           </>
         )}
         {loading && (
-          <div className="w-3 h-3 animate-spin border-2 border-cyan-400 border-t-transparent rounded-full" />
+          <div className="w-3 h-3 animate-spin border-2 border-accent-cyan-400 border-t-transparent rounded-full" />
         )}
       </button>
 
@@ -141,7 +141,7 @@ export default function CommentThread({ spotId, commentId, replyCount, highlight
       {isExpanded && !loading && replies.length > 0 && (
         <div className="mt-3 space-y-3">
           {replies.map((reply) => (
-            <div key={reply.id} className="bg-slate-800/50 rounded-lg p-3 border border-slate-700">
+            <div key={reply.id} className="bg-neutral-800/50 rounded-lg p-3 border border-neutral-700">
               <CommentItem
                 id={reply.id}
                 content={reply.content}
@@ -164,9 +164,9 @@ export default function CommentThread({ spotId, commentId, replyCount, highlight
           {replies.length < total && (
             <button
               onClick={() => fetchReplies()}
-              className="w-full py-2 px-3 bg-slate-800 hover:bg-slate-700 border border-slate-600 hover:border-cyan-400 rounded-lg font-bold text-xs text-slate-300 hover:text-cyan-400 transition-all"
+              className="w-full py-2 px-3 bg-neutral-800 hover:bg-neutral-700 border border-neutral-600 hover:border-accent-cyan-400 rounded-lg font-bold text-xs text-neutral-300 hover:text-accent-cyan-400 transition-all"
             >
-              Cargar más respuestas ({total - replies.length} restantes)
+              Load more replies ({total - replies.length} remaining)
             </button>
           )}
         </div>
@@ -174,8 +174,8 @@ export default function CommentThread({ spotId, commentId, replyCount, highlight
 
       {/* No replies */}
       {isExpanded && !loading && replies.length === 0 && (
-        <div className="mt-2 text-xs text-slate-500">
-          Aún no hay respuestas. ¡Sé el primero!
+        <div className="mt-2 text-xs text-neutral-500">
+          No replies yet. Be the first!
         </div>
       )}
     </div>

@@ -1,4 +1,3 @@
-import type { Prisma } from '@prisma/client';
 import { NextResponse } from 'next/server';
 import prisma from '@/app/lib/prisma';
 import { getServerSession } from 'next-auth';
@@ -13,7 +12,7 @@ export async function GET(req: Request) {
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-      return errorResponse('UNAUTHORIZED', 'No autenticado', 401);
+      return errorResponse('UNAUTHORIZED', 'Not authenticated', 401);
     }
 
     const userEmail = session.user.email;
@@ -23,11 +22,11 @@ export async function GET(req: Request) {
     const offset = parseInt(searchParams.get('offset') || '0');
 
     if (limit > 50) {
-      return errorResponse('VALIDATION_ERROR', 'El límite máximo es 50 notificaciones', 400);
+      return errorResponse('VALIDATION_ERROR', 'Maximum limit is 50 notifications', 400);
     }
 
     // Constramar el where clause
-    const where: Prisma.NotificationWhereInput = { userId: userEmail };
+    const where: any = { userId: userEmail };
     if (unreadOnly) {
       where.isRead = false;
     }
@@ -58,12 +57,12 @@ export async function GET(req: Request) {
       hasMore: offset + notifications.length < total
     });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error obteniendo notificaciones:', error);
 
     const message = process.env.NODE_ENV === 'development'
-      ? error instanceof Error ? error.message : 'Error al obtener notificaciones'
-      : 'Error al obtener notificaciones';
+      ? error.message || 'Error fetching notifications'
+      : 'Error fetching notifications';
 
     return errorResponse('INTERNAL_ERROR', message, 500);
   }
@@ -75,7 +74,7 @@ export async function POST(req: Request) {
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-      return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
+      return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
 
     const body = await req.json();
@@ -83,7 +82,7 @@ export async function POST(req: Request) {
 
     if (!userId || !type || !title || !message) {
       return NextResponse.json(
-        { error: 'Faltan campos requeridos' },
+        { error: 'Missing required fields' },
         { status: 400 }
       );
     }
@@ -103,7 +102,7 @@ export async function POST(req: Request) {
   } catch (error) {
     console.error('Error creando notificación:', error);
     return NextResponse.json(
-      { error: 'Error al crear notificación' },
+      { error: 'Error creating notification' },
       { status: 500 }
     );
   }
@@ -115,7 +114,7 @@ export async function PATCH(req: Request) {
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-      return errorResponse('UNAUTHORIZED', 'Debes iniciar sesión', 401);
+      return errorResponse('UNAUTHORIZED', 'You must log in', 401);
     }
 
     const userEmail = session.user.email;
@@ -135,7 +134,7 @@ export async function PATCH(req: Request) {
       });
 
       return successResponse({
-        message: 'Todas las notificaciones marcadas como leídas'
+        message: 'All notifications marked as read'
       });
     }
 
@@ -152,18 +151,18 @@ export async function PATCH(req: Request) {
       });
 
       return successResponse({
-        message: 'Notificaciones marcadas como leídas'
+        message: 'Notifications marked as read'
       });
     }
 
-    return errorResponse('VALIDATION_ERROR', 'Debe proporcionar notificationIds o markAll=true', 400);
+    return errorResponse('VALIDATION_ERROR', 'Must provide notificationIds or markAll=true', 400);
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error marcando notificaciones:', error);
 
     const message = process.env.NODE_ENV === 'development'
-      ? error instanceof Error ? error.message : 'Error al marcar notificaciones'
-      : 'Error al marcar notificaciones';
+      ? error.message || 'Error marking notifications'
+      : 'Error marking notifications';
 
     return errorResponse('INTERNAL_ERROR', message, 500);
   }

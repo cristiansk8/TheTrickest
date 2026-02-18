@@ -108,7 +108,7 @@ export default function HomeLevelSection() {
               // Nivel bloqueado (aún no creado)
               levelSlots.push({
                 name: `Level ${i + 1}`,
-                description: 'Este nivel aún no está disponible. ¡Mantente atento!',
+                description: 'This level is not yet available. Stay tuned!',
                 isLocked: true,
                 isBonus: false,
                 displayLevel: i + 1,
@@ -134,18 +134,18 @@ export default function HomeLevelSection() {
 
   const getDifficultyColor = (difficulty: string) => {
     const colors = {
-      easy: 'from-green-500 to-teal-500',
-      medium: 'from-yellow-500 to-orange-500',
-      hard: 'from-red-500 to-pink-500',
-      expert: 'from-purple-500 to-indigo-500',
+      easy: 'from-green-500 to-accent-teal-500',
+      medium: 'from-accent-yellow-500 to-accent-orange-500',
+      hard: 'from-red-500 to-accent-pink-500',
+      expert: 'from-accent-purple-500 to-indigo-500',
     };
     return colors[difficulty as keyof typeof colors] || colors.easy;
   };
 
   if (loading) {
     return (
-      <div className="flex justify-center py-20 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-cyan-400"></div>
+      <div className="flex justify-center py-20 bg-gradient-to-br from-neutral-900 via-accent-purple-900 to-neutral-900">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-accent-cyan-400"></div>
       </div>
     );
   }
@@ -153,20 +153,20 @@ export default function HomeLevelSection() {
   console.log('🎯 Renderizando tabs con', allLevels.length, 'levels');
 
   return (
-    <div className="py-20 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <div className="py-20 bg-gradient-to-br from-neutral-900 via-accent-purple-900 to-neutral-900">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-pink-500 to-cyan-400 uppercase tracking-wider mb-4">
+          <h2 className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-yellow-400 via-accent-pink-500 to-accent-cyan-400 uppercase tracking-wider mb-4">
             🎮 CHALLENGES
           </h2>
-          <p className="text-cyan-300 text-lg md:text-xl font-bold max-w-3xl mx-auto">
-            Completa los desafíos, sube tus videos y demuestra que eres el mejor skater
+          <p className="text-accent-cyan-300 text-lg md:text-xl max-w-3xl mx-auto">
+            Complete the challenges, upload your videos and prove you're the best skater
           </p>
         </div>
 
         {/* Level Tabs */}
-        <div className="bg-slate-900 border-4 border-slate-700 rounded-2xl p-6 shadow-2xl mb-6">
+        <div className="bg-neutral-900 border-4 border-neutral-700 rounded-2xl p-6 shadow-2xl mb-6">
           <div className="flex items-center justify-center gap-2 md:gap-3 mb-4 overflow-x-auto pb-4">
             {allLevels.map((level) => {
               console.log('🔵 Renderizando tab nivel:', level.displayLevel, level.name, 'Locked:', level.isLocked, 'Bonus:', level.isBonus);
@@ -182,13 +182,13 @@ export default function HomeLevelSection() {
                   ${
                     activeLevel === level.displayLevel && !level.isLocked
                       ? level.isBonus
-                        ? 'bg-gradient-to-br from-yellow-400 to-pink-500 border-yellow-300 shadow-lg shadow-yellow-500/50 scale-110'
-                        : 'bg-cyan-500 border-cyan-300 shadow-lg shadow-cyan-500/50 scale-110'
+                        ? 'bg-gradient-to-br from-accent-yellow-400 to-accent-pink-500 border-accent-yellow-300 shadow-lg shadow-accent-yellow-500/50 scale-110'
+                        : 'bg-accent-cyan-500 border-accent-cyan-300 shadow-lg shadow-accent-cyan-500/50 scale-110'
                       : !level.isLocked
                       ? level.isBonus
-                        ? 'bg-gradient-to-br from-yellow-500 to-orange-500 border-yellow-400 shadow-md hover:scale-110 animate-pulse'
-                        : 'bg-purple-600 border-purple-400 shadow-md hover:bg-purple-500 hover:scale-110'
-                      : 'bg-slate-600 border-slate-700 opacity-50 cursor-not-allowed'
+                        ? 'bg-gradient-to-br from-accent-yellow-500 to-accent-orange-500 border-accent-yellow-400 shadow-md hover:scale-110 animate-pulse'
+                        : 'bg-accent-purple-600 border-accent-purple-400 shadow-md hover:bg-accent-purple-500 hover:scale-110'
+                      : 'bg-neutral-600 border-neutral-700 opacity-50 cursor-not-allowed'
                   }
                 `}
                 disabled={level.isLocked}
@@ -207,7 +207,7 @@ export default function HomeLevelSection() {
 
           {/* Level indicator */}
           <div className="text-center">
-            <p className="text-cyan-400 font-black text-sm md:text-base uppercase tracking-wider">
+            <p className="text-accent-cyan-400 font-black text-sm md:text-base uppercase tracking-wider">
               {currentLevel?.isBonus ? '⭐ BONUS CHALLENGE' : `LEVEL ${activeLevel}`}
             </p>
           </div>
@@ -218,20 +218,20 @@ export default function HomeLevelSection() {
           <div className="relative animate-fadeIn mb-6">
             <div className={`border-4 rounded-2xl p-1 shadow-2xl ${
               currentLevel.isLocked
-                ? 'bg-gradient-to-br from-slate-600 to-slate-700 border-slate-500'
+                ? 'bg-gradient-to-br from-neutral-600 to-neutral-700 border-neutral-500'
                 : currentLevel.isBonus
-                ? 'bg-gradient-to-br from-yellow-400 via-pink-500 to-purple-600 border-white animate-pulse'
-                : 'bg-gradient-to-br from-yellow-400 via-yellow-500 to-orange-500 border-black'
+                ? 'bg-gradient-to-br from-accent-yellow-400 via-accent-pink-500 to-accent-purple-600 border-white animate-pulse'
+                : 'bg-gradient-to-br from-accent-yellow-400 via-accent-yellow-500 to-accent-orange-500 border-black'
             }`}>
               <div className="bg-black rounded-xl p-8 md:p-12">
                 <div className="text-center space-y-6">
                   {/* Title */}
                   <h2 className={`text-3xl md:text-5xl font-black text-transparent bg-clip-text uppercase tracking-wider ${
                     currentLevel.isLocked
-                      ? 'bg-gradient-to-r from-slate-400 to-slate-500'
+                      ? 'bg-gradient-to-r from-neutral-400 to-neutral-500'
                       : currentLevel.isBonus
-                      ? 'bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-500'
-                      : 'bg-gradient-to-r from-yellow-400 to-orange-500'
+                      ? 'bg-gradient-to-r from-accent-yellow-400 via-accent-pink-500 to-accent-purple-500'
+                      : 'bg-gradient-to-r from-accent-yellow-400 to-accent-orange-500'
                   }`}>
                     {currentLevel.isBonus && '🌟 '}{currentLevel.name}
                   </h2>
@@ -246,7 +246,7 @@ export default function HomeLevelSection() {
                   )}
 
                   {/* Description */}
-                  <p className="text-slate-300 text-lg md:text-xl max-w-2xl mx-auto">
+                  <p className="text-neutral-300 text-lg md:text-xl max-w-2xl mx-auto">
                     {currentLevel.description}
                   </p>
 
@@ -256,7 +256,7 @@ export default function HomeLevelSection() {
                       <div className="flex justify-center pt-4">
                         <a
                           href="/dashboard/skaters/tricks"
-                          className="bg-purple-600 hover:bg-purple-700 text-white font-black text-xl md:text-2xl py-4 px-12 md:px-16 rounded-xl border-4 border-white uppercase tracking-wider shadow-2xl transform hover:scale-105 transition-all inline-block"
+                          className="bg-accent-purple-600 hover:bg-accent-purple-700 text-white font-black text-xl md:text-2xl py-4 px-12 md:px-16 rounded-xl border-4 border-white uppercase tracking-wider shadow-2xl transform hover:scale-105 transition-all inline-block"
                         >
                           <div className="flex items-center gap-3">
                             <MdPlayArrow size={32} />
@@ -270,7 +270,7 @@ export default function HomeLevelSection() {
                         <div className="flex justify-center pt-4">
                           <button
                             onClick={() => window.open(currentLevel.demoVideoUrl, '_blank')}
-                            className="bg-cyan-500 hover:bg-cyan-600 text-white font-black py-3 px-8 rounded-lg border-4 border-white uppercase tracking-wider text-base shadow-lg transform hover:scale-105 transition-all"
+                            className="bg-accent-cyan-500 hover:bg-accent-cyan-600 text-white font-black py-3 px-8 rounded-lg border-4 border-white uppercase tracking-wider text-sm shadow-lg transform hover:scale-105 transition-all"
                           >
                             <div className="flex items-center gap-2">
                               <MdVideoLibrary size={20} />
@@ -282,7 +282,7 @@ export default function HomeLevelSection() {
                     </>
                   ) : (
                     <div className="flex justify-center pt-4">
-                      <div className="text-slate-500 text-xl font-black uppercase tracking-wider flex items-center gap-3">
+                      <div className="text-neutral-500 text-xl font-black uppercase tracking-wider flex items-center gap-3">
                         <MdLock size={32} />
                         Coming Soon
                       </div>
@@ -294,10 +294,10 @@ export default function HomeLevelSection() {
 
             {/* Decorative corner elements */}
             <div className={`absolute -top-3 -left-3 w-12 h-12 rounded-lg transform rotate-12 ${
-              currentLevel.isLocked ? 'bg-slate-600' : 'bg-pink-500 animate-pulse'
+              currentLevel.isLocked ? 'bg-neutral-600' : 'bg-accent-pink-500 animate-pulse'
             }`} />
             <div className={`absolute -bottom-3 -right-3 w-12 h-12 rounded-lg transform -rotate-12 ${
-              currentLevel.isLocked ? 'bg-slate-600' : 'bg-cyan-500 animate-pulse'
+              currentLevel.isLocked ? 'bg-neutral-600' : 'bg-accent-cyan-500 animate-pulse'
             }`} />
           </div>
         )}
@@ -306,11 +306,11 @@ export default function HomeLevelSection() {
         <div className="text-center">
           <a
             href="/dashboard/skaters/tricks"
-            className="inline-block bg-purple-600 hover:bg-purple-700 text-white font-black text-lg md:text-xl py-4 px-10 rounded-xl border-4 border-white uppercase tracking-wider shadow-2xl transform hover:scale-105 transition-all"
+            className="inline-block bg-accent-purple-600 hover:bg-accent-purple-700 text-white font-black text-lg md:text-xl py-4 px-10 rounded-xl border-4 border-white uppercase tracking-wider shadow-2xl transform hover:scale-105 transition-all"
           >
             <div className="flex items-center gap-3">
               <MdEmojiEvents size={28} />
-              Ver Todos los Desafíos
+              View All Challenges
             </div>
           </a>
         </div>

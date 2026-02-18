@@ -45,7 +45,7 @@ export default function SubmitTrickModal({
       const isValid = validateYouTubeUrl(videoUrl);
       setIsValidUrl(isValid);
       if (!isValid) {
-        setError('URL de YouTube inválida');
+        setError('Invalid YouTube URL');
       } else {
         setError('');
       }
@@ -59,7 +59,7 @@ export default function SubmitTrickModal({
     e.preventDefault();
 
     if (!isValidUrl || !challenge) {
-      setError('Por favor ingresa una URL válida de YouTube');
+      setError('Please enter a valid YouTube URL');
       return;
     }
 
@@ -79,7 +79,7 @@ export default function SubmitTrickModal({
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || data.error || 'Error al enviar');
+        throw new Error(data.message || data.error || 'Error submitting');
       }
 
       // Success
@@ -88,9 +88,9 @@ export default function SubmitTrickModal({
         onClose();
       }, 1500);
 
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error:', error);
-      setError(error instanceof Error ? error.message : 'Error al enviar la submission');
+      setError(error.message || 'Error submitting your video');
     } finally {
       setLoading(false);
     }
@@ -101,11 +101,11 @@ export default function SubmitTrickModal({
   // Determinar color del badge según dificultad
   const getDifficultyBadgeColor = () => {
     switch (challenge.difficulty) {
-      case 'easy': return 'bg-cyan-500';
-      case 'medium': return 'bg-purple-500';
-      case 'hard': return 'bg-orange-500';
-      case 'expert': return 'bg-yellow-500';
-      default: return 'bg-slate-500';
+      case 'easy': return 'bg-accent-cyan-500';
+      case 'medium': return 'bg-accent-purple-500';
+      case 'hard': return 'bg-accent-orange-500';
+      case 'expert': return 'bg-accent-yellow-500';
+      default: return 'bg-neutral-500';
     }
   };
 
@@ -113,21 +113,21 @@ export default function SubmitTrickModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-70">
       {/* Modal Container */}
       <div className="w-full max-w-2xl">
-        <div className="relative bg-gradient-to-r from-yellow-500 to-orange-500 p-1 rounded-lg shadow-2xl">
+        <div className="relative bg-gradient-to-r from-accent-yellow-500 to-accent-orange-500 p-1 rounded-lg shadow-2xl">
           {/* Subtle glow animation */}
-          <div className="absolute inset-0 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-lg blur-sm animate-pulse opacity-50"></div>
-          <div className="relative bg-slate-900 rounded-lg p-6 md:p-8">
+          <div className="absolute inset-0 bg-gradient-to-r from-accent-yellow-500 to-accent-orange-500 rounded-lg blur-sm animate-pulse opacity-50"></div>
+          <div className="relative bg-neutral-900 rounded-lg p-6 md:p-8">
             {/* Header */}
             <div className="flex justify-between items-start mb-6">
               <div>
-                <h2 className="text-2xl md:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400 uppercase tracking-wider">
+                <h2 className="text-2xl md:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-yellow-400 to-accent-orange-400 uppercase tracking-wider">
                   📹 Submit Your Video
                 </h2>
-                <p className="text-slate-400 text-sm mt-1">Level {challenge.level}: {challenge.name}</p>
+                <p className="text-neutral-400 text-sm mt-1">Level {challenge.level}: {challenge.name}</p>
               </div>
               <button
                 onClick={onClose}
-                className="text-slate-400 hover:text-white text-2xl font-bold"
+                className="text-neutral-400 hover:text-white text-2xl font-bold"
               >
                 ✕
               </button>
@@ -146,7 +146,7 @@ export default function SubmitTrickModal({
             {/* Form */}
             <form onSubmit={handleSubmit}>
               <div className="mb-6">
-                <label className="block text-cyan-400 font-bold mb-2 uppercase text-sm">
+                <label className="block text-accent-cyan-400 font-bold mb-2 uppercase text-sm">
                   YouTube Video URL
                 </label>
                 <input
@@ -154,23 +154,23 @@ export default function SubmitTrickModal({
                   value={videoUrl}
                   onChange={(e) => setVideoUrl(e.target.value)}
                   placeholder="https://www.youtube.com/watch?v=..."
-                  className={`w-full bg-slate-800 border-4 rounded-lg py-3 px-4 text-white focus:outline-none ${
+                  className={`w-full bg-neutral-800 border-4 rounded-lg py-3 px-4 text-white focus:outline-none ${
                     isValidUrl === true
                       ? 'border-green-500'
                       : isValidUrl === false
                       ? 'border-red-500'
-                      : 'border-slate-600 focus:border-cyan-500'
+                      : 'border-neutral-600 focus:border-accent-cyan-500'
                   }`}
                   disabled={loading}
                 />
                 {isValidUrl === true && (
-                  <p className="text-green-400 text-sm mt-2 font-bold">✅ URL válida</p>
+                  <p className="text-green-400 text-sm mt-2 font-bold">✅ Valid URL</p>
                 )}
                 {isValidUrl === false && (
-                  <p className="text-red-400 text-sm mt-2 font-bold">❌ URL inválida</p>
+                  <p className="text-red-400 text-sm mt-2 font-bold">❌ Invalid URL</p>
                 )}
-                <p className="text-slate-500 text-xs mt-2">
-                  Ejemplo: https://www.youtube.com/watch?v=VIDEO_ID
+                <p className="text-neutral-500 text-xs mt-2">
+                  Example: https://www.youtube.com/watch?v=VIDEO_ID
                 </p>
               </div>
 
@@ -186,21 +186,21 @@ export default function SubmitTrickModal({
                 <button
                   type="button"
                   onClick={onClose}
-                  className="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-6 rounded-lg uppercase tracking-wider transition-all"
+                  className="flex-1 bg-neutral-700 hover:bg-neutral-600 text-white font-bold py-3 px-6 rounded-lg uppercase tracking-wider transition-all"
                   disabled={loading}
                 >
-                  Cancelar
+                  Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={!isValidUrl || loading}
                   className={`flex-1 font-black py-3 px-6 rounded-lg border-4 border-white uppercase tracking-wider text-lg shadow-2xl transform transition-all ${
                     !isValidUrl || loading
-                      ? 'bg-slate-600 text-slate-400 cursor-not-allowed'
-                      : 'bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-400 hover:to-orange-400 text-white hover:scale-105'
+                      ? 'bg-neutral-600 text-neutral-400 cursor-not-allowed'
+                      : 'bg-gradient-to-r from-accent-yellow-500 to-accent-orange-500 hover:from-accent-yellow-400 hover:to-accent-orange-400 text-white hover:scale-105'
                   }`}
                 >
-                  {loading ? '⏳ Enviando...' : '🚀 Enviar Video'}
+                  {loading ? '⏳ Submitting...' : '🚀 Submit Video'}
                 </button>
               </div>
             </form>

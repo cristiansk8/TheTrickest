@@ -58,7 +58,7 @@ export async function POST(req: Request) {
     }
 
     if (!type || !['SKATEPARK', 'SKATESHOP', 'SPOT'].includes(type)) {
-      return errorResponse('VALIDATION_ERROR', 'Tipo de spot inválido', 400);
+      return errorResponse('VALIDATION_ERROR', 'Invalid spot type', 400);
     }
 
     if (!latitude || !longitude) {
@@ -199,7 +199,7 @@ export async function POST(req: Request) {
 
     return successResponse({
       spot,
-      message: 'Spot registrado exitosamente',
+      message: 'Spot registrado successfully',
       nextSteps: [
         'Comparte el spot con amigos para que lo validen',
         '3 validaciones necesarias para aparecer en el mapa (stage REVIEW)',
@@ -219,7 +219,7 @@ export async function GET(req: Request) {
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-      return errorResponse('UNAUTHORIZED', 'No autenticado', 401);
+      return errorResponse('UNAUTHORIZED', 'Not authenticated', 401);
     }
 
     // Retornar información útil para el formulario
@@ -246,7 +246,7 @@ export async function GET(req: Request) {
 
   } catch (error) {
     console.error('Error obteniendo info de registro:', error);
-    return errorResponse('INTERNAL_ERROR', 'Error del servidor', 500);
+    return errorResponse('INTERNAL_ERROR', 'Server error', 500);
   }
 }
 

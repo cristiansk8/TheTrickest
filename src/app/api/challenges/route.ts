@@ -75,6 +75,6 @@ export async function GET(req: Request) {
     console.error('[DEBUG /api/challenges] ERROR:', error);
     console.error('[DEBUG /api/challenges] Error message:', error instanceof Error ? error.message : 'unknown');
     console.error('[DEBUG /api/challenges] Error stack:', error instanceof Error ? error.stack : 'no stack');
-    return NextResponse.json({ error: 'Error del servidor' }, { status: 500 });
+    return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }

@@ -32,29 +32,29 @@ interface ChallengeCardProps {
 export default function ChallengeCard({ challenge, onSubmitClick }: ChallengeCardProps) {
   const [showDescription, setShowDescription] = useState(false);
 
-  // Determinar color del gradiente según dificultad
+  // Determine gradient color based on difficulty
   const getBorderGradient = () => {
     if (challenge.isBonus) {
-      return 'from-pink-500 via-purple-500 to-cyan-500 animate-gradient';
+      return 'from-accent-pink-500 via-accent-purple-500 to-accent-cyan-500 animate-gradient';
     }
     switch (challenge.difficulty) {
-      case 'easy': return 'from-cyan-500 to-blue-500';
-      case 'medium': return 'from-purple-500 to-pink-500';
-      case 'hard': return 'from-orange-500 to-red-500';
-      case 'expert': return 'from-yellow-500 to-orange-500';
-      default: return 'from-slate-500 to-slate-700';
+      case 'easy': return 'from-accent-cyan-500 to-accent-blue-500';
+      case 'medium': return 'from-accent-purple-500 to-accent-pink-500';
+      case 'hard': return 'from-accent-orange-500 to-red-500';
+      case 'expert': return 'from-accent-yellow-500 to-accent-orange-500';
+      default: return 'from-neutral-500 to-neutral-700';
     }
   };
 
-  // Determinar badge de dificultad
+  // Determine difficulty badge
   const getDifficultyBadge = () => {
     const colors = {
-      easy: 'bg-cyan-500',
-      medium: 'bg-purple-500',
-      hard: 'bg-orange-500',
-      expert: 'bg-yellow-500',
+      easy: 'bg-accent-cyan-500',
+      medium: 'bg-accent-purple-500',
+      hard: 'bg-accent-orange-500',
+      expert: 'bg-accent-yellow-500',
     };
-    const color = colors[challenge.difficulty as keyof typeof colors] || 'bg-slate-500';
+    const color = colors[challenge.difficulty as keyof typeof colors] || 'bg-neutral-500';
 
     return (
       <span className={`${color} text-white px-3 py-1 rounded-full text-xs font-bold uppercase`}>
@@ -63,16 +63,16 @@ export default function ChallengeCard({ challenge, onSubmitClick }: ChallengeCar
     );
   };
 
-  // Determinar estado y botón
+  // Determine status and button
   const renderActionButton = () => {
     const submission = challenge.userSubmission;
 
     if (!submission) {
-      // No ha enviado
+      // Has not submitted
       return (
         <button
           onClick={onSubmitClick}
-          className="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-black py-3 px-6 rounded-lg border-4 border-white uppercase tracking-wider shadow-2xl transform hover:scale-105 transition-all"
+          className="w-full bg-accent-yellow-500 hover:bg-accent-yellow-600 text-white font-black py-3 px-6 rounded-lg border-4 border-white uppercase tracking-wider shadow-2xl transform hover:scale-105 transition-all"
         >
           📹 Submit Your Video
         </button>
@@ -80,11 +80,11 @@ export default function ChallengeCard({ challenge, onSubmitClick }: ChallengeCar
     }
 
     if (submission.status === 'pending') {
-      // Pendiente de evaluación
+      // Pending evaluation
       return (
-        <div className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 p-1 rounded-lg animate-pulse">
-          <div className="bg-slate-900 rounded-lg py-3 px-6 text-center">
-            <p className="text-yellow-300 font-black uppercase tracking-wider">
+        <div className="w-full bg-gradient-to-r from-accent-yellow-500 to-accent-orange-500 p-1 rounded-lg animate-pulse">
+          <div className="bg-neutral-900 rounded-lg py-3 px-6 text-center">
+            <p className="text-accent-yellow-300 font-black uppercase tracking-wider">
               ⏳ Pending Evaluation...
             </p>
           </div>
@@ -93,10 +93,10 @@ export default function ChallengeCard({ challenge, onSubmitClick }: ChallengeCar
     }
 
     if (submission.status === 'approved') {
-      // Aprobado
+      // Approved
       return (
-        <div className="w-full bg-gradient-to-r from-green-500 to-teal-500 p-1 rounded-lg">
-          <div className="bg-slate-900 rounded-lg py-3 px-6 text-center">
+        <div className="w-full bg-gradient-to-r from-green-500 to-accent-teal-500 p-1 rounded-lg">
+          <div className="bg-neutral-900 rounded-lg py-3 px-6 text-center">
             <p className="text-green-300 font-black uppercase tracking-wider">
               ✅ Approved! Score: {submission.score || 0}
             </p>
@@ -106,11 +106,11 @@ export default function ChallengeCard({ challenge, onSubmitClick }: ChallengeCar
     }
 
     if (submission.status === 'rejected') {
-      // Rechazado - puede reintentar
+      // Rejected - can try again
       return (
         <div className="space-y-2">
-          <div className="w-full bg-gradient-to-r from-red-500 to-pink-500 p-1 rounded-lg">
-            <div className="bg-slate-900 rounded-lg py-2 px-4 text-center">
+          <div className="w-full bg-gradient-to-r from-red-500 to-accent-pink-500 p-1 rounded-lg">
+            <div className="bg-neutral-900 rounded-lg py-2 px-4 text-center">
               <p className="text-red-300 font-bold uppercase text-sm">
                 ❌ Rejected
               </p>
@@ -118,7 +118,7 @@ export default function ChallengeCard({ challenge, onSubmitClick }: ChallengeCar
           </div>
           <button
             onClick={onSubmitClick}
-            className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white font-black py-3 px-6 rounded-lg border-4 border-white uppercase tracking-wider shadow-2xl transform hover:scale-105 transition-all"
+            className="w-full bg-gradient-to-r from-accent-cyan-500 to-accent-blue-500 hover:from-accent-cyan-400 hover:to-accent-blue-400 text-white font-black py-3 px-6 rounded-lg border-4 border-white uppercase tracking-wider shadow-2xl transform hover:scale-105 transition-all"
           >
             🔄 Try Again
           </button>
@@ -131,7 +131,7 @@ export default function ChallengeCard({ challenge, onSubmitClick }: ChallengeCar
 
   return (
     <div className={`bg-gradient-to-r ${getBorderGradient()} p-1 rounded-lg shadow-2xl`}>
-      <div className="bg-slate-900 rounded-lg overflow-hidden">
+      <div className="bg-neutral-900 rounded-lg overflow-hidden">
         {/* Level Badge */}
         <div className="relative">
           <div className="absolute top-2 left-2 z-10 bg-black bg-opacity-80 px-3 py-1 rounded-full">
@@ -144,7 +144,7 @@ export default function ChallengeCard({ challenge, onSubmitClick }: ChallengeCar
           {challenge.userSubmission && (
             <div className="absolute top-2 right-2 z-10">
               {challenge.userSubmission.status === 'pending' && (
-                <span className="bg-yellow-500 text-black px-3 py-1 rounded-full text-xs font-bold uppercase animate-pulse">
+                <span className="bg-accent-yellow-500 text-black px-3 py-1 rounded-full text-xs font-bold uppercase animate-pulse">
                   ⏳ Pending
                 </span>
               )}
@@ -192,15 +192,15 @@ export default function ChallengeCard({ challenge, onSubmitClick }: ChallengeCar
 
           {/* Description */}
           <div className="mb-4">
-            <p className={`text-slate-300 text-sm ${!showDescription && 'line-clamp-2'}`}>
+            <p className={`text-neutral-300 text-sm ${!showDescription && 'line-clamp-2'}`}>
               {challenge.description}
             </p>
             {challenge.description.length > 100 && (
               <button
                 onClick={() => setShowDescription(!showDescription)}
-                className="text-cyan-400 text-xs font-bold mt-1 hover:text-cyan-300"
+                className="text-accent-cyan-400 text-xs font-bold mt-1 hover:text-accent-cyan-300"
               >
-                {showDescription ? '▲ Ver menos' : '▼ Ver más'}
+                {showDescription ? '▲ Show less' : '▼ Show more'}
               </button>
             )}
           </div>

@@ -33,12 +33,12 @@ export default function WelcomeModal({ isOpen, userName, onClose }: WelcomeModal
 
   return (
     <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm">
-      <div className="relative w-full max-w-2xl bg-gradient-to-br from-slate-900 via-green-900 to-slate-900 border-4 border-green-400 rounded-xl shadow-2xl shadow-green-500/50 overflow-hidden animate-fadeIn">
+      <div className="relative w-full max-w-2xl bg-gradient-to-br from-neutral-900 via-green-900 to-neutral-900 border-4 border-green-400 rounded-xl shadow-2xl shadow-green-500/50 overflow-hidden animate-fadeIn">
         {/* Header */}
-        <div className="bg-gradient-to-r from-green-500 to-cyan-500 p-6 border-b-4 border-green-300">
+        <div className="bg-gradient-to-r from-green-500 to-accent-cyan-500 p-6 border-b-4 border-green-300">
           <div className="flex items-center justify-center">
             <h2 className="text-3xl md:text-4xl font-black uppercase tracking-wider text-white drop-shadow-lg animate-pulse">
-              🎮 ¡BIENVENIDO!
+              🎮 WELCOME!
             </h2>
           </div>
         </div>
@@ -46,9 +46,9 @@ export default function WelcomeModal({ isOpen, userName, onClose }: WelcomeModal
         {/* Content */}
         <div className="p-8 md:p-12 space-y-6 text-center">
           {/* User Name */}
-          <div className="bg-gradient-to-r from-cyan-500/20 to-green-500/20 border-2 border-cyan-400 rounded-lg p-6">
-            <p className="text-cyan-300 text-sm uppercase tracking-wider mb-2 font-bold">
-              JUGADOR
+          <div className="bg-gradient-to-r from-accent-cyan-500/20 to-green-500/20 border-2 border-accent-cyan-400 rounded-lg p-6">
+            <p className="text-accent-cyan-300 text-sm uppercase tracking-wider mb-2 font-bold">
+              PLAYER
             </p>
             <h3 className="text-3xl md:text-5xl font-black text-white uppercase tracking-wider drop-shadow-lg">
               {userName}
@@ -57,27 +57,27 @@ export default function WelcomeModal({ isOpen, userName, onClose }: WelcomeModal
 
           {/* Instructions */}
           <div className="space-y-4">
-            <div className="bg-slate-800/50 border-2 border-green-500 rounded-lg p-4">
+            <div className="bg-neutral-800/50 border-2 border-green-500 rounded-lg p-4">
               <p className="text-green-300 text-lg md:text-xl font-black uppercase">
-                🎬 Prepárate para grabar
+                🎬 Get Ready to Record
               </p>
-              <p className="text-slate-300 text-sm md:text-base mt-2 font-bold">
-                Completa tu perfil y empieza a subir tus mejores trucos
+              <p className="text-neutral-300 text-sm md:text-base mt-2 font-bold">
+                Complete your profile and start uploading your best tricks
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
-              <div className="bg-slate-800/50 border-2 border-cyan-500 rounded-lg p-3">
-                <p className="text-cyan-300 font-black">1️⃣ PERFIL</p>
-                <p className="text-slate-400 text-xs mt-1">Completa tu información</p>
+              <div className="bg-neutral-800/50 border-2 border-accent-cyan-500 rounded-lg p-3">
+                <p className="text-accent-cyan-300 font-black">1️⃣ PROFILE</p>
+                <p className="text-neutral-400 text-xs mt-1">Complete your info</p>
               </div>
-              <div className="bg-slate-800/50 border-2 border-purple-500 rounded-lg p-3">
-                <p className="text-purple-300 font-black">2️⃣ TRUCOS</p>
-                <p className="text-slate-400 text-xs mt-1">Elige tus desafíos</p>
+              <div className="bg-neutral-800/50 border-2 border-accent-purple-500 rounded-lg p-3">
+                <p className="text-accent-purple-300 font-black">2️⃣ TRICKS</p>
+                <p className="text-neutral-400 text-xs mt-1">Choose your challenges</p>
               </div>
-              <div className="bg-slate-800/50 border-2 border-pink-500 rounded-lg p-3">
-                <p className="text-pink-300 font-black">3️⃣ GRABA</p>
-                <p className="text-slate-400 text-xs mt-1">Sube tus videos</p>
+              <div className="bg-neutral-800/50 border-2 border-accent-pink-500 rounded-lg p-3">
+                <p className="text-accent-pink-300 font-black">3️⃣ RECORD</p>
+                <p className="text-neutral-400 text-xs mt-1">Upload your videos</p>
               </div>
             </div>
           </div>
@@ -86,7 +86,7 @@ export default function WelcomeModal({ isOpen, userName, onClose }: WelcomeModal
           <div className="pt-4">
             <div className="inline-block bg-green-500/20 border-2 border-green-400 rounded-full px-6 py-3">
               <p className="text-green-300 text-sm uppercase tracking-wider font-black">
-                Continuando en {countdown}s...
+                Continuing in {countdown}s...
               </p>
             </div>
           </div>
@@ -94,9 +94,9 @@ export default function WelcomeModal({ isOpen, userName, onClose }: WelcomeModal
           {/* Skip Button */}
           <button
             onClick={onClose}
-            className="w-full md:w-auto px-8 py-3 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-black uppercase tracking-wider text-sm rounded-lg border-2 border-cyan-300 shadow-lg shadow-cyan-500/50 hover:shadow-cyan-400/70 transition-all transform hover:scale-105"
+            className="w-full md:w-auto px-8 py-3 bg-gradient-to-r from-accent-cyan-600 to-accent-blue-600 hover:from-accent-cyan-500 hover:to-accent-blue-500 text-white font-black uppercase tracking-wider text-sm rounded-lg border-2 border-accent-cyan-300 shadow-lg shadow-accent-cyan-500/50 hover:shadow-accent-cyan-400/70 transition-all transform hover:scale-105"
           >
-            ⏩ SALTAR
+            ⏩ SKIP
           </button>
         </div>
 
@@ -111,7 +111,7 @@ export default function WelcomeModal({ isOpen, userName, onClose }: WelcomeModal
         {/* Animated particles */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-green-400 rounded-full animate-ping"></div>
-          <div className="absolute top-1/3 right-1/4 w-2 h-2 bg-cyan-400 rounded-full animate-ping" style={{ animationDelay: '0.5s' }}></div>
+          <div className="absolute top-1/3 right-1/4 w-2 h-2 bg-accent-cyan-400 rounded-full animate-ping" style={{ animationDelay: '0.5s' }}></div>
           <div className="absolute bottom-1/3 left-1/3 w-2 h-2 bg-green-400 rounded-full animate-ping" style={{ animationDelay: '1s' }}></div>
         </div>
       </div>

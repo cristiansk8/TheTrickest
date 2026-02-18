@@ -29,7 +29,7 @@ const LocationSelector: React.FC<LocationSelectorProps> = ({
                 const data: Departamento[] = await response.json();
                 setDepartamentos(data);
             } catch (error) {
-                console.error('Error cargando los departamentos:', error);
+                console.error('Error loading departments:', error);
             }
         };
 
@@ -43,13 +43,13 @@ const LocationSelector: React.FC<LocationSelectorProps> = ({
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Selector de Departamento */}
+            {/* Department Selector */}
             <div className="group">
-                <label className="block text-cyan-400 font-bold mb-2 uppercase tracking-wide text-sm md:text-base">
-                    🗺️ Departamento
+                <label className="block text-accent-cyan-400 font-bold mb-2 uppercase tracking-wide text-sm md:text-base">
+                    🗺️ Department
                 </label>
                 <select
-                    className="w-full bg-slate-800 border-4 border-slate-600 rounded-lg py-3 px-4 text-white focus:border-cyan-500 focus:outline-none transition-all group-hover:border-cyan-400 appearance-none cursor-pointer"
+                    className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white focus:border-accent-cyan-500 focus:outline-none transition-all group-hover:border-accent-cyan-400 appearance-none cursor-pointer"
                     value={selectedDepartment}
                     onChange={(e) => setSelectedDepartment(e.target.value)}
                     style={{
@@ -60,22 +60,22 @@ const LocationSelector: React.FC<LocationSelectorProps> = ({
                         paddingRight: '2.5rem'
                     }}
                 >
-                    <option value="" className="bg-slate-800">Selecciona un departamento</option>
+                    <option value="" className="bg-neutral-800">Select a department</option>
                     {departamentos.map((departamento) => (
-                        <option key={departamento.id} value={departamento.departamento} className="bg-slate-800">
+                        <option key={departamento.id} value={departamento.departamento} className="bg-neutral-800">
                             {departamento.departamento}
                         </option>
                     ))}
                 </select>
             </div>
 
-            {/* Selector de Ciudad */}
+            {/* City Selector */}
             <div className="group">
-                <label className="block text-cyan-400 font-bold mb-2 uppercase tracking-wide text-sm md:text-base">
-                    🏙️ Ciudad
+                <label className="block text-accent-cyan-400 font-bold mb-2 uppercase tracking-wide text-sm md:text-base">
+                    🏙️ City
                 </label>
                 <select
-                    className={`w-full bg-slate-800 border-4 border-slate-600 rounded-lg py-3 px-4 text-white focus:border-cyan-500 focus:outline-none transition-all group-hover:border-cyan-400 appearance-none cursor-pointer ${
+                    className={`w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white focus:border-accent-cyan-500 focus:outline-none transition-all group-hover:border-accent-cyan-400 appearance-none cursor-pointer ${
                         cities.length === 0 ? 'opacity-50 cursor-not-allowed' : ''
                     }`}
                     value={selectedCity || ''}
@@ -89,11 +89,11 @@ const LocationSelector: React.FC<LocationSelectorProps> = ({
                         paddingRight: '2.5rem'
                     }}
                 >
-                    <option value="" className="bg-slate-800">
-                        {cities.length === 0 ? 'Primero selecciona un departamento' : 'Selecciona una ciudad'}
+                    <option value="" className="bg-neutral-800">
+                        {cities.length === 0 ? 'First select a department' : 'Select a city'}
                     </option>
                     {cities.map((city, index) => (
-                        <option key={index} value={city} className="bg-slate-800">
+                        <option key={index} value={city} className="bg-neutral-800">
                             {city}
                         </option>
                     ))}

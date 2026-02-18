@@ -14,20 +14,20 @@ const skaterMenuItems = [
   {
     path: '/dashboard/skaters/profile',
     icon: <MdOutlineSkateboarding size={28} />,
-    title: 'Perfil',
-    subTitle: 'editar perfil'
+    title: 'Profile',
+    subTitle: 'edit profile'
   },
   {
     path: '/dashboard/skaters/tricks',
     icon: <GiSkateboard size={28} />,
-    title: 'Trucos',
-    subTitle: 'trucos en curso'
+    title: 'Tricks',
+    subTitle: 'in progress'
   },
   {
     path: '/dashboard/skaters/submissions',
     icon: <FaVideo size={28} />,
     title: 'Submissions',
-    subTitle: 'historial'
+    subTitle: 'history'
   },
   {
     path: '/dashboard/leaderboard',
@@ -38,14 +38,14 @@ const skaterMenuItems = [
   {
     path: '/dashboard/teams',
     icon: <MdGroups size={28} />,
-    title: 'Equipos',
-    subTitle: 'mi equipo'
+    title: 'Teams',
+    subTitle: 'my team'
   },
   {
     path: '/dashboard/skaters/logros',
     icon: <GiTrophy size={28} />,
-    title: 'Logros',
-    subTitle: 'achievements'
+    title: 'Achievements',
+    subTitle: 'badges'
   }
 ]
 
@@ -53,20 +53,20 @@ const judgeMenuItems = [
   {
     path: '/dashboard/judges/evaluate',
     icon: <MdGavel size={28} />,
-    title: 'Evaluar',
-    subTitle: 'pendientes e historial'
+    title: 'Evaluate',
+    subTitle: 'pending & history'
   },
   {
     path: '/dashboard/skaters/profile',
     icon: <MdOutlineSkateboarding size={28} />,
-    title: 'Perfil',
-    subTitle: 'editar perfil'
+    title: 'Profile',
+    subTitle: 'edit profile'
   },
   {
     path: '/dashboard/skaters/tricks',
     icon: <GiSkateboard size={28} />,
-    title: 'Trucos',
-    subTitle: 'como skater'
+    title: 'Tricks',
+    subTitle: 'as skater'
   },
   {
     path: '/dashboard/leaderboard',
@@ -77,8 +77,8 @@ const judgeMenuItems = [
   {
     path: '/dashboard/teams',
     icon: <MdGroups size={28} />,
-    title: 'Equipos',
-    subTitle: 'mi equipo'
+    title: 'Teams',
+    subTitle: 'my team'
   }
 ]
 
@@ -86,26 +86,26 @@ const adminMenuItems = [
   {
     path: '/dashboard/admin/users',
     icon: <MdAdminPanelSettings size={28} />,
-    title: 'Usuarios',
-    subTitle: 'gestionar'
+    title: 'Users',
+    subTitle: 'manage'
   },
   {
     path: '/dashboard/admin/challenges',
     icon: <GiSkateboard size={28} />,
-    title: 'Desafíos',
-    subTitle: 'gestionar'
+    title: 'Challenges',
+    subTitle: 'manage'
   },
   {
     path: '/dashboard/admin/settings',
     icon: <MdSettings size={28} />,
-    title: 'Configuración',
-    subTitle: 'sistema'
+    title: 'Settings',
+    subTitle: 'system'
   },
   {
     path: '/dashboard/judges/evaluate',
     icon: <MdGavel size={28} />,
-    title: 'Evaluar',
-    subTitle: 'calificar'
+    title: 'Evaluate',
+    subTitle: 'score'
   },
   {
     path: '/dashboard/leaderboard',
@@ -116,8 +116,8 @@ const adminMenuItems = [
   {
     path: '/dashboard/teams',
     icon: <MdGroups size={28} />,
-    title: 'Equipos',
-    subTitle: 'gestionar'
+    title: 'Teams',
+    subTitle: 'manage'
   }
 ]
 
@@ -126,7 +126,7 @@ export const Sidebar = () => {
   const { data: session, status } = useSession();
   const [totalScore, setTotalScore] = useState(0);
 
-  // Determinar qué menú mostrar según el rol
+  // Determine which menu to show based on role
   const menuItems = useMemo(() => {
     const userRole = session?.user?.role || 'skater';
 
@@ -139,7 +139,7 @@ export const Sidebar = () => {
     }
   }, [session?.user?.role]);
 
-  // Obtener el score total del usuario
+  // Get user's total score
   useEffect(() => {
     if (status === 'authenticated' && session?.user?.email) {
       const fetchScore = async () => {
@@ -157,25 +157,25 @@ export const Sidebar = () => {
     }
   }, [status, session?.user?.email]);
 
-  // Obtener el badge del rol
+  // Get role badge
   const getRoleBadge = () => {
     const userRole = session?.user?.role || 'skater';
 
     if (userRole === 'admin') {
       return (
-        <span className="text-xs bg-gradient-to-r from-red-500 to-orange-500 text-white px-3 py-1 rounded-full font-black uppercase tracking-wider shadow-lg shadow-red-500/50">
+        <span className="text-xs bg-gradient-to-r from-red-500 to-accent-orange-500 text-white px-3 py-1 rounded-full font-black uppercase tracking-wider shadow-lg shadow-red-500/50">
           ADMIN
         </span>
       );
     } else if (userRole === 'judge') {
       return (
-        <span className="text-xs bg-gradient-to-r from-yellow-500 to-amber-500 text-black px-3 py-1 rounded-full font-black uppercase tracking-wider shadow-lg shadow-yellow-500/50">
-          JUEZ
+        <span className="text-xs bg-gradient-to-r from-accent-yellow-500 to-accent-amber-500 text-black px-3 py-1 rounded-full font-black uppercase tracking-wider shadow-lg shadow-accent-yellow-500/50">
+          JUDGE
         </span>
       );
     }
     return (
-      <span className="text-xs bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-3 py-1 rounded-full font-black uppercase tracking-wider shadow-lg shadow-cyan-500/50">
+      <span className="text-xs bg-gradient-to-r from-accent-cyan-500 to-accent-blue-500 text-white px-3 py-1 rounded-full font-black uppercase tracking-wider shadow-lg shadow-accent-cyan-500/50">
         SKATER
       </span>
     );
@@ -184,17 +184,17 @@ export const Sidebar = () => {
   return (
     <div
       id="menu"
-      className="bg-slate-900 min-h-auto lg:min-h-screen z-10 text-slate-300 w-full lg:w-72 left-0 overflow-y-auto border-r-4 border-slate-800"
+      className="bg-neutral-900 min-h-auto lg:min-h-screen z-10 text-neutral-300 w-full lg:w-72 left-0 overflow-y-auto border-r-4 border-neutral-800"
     >
-      {/* Logo Header con estilo arcade */}
+      {/* Logo Header with arcade style */}
       <div className="p-4">
         <Link href="/">
-          <div className="bg-cyan-500 p-[3px] rounded-lg shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 transition-all cursor-pointer">
-            <div className="bg-slate-900 rounded-lg p-4">
-              <h1 className="text-xl font-black text-cyan-400 uppercase tracking-wider text-center">
+          <div className="bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 p-[3px] rounded-lg shadow-lg shadow-accent-cyan-500/30 hover:shadow-accent-cyan-500/50 transition-all cursor-pointer">
+            <div className="bg-neutral-900 rounded-lg p-4">
+              <h1 className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-cyan-400 to-accent-purple-400 uppercase tracking-wider text-center">
                 🛹 TRICKEST
               </h1>
-              <p className="text-cyan-400 text-xs text-center font-bold uppercase tracking-wider mt-1">
+              <p className="text-accent-cyan-400 text-xs text-center font-bold uppercase tracking-wider mt-1">
                 2025 Skaters
               </p>
             </div>
@@ -204,30 +204,31 @@ export const Sidebar = () => {
 
       {/* Score Card */}
       <div className="px-4 mb-4">
-        <div className="bg-yellow-500 p-[3px] rounded-lg">
-          <div className="bg-slate-900 rounded-lg p-3 text-center">
-            <p className="text-slate-400 text-xs uppercase font-bold tracking-wider">Tu Score</p>
-            <p className="text-3xl font-black text-yellow-400">
+        <div className="bg-gradient-to-r from-accent-yellow-500 to-accent-orange-500 p-[3px] rounded-lg">
+          <div className="bg-neutral-900 rounded-lg p-3 text-center">
+            <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider">Your Score</p>
+            <p className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-yellow-400 to-accent-orange-400">
               {totalScore}
             </p>
           </div>
         </div>
       </div>
 
-      {/* Perfil del usuario */}
+      {/* User profile */}
       <div className="px-4 mb-6">
-        <div className="bg-purple-500 p-[3px] rounded-lg">
-          <div className="bg-slate-900 rounded-lg p-4">
-            <p className="text-slate-500 text-xs uppercase font-bold tracking-wider mb-2">
-              Bienvenido
+        <div className="bg-gradient-to-r from-accent-purple-500 to-accent-pink-500 p-[3px] rounded-lg">
+          <div className="bg-neutral-900 rounded-lg p-4">
+            <p className="text-neutral-500 text-xs uppercase font-bold tracking-wider mb-2">
+              Welcome
             </p>
             {status === "loading" ? (
               <div className="flex items-center justify-center py-2">
-                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-purple-400"></div>
+                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-accent-purple-400"></div>
               </div>
             ) : (
               <div className="flex items-center gap-3">
                 <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 rounded-full blur-sm"></div>
                   <Image
                     className="relative rounded-full w-12 h-12 border-2 border-white"
                     src={session?.user?.image || "/logo.png"}
@@ -248,10 +249,10 @@ export const Sidebar = () => {
         </div>
       </div>
 
-      {/* Menú de navegación */}
+      {/* Navigation menu */}
       <div className="px-4 pb-4">
-        <p className="text-slate-500 text-xs uppercase font-bold tracking-wider mb-3 px-2">
-          Navegación
+        <p className="text-neutral-500 text-xs uppercase font-bold tracking-wider mb-3 px-2">
+          Navigation
         </p>
         <div className="space-y-2">
           {menuItems.map(item => (
@@ -260,19 +261,19 @@ export const Sidebar = () => {
         </div>
       </div>
 
-      {/* Botón de Logout */}
+      {/* Logout button */}
       <div className="px-4 pb-6 mt-auto">
         <button
           onClick={() => signOut({ callbackUrl: '/' })}
-          className="w-full bg-red-500 hover:bg-red-400 p-[3px] rounded-lg shadow-lg shadow-red-500/30 hover:shadow-red-500/50 transition-all"
+          className="w-full bg-gradient-to-r from-red-500 to-accent-pink-500 hover:from-red-400 hover:to-accent-pink-400 p-[3px] rounded-lg shadow-lg shadow-red-500/30 hover:shadow-red-500/50 transition-all"
         >
-          <div className="bg-slate-900 rounded-lg px-4 py-3 flex items-center gap-3 hover:bg-slate-800 transition-all">
+          <div className="bg-neutral-900 rounded-lg px-4 py-3 flex items-center gap-3 hover:bg-neutral-800 transition-all">
             <MdLogout size={24} className="text-red-400" />
             <div className="flex flex-col items-start">
               <span className="text-sm font-black text-white uppercase tracking-wide">
-                Cerrar Sesión
+                Sign Out
               </span>
-              <span className="text-xs text-slate-400 uppercase tracking-wider">
+              <span className="text-xs text-neutral-400 uppercase tracking-wider">
                 Logout
               </span>
             </div>

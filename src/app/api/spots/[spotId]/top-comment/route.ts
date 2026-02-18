@@ -16,7 +16,7 @@ export async function GET(
     const userEmail = session?.user?.email;
     const spotId = parseInt(params.spotId);
     if (isNaN(spotId)) {
-      return errorResponse('VALIDATION_ERROR', 'ID de spot inválido', 400);
+      return errorResponse('VALIDATION_ERROR', 'Invalid spot ID', 400);
     }
 
     // Verificar que el spot existe
@@ -25,7 +25,7 @@ export async function GET(
     });
 
     if (!spot) {
-      return errorResponse('NOT_FOUND', 'Spot no encontrado', 404);
+      return errorResponse('NOT_FOUND', 'Spot not found', 404);
     }
 
     // Obtener el comentario con más likes (que no esté oculto)

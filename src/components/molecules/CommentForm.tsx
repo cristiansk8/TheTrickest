@@ -13,7 +13,7 @@ interface CommentFormProps {
 export default function CommentForm({
   spotId,
   onCommentCreated,
-  placeholder = 'Comparte tu experiencia en este spot...',
+  placeholder = 'Share your experience at this spot...',
 }: CommentFormProps) {
   const { data: session } = useSession();
   const [content, setContent] = useState('');
@@ -28,7 +28,7 @@ export default function CommentForm({
     e.preventDefault();
 
     if (!session?.user?.email) {
-      setError('Debes iniciar sesión para comentar');
+      setError('You must sign in to comment');
       setTimeout(() => setError(null), 3000);
       return;
     }
@@ -36,13 +36,13 @@ export default function CommentForm({
     const trimmedContent = content.trim();
 
     if (!trimmedContent) {
-      setError('El comentario no puede estar vacío');
+      setError('Comment cannot be empty');
       setTimeout(() => setError(null), 3000);
       return;
     }
 
     if (trimmedContent.length > maxLength) {
-      setError(`El comentario excede los ${maxLength} caracteres`);
+      setError(`Comment exceeds ${maxLength} characters`);
       setTimeout(() => setError(null), 3000);
       return;
     }
@@ -60,24 +60,24 @@ export default function CommentForm({
       const data = await response.json();
 
       if (!response.ok) {
-        // El error puede ser un objeto o un string
+        // Error can be an object or a string
         const errorMessage = typeof data.error === 'string'
           ? data.error
-          : data.error?.message || data.data?.message || 'Error al crear comentario';
+          : data.error?.message || data.data?.message || 'Error creating comment';
         setError(errorMessage);
         setTimeout(() => setError(null), 3000);
         return;
       }
 
       // Success
-      setSuccess('¡Comentario publicado!');
+      setSuccess('Comment posted!');
       setContent('');
       setTimeout(() => setSuccess(null), 2000);
       onCommentCreated();
 
     } catch (err) {
-      console.error('Error creando comentario:', err);
-      setError('Error al crear comentario. Inténtalo de nuevo.');
+      console.error('Error creating comment:', err);
+      setError('Error creating comment. Please try again.');
       setTimeout(() => setError(null), 3000);
     } finally {
       setIsSubmitting(false);
@@ -110,17 +110,17 @@ export default function CommentForm({
           maxLength={maxLength}
           rows={3}
           className={`
-            w-full px-3 py-2 bg-slate-900 border-2 rounded-lg text-white
-            focus:outline-none focus:border-cyan-400 resize-none
+            w-full px-3 py-2 bg-neutral-900 border-2 rounded-lg text-white
+            focus:outline-none focus:border-accent-cyan-400 resize-none
             disabled:opacity-50 disabled:cursor-not-allowed
-            ${error ? 'border-red-500' : 'border-slate-700'}
+            ${error ? 'border-red-500' : 'border-neutral-700'}
             transition-colors
           `}
         />
 
         {/* Character counter */}
         <div className={`absolute bottom-2 right-2 text-xs font-bold ${
-          remainingChars < 20 ? 'text-red-400' : 'text-slate-500'
+          remainingChars < 20 ? 'text-red-400' : 'text-neutral-500'
         }`}>
           {remainingChars}
         </div>
@@ -133,27 +133,27 @@ export default function CommentForm({
         className={`
           w-full font-bold py-2 px-4 rounded-lg border-2 transition-all flex items-center justify-center gap-2
           ${isSubmitting || !content.trim() || !session
-            ? 'bg-slate-700 border-slate-600 text-slate-500 cursor-not-allowed'
-            : 'bg-purple-600 hover:bg-purple-700 border-purple-400 text-white cursor-pointer'
+            ? 'bg-neutral-700 border-neutral-600 text-neutral-500 cursor-not-allowed'
+            : 'bg-accent-purple-600 hover:bg-accent-purple-700 border-accent-purple-400 text-white cursor-pointer'
           }
         `}
       >
         {isSubmitting ? (
           <>
             <div className="w-4 h-4 animate-spin border-2 border-white border-t-transparent rounded-full" />
-            Publicando...
+            Posting...
           </>
         ) : (
           <>
             <Send className="w-4 h-4" />
-            {session ? 'Comentar' : 'Inicia sesión para comentar'}
+            {session ? 'Comment' : 'Sign in to comment'}
           </>
         )}
       </button>
 
       {!session && (
-        <p className="text-[10px] text-slate-500 text-center">
-          🔒 Necesitas una cuenta para comentar
+        <p className="text-[10px] text-neutral-500 text-center">
+          🔒 You need an account to comment
         </p>
       )}
     </form>

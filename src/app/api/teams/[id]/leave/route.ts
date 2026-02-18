@@ -14,13 +14,13 @@ export async function POST(
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-      return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
+      return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
 
     const teamId = parseInt(params.id);
 
     if (isNaN(teamId)) {
-      return NextResponse.json({ error: 'ID inválido' }, { status: 400 });
+      return NextResponse.json({ error: 'Invalid ID' }, { status: 400 });
     }
 
     // Verificar que el usuario pertenece al team
@@ -48,7 +48,7 @@ export async function POST(
 
     if (!team) {
       return NextResponse.json(
-        { error: 'Team no encontrado' },
+        { error: 'Team not found' },
         { status: 404 }
       );
     }

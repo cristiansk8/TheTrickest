@@ -7,7 +7,7 @@ export async function POST(req: Request) {
         const { userId, facebook, instagram, twitter, tiktok } = await req.json();
 
         if (!userId) {
-            return NextResponse.json({ error: 'El correo es requerido' }, { status: 400 });
+            return NextResponse.json({ error: 'Email is required' }, { status: 400 });
         }
 
         // Usar upsert para crear o actualizar
@@ -31,7 +31,7 @@ export async function POST(req: Request) {
         return NextResponse.json({ message: 'Redes sociales actualizadas correctamente', socialMedia }, { status: 200 });
     } catch (error) {
         console.error('Error al actualizar redes sociales:', error);
-        return NextResponse.json({ error: 'Error al actualizar redes sociales' }, { status: 500 });
+        return NextResponse.json({ error: 'Error updating social media' }, { status: 500 });
     }
 }
 
@@ -46,7 +46,7 @@ export async function PUT(req: Request) {
         const { email, facebook, instagram, twitter, tiktok } = data;
 
         if (!email) {
-            return NextResponse.json({ error: "Email requerido" }, { status: 400 });
+            return NextResponse.json({ error: "Email required" }, { status: 400 });
         }
 
         // Usar upsert para crear o actualizar
@@ -88,7 +88,7 @@ export async function GET(req: Request) {
       console.log("🔍 Email recibido en la API:", email);
   
       if (!email) {
-        return NextResponse.json({ error: "Email es requerido" }, { status: 400 });
+        return NextResponse.json({ error: "Email is required" }, { status: 400 });
       }
   
       // Buscar redes sociales del usuario

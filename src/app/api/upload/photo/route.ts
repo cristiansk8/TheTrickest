@@ -18,7 +18,7 @@ export async function POST(req: Request) {
     if (!session?.user?.email) {
       return NextResponse.json({
         error: 'UNAUTHORIZED',
-        message: 'Debes iniciar sesión'
+        message: 'You must log in'
       }, { status: 401 });
     }
 
@@ -28,7 +28,7 @@ export async function POST(req: Request) {
     if (!file || !filename) {
       return NextResponse.json({
         error: 'VALIDATION_ERROR',
-        message: 'Archivo y nombre son requeridos'
+        message: 'File and filename are required'
       }, { status: 400 });
     }
 
@@ -52,7 +52,7 @@ export async function POST(req: Request) {
       console.error('SUPABASE_SERVICE_ROLE_KEY no está configurado');
       return NextResponse.json({
         error: 'CONFIG_ERROR',
-        message: 'Configuración de servidor inválida'
+        message: 'Invalid server configuration'
       }, { status: 500 });
     }
 
@@ -75,27 +75,27 @@ export async function POST(req: Request) {
       });
       return NextResponse.json({
         error: 'UPLOAD_ERROR',
-        message: `Error al subir la foto: ${errorText}`
+        message: `Error uploading photo: ${errorText}`
       }, { status: 500 });
     }
 
     // Obtener URL pública (no requiere autenticación)
     const publicUrl = `${supabaseUrl}/storage/v1/object/public/trickest-spots/${uniqueFilename}`;
 
-    console.log('✅ Foto subida exitosamente:', publicUrl);
+    console.log('✅ Foto subida successfully:', publicUrl);
 
     return NextResponse.json({
       success: true,
       url: publicUrl,
       filename: uniqueFilename,
-      message: 'Foto subida exitosamente'
+      message: 'Photo uploaded successfully'
     });
 
   } catch (error) {
     console.error('Error en upload:', error);
     return NextResponse.json({
       error: 'INTERNAL_ERROR',
-      message: 'Error al procesar la upload'
+      message: 'Error processing upload'
     }, { status: 500 });
   }
 }
@@ -115,7 +115,7 @@ export async function DELETE(req: Request) {
     if (!filename) {
       return NextResponse.json({
         error: 'VALIDATION_ERROR',
-        message: 'Filename es requerido'
+        message: 'Filename is required'
       }, { status: 400 });
     }
 
@@ -123,7 +123,7 @@ export async function DELETE(req: Request) {
     if (!filename.includes(session.user.email.replace('@', '_'))) {
       return NextResponse.json({
         error: 'FORBIDDEN',
-        message: 'No puedes eliminar archivos de otros usuarios'
+        message: 'You cannot delete files from other users'
       }, { status: 403 });
     }
 
@@ -133,7 +133,7 @@ export async function DELETE(req: Request) {
     if (!supabaseServiceKey) {
       return NextResponse.json({
         error: 'CONFIG_ERROR',
-        message: 'Configuración de servidor inválida'
+        message: 'Invalid server configuration'
       }, { status: 500 });
     }
 
@@ -148,20 +148,20 @@ export async function DELETE(req: Request) {
     if (!deleteResponse.ok) {
       return NextResponse.json({
         error: 'DELETE_ERROR',
-        message: 'Error al eliminar la foto'
+        message: 'Error deleting photo'
       }, { status: 500 });
     }
 
     return NextResponse.json({
       success: true,
-      message: 'Foto eliminada exitosamente'
+      message: 'Photo deleted successfully'
     });
 
   } catch (error) {
     console.error('Error en delete:', error);
     return NextResponse.json({
       error: 'INTERNAL_ERROR',
-      message: 'Error al eliminar la foto'
+      message: 'Error deleting photo'
     }, { status: 500 });
   }
 }

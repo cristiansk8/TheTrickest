@@ -97,7 +97,7 @@ export async function GET(req: Request) {
   } catch (error) {
     console.error('Error obteniendo teams:', error);
     return NextResponse.json(
-      { error: 'Error al obtener los teams' },
+      { error: 'Error fetching teams' },
       { status: 500 }
     );
   }
@@ -109,7 +109,7 @@ export async function POST(req: Request) {
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-      return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
+      return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
 
     const body = await req.json();
@@ -128,7 +128,7 @@ export async function POST(req: Request) {
 
     if (!name || name.trim().length < 3) {
       return NextResponse.json(
-        { error: 'El nombre debe tener al menos 3 caracteres' },
+        { error: 'Name must have at least 3 characters' },
         { status: 400 }
       );
     }
@@ -141,14 +141,14 @@ export async function POST(req: Request) {
 
     if (!user) {
       return NextResponse.json(
-        { error: 'Usuario no encontrado' },
+        { error: 'User not found' },
         { status: 404 }
       );
     }
 
     if (!user.username) {
       return NextResponse.json(
-        { error: 'Debes tener un username para crear un equipo. Completa tu perfil primero.' },
+        { error: 'You must have a username to create a team. Complete your profile first.' },
         { status: 400 }
       );
     }
@@ -156,7 +156,7 @@ export async function POST(req: Request) {
     // Verificar si el usuario ya tiene un team
     if (user.teamId) {
       return NextResponse.json(
-        { error: 'Ya perteneces a un equipo. Debes salir primero.' },
+        { error: 'You already belong to a team. You must leave first.' },
         { status: 400 }
       );
     }
@@ -168,7 +168,7 @@ export async function POST(req: Request) {
 
     if (existingTeam) {
       return NextResponse.json(
-        { error: 'Ya existe un equipo con ese nombre' },
+        { error: 'A team with that name already exists' },
         { status: 400 }
       );
     }
@@ -193,7 +193,7 @@ export async function POST(req: Request) {
   } catch (error) {
     console.error('Error creando team:', error);
     return NextResponse.json(
-      { error: 'Error al crear el team' },
+      { error: 'Error creating team' },
       { status: 500 }
     );
   }

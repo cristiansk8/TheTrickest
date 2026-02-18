@@ -1,26 +1,14 @@
 import type { Metadata } from "next";
 import { Urbanist } from "next/font/google";
 import "./globals.css";
-// Leaflet CSS se importa en los componentes que lo usen, no aquí
-import Navbar from "@/components/navbar";
-import Header from "@/components/header";
-import ArcadeButtonsWrapper from "@/components/ArcadeButtonsWrapper";
-
-
-// Temporalmente comentado por error de webpack
-// import 'swiper/css';
-// import 'swiper/css/pagination';
-// import 'swiper/css/scrollbar';
-import { Providers } from "./providers";
 
 const urbanist = Urbanist({ subsets: ["latin"] });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Trickest - Skateboarding Challenge Platform",
-  description: "Patina, graba y postea tus mejores trucos. Compite con skaters de todo el mundo.",
-  keywords: 'skateboarding, skate, trucos, tricks, challenges, competencia, skaters, patineta',
+  description: "Skate, record and post your best tricks. Compete with skaters from around the world.",
+  keywords: 'skateboarding, skate, tricks, challenges, competition, skaters, skateboard',
   manifest: '/manifest.json',
-  themeColor: '#F35588',
   icons: {
     icon: [
       { url: '/logo.png', sizes: 'any', type: 'image/png' },
@@ -34,7 +22,7 @@ export const metadata = {
   },
   openGraph: {
     title: 'Trickest - Skateboarding Challenge Platform',
-    description: 'Patina, graba y postea tus mejores trucos. Compite con skaters de todo el mundo.',
+    description: 'Skate, record and post your best tricks. Compete with skaters from around the world.',
     type: 'website',
     images: [
       {
@@ -48,26 +36,17 @@ export const metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Trickest - Skateboarding Challenge Platform',
-    description: 'Patina, graba y postea tus mejores trucos',
+    description: 'Skate, record and post your best tricks',
     images: ['/logo.png'],
   },
 };
-
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body className={urbanist.className}>
-        <Providers>
-          <Header/>
-          {children}
-          <ArcadeButtonsWrapper />
-        </Providers>
-      </body>
-    </html>
-  );
+  // Root layout is minimal - just passes children through
+  // The actual HTML structure is in [locale]/layout.tsx
+  return children;
 }

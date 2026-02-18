@@ -19,7 +19,7 @@ export async function PATCH(
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-      return errorResponse('UNAUTHORIZED', 'Debes iniciar sesión', 401);
+      return errorResponse('UNAUTHORIZED', 'You must log in', 401);
     }
 
     const userEmail = session.user.email;
@@ -27,7 +27,7 @@ export async function PATCH(
     const commentId = parseInt(params.commentId);
 
     if (isNaN(spotId) || isNaN(commentId)) {
-      return errorResponse('VALIDATION_ERROR', 'IDs inválidos', 400);
+      return errorResponse('VALIDATION_ERROR', 'Invalid IDs', 400);
     }
 
     const body: EditCommentRequest = await req.json();
@@ -35,7 +35,7 @@ export async function PATCH(
 
     // Validaciones
     if (!content || typeof content !== 'string') {
-      return errorResponse('VALIDATION_ERROR', 'El contenido es requerido', 400);
+      return errorResponse('VALIDATION_ERROR', 'Content is required', 400);
     }
 
     const trimmedContent = content.trim();
@@ -58,7 +58,7 @@ export async function PATCH(
     });
 
     if (!comment) {
-      return errorResponse('NOT_FOUND', 'Comentario no encontrado', 404);
+      return errorResponse('NOT_FOUND', 'Comment not found', 404);
     }
 
     // Verificar que el comentario pertenece al spot
@@ -68,7 +68,7 @@ export async function PATCH(
 
     // Verificar que el usuario es el dueño del comentario
     if (comment.userId !== userEmail) {
-      return errorResponse('FORBIDDEN', 'Solo puedes editar tus propios comentarios', 403);
+      return errorResponse('FORBIDDEN', 'You can only edit your own comments', 403);
     }
 
     // Actualizar comentario
@@ -109,7 +109,7 @@ export async function DELETE(
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-      return errorResponse('UNAUTHORIZED', 'Debes iniciar sesión', 401);
+      return errorResponse('UNAUTHORIZED', 'You must log in', 401);
     }
 
     const userEmail = session.user.email;
@@ -117,7 +117,7 @@ export async function DELETE(
     const commentId = parseInt(params.commentId);
 
     if (isNaN(spotId) || isNaN(commentId)) {
-      return errorResponse('VALIDATION_ERROR', 'IDs inválidos', 400);
+      return errorResponse('VALIDATION_ERROR', 'Invalid IDs', 400);
     }
 
     // Verificar que el comentario existe
@@ -126,7 +126,7 @@ export async function DELETE(
     });
 
     if (!comment) {
-      return errorResponse('NOT_FOUND', 'Comentario no encontrado', 404);
+      return errorResponse('NOT_FOUND', 'Comment not found', 404);
     }
 
     // Verificar que el comentario pertenece al spot
@@ -144,7 +144,7 @@ export async function DELETE(
     const isOwner = comment.userId === userEmail;
 
     if (!isAdmin && !isOwner) {
-      return errorResponse('FORBIDDEN', 'No puedes eliminar este comentario', 403);
+      return errorResponse('FORBIDDEN', 'You cannot delete this comment', 403);
     }
 
     // Eliminar comentario (los votos se eliminan en cascade por la DB)
@@ -158,6 +158,6 @@ export async function DELETE(
 
   } catch (error) {
     console.error('Error eliminando comentario:', error);
-    return errorResponse('INTERNAL_ERROR', 'Error al eliminar comentario', 500);
+    return errorResponse('INTERNAL_ERROR', 'Error deleting comment', 500);
   }
 }

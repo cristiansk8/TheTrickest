@@ -78,7 +78,7 @@ export async function GET(req: Request) {
     return NextResponse.json({ spots: transformedSpots });
   } catch (error) {
     console.error('Error obteniendo spots:', error);
-    return NextResponse.json({ error: 'Error del servidor' }, { status: 500 });
+    return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }
 
@@ -88,7 +88,7 @@ export async function POST(req: Request) {
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-      return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
+      return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
 
     const body = await req.json();
@@ -112,14 +112,14 @@ export async function POST(req: Request) {
     // Validaciones básicas
     if (!name || !type || !latitude || !longitude) {
       return NextResponse.json(
-        { error: 'Nombre, tipo, latitud y longitud son requeridos' },
+        { error: 'Name, type, latitude and longitude are required' },
         { status: 400 }
       );
     }
 
     if (type !== 'skatepark' && type !== 'skateshop') {
       return NextResponse.json(
-        { error: 'Tipo debe ser "skatepark" o "skateshop"' },
+        { error: 'Type must be "skatepark" or "skateshop"' },
         { status: 400 }
       );
     }
@@ -127,7 +127,7 @@ export async function POST(req: Request) {
     // Validar rango de coordenadas
     if (latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) {
       return NextResponse.json(
-        { error: 'Coordenadas inválidas' },
+        { error: 'Invalid coordinates' },
         { status: 400 }
       );
     }
@@ -155,6 +155,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: true, spot });
   } catch (error) {
     console.error('Error creando spot:', error);
-    return NextResponse.json({ error: 'Error del servidor' }, { status: 500 });
+    return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }

@@ -19,7 +19,7 @@ export async function GET(
     const commentId = parseInt(params.commentId);
 
     if (isNaN(spotId) || isNaN(commentId)) {
-      return errorResponse('VALIDATION_ERROR', 'IDs inválidos', 400);
+      return errorResponse('VALIDATION_ERROR', 'Invalid IDs', 400);
     }
 
     const { searchParams } = new URL(req.url);
@@ -36,7 +36,7 @@ export async function GET(
     });
 
     if (!parentComment) {
-      return errorResponse('NOT_FOUND', 'Comentario no encontrado', 404);
+      return errorResponse('NOT_FOUND', 'Comment not found', 404);
     }
 
     if (parentComment.spotId !== spotId) {

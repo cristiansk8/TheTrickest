@@ -60,7 +60,7 @@ export default function VotingCard({
       await onVote(submission.id, voteType);
       setLocalVote(voteType);
     } catch (error) {
-      console.error('Error al votar:', error);
+      console.error('Error voting:', error);
     } finally {
       setIsVoting(false);
     }
@@ -83,13 +83,13 @@ export default function VotingCard({
       case 'easy':
         return 'bg-green-500/20 text-green-400';
       case 'medium':
-        return 'bg-yellow-500/20 text-yellow-400';
+        return 'bg-accent-yellow-500/20 text-accent-yellow-400';
       case 'hard':
-        return 'bg-orange-500/20 text-orange-400';
+        return 'bg-accent-orange-500/20 text-accent-orange-400';
       case 'expert':
         return 'bg-red-500/20 text-red-400';
       default:
-        return 'bg-gray-500/20 text-gray-400';
+        return 'bg-neutral-500/20 text-neutral-400';
     }
   };
 
@@ -100,7 +100,7 @@ export default function VotingCard({
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-[#0A0F1E] border border-gray-800 rounded-lg overflow-hidden hover:border-cyan-500/50 transition-all"
+      className="bg-surface-card border border-neutral-800 rounded-lg overflow-hidden hover:border-accent-cyan-500/50 transition-all"
     >
       {/* Video Preview */}
       <div className="relative aspect-video bg-black">
@@ -114,7 +114,7 @@ export default function VotingCard({
           />
         ) : (
           <div className="flex items-center justify-center h-full">
-            <p className="text-gray-400">Video no disponible</p>
+            <p className="text-neutral-400">Video not available</p>
           </div>
         )}
 
@@ -122,7 +122,7 @@ export default function VotingCard({
         {isCloseToApproval && (
           <div className="absolute top-2 right-2 bg-green-500/90 text-white px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">
             <TrendingUp className="w-3 h-3" />
-            ¡Cerca de aprobación!
+            Close to approval!
           </div>
         )}
       </div>
@@ -136,18 +136,18 @@ export default function VotingCard({
               <h3 className="text-lg font-bold text-white">
                 {submission.challenge.name}
               </h3>
-              <p className="text-sm text-gray-400 line-clamp-2">
+              <p className="text-sm text-neutral-400 line-clamp-2">
                 {submission.challenge.description}
               </p>
             </div>
-            <span className="text-2xl font-bold text-cyan-400">
+            <span className="text-2xl font-bold text-accent-cyan-400">
               {submission.challenge.points}pts
             </span>
           </div>
 
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="px-2 py-1 bg-cyan-500/20 text-cyan-400 rounded text-xs font-medium">
-              Nivel {submission.challenge.level}
+            <span className="px-2 py-1 bg-accent-cyan-500/20 text-accent-cyan-400 rounded text-xs font-medium">
+              Level {submission.challenge.level}
             </span>
             <span
               className={`px-2 py-1 rounded text-xs font-medium ${getDifficultyColor(
@@ -160,7 +160,7 @@ export default function VotingCard({
         </div>
 
         {/* User Info */}
-        <div className="flex items-center gap-2 pt-2 border-t border-gray-800">
+        <div className="flex items-center gap-2 pt-2 border-t border-neutral-800">
           {submission.user.photo ? (
             <img
               src={submission.user.photo}
@@ -168,7 +168,7 @@ export default function VotingCard({
               className="w-8 h-8 rounded-full"
             />
           ) : (
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-accent-cyan-500 to-accent-blue-500 flex items-center justify-center">
               <span className="text-white text-sm font-bold">
                 {(submission.user.name || submission.user.email)
                   .charAt(0)
@@ -178,11 +178,11 @@ export default function VotingCard({
           )}
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium text-white truncate">
-              {submission.user.name || 'Usuario'}
+              {submission.user.name || 'User'}
             </p>
-            <div className="flex items-center gap-1 text-xs text-gray-400">
+            <div className="flex items-center gap-1 text-xs text-neutral-400">
               <Clock className="w-3 h-3" />
-              {new Date(submission.submittedAt).toLocaleDateString('es-ES', {
+              {new Date(submission.submittedAt).toLocaleDateString('en-US', {
                 day: 'numeric',
                 month: 'short',
                 year: 'numeric',
@@ -193,7 +193,7 @@ export default function VotingCard({
             href={submission.videoUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-cyan-400 hover:text-cyan-300 transition-colors"
+            className="text-accent-cyan-400 hover:text-accent-cyan-300 transition-colors"
           >
             <ExternalLink className="w-5 h-5" />
           </a>
@@ -202,11 +202,11 @@ export default function VotingCard({
         {/* Voting Stats */}
         <div className="space-y-2">
           {/* Progress Bar */}
-          <div className="relative h-2 bg-gray-800 rounded-full overflow-hidden">
+          <div className="relative h-2 bg-neutral-800 rounded-full overflow-hidden">
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: `${positivePercentage}%` }}
-              className="absolute left-0 top-0 h-full bg-gradient-to-r from-green-500 to-cyan-400"
+              className="absolute left-0 top-0 h-full bg-gradient-to-r from-green-500 to-accent-cyan-400"
             />
           </div>
 
@@ -216,28 +216,28 @@ export default function VotingCard({
               <p className="text-2xl font-bold text-green-400">
                 {submission.upvotes}
               </p>
-              <p className="text-xs text-gray-400">👍 Positivos</p>
+              <p className="text-xs text-neutral-400">👍 Upvotes</p>
             </div>
             <div className="bg-red-500/10 rounded p-2">
               <p className="text-2xl font-bold text-red-400">
                 {submission.downvotes}
               </p>
-              <p className="text-xs text-gray-400">👎 Negativos</p>
+              <p className="text-xs text-neutral-400">👎 Downvotes</p>
             </div>
-            <div className="bg-cyan-500/10 rounded p-2">
-              <p className="text-2xl font-bold text-cyan-400">
+            <div className="bg-accent-cyan-500/10 rounded p-2">
+              <p className="text-2xl font-bold text-accent-cyan-400">
                 {positivePercentage}%
               </p>
-              <p className="text-xs text-gray-400">Aprobación</p>
+              <p className="text-xs text-neutral-400">Approval</p>
             </div>
           </div>
 
           {/* Needs Votes Warning */}
           {needsVotes > 0 && (
-            <div className="bg-yellow-500/10 border border-yellow-500/30 rounded p-2 text-center">
-              <p className="text-sm text-yellow-400">
-                Necesita <span className="font-bold">{needsVotes}</span> voto
-                {needsVotes !== 1 ? 's' : ''} más para evaluación automática
+            <div className="bg-accent-yellow-500/10 border border-accent-yellow-500/30 rounded p-2 text-center">
+              <p className="text-sm text-accent-yellow-400">
+                Needs <span className="font-bold">{needsVotes}</span> more vote
+                {needsVotes !== 1 ? 's' : ''} for automatic evaluation
               </p>
             </div>
           )}
@@ -261,7 +261,7 @@ export default function VotingCard({
                 localVote === 'upvote' ? 'fill-white' : ''
               }`}
             />
-            Aprobar
+            Approve
           </motion.button>
 
           <motion.button
@@ -280,14 +280,14 @@ export default function VotingCard({
                 localVote === 'downvote' ? 'fill-white' : ''
               }`}
             />
-            Rechazar
+            Reject
           </motion.button>
         </div>
 
         {/* Already Voted Message */}
         {localVote && (
-          <p className="text-center text-sm text-gray-400">
-            Ya votaste en esta submission
+          <p className="text-center text-sm text-neutral-400">
+            You already voted on this submission
           </p>
         )}
       </div>

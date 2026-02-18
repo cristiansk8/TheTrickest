@@ -20,13 +20,13 @@ export async function POST(
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-      return errorResponse('UNAUTHORIZED', 'Debes iniciar sesión para comentar', 401);
+      return errorResponse('UNAUTHORIZED', 'You must log in to comment', 401);
     }
 
     const userEmail = session.user.email;
     const spotId = parseInt(params.spotId);
     if (isNaN(spotId)) {
-      return errorResponse('VALIDATION_ERROR', 'ID de spot inválido', 400);
+      return errorResponse('VALIDATION_ERROR', 'Invalid spot ID', 400);
     }
 
     const body: CreateCommentRequest = await req.json();
@@ -34,19 +34,19 @@ export async function POST(
 
     // Validaciones
     if (!content || typeof content !== 'string') {
-      return errorResponse('VALIDATION_ERROR', 'El contenido es requerido', 400);
+      return errorResponse('VALIDATION_ERROR', 'Content is required', 400);
     }
 
     const trimmedContent = content.trim();
 
     if (trimmedContent.length === 0) {
-      return errorResponse('VALIDATION_ERROR', 'El comentario no puede estar vacío', 400);
+      return errorResponse('VALIDATION_ERROR', 'Comment cannot be empty', 400);
     }
 
     if (trimmedContent.length > 500) {
       return errorResponse(
         'VALIDATION_ERROR',
-        `El comentario es muy largo (${trimmedContent.length}/500 caracteres)`,
+        `Comment is too long (${trimmedContent.length}/500 characters)`,
         400
       );
     }
@@ -57,7 +57,7 @@ export async function POST(
     if (words.length > 10 && uniqueWords.size < words.length * 0.3) {
       return errorResponse(
         'SPAM_DETECTED',
-        'Tu comentario parece spam. Por favor escribe algo más original.',
+        'Your comment looks like spam. Please write something more original.',
         400
       );
     }
@@ -68,7 +68,7 @@ export async function POST(
     });
 
     if (!spot) {
-      return errorResponse('NOT_FOUND', 'Spot no encontrado', 404);
+      return errorResponse('NOT_FOUND', 'Spot not found', 404);
     }
 
     // Si es una respuesta, verificar que el comentario padre existe
@@ -86,11 +86,11 @@ export async function POST(
       });
 
       if (!parentComment) {
-        return errorResponse('NOT_FOUND', 'El comentario padre no existe', 404);
+        return errorResponse('NOT_FOUND', 'Parent comment does not exist', 404);
       }
 
       if (parentComment.spotId !== spotId) {
-        return errorResponse('VALIDATION_ERROR', 'El comentario padre no pertenece a este spot', 400);
+        return errorResponse('VALIDATION_ERROR', 'Parent comment does not belong to this spot', 400);
       }
     }
 
@@ -108,7 +108,7 @@ export async function POST(
     if (recentComment) {
       return errorResponse(
         'RATE_LIMIT_EXCEEDED',
-        'Espera 1 minuto antes de comentar nuevamente en este spot',
+        'Wait 1 minute before commenting again on this spot',
         429
       );
     }
@@ -141,8 +141,8 @@ export async function POST(
         data: {
           userId: parentComment.userId,
           type: 'comment_reply',
-          title: 'Nueva respuesta a tu comentario',
-          message: `${comment.user?.name || 'Alguien'} respondió tu comentario en ${spot.name}`,
+          title: 'New reply to your comment',
+          message: `${comment.user?.name || 'Someone'} replied to your comment on ${spot.name}`,
           link: `/spots?spot=${spot.id}&comment=${comment.id}`,
           metadata: {
             spotId: spot.id,
@@ -205,8 +205,8 @@ export async function POST(
             data: Array.from(interestedEmails).map(email => ({
               userId: email,
               type: 'new_spot_comment',
-              title: 'Nuevo comentario en un spot que sigues',
-              message: `${comment.user?.name || 'Alguien'} comentó en ${spot.name}`,
+              title: 'New comment on a spot you follow',
+              message: `${comment.user?.name || 'Someone'} commented on ${spot.name}`,
               link: `/spots?spot=${spot.id}&comment=${comment.id}`,
               metadata: {
                 spotId: spot.id,
@@ -239,25 +239,25 @@ export async function POST(
 
     return successResponse({
       comment,
-      message: 'Comentario creado exitosamente'
+      message: 'Comment created successfully'
     });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error creando comentario:', error);
 
     // Detectar si es un error de tabla no existe
-    if (error && typeof error === 'object' && 'code' in error && error.code === 'P2021') {
+    if (error.code === 'P2021') {
       return errorResponse(
         'TABLE_NOT_FOUND',
-        'La tabla de comentarios no existe. Ejecuta: npx prisma db push',
+        'Comments table does not exist. Run: npx prisma db push',
         500
       );
     }
 
     // En desarrollo, mostrar el error completo
     const message = process.env.NODE_ENV === 'development'
-      ? error instanceof Error ? error.message : String(error) || 'Error al crear el comentario'
-      : 'Error al crear el comentario';
+      ? error.message || 'Error creating comment'
+      : 'Error creating comment';
 
     return errorResponse('INTERNAL_ERROR', message, 500);
   }
@@ -273,7 +273,7 @@ export async function GET(
     const userEmail = session?.user?.email;
     const spotId = parseInt(params.spotId);
     if (isNaN(spotId)) {
-      return errorResponse('VALIDATION_ERROR', 'ID de spot inválido', 400);
+      return errorResponse('VALIDATION_ERROR', 'Invalid spot ID', 400);
     }
 
     const { searchParams } = new URL(req.url);
@@ -282,7 +282,7 @@ export async function GET(
     const offset = parseInt(searchParams.get('offset') || '0');
 
     if (limit > 50) {
-      return errorResponse('VALIDATION_ERROR', 'El límite máximo es 50 comentarios', 400);
+      return errorResponse('VALIDATION_ERROR', 'Maximum limit is 50 comments', 400);
     }
 
     // Verificar que el spot existe
@@ -291,7 +291,7 @@ export async function GET(
     });
 
     if (!spot) {
-      return errorResponse('NOT_FOUND', 'Spot no encontrado', 404);
+      return errorResponse('NOT_FOUND', 'Spot not found', 404);
     }
 
     // Determinar ordenamiento
@@ -354,22 +354,22 @@ export async function GET(
       hasMore: offset + processedComments.length < total
     });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error obteniendo comentarios:', error);
 
     // Detectar si es un error de tabla no existe
-    if (error && typeof error === 'object' && 'code' in error && error.code === 'P2021') {
+    if (error.code === 'P2021') {
       return errorResponse(
         'TABLE_NOT_FOUND',
-        'La tabla de comentarios no existe. Ejecuta: npx prisma db push',
+        'Comments table does not exist. Run: npx prisma db push',
         500
       );
     }
 
     // En desarrollo, mostrar el error completo
     const message = process.env.NODE_ENV === 'development'
-      ? error instanceof Error ? error.message : String(error) || 'Error al obtener los comentarios'
-      : 'Error al obtener los comentarios';
+      ? error.message || 'Error fetching comments'
+      : 'Error fetching comments';
 
     return errorResponse('INTERNAL_ERROR', message, 500);
   }

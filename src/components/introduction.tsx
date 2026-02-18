@@ -11,7 +11,7 @@ const myFont = localFont({
 
 const Introduction = () => {
     return (
-        <div className="relative z-0 w-full grid items-center  p-6 py-20 md:py-0 md:grid-cols-3 justify-center bg-[#2e2257] bg-[url('/png-big-city.png')] bg-cover bg-repeat bg-top    ">
+        <div className="relative z-0 w-full grid items-center p-6 py-20 md:py-0 md:grid-cols-3 justify-center bg-surface-deep bg-[url('/png-big-city.png')] bg-cover bg-repeat bg-top">
             <div className="flex flex-col w-full justify-center mx-auto">
             <div className="justify-between">
                     <Link href='/' className="text-center">
@@ -23,7 +23,7 @@ const Introduction = () => {
                     <span className="block md:flex">
                         patina graba postea
                     </span>
-                    <span className="text-watermelon md:text-9xl">
+                    <span className="text-brand-pink md:text-9xl">
                         gana
                     </span>
                 </p>               
@@ -33,7 +33,7 @@ const Introduction = () => {
                 <Image src="/arcade.png" priority width="200" height="500" alt="Avatar" className=" w-full" />
             </div>
             <div className="flex flex-col justify-center md:max-w-md  mx-auto text-center">
-                <h1 className="text-6xl text-center text-watermelon font-bold mb-5">Gana un cupo para la gran final</h1>
+                <h1 className="text-6xl text-center text-brand-pink font-bold mb-5">Gana un cupo para la gran final</h1>
                 <Image src="/trick-est.webp" priority width="250" height="380" alt="Avatar" className="mx-auto" />               
 
             </div>

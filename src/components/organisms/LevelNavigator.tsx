@@ -54,16 +54,16 @@ export const LevelNavigator: React.FC<LevelNavigatorProps> = ({
   };
 
   const getStatusColor = (status: LevelStatus, isActive: boolean) => {
-    if (isActive) return 'bg-cyan-500 border-cyan-300 shadow-lg shadow-cyan-500/50';
-    if (status === 'completed') return 'bg-yellow-500 border-yellow-300 shadow-md';
-    if (status === 'locked') return 'bg-slate-600 border-slate-700 cursor-not-allowed';
-    return 'bg-purple-600 border-purple-400 shadow-md';
+    if (isActive) return 'bg-accent-cyan-500 border-accent-cyan-300 shadow-lg shadow-accent-cyan-500/50';
+    if (status === 'completed') return 'bg-accent-yellow-500 border-accent-yellow-300 shadow-md';
+    if (status === 'locked') return 'bg-neutral-600 border-neutral-700 cursor-not-allowed';
+    return 'bg-accent-purple-600 border-accent-purple-400 shadow-md';
   };
 
   return (
     <div className="w-full max-w-7xl mx-auto space-y-6">
       {/* LEVEL NAVIGATION */}
-      <div className="bg-slate-900 border-4 border-slate-700 rounded-2xl p-6 shadow-2xl">
+      <div className="bg-neutral-900 border-4 border-neutral-700 rounded-2xl p-6 shadow-2xl">
         {/* Level circles */}
         <div className="flex items-center justify-center gap-2 md:gap-4 mb-4 overflow-x-auto pb-4">
           {levels.map((level, index) => (
@@ -91,7 +91,7 @@ export const LevelNavigator: React.FC<LevelNavigatorProps> = ({
 
                 {/* Bonus badge */}
                 {level.type === 'bonus' && level.status !== 'locked' && (
-                  <span className="absolute -top-2 -right-2 bg-pink-500 text-white text-xs font-black px-2 py-1 rounded-full border-2 border-white">
+                  <span className="absolute -top-2 -right-2 bg-accent-pink-500 text-white text-xs font-black px-2 py-1 rounded-full border-2 border-white">
                     🌟
                   </span>
                 )}
@@ -101,7 +101,7 @@ export const LevelNavigator: React.FC<LevelNavigatorProps> = ({
               {index < levels.length - 1 && (
                 <div className={`
                   w-4 md:w-8 h-1 mx-1
-                  ${level.status === 'completed' ? 'bg-yellow-500' : 'bg-slate-700'}
+                  ${level.status === 'completed' ? 'bg-accent-yellow-500' : 'bg-neutral-700'}
                 `} />
               )}
             </div>
@@ -110,10 +110,10 @@ export const LevelNavigator: React.FC<LevelNavigatorProps> = ({
 
         {/* Level indicator */}
         <div className="text-center">
-          <p className="text-cyan-400 font-black text-sm md:text-base uppercase tracking-wider">
+          <p className="text-accent-cyan-400 font-black text-sm md:text-base uppercase tracking-wider">
             LEVEL {activeLevel}
             {currentLevel?.type === 'bonus' && (
-              <span className="ml-2 text-pink-500">🌟 BONUS</span>
+              <span className="ml-2 text-accent-pink-500">🌟 BONUS</span>
             )}
           </p>
         </div>
@@ -123,17 +123,17 @@ export const LevelNavigator: React.FC<LevelNavigatorProps> = ({
       {currentLevel && (
         <div className="relative animate-fadeIn">
           {/* Main content panel */}
-          <div className="bg-gradient-to-br from-yellow-400 via-yellow-500 to-orange-500 border-4 border-black rounded-2xl p-1 shadow-2xl">
+          <div className="bg-gradient-to-br from-accent-yellow-400 via-accent-yellow-500 to-accent-orange-500 border-4 border-black rounded-2xl p-1 shadow-2xl">
             <div className="bg-black rounded-xl p-8 md:p-12">
               <div className="text-center space-y-6">
                 {/* Title */}
-                <h2 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500 uppercase tracking-wider">
+                <h2 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-yellow-400 to-accent-orange-500 uppercase tracking-wider">
                   {currentLevel.title}
                 </h2>
 
                 {/* Description */}
                 {currentLevel.description && (
-                  <p className="text-slate-300 text-lg md:text-xl max-w-2xl mx-auto">
+                  <p className="text-neutral-300 text-lg md:text-xl max-w-2xl mx-auto">
                     {currentLevel.description}
                   </p>
                 )}
@@ -142,7 +142,7 @@ export const LevelNavigator: React.FC<LevelNavigatorProps> = ({
                 <div className="flex justify-center pt-4">
                   <button
                     onClick={currentLevel.content.mainButtonAction}
-                    className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-400 hover:to-purple-500 text-white font-black text-xl md:text-2xl py-4 px-12 md:px-16 rounded-xl border-4 border-white uppercase tracking-wider shadow-2xl transform hover:scale-105 transition-all"
+                    className="bg-gradient-to-r from-accent-pink-500 to-accent-purple-600 hover:from-accent-pink-400 hover:to-accent-purple-500 text-white font-black text-xl md:text-2xl py-4 px-12 md:px-16 rounded-xl border-4 border-white uppercase tracking-wider shadow-2xl transform hover:scale-105 transition-all"
                   >
                     <div className="flex items-center gap-3">
                       <MdPlayArrow size={32} />
@@ -158,7 +158,7 @@ export const LevelNavigator: React.FC<LevelNavigatorProps> = ({
                       <button
                         key={idx}
                         onClick={btn.action}
-                        className="bg-cyan-500 hover:bg-cyan-600 text-white font-black py-3 px-8 rounded-lg border-4 border-white uppercase tracking-wider text-sm shadow-lg transform hover:scale-105 transition-all"
+                        className="bg-accent-cyan-500 hover:bg-accent-cyan-600 text-white font-black py-3 px-8 rounded-lg border-4 border-white uppercase tracking-wider text-sm shadow-lg transform hover:scale-105 transition-all"
                       >
                         <div className="flex items-center gap-2">
                           {btn.icon}
@@ -173,18 +173,18 @@ export const LevelNavigator: React.FC<LevelNavigatorProps> = ({
           </div>
 
           {/* Decorative corner elements */}
-          <div className="absolute -top-3 -left-3 w-12 h-12 bg-pink-500 rounded-lg transform rotate-12 animate-pulse" />
-          <div className="absolute -bottom-3 -right-3 w-12 h-12 bg-cyan-500 rounded-lg transform -rotate-12 animate-pulse" />
+          <div className="absolute -top-3 -left-3 w-12 h-12 bg-accent-pink-500 rounded-lg transform rotate-12 animate-pulse" />
+          <div className="absolute -bottom-3 -right-3 w-12 h-12 bg-accent-cyan-500 rounded-lg transform -rotate-12 animate-pulse" />
         </div>
       )}
 
       {/* BOTTOM CONTROLS */}
-      <div className="bg-slate-900 border-4 border-slate-700 rounded-2xl p-6 shadow-2xl">
+      <div className="bg-neutral-900 border-4 border-neutral-700 rounded-2xl p-6 shadow-2xl">
         <div className="flex flex-wrap justify-center gap-3 md:gap-4">
           {onReplayIntro && (
             <button
               onClick={onReplayIntro}
-              className="bg-purple-600 hover:bg-purple-700 text-white font-black py-3 px-6 rounded-lg border-2 border-purple-400 uppercase tracking-wider text-sm shadow-lg transform hover:scale-105 transition-all flex items-center gap-2"
+              className="bg-accent-purple-600 hover:bg-accent-purple-700 text-white font-black py-3 px-6 rounded-lg border-2 border-accent-purple-400 uppercase tracking-wider text-sm shadow-lg transform hover:scale-105 transition-all flex items-center gap-2"
             >
               <MdReplay size={20} />
               Replay Intro
@@ -194,7 +194,7 @@ export const LevelNavigator: React.FC<LevelNavigatorProps> = ({
           {onWatchVideos && (
             <button
               onClick={onWatchVideos}
-              className="bg-pink-600 hover:bg-pink-700 text-white font-black py-3 px-6 rounded-lg border-2 border-pink-400 uppercase tracking-wider text-sm shadow-lg transform hover:scale-105 transition-all flex items-center gap-2"
+              className="bg-accent-pink-600 hover:bg-accent-pink-700 text-white font-black py-3 px-6 rounded-lg border-2 border-accent-pink-400 uppercase tracking-wider text-sm shadow-lg transform hover:scale-105 transition-all flex items-center gap-2"
             >
               <MdVideoLibrary size={20} />
               Watch Videos
@@ -204,7 +204,7 @@ export const LevelNavigator: React.FC<LevelNavigatorProps> = ({
           {onHowToPlay && (
             <button
               onClick={onHowToPlay}
-              className="bg-cyan-600 hover:bg-cyan-700 text-white font-black py-3 px-6 rounded-lg border-2 border-cyan-400 uppercase tracking-wider text-sm shadow-lg transform hover:scale-105 transition-all flex items-center gap-2"
+              className="bg-accent-cyan-600 hover:bg-accent-cyan-700 text-white font-black py-3 px-6 rounded-lg border-2 border-accent-cyan-400 uppercase tracking-wider text-sm shadow-lg transform hover:scale-105 transition-all flex items-center gap-2"
             >
               <MdHelpOutline size={20} />
               How to Play
@@ -214,7 +214,7 @@ export const LevelNavigator: React.FC<LevelNavigatorProps> = ({
           {onShare && (
             <button
               onClick={onShare}
-              className="bg-yellow-500 hover:bg-yellow-600 text-black font-black py-3 px-6 rounded-lg border-2 border-yellow-300 uppercase tracking-wider text-sm shadow-lg transform hover:scale-105 transition-all flex items-center gap-2"
+              className="bg-accent-yellow-500 hover:bg-accent-yellow-600 text-black font-black py-3 px-6 rounded-lg border-2 border-accent-yellow-300 uppercase tracking-wider text-sm shadow-lg transform hover:scale-105 transition-all flex items-center gap-2"
             >
               <MdShare size={20} />
               Share

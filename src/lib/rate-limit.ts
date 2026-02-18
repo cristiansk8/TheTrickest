@@ -164,7 +164,7 @@ export function rateLimitResponse(result: RateLimitResult): Response {
       success: false,
       error: {
         code: 'RATE_LIMIT_EXCEEDED',
-        message: 'Demasiadas solicitudes. Por favor, espera un momento antes de intentar nuevamente.',
+        message: 'Too many requests. Please wait a moment before trying again.',
         retryAfter,
       },
       meta: {
@@ -188,45 +188,45 @@ export function rateLimitResponse(result: RateLimitResult): Response {
 // ==================== PRECONFIGURED RATE LIMITS ====================
 
 /**
- * Rate limits estrictos para endpoints sensibles
+ * Strict rate limits for sensitive endpoints
  */
 export const RateLimits = {
-  /** Login: 5 intentos por minuto */
+  /** Login: 5 attempts per minute */
   login: {
     limit: 5,
     window: 60,
     identifier: 'login',
   },
 
-  /** Registro: 3 intentos por hora */
+  /** Register: 3 attempts per hour */
   register: {
     limit: 3,
     window: 3600,
     identifier: 'register',
   },
 
-  /** Set password: 3 intentos por hora */
+  /** Set password: 3 attempts per hour */
   setPassword: {
     limit: 3,
     window: 3600,
     identifier: 'set-password',
   },
 
-  /** Submit trick: 10 por minuto */
+  /** Submit trick: 10 per minute */
   submitTrick: {
     limit: 10,
     window: 60,
     identifier: 'submit-trick',
   },
 
-  /** General API: 100 por minuto */
+  /** General API: 100 per minute */
   api: {
     limit: 100,
     window: 60,
     identifier: 'api',
   },
 
-  /** Leaderboard: 30 por minuto */
+  /** Leaderboard: 30 per minute */
   leaderboard: {
     limit: 30,
     window: 60,

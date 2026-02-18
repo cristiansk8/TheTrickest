@@ -1,0 +1,189 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "save": "Save",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "close": "Close",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "viewAll": "View All",
+    "seeMore": "See More",
+    "noResults": "No results found"
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signOut": "Sign Out",
+    "signUp": "Sign Up",
+    "register": "Register",
+    "login": "Login",
+    "logout": "Logout",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "forgotPassword": "Forgot Password?",
+    "continueWithGoogle": "Continue with Google",
+    "orContinueWith": "Or continue with",
+    "alreadyHaveAccount": "Already have an account?",
+    "dontHaveAccount": "Don't have an account?",
+    "createAccount": "Create Account"
+  },
+  "navigation": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "spots": "Spots",
+    "leaderboard": "Leaderboard",
+    "explore": "Explore",
+    "about": "About",
+    "teams": "Teams",
+    "adminPanel": "Admin Panel"
+  },
+  "sidebar": {
+    "navigation": "Navigation",
+    "welcome": "Welcome",
+    "yourScore": "Your Score",
+    "skater": "SKATER",
+    "judge": "JUDGE",
+    "admin": "ADMIN"
+  },
+  "menu": {
+    "profile": "Profile",
+    "editProfile": "edit profile",
+    "tricks": "Tricks",
+    "inProgress": "in progress",
+    "submissions": "Submissions",
+    "history": "history",
+    "ranking": "Ranking",
+    "topSkaters": "top skaters",
+    "teams": "Teams",
+    "myTeam": "my team",
+    "achievements": "Achievements",
+    "badges": "badges",
+    "evaluate": "Evaluate",
+    "pendingHistory": "pending & history",
+    "asSkater": "as skater",
+    "users": "Users",
+    "manage": "manage",
+    "challenges": "Challenges",
+    "settings": "Settings",
+    "system": "system",
+    "score": "score"
+  },
+  "home": {
+    "followSteps": "Follow the Steps",
+    "meetCommunity": "MEET THE COMMUNITY",
+    "communityDescription": "Discover talented skaters, follow their progress and connect with the Trickest community"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome back",
+    "recentActivity": "Recent Activity",
+    "quickActions": "Quick Actions",
+    "statistics": "Statistics",
+    "pendingSubmissions": "Pending Submissions",
+    "approvedSubmissions": "Approved Submissions",
+    "totalPoints": "Total Points"
+  },
+  "spots": {
+    "title": "Skate Spots",
+    "description": "Discover the best skate spots in your area",
+    "addSpot": "Add Spot",
+    "nearMe": "Near Me",
+    "allSpots": "All Spots",
+    "spotDetails": "Spot Details",
+    "address": "Address",
+    "type": "Type",
+    "rating": "Rating"
+  },
+  "challenges": {
+    "title": "Challenges",
+    "description": "Complete challenges to earn points and climb the leaderboard",
+    "difficulty": "Difficulty",
+    "points": "Points",
+    "submitTrick": "Submit Trick",
+    "viewDemo": "View Demo",
+    "level": "Level",
+    "bonus": "Bonus"
+  },
+  "submissions": {
+    "title": "Submissions",
+    "pending": "Pending",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "submitNew": "Submit New",
+    "videoUrl": "Video URL",
+    "notes": "Notes",
+    "feedback": "Feedback",
+    "score": "Score",
+    "status": "Status"
+  },
+  "leaderboard": {
+    "title": "Leaderboard",
+    "rank": "Rank",
+    "skater": "Skater",
+    "points": "Points",
+    "tricksCompleted": "Tricks Completed",
+    "topSkaters": "Top Skaters"
+  },
+  "profile": {
+    "title": "Profile",
+    "editProfile": "Edit Profile",
+    "username": "Username",
+    "bio": "Bio",
+    "location": "Location",
+    "socialMedia": "Social Media",
+    "stance": "Stance",
+    "yearsSkating": "Years Skating",
+    "favoriteSpot": "Favorite Spot",
+    "followers": "Followers",
+    "following": "Following",
+    "follow": "Follow",
+    "unfollow": "Unfollow"
+  },
+  "teams": {
+    "title": "Teams",
+    "createTeam": "Create Team",
+    "joinTeam": "Join Team",
+    "leaveTeam": "Leave Team",
+    "teamName": "Team Name",
+    "members": "Members",
+    "teamScore": "Team Score",
+    "captain": "Captain"
+  },
+  "judges": {
+    "evaluate": "Evaluate",
+    "pendingEvaluations": "Pending Evaluations",
+    "evaluationHistory": "Evaluation History",
+    "approve": "Approve",
+    "reject": "Reject",
+    "addFeedback": "Add Feedback"
+  },
+  "admin": {
+    "dashboard": "Admin Dashboard",
+    "manageUsers": "Manage Users",
+    "manageChallenges": "Manage Challenges",
+    "manageTeams": "Manage Teams",
+    "systemSettings": "System Settings"
+  },
+  "errors": {
+    "generic": "Something went wrong",
+    "notFound": "Page not found",
+    "unauthorized": "Unauthorized access",
+    "forbidden": "Access forbidden",
+    "networkError": "Network error. Please try again.",
+    "validationError": "Please check your input"
+  },
+  "metadata": {
+    "title": "Trickest - Skateboarding Challenge Platform",
+    "description": "Skate, record and post your best tricks. Compete with skaters from around the world."
+  }
+}

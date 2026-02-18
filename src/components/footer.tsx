@@ -14,7 +14,7 @@ const Footer = () => {
   const isAdmin = session?.user?.role === 'admin';
 
   return (
-    <footer className="bg-indigo-600 rounded-lg shadow dark:bg-gray-900 m-4">
+    <footer className="bg-indigo-600 rounded-lg shadow dark:bg-neutral-900 m-4">
       <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
         <div className="sm:flex sm:items-center sm:justify-between">
           <a
@@ -26,7 +26,7 @@ const Footer = () => {
               Patina, graba y postea
             </span>
           </a>
-          <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
+          <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-neutral-500 sm:mb-0 dark:text-neutral-400">
             <li>
               <a href="#" className="hover:underline me-4 md:me-6">
                 Nosotros
@@ -54,8 +54,8 @@ const Footer = () => {
             )}
           </ul>
         </div>
-        <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-        <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
+        <hr className="my-6 border-neutral-200 sm:mx-auto dark:border-neutral-700 lg:my-8" />
+        <span className="block text-sm text-neutral-500 sm:text-center dark:text-neutral-400">
           Since 2024{' '}
           <a href="https://thetrickest.com" className="hover:underline">
             Thetrickest

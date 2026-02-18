@@ -3,6 +3,12 @@
 import { useState, useEffect } from 'react';
 import { MapPin, X, Check } from 'lucide-react';
 
+const THEME_COLORS = {
+  brandPink: "#F35588",
+  brandPinkDark: "#CC3377",
+  inkInverse: "#ffffff",
+};
+
 interface SpotLocationPickerProps {
   initialLat: number;
   initialLng: number;
@@ -29,12 +35,12 @@ export default function SpotLocationPicker({
   const [components, setComponents] = useState<LeafletComponents | null>(null);
 
   useEffect(() => {
-    // Importar CSS de Leaflet
+    // Import Leaflet CSS
     if (typeof window !== 'undefined') {
       require('leaflet/dist/leaflet.css');
     }
 
-    // Cargar Leaflet y React-Leaflet dinámicamente
+    // Load Leaflet and React-Leaflet dynamically
     Promise.all([
       import('leaflet'),
       import('react-leaflet')
@@ -47,9 +53,9 @@ export default function SpotLocationPicker({
   if (!components) {
     return (
       <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[9999]">
-        <div className="bg-slate-800 border-4 border-cyan-400 rounded-xl p-8 text-center">
-          <div className="animate-spin w-12 h-12 border-4 border-cyan-400 border-t-transparent rounded-full mx-auto mb-4"></div>
-          <p className="text-cyan-300 font-bold">Cargando mapa...</p>
+        <div className="bg-neutral-800 border-4 border-accent-cyan-400 rounded-xl p-8 text-center">
+          <div className="animate-spin w-12 h-12 border-4 border-accent-cyan-400 border-t-transparent rounded-full mx-auto mb-4"></div>
+          <p className="text-accent-cyan-300 font-bold">Loading map...</p>
         </div>
       </div>
     );
@@ -81,9 +87,9 @@ export default function SpotLocationPicker({
         <div style="
           width: 36px;
           height: 36px;
-          background: linear-gradient(135deg, #F35588, #CC3377);
+          background: linear-gradient(135deg, ${THEME_COLORS.brandPink}, ${THEME_COLORS.brandPinkDark});
           border-radius: 50%;
-          border: 3px solid white;
+          border: 3px solid ${THEME_COLORS.inkInverse};
           box-shadow: 0 0 20px rgba(243, 85, 136, 0.8);
           display: flex;
           align-items: center;
@@ -106,16 +112,16 @@ export default function SpotLocationPicker({
 
   return (
     <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[9999] p-4">
-      <div className="bg-slate-800 border-4 border-cyan-400 rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+      <div className="bg-neutral-800 border-4 border-accent-cyan-400 rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col">
         {/* Header */}
-        <div className="bg-gradient-to-r from-cyan-600 to-purple-600 p-4 flex justify-between items-center">
+        <div className="bg-gradient-to-r from-accent-cyan-600 to-accent-purple-600 p-4 flex justify-between items-center">
           <div>
             <h3 className="text-2xl font-black text-white uppercase flex items-center gap-2">
               <MapPin className="w-6 h-6" />
-              Confirmar Ubicación del Spot
+              Confirm Spot Location
             </h3>
-            <p className="text-cyan-100 text-sm mt-1">
-              Haz clic en el mapa para ajustar la posición exacta
+            <p className="text-accent-cyan-100 text-sm mt-1">
+              Click on the map to adjust the exact position
             </p>
           </div>
           <button
@@ -126,7 +132,7 @@ export default function SpotLocationPicker({
           </button>
         </div>
 
-        {/* Mapa */}
+        {/* Map */}
         <div className="flex-1 relative min-h-[400px]">
           <MapContainer
             center={[lat, lng]}
@@ -144,18 +150,18 @@ export default function SpotLocationPicker({
           </MapContainer>
         </div>
 
-        {/* Coordenadas y acciones */}
-        <div className="p-4 bg-slate-900 border-t-2 border-cyan-500">
+        {/* Coordinates and actions */}
+        <div className="p-4 bg-neutral-900 border-t-2 border-accent-cyan-500">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-            <div className="bg-slate-800 border border-cyan-500 rounded-lg p-3">
-              <label className="block text-cyan-400 text-xs font-bold uppercase mb-1">
-                Latitud
+            <div className="bg-neutral-800 border border-accent-cyan-500 rounded-lg p-3">
+              <label className="block text-accent-cyan-400 text-xs font-bold uppercase mb-1">
+                Latitude
               </label>
               <p className="text-white font-mono text-lg">{lat.toFixed(6)}</p>
             </div>
-            <div className="bg-slate-800 border border-cyan-500 rounded-lg p-3">
-              <label className="block text-cyan-400 text-xs font-bold uppercase mb-1">
-                Longitud
+            <div className="bg-neutral-800 border border-accent-cyan-500 rounded-lg p-3">
+              <label className="block text-accent-cyan-400 text-xs font-bold uppercase mb-1">
+                Longitude
               </label>
               <p className="text-white font-mono text-lg">{lng.toFixed(6)}</p>
             </div>
@@ -164,16 +170,16 @@ export default function SpotLocationPicker({
           <div className="flex gap-3">
             <button
               onClick={onCancel}
-              className="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-bold py-3 px-6 rounded-lg border-2 border-slate-500 transition-colors"
+              className="flex-1 bg-neutral-700 hover:bg-neutral-600 text-white font-bold py-3 px-6 rounded-lg border-2 border-neutral-500 transition-colors"
             >
-              Cancelar
+              Cancel
             </button>
             <button
               onClick={() => onConfirm(lat, lng)}
-              className="flex-1 bg-gradient-to-r from-cyan-600 to-purple-600 hover:from-cyan-500 hover:to-purple-500 text-white font-bold py-3 px-6 rounded-lg border-2 border-white flex items-center justify-center gap-2 transition-all"
+              className="flex-1 bg-gradient-to-r from-accent-cyan-600 to-accent-purple-600 hover:from-accent-cyan-500 hover:to-accent-purple-500 text-white font-bold py-3 px-6 rounded-lg border-2 border-white flex items-center justify-center gap-2 transition-all"
             >
               <Check className="w-5 h-5" />
-              Confirmar Ubicación
+              Confirm Location
             </button>
           </div>
         </div>

@@ -13,8 +13,8 @@ export async function GET(req: Request) {
     console.log('👤 Session user email:', session?.user?.email);
 
     if (!session?.user?.email) {
-      console.log('❌ No autenticado');
-      return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
+      console.log('❌ Not authenticated');
+      return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
 
     // Verificar que el usuario sea juez o admin
@@ -26,8 +26,8 @@ export async function GET(req: Request) {
     console.log('👨‍⚖️ User role:', user?.role);
 
     if (!user || (user.role !== 'judge' && user.role !== 'admin')) {
-      console.log('❌ No autorizado - role:', user?.role);
-      return NextResponse.json({ error: 'No autorizado' }, { status: 403 });
+      console.log('❌ Not authorized - role:', user?.role);
+      return NextResponse.json({ error: 'Not authorized' }, { status: 403 });
     }
 
     console.log('🔍 Buscando submissions pendientes...');
@@ -64,16 +64,16 @@ export async function GET(req: Request) {
       submissions,
       count: submissions.length,
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error('❌ Error obteniendo submissions pendientes:', error);
     console.error('Error details:', {
-      message: error instanceof Error ? error.message : String(error),
-      code: error && typeof error === 'object' && 'code' in error ? error.code : undefined,
-      stack: error instanceof Error ? error.stack : undefined,
+      message: error.message,
+      code: error.code,
+      stack: error.stack,
     });
     return NextResponse.json({
-      error: 'Error del servidor',
-      message: error instanceof Error ? error.message : String(error) || 'Error desconocido',
+      error: 'Server error',
+      message: error.message || 'Error desconocido',
     }, { status: 500 });
   }
 }

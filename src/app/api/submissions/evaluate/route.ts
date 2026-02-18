@@ -10,7 +10,7 @@ export async function POST(req: Request) {
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-      return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
+      return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
 
     // Verificar que el usuario sea juez o admin
@@ -20,7 +20,7 @@ export async function POST(req: Request) {
     });
 
     if (!user || (user.role !== 'judge' && user.role !== 'admin')) {
-      return NextResponse.json({ error: 'No autorizado' }, { status: 403 });
+      return NextResponse.json({ error: 'Not authorized' }, { status: 403 });
     }
 
     const { submissionId, status, score, feedback, evaluatedBy } = await req.json();
@@ -31,11 +31,11 @@ export async function POST(req: Request) {
     }
 
     if (status !== 'approved' && status !== 'rejected') {
-      return NextResponse.json({ error: 'Estado inválido' }, { status: 400 });
+      return NextResponse.json({ error: 'Invalid status' }, { status: 400 });
     }
 
     if (status === 'approved' && (score === undefined || score < 0 || score > 100)) {
-      return NextResponse.json({ error: 'Score inválido (debe estar entre 0 y 100)' }, { status: 400 });
+      return NextResponse.json({ error: 'Invalid score (must be between 0 and 100)' }, { status: 400 });
     }
 
     // Actualizar la submission
@@ -65,12 +65,12 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({
-      message: `Submission ${status === 'approved' ? 'aprobada' : 'rechazada'} exitosamente`,
+      message: `Submission ${status === 'approved' ? 'approved' : 'rejected'} successfully`,
       submission: updatedSubmission,
     });
 
   } catch (error) {
     console.error('Error evaluando submission:', error);
-    return NextResponse.json({ error: 'Error del servidor' }, { status: 500 });
+    return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }

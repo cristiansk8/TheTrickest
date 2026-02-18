@@ -11,14 +11,14 @@ export async function GET(req: Request) {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.email) {
-      return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
+      return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
 
     const { searchParams } = new URL(req.url);
     const email = searchParams.get('email');
 
     if (email !== session.user.email) {
-      return NextResponse.json({ error: 'No autorizado' }, { status: 403 });
+      return NextResponse.json({ error: 'Not authorized' }, { status: 403 });
     }
 
     const user = await prisma.user.findUnique({
@@ -34,13 +34,13 @@ export async function GET(req: Request) {
     });
 
     if (!user) {
-      return NextResponse.json({ error: 'Usuario no encontrado' }, { status: 404 });
+      return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
     return NextResponse.json(user);
   } catch (error) {
     console.error('Error obteniendo ubicación:', error);
-    return NextResponse.json({ error: 'Error del servidor' }, { status: 500 });
+    return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }
 
@@ -49,7 +49,7 @@ export async function PUT(req: Request) {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.email) {
-      return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
+      return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
 
     const body = await req.json();
@@ -57,13 +57,13 @@ export async function PUT(req: Request) {
 
     // Verificar que el usuario solo pueda editar su propia ubicación
     if (email !== session.user.email) {
-      return NextResponse.json({ error: 'No autorizado' }, { status: 403 });
+      return NextResponse.json({ error: 'Not authorized' }, { status: 403 });
     }
 
     // Validación: si showOnMap es true y se están proporcionando coordenadas, estas deben ser válidas
     if (showOnMap && (latitude !== undefined && latitude !== null) && (!latitude || !longitude)) {
       return NextResponse.json(
-        { error: 'Se requieren coordenadas válidas para aparecer en el mapa' },
+        { error: 'Valid coordinates are required to appear on the map' },
         { status: 400 }
       );
     }
@@ -100,6 +100,6 @@ export async function PUT(req: Request) {
     });
   } catch (error) {
     console.error('Error actualizando ubicación:', error);
-    return NextResponse.json({ error: 'Error del servidor' }, { status: 500 });
+    return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }

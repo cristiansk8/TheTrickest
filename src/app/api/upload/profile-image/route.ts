@@ -9,7 +9,7 @@ export async function POST(request: Request) {
     const session = await getServerSession(authOptions);
 
     if (!session?.user?.email) {
-      return NextResponse.json({ error: 'No autenticado' }, { status: 401 });
+      return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
     }
 
     const formData = await request.formData();
@@ -92,7 +92,7 @@ export async function POST(request: Request) {
     return NextResponse.json({
       success: true,
       url: publicUrl,
-      message: 'Imagen subida exitosamente',
+      message: 'Imagen subida successfully',
     });
   } catch (error) {
     console.error('Error al subir imagen:', error);

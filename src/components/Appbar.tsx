@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import SigninButton from './SigninButton';
 import LocationToggle from './LocationToggle';
+import LanguageSwitcher from './LanguageSwitcher';
 import { useRealtime } from '@/providers/SupabaseRealtimeProvider';
 import SpotModal from '@/components/organisms/SpotModal';
 
@@ -100,7 +101,7 @@ const Appbar = () => {
   const handleNotificationClick = async (notification: Notification) => {
     setLoading(true);
     try {
-      // Marcar como leída
+      // Mark as read
       await fetch('/api/notifications', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
@@ -110,26 +111,26 @@ const Appbar = () => {
         })
       });
 
-      // Actualizar estado local
+      // Update local state
       setNotifications(prev =>
         prev.map(n => n.id === notification.id ? { ...n, isRead: true } : n)
       );
 
-      // Refrescar contador desde el provider
+      // Refresh counter from provider
       await refreshUnreadCount();
 
-      // Si es comentario, abrir modal
+      // If comment, open modal
       if (notification.type === 'comment_reply' || notification.type === 'comment_mention') {
-        console.log('🔔 Notificación de comentario:', notification);
+        console.log('🔔 Comment notification:', notification);
         console.log('📦 Metadata:', notification.metadata);
 
         const spotId = notification.metadata?.spotId as number | undefined;
         const commentId = notification.metadata?.commentId as number | undefined;
 
-        console.log('✅ Datos extraídos:', { spotId, commentId });
+        console.log('✅ Extracted data:', { spotId, commentId });
 
         if (spotId) {
-          console.log('🚀 Abriendo modal con spotId:', spotId, 'commentId:', commentId);
+          console.log('🚀 Opening modal with spotId:', spotId, 'commentId:', commentId);
           setModalSpotId(spotId);
           setModalCommentId(commentId || null);
           setShowSpotModal(true);
@@ -138,7 +139,7 @@ const Appbar = () => {
         }
       }
 
-      // Redirigir si tiene link
+      // Redirect if has link
       if (notification.link) {
         window.location.href = notification.link;
       }
@@ -161,10 +162,10 @@ const Appbar = () => {
         })
       });
 
-      // Actualizar estado local
+      // Update local state
       setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
 
-      // Refrescar contador desde el provider
+      // Refresh counter from provider
       await refreshUnreadCount();
     } catch (err) {
       console.error('Error:', err);
@@ -202,20 +203,20 @@ const Appbar = () => {
     <header className="fixed top-0 left-0 right-0 z-[9990] flex p-4 items-center w-full bg-transparent backdrop-blur-sm">
       <SigninButton />
 
-      {/* User Score Badge - dentro del header */}
+      {/* User Score Badge - inside header */}
       {session?.user && (
         <Link href="/dashboard/skaters/profile" className="ml-4">
-          <div className="flex items-center gap-2 md:gap-3 bg-slate-800/80 px-3 py-2 rounded-lg border-2 border-cyan-500/50 hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-500/30 transition-all cursor-pointer hover:scale-105">
+          <div className="flex items-center gap-2 md:gap-3 bg-neutral-800/80 px-3 py-2 rounded-lg border-2 border-accent-cyan-500/50 hover:border-accent-cyan-400 hover:shadow-lg hover:shadow-accent-cyan-500/30 transition-all cursor-pointer hover:scale-105">
             {/* Avatar */}
             <div className="flex-shrink-0">
               {(userScore?.photo || session.user.image) ? (
                 <img
                   src={userScore?.photo || session.user.image || ''}
                   alt={userScore?.name || session.user.name || 'User'}
-                  className="w-8 h-8 md:w-10 md:h-10 rounded-full border-2 border-cyan-400 object-cover"
+                  className="w-8 h-8 md:w-10 md:h-10 rounded-full border-2 border-accent-cyan-400 object-cover"
                 />
               ) : (
-                <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center border-2 border-cyan-400">
+                <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gradient-to-br from-accent-cyan-500 to-accent-blue-500 flex items-center justify-center border-2 border-accent-cyan-400">
                   <span className="text-white font-black text-sm md:text-lg">
                     {(userScore?.name || session.user.name)?.charAt(0).toUpperCase() || '?'}
                   </span>
@@ -223,14 +224,14 @@ const Appbar = () => {
               )}
             </div>
 
-            {/* User Info - oculto en móvil */}
+            {/* User Info - hidden on mobile */}
             <div className="hidden sm:flex flex-col">
               <p className="text-white font-bold text-xs md:text-sm uppercase tracking-wider leading-tight truncate max-w-[100px] md:max-w-[150px]">
                 {userScore?.name || session.user.name || 'Skater'}
               </p>
               <div className="flex items-center gap-1">
-                <span className="text-yellow-400 text-xs font-black">⭐</span>
-                <span className="text-yellow-400 font-bold text-xs">
+                <span className="text-accent-yellow-400 text-xs font-black">⭐</span>
+                <span className="text-accent-yellow-400 font-bold text-xs">
                   {userScore?.totalScore?.toLocaleString() || 0} PTS
                 </span>
               </div>
@@ -239,14 +240,17 @@ const Appbar = () => {
         </Link>
       )}
 
-      {/* Botones flotantes a la derecha */}
+      {/* Floating buttons on the right */}
       <div className="ml-auto flex items-center gap-2 md:gap-3">
-        {/* Botón de Ubicación */}
+        {/* Language Switcher */}
+        <LanguageSwitcher />
+
+        {/* Location button */}
         {session?.user?.email && (
           <LocationToggle />
         )}
 
-        {/* Botón de Notificaciones */}
+        {/* Notifications button */}
         {session?.user?.email && (
           <div className="relative notifications-container">
             <button
@@ -263,7 +267,7 @@ const Appbar = () => {
             >
               <Bell className="w-5 h-5 md:w-6 md:h-6" />
 
-              {/* Badge de notificaciones */}
+              {/* Notifications badge */}
               {unreadCount > 0 && (
                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center animate-bounce">
                   {unreadCount > 9 ? '9+' : unreadCount}
@@ -271,12 +275,12 @@ const Appbar = () => {
               )}
             </button>
 
-            {/* Dropdown de Notificaciones */}
+            {/* Notifications dropdown */}
             {showNotifications && (
-              <div className="absolute top-full right-0 mt-2 w-80 md:w-96 bg-slate-900 border-4 border-green-500 rounded-lg shadow-2xl z-[9991] max-h-[32rem] flex flex-col">
+              <div className="absolute top-full right-0 mt-2 w-80 md:w-96 bg-neutral-900 border-4 border-green-500 rounded-lg shadow-2xl z-[9991] max-h-[32rem] flex flex-col">
                 <div className="p-4 border-b border-green-500 flex justify-between items-center">
                   <h3 className="text-white font-black uppercase text-lg">
-                    🔔 Notificaciones
+                    🔔 Notifications
                   </h3>
                   {unreadCount > 0 && (
                     <button
@@ -284,7 +288,7 @@ const Appbar = () => {
                       disabled={loading}
                       className="text-green-400 hover:text-green-300 text-xs font-bold uppercase transition-colors disabled:opacity-50"
                     >
-                      Marcar todas
+                      Mark all
                     </button>
                   )}
                 </div>
@@ -292,37 +296,37 @@ const Appbar = () => {
                 <div className="flex-1 overflow-y-auto">
                   {notifications.length === 0 ? (
                     <div className="p-6 text-center">
-                      <p className="text-slate-400">No tienes notificaciones</p>
+                      <p className="text-neutral-400">You have no notifications</p>
                     </div>
                   ) : (
-                    <div className="divide-y divide-slate-700">
+                    <div className="divide-y divide-neutral-700">
                       {notifications.map((notification) => (
                         <button
                           key={notification.id}
                           onClick={() => handleNotificationClick(notification)}
                           disabled={loading}
-                          className={`w-full p-4 hover:bg-slate-800 transition-colors text-left ${
-                            !notification.isRead ? 'bg-slate-800/50' : ''
+                          className={`w-full p-4 hover:bg-neutral-800 transition-colors text-left ${
+                            !notification.isRead ? 'bg-neutral-800/50' : ''
                           }`}
                         >
                           <div className="flex items-start gap-3">
-                            <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-br from-green-500 to-cyan-600 flex items-center justify-center text-xl">
+                            <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-br from-green-500 to-accent-cyan-600 flex items-center justify-center text-xl">
                               {getNotificationIcon(notification.type)}
                             </div>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-start justify-between gap-2 mb-1">
-                                <p className={`font-bold text-sm ${notification.isRead ? 'text-slate-300' : 'text-white'}`}>
+                                <p className={`font-bold text-sm ${notification.isRead ? 'text-neutral-300' : 'text-white'}`}>
                                   {notification.title}
                                 </p>
                                 {!notification.isRead && (
                                   <div className="flex-shrink-0 w-2 h-2 bg-green-500 rounded-full"></div>
                                 )}
                               </div>
-                              <p className="text-slate-400 text-xs">
+                              <p className="text-neutral-400 text-xs">
                                 {notification.message}
                               </p>
-                              <p className="text-slate-500 text-xs mt-1">
-                                {new Date(notification.createdAt).toLocaleDateString('es-ES', {
+                              <p className="text-neutral-500 text-xs mt-1">
+                                {new Date(notification.createdAt).toLocaleDateString('en-US', {
                                   day: 'numeric',
                                   month: 'short',
                                   hour: '2-digit',
@@ -341,11 +345,11 @@ const Appbar = () => {
           </div>
         )}
 
-        {/* Botón de Votación Comunitaria */}
+        {/* Community Voting button */}
 
       </div>
 
-      {/* Modal de Spot con Comentarios */}
+      {/* Spot Modal with Comments */}
       <SpotModal
         isOpen={showSpotModal}
         spotId={modalSpotId}
