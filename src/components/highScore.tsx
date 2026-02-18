@@ -1,12 +1,16 @@
+'use client';
+
 import React from 'react'
 import { IoIosShareAlt } from "react-icons/io";
 import { FaHeart } from "react-icons/fa";
 import {highScore} from "../../data";
 import {Button} from "@nextui-org/react";
+import { useTranslations } from 'next-intl';
 
 
 
 const HighScore = () => {
+    const t = useTranslations('highScore');
     return (
         <div className="flex w-full flex-wrap content-center justify-center px-7">
             <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
@@ -38,7 +42,7 @@ const HighScore = () => {
                 }
             </div>
             <div>
-                <Button>Ver todos</Button>
+                <Button>{t('viewAll')}</Button>
             </div>
         </div>
     )

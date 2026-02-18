@@ -1,6 +1,7 @@
 'use client';
 
 import { Shield, Users } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 interface CommunityApprovedBadgeProps {
   communityApproved: boolean;
@@ -11,6 +12,8 @@ export default function CommunityApprovedBadge({
   communityApproved,
   className = '',
 }: CommunityApprovedBadgeProps) {
+  const t = useTranslations('communityBadge');
+
   if (communityApproved) {
     return (
       <div
@@ -18,9 +21,8 @@ export default function CommunityApprovedBadge({
       >
         <Users className="w-4 h-4 text-accent-cyan-400" />
         <span className="text-sm font-semibold text-accent-cyan-400">
-          Aprobado por Comunidad
+          {t('approvedByCommunity')}
         </span>
-        <span className="text-xs text-accent-cyan-300/70">✨</span>
       </div>
     );
   }
@@ -31,9 +33,8 @@ export default function CommunityApprovedBadge({
     >
       <Shield className="w-4 h-4 text-accent-purple-400" />
       <span className="text-sm font-semibold text-accent-purple-400">
-        Aprobado por Juez
+        {t('approvedByJudge')}
       </span>
-      <span className="text-xs text-accent-purple-300/70">⚡</span>
     </div>
   );
 }

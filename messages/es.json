@@ -404,5 +404,96 @@
     "approve": "Aprobar",
     "reject": "Rechazar",
     "alreadyVoted": "Ya votaste en esta entrega"
+  },
+  "contactForm": {
+    "title": "ÚNETE AL MOVIMIENTO",
+    "subtitle": "Parte de la revolución del skate en Latinoamérica",
+    "levels": "Niveles",
+    "competitions": "Competencias",
+    "tricks": "Trucos",
+    "progress": "Progreso",
+    "collaborateTitle": "Colabora con Nosotros",
+    "collaborateDesc": "Patrocinadores, marcas, skaters o entusiastas - todos son bienvenidos",
+    "nameLabel": "Nombre / Marca / Empresa",
+    "namePlaceholder": "¿Cómo te llamas?",
+    "emailLabel": "Email",
+    "interestLabel": "¿Cómo quieres colaborar?",
+    "selectOption": "Selecciona una opción",
+    "optionSkater": "Soy Skater - Quiero unirme",
+    "optionSponsor": "Soy Marca - Quiero patrocinar",
+    "optionInvestor": "Inversor - Quiero invertir",
+    "optionPartner": "Partner - Colaboración estratégica",
+    "optionPress": "Prensa/Media",
+    "optionOther": "Otro",
+    "messageLabel": "Cuéntanos más",
+    "messagePlaceholder": "¿En qué puedes aportar al proyecto?",
+    "sendWhatsApp": "Enviar por WhatsApp",
+    "whyJoinTitle": "Por Qué Únete",
+    "whyJoin1": "Primera plataforma de competencias de skate en LATAM",
+    "whyJoin2": "Comunidad activa y en crecimiento constante",
+    "whyJoin3": "Visibilidad real para skaters y marcas aliadas",
+    "whyJoin4": "Gamificación que mantiene el engagement alto",
+    "whyJoin5": "Escalable a múltiples países y mercados",
+    "trustBadge": "Ya estamos haciendo historia - Únete a escribir el próximo capítulo"
+  },
+  "contactCTA": {
+    "title": "ÚNETE AL MOVIMIENTO",
+    "subtitle": "Parte de la revolución del skate en Latinoamérica",
+    "levels": "Niveles",
+    "competitions": "Competencias",
+    "tricks": "Trucos",
+    "progress": "Progreso",
+    "sendProposal": "Envíanos una Propuesta",
+    "sendProposalDesc": "Patrocinadores, marcas, skaters - todos bienvenidos",
+    "collaborate": "Colaborar",
+    "directContact": "Contacto Directo",
+    "directContactDesc": "Respuesta rápida para conversaciones directas",
+    "whatsapp": "WhatsApp",
+    "trustBadge": "Ya estamos haciendo historia - Únete a escribir el próximo capítulo"
+  },
+  "highScore": {
+    "viewAll": "Ver todos"
+  },
+  "howToWin": {
+    "participate": "Participar"
+  },
+  "introduction": {
+    "tagline1": "patina graba postea",
+    "tagline2": "gana",
+    "finalSpot": "Gana un cupo para la gran final"
+  },
+  "communityBadge": {
+    "approvedByCommunity": "Aprobado por Comunidad",
+    "approvedByJudge": "Aprobado por Juez"
+  },
+  "votingCTA": {
+    "systemActive": "Sistema Activo",
+    "liveVoting": "Votación en Vivo",
+    "title": "Comunidad en Acción",
+    "description": "La comunidad decide quién gana. Participa votando por las mejores entregas.",
+    "pendingSubmissions": "Entregas Pendientes",
+    "communityApproved": "Aprobadas por Comunidad",
+    "needYourVote": "Necesitan tu Voto",
+    "loading": "Cargando...",
+    "viewSubmissions": "Ver {count} Entregas",
+    "goVote": "Ir a Votar"
+  },
+  "skatersShowcase": {
+    "joinCommunity": "Únete a la Comunidad Trickest!",
+    "joinDesc": "Sé parte de la primera oleada de skaters. Regístrate, completa desafíos y únete a esta comunidad en crecimiento.",
+    "beFirst": "Sé de los primeros!",
+    "signUpNotify": "Regístrate para ser notificado",
+    "signUpFirst": "Regístrate para ser primero!",
+    "yourEmail": "tu@email.com",
+    "sending": "Enviando...",
+    "wantToBeFirst": "Quiero ser primero!",
+    "alreadyRegistered": "Ya estás registrado! Te mantendremos informado.",
+    "thankYou": "Gracias! Te notificaremos cuando lancemos.",
+    "errorSending": "Error al enviar. Por favor intenta de nuevo.",
+    "exploreProfiles": "Explora perfiles en"
+  },
+  "startLevel": {
+    "title": "INICIAR NIVEL",
+    "button": "INICIAR NIVEL"
   }
 }
