@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { validateYouTubeUrl } from '@/lib/youtube';
+import { useTranslations } from 'next-intl';
 
 interface Challenge {
   id: number;
@@ -28,6 +29,7 @@ export default function SubmitTrickModal({
   const [isValidUrl, setIsValidUrl] = useState<boolean | null>(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const t = useTranslations('submitTrickModal');
 
   // Reset state cuando se abre/cierra el modal
   useEffect(() => {
@@ -45,7 +47,7 @@ export default function SubmitTrickModal({
       const isValid = validateYouTubeUrl(videoUrl);
       setIsValidUrl(isValid);
       if (!isValid) {
-        setError('Invalid YouTube URL');
+        setError(t('errorInvalidYouTube'));
       } else {
         setError('');
       }
@@ -53,13 +55,13 @@ export default function SubmitTrickModal({
       setIsValidUrl(null);
       setError('');
     }
-  }, [videoUrl]);
+  }, [videoUrl, t]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!isValidUrl || !challenge) {
-      setError('Please enter a valid YouTube URL');
+      setError(t('errorInvalidUrl'));
       return;
     }
 
@@ -90,7 +92,7 @@ export default function SubmitTrickModal({
 
     } catch (error: any) {
       console.error('Error:', error);
-      setError(error.message || 'Error submitting your video');
+      setError(error.message || t('errorSubmitting'));
     } finally {
       setLoading(false);
     }
@@ -121,9 +123,9 @@ export default function SubmitTrickModal({
             <div className="flex justify-between items-start mb-6">
               <div>
                 <h2 className="text-2xl md:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-yellow-400 to-accent-orange-400 uppercase tracking-wider">
-                  📹 Submit Your Video
+                  {t('title')}
                 </h2>
-                <p className="text-neutral-400 text-sm mt-1">Level {challenge.level}: {challenge.name}</p>
+                <p className="text-neutral-400 text-sm mt-1">{t('level', { level: challenge.level })}: {challenge.name}</p>
               </div>
               <button
                 onClick={onClose}
@@ -147,13 +149,13 @@ export default function SubmitTrickModal({
             <form onSubmit={handleSubmit}>
               <div className="mb-6">
                 <label className="block text-accent-cyan-400 font-bold mb-2 uppercase text-sm">
-                  YouTube Video URL
+                  {t('youtubeUrl')}
                 </label>
                 <input
                   type="text"
                   value={videoUrl}
                   onChange={(e) => setVideoUrl(e.target.value)}
-                  placeholder="https://www.youtube.com/watch?v=..."
+                  placeholder={t('urlPlaceholder')}
                   className={`w-full bg-neutral-800 border-4 rounded-lg py-3 px-4 text-white focus:outline-none ${
                     isValidUrl === true
                       ? 'border-green-500'
@@ -164,13 +166,13 @@ export default function SubmitTrickModal({
                   disabled={loading}
                 />
                 {isValidUrl === true && (
-                  <p className="text-green-400 text-sm mt-2 font-bold">✅ Valid URL</p>
+                  <p className="text-green-400 text-sm mt-2 font-bold">{t('validUrl')}</p>
                 )}
                 {isValidUrl === false && (
-                  <p className="text-red-400 text-sm mt-2 font-bold">❌ Invalid URL</p>
+                  <p className="text-red-400 text-sm mt-2 font-bold">{t('invalidUrl')}</p>
                 )}
                 <p className="text-neutral-500 text-xs mt-2">
-                  Example: https://www.youtube.com/watch?v=VIDEO_ID
+                  {t('urlExample')}
                 </p>
               </div>
 
@@ -189,7 +191,7 @@ export default function SubmitTrickModal({
                   className="flex-1 bg-neutral-700 hover:bg-neutral-600 text-white font-bold py-3 px-6 rounded-lg uppercase tracking-wider transition-all"
                   disabled={loading}
                 >
-                  Cancel
+                  {t('cancel')}
                 </button>
                 <button
                   type="submit"
@@ -200,7 +202,7 @@ export default function SubmitTrickModal({
                       : 'bg-gradient-to-r from-accent-yellow-500 to-accent-orange-500 hover:from-accent-yellow-400 hover:to-accent-orange-400 text-white hover:scale-105'
                   }`}
                 >
-                  {loading ? '⏳ Submitting...' : '🚀 Submit Video'}
+                  {loading ? t('submitting') : t('submitVideo')}
                 </button>
               </div>
             </form>

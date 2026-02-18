@@ -312,5 +312,33 @@
     "viewFullLeaderboard": "View Full Leaderboard",
     "skatersLegend": "Points are calculated by adding the scores of all approved submissions.",
     "teamsLegend": "Team points are the sum of all members' points."
+  },
+  "challengeCard": {
+    "submitYourVideo": "Submit Your Video",
+    "pendingEvaluation": "Pending Evaluation...",
+    "approved": "Approved",
+    "approvedScore": "Approved! Score: {score}",
+    "rejected": "Rejected",
+    "tryAgain": "Try Again",
+    "bonus": "BONUS",
+    "level": "Level {level}",
+    "pending": "Pending",
+    "showLess": "Show less",
+    "showMore": "Show more"
+  },
+  "submitTrickModal": {
+    "title": "Submit Your Video",
+    "level": "Level {level}",
+    "youtubeUrl": "YouTube Video URL",
+    "urlPlaceholder": "https://www.youtube.com/watch?v=...",
+    "validUrl": "Valid URL",
+    "invalidUrl": "Invalid URL",
+    "urlExample": "Example: https://www.youtube.com/watch?v=VIDEO_ID",
+    "cancel": "Cancel",
+    "submitting": "Submitting...",
+    "submitVideo": "Submit Video",
+    "errorInvalidUrl": "Please enter a valid YouTube URL",
+    "errorInvalidYouTube": "Invalid YouTube URL",
+    "errorSubmitting": "Error submitting your video"
   }
 }

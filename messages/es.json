@@ -312,5 +312,33 @@
     "viewFullLeaderboard": "Ver Clasificación Completa",
     "skatersLegend": "Los puntos se calculan sumando los scores de todas las entregas aprobadas.",
     "teamsLegend": "Los puntos del equipo son la suma de los puntos de todos sus miembros."
+  },
+  "challengeCard": {
+    "submitYourVideo": "Enviar Tu Video",
+    "pendingEvaluation": "Evaluación Pendiente...",
+    "approved": "Aprobado",
+    "approvedScore": "Aprobado! Puntuación: {score}",
+    "rejected": "Rechazado",
+    "tryAgain": "Intentar de Nuevo",
+    "bonus": "BONUS",
+    "level": "Nivel {level}",
+    "pending": "Pendiente",
+    "showLess": "Ver menos",
+    "showMore": "Ver más"
+  },
+  "submitTrickModal": {
+    "title": "Enviar Tu Video",
+    "level": "Nivel {level}",
+    "youtubeUrl": "URL del Video de YouTube",
+    "urlPlaceholder": "https://www.youtube.com/watch?v=...",
+    "validUrl": "URL válida",
+    "invalidUrl": "URL inválida",
+    "urlExample": "Ejemplo: https://www.youtube.com/watch?v=VIDEO_ID",
+    "cancel": "Cancelar",
+    "submitting": "Enviando...",
+    "submitVideo": "Enviar Video",
+    "errorInvalidUrl": "Por favor ingresa una URL de YouTube válida",
+    "errorInvalidYouTube": "URL de YouTube inválida",
+    "errorSubmitting": "Error al enviar tu video"
   }
 }
