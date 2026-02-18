@@ -340,5 +340,26 @@
     "errorInvalidUrl": "Please enter a valid YouTube URL",
     "errorInvalidYouTube": "Invalid YouTube URL",
     "errorSubmitting": "Error submitting your video"
+  },
+  "footer": {
+    "tagline": "Skate, record and post",
+    "aboutUs": "About Us",
+    "privacyPolicy": "Privacy Policy",
+    "contactUs": "Contact Us",
+    "admin": "Admin",
+    "allRightsReserved": "All Rights Reserved"
+  },
+  "skateProfileModal": {
+    "title": "Complete your registration",
+    "phone": "Phone",
+    "loading": "Loading...",
+    "submit": "Submit",
+    "close": "Close",
+    "errorNotAuth": "Not authenticated. Please sign in again.",
+    "errorPhoneRequired": "Phone is required",
+    "errorSelectDepartment": "Please select a department",
+    "errorSelectCity": "Please select a city",
+    "errorCompleting": "Error completing profile",
+    "errorUnknown": "Unknown error completing profile"
   }
 }

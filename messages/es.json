@@ -340,5 +340,26 @@
     "errorInvalidUrl": "Por favor ingresa una URL de YouTube válida",
     "errorInvalidYouTube": "URL de YouTube inválida",
     "errorSubmitting": "Error al enviar tu video"
+  },
+  "footer": {
+    "tagline": "Patina, graba y publica",
+    "aboutUs": "Nosotros",
+    "privacyPolicy": "Política de Privacidad",
+    "contactUs": "Contáctanos",
+    "admin": "Admin",
+    "allRightsReserved": "Todos los Derechos Reservados"
+  },
+  "skateProfileModal": {
+    "title": "Completa tu registro",
+    "phone": "Teléfono",
+    "loading": "Cargando...",
+    "submit": "Enviar",
+    "close": "Cerrar",
+    "errorNotAuth": "No autenticado. Por favor inicia sesión de nuevo.",
+    "errorPhoneRequired": "El teléfono es requerido",
+    "errorSelectDepartment": "Por favor selecciona un departamento",
+    "errorSelectCity": "Por favor selecciona una ciudad",
+    "errorCompleting": "Error al completar perfil",
+    "errorUnknown": "Error desconocido al completar perfil"
   }
 }

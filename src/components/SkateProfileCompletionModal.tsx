@@ -1,7 +1,10 @@
+'use client';
+
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import LocationSelector from './LocationSelector';
+import { useTranslations } from 'next-intl';
 
 interface ModalProps {
     openModal: boolean;
@@ -14,6 +17,7 @@ const SkateProfileCompletionModal: React.FC<ModalProps> = ({ openModal, handleMo
     const [error, setError] = useState<string>('');
     const { data: session } = useSession();
     const router = useRouter();
+    const t = useTranslations('skateProfileModal');
 
     const [selectedCity, setSelectedCity] = useState<string>('');
     const [selectedDepartment, setSelectedDepartment] = useState<string>('');
@@ -28,26 +32,26 @@ const SkateProfileCompletionModal: React.FC<ModalProps> = ({ openModal, handleMo
         setError('');
 
         if (!session?.user) {
-            setError('Not authenticated. Please sign in again.');
+            setError(t('errorNotAuth'));
             setLoading(false);
             return;
         }
 
         // Form validations
         if (!formData.phone) {
-            setError('Phone is required');
+            setError(t('errorPhoneRequired'));
             setLoading(false);
             return;
         }
 
         if (!selectedDepartment) {
-            setError('Please select a department');
+            setError(t('errorSelectDepartment'));
             setLoading(false);
             return;
         }
 
         if (!selectedCity) {
-            setError('Please select a city');
+            setError(t('errorSelectCity'));
             setLoading(false);
             return;
         }
@@ -72,7 +76,7 @@ const SkateProfileCompletionModal: React.FC<ModalProps> = ({ openModal, handleMo
             const data = await response.json();
 
             if (!response.ok) {
-                throw new Error(data.error || 'Error completing profile');
+                throw new Error(data.error || t('errorCompleting'));
             }
 
             console.log('Profile completed successfully:', data);
@@ -82,7 +86,7 @@ const SkateProfileCompletionModal: React.FC<ModalProps> = ({ openModal, handleMo
             window.location.reload();
         } catch (error) {
             console.error('Error completing profile:', error);
-            setError(error instanceof Error ? error.message : 'Unknown error completing profile');
+            setError(error instanceof Error ? error.message : t('errorUnknown'));
         } finally {
             setLoading(false);
         }
@@ -94,7 +98,7 @@ const SkateProfileCompletionModal: React.FC<ModalProps> = ({ openModal, handleMo
         <div className="fixed inset-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50">
             <div className="w-full h-full md:max-w-[460px] md:h-auto bg-white shadow-lg py-2 rounded-md flex flex-col">
                 <h2 className="text-sm font-medium text-neutral-900 border-b border-neutral-300 py-3 px-4 mb-4">
-                    Complete your registration
+                    {t('title')}
                 </h2>
 
                 {/* Error message */}
@@ -107,7 +111,7 @@ const SkateProfileCompletionModal: React.FC<ModalProps> = ({ openModal, handleMo
                 <form onSubmit={handleSubmit} className="space-y-4 px-4 pb-4 flex-grow">
                     {/* Phone field */}
                     <div>
-                        <label className="block text-neutral-700 text-sm font-bold mb-2">Phone:</label>
+                        <label className="block text-neutral-700 text-sm font-bold mb-2">{t('phone')}:</label>
                         <input
                             type="tel"
                             name="phone"
@@ -132,14 +136,14 @@ const SkateProfileCompletionModal: React.FC<ModalProps> = ({ openModal, handleMo
                         className="w-full bg-accent-blue-500 hover:bg-accent-blue-700 text-white font-bold py-2 px-4 rounded"
                         disabled={loading}
                     >
-                        {loading ? "Loading..." : "Submit"}
+                        {loading ? t('loading') : t('submit')}
                     </button>
                 </form>
 
                 {/* Close button */}
                 <div className="border-t border-neutral-300 flex justify-between items-center px-4 pt-2">
                     <button type="button" className="h-8 px-2 text-sm rounded-md bg-neutral-700 text-white" onClick={handleModal}>
-                        Close
+                        {t('close')}
                     </button>
                 </div>
             </div>
