@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import dynamic from 'next/dynamic';
+import { useTranslations } from 'next-intl';
 
 // Dynamic import of the map to avoid SSR issues
 const UnifiedMap = dynamic(() => import('@/components/organisms/UnifiedMap'), {
@@ -10,7 +11,7 @@ const UnifiedMap = dynamic(() => import('@/components/organisms/UnifiedMap'), {
   loading: () => (
     <div className="w-full h-[500px] rounded-xl border-4 border-accent-cyan-400 bg-neutral-900 flex items-center justify-center">
       <div className="text-accent-cyan-400 font-black text-xl animate-pulse">
-        🗺️ LOADING MAP...
+        LOADING MAP...
       </div>
     </div>
   ),
@@ -66,6 +67,7 @@ export default function HomeMapSection() {
     skateshops: 0,
     totalSkaters: 0,
   });
+  const t = useTranslations('homeMapSection');
 
   useEffect(() => {
     fetchData();
@@ -135,11 +137,11 @@ export default function HomeMapSection() {
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-6xl font-black uppercase tracking-wider mb-4">
             <span className="bg-gradient-to-r from-accent-cyan-400 to-accent-purple-600 text-transparent bg-clip-text">
-              🗺️ EXPLORE SPOTS
+              {t('title')}
             </span>
           </h2>
           <p className="text-xl text-neutral-300 font-bold max-w-2xl mx-auto">
-            Find skateparks and skateshops in your city
+            {t('subtitle')}
           </p>
         </div>
 
@@ -151,7 +153,7 @@ export default function HomeMapSection() {
               {loading ? '...' : stats.totalSpots}
             </div>
             <div className="text-neutral-300 font-bold uppercase tracking-wider text-sm">
-              📍 Total Spots
+              {t('totalSpots')}
             </div>
           </div>
 
@@ -161,7 +163,7 @@ export default function HomeMapSection() {
               {loading ? '...' : stats.skateparks}
             </div>
             <div className="text-neutral-300 font-bold uppercase tracking-wider text-sm">
-              🛹 Skateparks
+              {t('skateparks')}
             </div>
           </div>
 
@@ -171,7 +173,7 @@ export default function HomeMapSection() {
               {loading ? '...' : stats.skateshops}
             </div>
             <div className="text-neutral-300 font-bold uppercase tracking-wider text-sm">
-              🏪 Skateshops
+              {t('skateshops')}
             </div>
           </div>
 
@@ -181,7 +183,7 @@ export default function HomeMapSection() {
               {loading ? '...' : stats.totalSkaters}
             </div>
             <div className="text-neutral-300 font-bold uppercase tracking-wider text-sm">
-              👤 Skaters
+              {t('skaters')}
             </div>
           </div>
         </div>
@@ -196,7 +198,7 @@ export default function HomeMapSection() {
                 : 'bg-neutral-700 hover:bg-neutral-600 text-neutral-300 border-2 border-neutral-600'
             }`}
           >
-            📍 {showSpots ? 'Hide' : 'Show'} Spots
+            {showSpots ? t('hideSpots') : t('showSpots')}
           </button>
 
           <button
@@ -207,7 +209,7 @@ export default function HomeMapSection() {
                 : 'bg-neutral-700 hover:bg-neutral-600 text-neutral-300 border-2 border-neutral-600'
             }`}
           >
-            👤 {showSkaters ? 'Hide' : 'Show'} Skaters
+            {showSkaters ? t('hideSkaters') : t('showSkaters')}
           </button>
 
           <button
@@ -218,7 +220,7 @@ export default function HomeMapSection() {
             disabled={loading}
             className="px-6 py-3 rounded-lg font-black uppercase tracking-wider transition-all bg-green-600 hover:bg-green-700 text-white border-2 border-green-300 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            🔄 {loading ? 'Updating...' : 'Refresh'}
+            {loading ? t('updating') : t('refresh')}
           </button>
         </div>
 
@@ -226,17 +228,17 @@ export default function HomeMapSection() {
         {loading ? (
           <div className="w-full h-[500px] rounded-xl border-4 border-accent-cyan-400 bg-neutral-900 flex items-center justify-center">
             <div className="text-accent-cyan-400 font-black text-2xl animate-pulse">
-              ⏳ LOADING MAP...
+              {t('loadingMap')}
             </div>
           </div>
         ) : (spots.length === 0 && skaters.length === 0) ? (
           <div className="w-full h-[500px] rounded-xl border-4 border-accent-yellow-400 bg-neutral-900 flex flex-col items-center justify-center gap-4">
-            <div className="text-accent-yellow-400 font-black text-4xl">🗺️</div>
+            <div className="text-accent-yellow-400 font-black text-4xl"></div>
             <div className="text-accent-yellow-400 font-black text-2xl uppercase">
-              No data on the map yet
+              {t('noDataYet')}
             </div>
             <p className="text-neutral-400 font-bold">
-              Be the first to add spots or enable your location!
+              {t('beFirstToAdd')}
             </p>
           </div>
         ) : (
@@ -253,11 +255,11 @@ export default function HomeMapSection() {
         <div className="mt-8 text-center">
           <Link href="/spots">
             <button className="bg-accent-purple-600 hover:bg-accent-purple-700 text-white font-black uppercase tracking-wider text-lg px-8 py-4 rounded-xl border-4 border-white shadow-2xl shadow-accent-purple-500/50 hover:shadow-accent-purple-400/70 transition-all transform hover:scale-105">
-              🔍 VIEW FULL MAP
+              {t('viewFullMap')}
             </button>
           </Link>
           <p className="text-neutral-400 text-sm mt-2 font-bold">
-            Explore all skateparks and skateshops on the interactive map
+            {t('exploreAllSpots')}
           </p>
         </div>
 
@@ -266,27 +268,26 @@ export default function HomeMapSection() {
           {/* Skateparks Card */}
           <div className="bg-neutral-800 border-4 border-accent-cyan-400 rounded-xl p-6 shadow-2xl shadow-accent-cyan-500/20">
             <div className="flex items-center gap-3 mb-4">
-              <div className="text-4xl">🛹</div>
+              <div className="text-4xl"></div>
               <h3 className="text-2xl font-black uppercase text-accent-cyan-400">
-                SKATEPARKS
+                {t('skateparksTitle')}
               </h3>
             </div>
             <p className="text-neutral-300 mb-4">
-              Find the best places to skate in your city: ramps,
-              bowls, street plazas and more.
+              {t('skateparksDesc')}
             </p>
             <ul className="space-y-2 text-neutral-400">
               <li className="flex items-center gap-2">
                 <span className="text-accent-cyan-400">✓</span>
-                Exact GPS location
+                {t('gpsLocation')}
               </li>
               <li className="flex items-center gap-2">
                 <span className="text-accent-cyan-400">✓</span>
-                Features (bowl, street, vert)
+                {t('features')}
               </li>
               <li className="flex items-center gap-2">
                 <span className="text-accent-cyan-400">✓</span>
-                Ratings and reviews
+                {t('ratingsReviews')}
               </li>
             </ul>
           </div>
@@ -294,27 +295,26 @@ export default function HomeMapSection() {
           {/* Skateshops Card */}
           <div className="bg-neutral-800 border-4 border-accent-pink-400 rounded-xl p-6 shadow-2xl shadow-accent-pink-500/20">
             <div className="flex items-center gap-3 mb-4">
-              <div className="text-4xl">🏪</div>
+              <div className="text-4xl"></div>
               <h3 className="text-2xl font-black uppercase text-accent-pink-400">
-                SKATESHOPS
+                {t('skateshopsTitle')}
               </h3>
             </div>
             <p className="text-neutral-300 mb-4">
-              Find stores where you can buy decks, trucks, wheels and all the
-              gear you need.
+              {t('skateshopsDesc')}
             </p>
             <ul className="space-y-2 text-neutral-400">
               <li className="flex items-center gap-2">
                 <span className="text-accent-pink-400">✓</span>
-                Verified stores
+                {t('verifiedStores')}
               </li>
               <li className="flex items-center gap-2">
                 <span className="text-accent-pink-400">✓</span>
-                Direct contact (phone, web)
+                {t('directContact')}
               </li>
               <li className="flex items-center gap-2">
                 <span className="text-accent-pink-400">✓</span>
-                Social media
+                {t('socialMedia')}
               </li>
             </ul>
           </div>

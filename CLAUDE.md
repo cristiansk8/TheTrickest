@@ -428,6 +428,102 @@ Required variables (see `.env.example`):
 - Bundle size analysis
 - Lighthouse scores (aim for 90+)
 
+## Internationalization (i18n)
+
+This project uses **next-intl** for internationalization with locale-based routing (`/en`, `/es`).
+
+### i18n Structure
+
+```
+src/
+├── i18n/
+│   ├── routing.ts      # Locale configuration (en, es)
+│   └── request.ts      # Server-side message loading
+├── middleware.ts       # Locale detection and routing
+└── app/
+    └── [locale]/       # All pages under locale segment
+        ├── layout.tsx  # Locale-aware layout with NextIntlClientProvider
+        └── (routes)/   # All routes
+
+messages/
+├── en.json            # English translations
+└── es.json            # Spanish translations
+```
+
+### How to Use Translations
+
+**In Client Components (`'use client'`):**
+```typescript
+import { useTranslations } from 'next-intl';
+
+export default function MyComponent() {
+  const t = useTranslations('namespace'); // e.g., 'sidebar', 'loginForm'
+
+  return <h1>{t('title')}</h1>;
+}
+```
+
+**In Server Components:**
+```typescript
+import { getTranslations } from 'next-intl/server';
+
+export default async function MyPage() {
+  const t = await getTranslations('namespace');
+
+  return <h1>{t('title')}</h1>;
+}
+```
+
+### Adding New Translations
+
+1. Add keys to both `messages/en.json` and `messages/es.json`
+2. Use nested structure by namespace:
+```json
+{
+  "myComponent": {
+    "title": "My Title",
+    "description": "My description"
+  }
+}
+```
+
+3. Access with: `t('title')` when using `useTranslations('myComponent')`
+
+### Link Navigation
+
+**IMPORTANT:** Use the i18n-aware Link for internal navigation:
+```typescript
+import { Link } from '@/i18n/routing';
+
+// This automatically adds the locale prefix
+<Link href="/dashboard">Dashboard</Link>
+```
+
+Do NOT use `next/link` directly for internal routes.
+
+### Translation Namespaces
+
+Current namespaces in use:
+- `common` - Shared UI elements (loading, save, cancel, etc.)
+- `auth` - Authentication labels
+- `navigation` - Nav menu items
+- `sidebar` - Dashboard sidebar
+- `menu` - Menu items
+- `home` - Home page content
+- `dashboard`, `spots`, `challenges`, `submissions`, `leaderboard`, `profile`, `teams`, `judges`, `admin` - Feature sections
+- `notifications` - Notification dropdown
+- `errors` - Error messages
+- `signinMenu` - Main menu modal
+- `loginForm` - Login form
+- `registerForm` - Register form
+- `setPasswordModal` - Password setup modal
+
+### Style Guidelines for Translations
+
+- **NO excessive emojis** - Keep UI professional. Use emojis sparingly for visual hierarchy only
+- **Uppercase for buttons/headers** - Matches arcade aesthetic
+- **Consistent terminology** - Use same terms across translations
+
 ## Important Notes
 
 - Users are uniquely identified by **email** (not numeric ID) in most relationships
