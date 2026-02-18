@@ -36,11 +36,11 @@ const SigninButton = () => {
   const isProfileComplete = profileStatus === 'complete';
   const hasPassword = session?.user?.hasPassword;
 
-  // Estados para login/registro
+  // States for login/register
   const [showLoginForm, setShowLoginForm] = useState(false);
   const [showRegisterForm, setShowRegisterForm] = useState(false);
 
-  // Mostrar modal de contraseña si el usuario está autenticado pero no tiene contraseña
+  // Show password modal if user is authenticated but has no password
   useEffect(() => {
     // Solo mostrar si hay sesión válida, email confirmado, estado autenticado y hasPassword es explícitamente false
     if (status === 'authenticated' && session?.user?.email && hasPassword === false) {
@@ -48,7 +48,7 @@ const SigninButton = () => {
     }
   }, [session, hasPassword, status]);
 
-  // Función para hacer scroll a partners
+  // Function to scroll to partners
   const scrollToPartners = () => {
     const partnersSection = document.getElementById('team');
     if (partnersSection) {
@@ -57,11 +57,11 @@ const SigninButton = () => {
     handleMenu();
   };
 
-  // Menú de opciones estilo PS2
+  // PS2 style menu options
   const menuOptions: MenuOption[] = session?.user
     ? [
         {
-          label: isProfileComplete ? '🎮 CONTINUAR' : '⚠️ COMPLETAR PERFIL',
+          label: isProfileComplete ? '🎮 CONTINUE' : '⚠️ COMPLETE PROFILE',
           action: () => {
             handleMenu();
             isProfileComplete
@@ -71,19 +71,19 @@ const SigninButton = () => {
         },
         { label: '🤝 PARTNERS', action: scrollToPartners },
         {
-          label: '❓ CÓMO JUGAR',
+          label: '❓ HOW TO PLAY',
           action: () => {
             handleMenu();
             handleVideoModal();
           },
         },
         {
-          label: '👤 ' + (session.user.name?.toUpperCase() || 'JUGADOR'),
+          label: '👤 ' + (session.user.name?.toUpperCase() || 'PLAYER'),
           action: null,
           isHeader: true,
         },
         {
-          label: '🚪 SALIR',
+          label: '🚪 LOGOUT',
           action: () => {
             handleMenu();
             signOut();
@@ -92,7 +92,7 @@ const SigninButton = () => {
       ]
     : [
         {
-          label: '🔐 LOGIN CON GOOGLE',
+          label: '🔐 LOGIN WITH GOOGLE',
           action: () => {
             handleMenu();
             signIn('google');
@@ -100,14 +100,14 @@ const SigninButton = () => {
           isPrimary: true,
         },
         {
-          label: '📧 LOGIN CON EMAIL',
+          label: '📧 LOGIN WITH EMAIL',
           action: () => {
             handleMenu();
             setShowLoginForm(true);
           },
         },
         {
-          label: '✍️ CREAR CUENTA',
+          label: '✍️ CREATE ACCOUNT',
           action: () => {
             handleMenu();
             setShowRegisterForm(true);
@@ -115,7 +115,7 @@ const SigninButton = () => {
         },
         { label: '🤝 PARTNERS', action: scrollToPartners },
         {
-          label: '❓ CÓMO JUGAR',
+          label: '❓ HOW TO PLAY',
           action: () => {
             handleMenu();
             handleVideoModal();
@@ -125,7 +125,7 @@ const SigninButton = () => {
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
-      // Cerrar modales con ESC
+      // Close modals with ESC
       if (e.key === 'Escape') {
         if (openMenu) handleMenu();
         else if (openModal) handleModal();
@@ -133,7 +133,7 @@ const SigninButton = () => {
         return;
       }
 
-      // Navegación de menú solo si está abierto y no hay otros modales
+      // Menu navigation only if open and no other modals
       if (openMenu && !openModal && !openVideoModal) {
         if (e.key === 'ArrowUp') {
           setSelectedOption((prev) =>
@@ -150,7 +150,7 @@ const SigninButton = () => {
       }
     };
 
-    // Escuchar evento de botones arcade
+    // Listen for arcade button events
     const handleArcadeStart = () => {
       if (!openMenu && !openModal && !openVideoModal) {
         handleMenu();
@@ -168,27 +168,27 @@ const SigninButton = () => {
 
   return (
     <>
-      {/* Menú Modal Estilo PS2/Xbox */}
+      {/* PS2/Xbox Style Menu Modal */}
       {openMenu && (
         <ModalPortal>
         <div className="fixed inset-0 flex items-center justify-center bg-black/90 backdrop-blur-sm z-[9999] p-4 overflow-y-auto">
           <div className="w-full max-w-md bg-gradient-to-b from-neutral-900 to-black border-4 border-accent-cyan-400 rounded-lg shadow-2xl shadow-accent-cyan-500/50 relative my-auto max-h-[90vh] flex flex-col">
-            {/* Header del menú */}
+            {/* Menu header */}
             <div className="bg-gradient-to-r from-accent-cyan-600 to-accent-blue-600 p-4 md:p-6 rounded-t-lg border-b-4 border-accent-cyan-300 flex-shrink-0">
               <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-widest text-center animate-pulse">
-                {session?.user ? 'JUGADOR ACTIVO' : 'MAIN MENU'}
+                {session?.user ? 'ACTIVE PLAYER' : 'MAIN MENU'}
               </h2>
               {session?.user && (
                 <p className="text-accent-cyan-200 text-xs md:text-sm mt-2 text-center">
                   ⚡{' '}
                   {profileStatus === 'complete'
-                    ? 'PERFIL COMPLETO'
-                    : 'PERFIL BÁSICO'}
+                    ? 'COMPLETE PROFILE'
+                    : 'BASIC PROFILE'}
                 </p>
               )}
             </div>
 
-            {/* Botón de cerrar */}
+            {/* Close button */}
             <button
               onClick={handleMenu}
               className="absolute top-2 right-2 z-10 bg-red-600 hover:bg-red-700 text-white font-bold w-10 h-10 rounded-full border-4 border-white shadow-lg transform hover:scale-110 transition-all"
@@ -196,7 +196,7 @@ const SigninButton = () => {
               ✖
             </button>
 
-            {/* Opciones del menú - Con scroll interno */}
+            {/* Menu options - With internal scroll */}
             <div className="p-6 space-y-2 overflow-y-auto flex-1">
               {menuOptions.map((option, index) => {
                 const isSelected = index === selectedOption;
@@ -243,11 +243,11 @@ const SigninButton = () => {
               })}
             </div>
 
-            {/* Footer con controles */}
+            {/* Footer with controls */}
             <div className="p-4 border-t-4 border-neutral-700 bg-neutral-900/50 rounded-b-lg text-center flex-shrink-0">
               <p className="text-accent-cyan-300 text-[10px] md:text-xs uppercase tracking-wide">
-                ⌨️ Use ↑↓ para navegar　|　Enter para seleccionar　|　ESC para
-                cerrar
+                ⌨️ Use ↑↓ to navigate　|　Enter to select　|　ESC to
+                close
               </p>
             </div>
           </div>
@@ -255,19 +255,19 @@ const SigninButton = () => {
         </ModalPortal>
       )}
 
-      {/* Modal para completar el registro */}
+      {/* Modal to complete registration */}
       {openModal && (
         <ModalPortal>
         <div className="fixed inset-0 flex items-center justify-center bg-black/90 backdrop-blur-sm z-[9999] p-4">
           <div className="w-full max-w-lg bg-gradient-to-b from-neutral-900 to-black border-4 border-accent-purple-500 rounded-lg shadow-2xl shadow-accent-purple-500/50 relative">
-            {/* Header del modal */}
+            {/* Modal header */}
             <div className="bg-gradient-to-r from-accent-purple-600 to-accent-pink-600 p-4 rounded-t-lg border-b-4 border-accent-purple-300">
               <h2 className="text-xl md:text-2xl font-black text-white uppercase tracking-wider text-center">
-                ⚡ COMPLETAR PERFIL
+                ⚡ COMPLETE PROFILE
               </h2>
             </div>
 
-            {/* Botón de cerrar */}
+            {/* Close button */}
             <button
               onClick={handleModal}
               className="absolute top-2 right-2 z-10 bg-red-600 hover:bg-red-700 text-white font-bold w-10 h-10 rounded-full border-4 border-white shadow-lg transform hover:scale-110 transition-all"
@@ -275,7 +275,7 @@ const SigninButton = () => {
               ✖
             </button>
 
-            {/* Contenido del modal */}
+            {/* Modal content */}
             <div className="p-6">
               <SkateProfileCompletionModal
                 openModal={openModal}
@@ -287,19 +287,19 @@ const SigninButton = () => {
         </ModalPortal>
       )}
 
-      {/* Modal para el video */}
+      {/* Video modal */}
       {openVideoModal && (
         <ModalPortal>
         <div className="fixed inset-0 flex items-center justify-center bg-black/90 backdrop-blur-sm z-[9999] p-4">
           <div className="w-full max-w-4xl bg-gradient-to-b from-neutral-900 to-black border-4 border-accent-cyan-500 rounded-lg shadow-2xl shadow-accent-cyan-500/50 relative">
-            {/* Header del modal */}
+            {/* Modal header */}
             <div className="bg-gradient-to-r from-accent-cyan-600 to-accent-blue-600 p-4 rounded-t-lg border-b-4 border-accent-cyan-300">
               <h2 className="text-xl md:text-2xl font-black text-white uppercase tracking-wider text-center">
-                📺 CÓMO JUGAR
+                📺 HOW TO PLAY
               </h2>
             </div>
 
-            {/* Botón de cerrar */}
+            {/* Close button */}
             <button
               onClick={handleVideoModal}
               className="absolute top-2 right-2 z-10 bg-red-600 hover:bg-red-700 text-white font-bold w-10 h-10 rounded-full border-4 border-white shadow-lg transform hover:scale-110 transition-all"
@@ -307,7 +307,7 @@ const SigninButton = () => {
               ✖
             </button>
 
-            {/* Contenido del modal */}
+            {/* Modal content */}
             <div className="p-6">
               <div
                 className="relative w-full"
@@ -323,7 +323,7 @@ const SigninButton = () => {
               </div>
               <div className="mt-4 text-center">
                 <p className="text-accent-cyan-300 text-sm uppercase tracking-wide">
-                  ⌨️ Presiona ESC para cerrar
+                  ⌨️ Press ESC to close
                 </p>
               </div>
             </div>
@@ -332,23 +332,23 @@ const SigninButton = () => {
         </ModalPortal>
       )}
 
-      {/* Modal para establecer contraseña (usuarios de Google) */}
+      {/* Set password modal (Google users) */}
       <SetPasswordModal
         isOpen={openSetPasswordModal}
         onClose={() => setOpenSetPasswordModal(false)}
         onSuccess={() => {
-          // Recargar la sesión para actualizar hasPassword
+          // Reload session to update hasPassword
           window.location.reload();
         }}
       />
 
-      {/* Modal para Login con Email */}
+      {/* Email Login Modal */}
       <LoginEmailForm
         isOpen={showLoginForm}
         onClose={() => setShowLoginForm(false)}
         onSuccess={() => {
           setShowLoginForm(false);
-          window.location.reload(); // Recargar para mostrar el badge
+          window.location.reload(); // Reload to show badge
         }}
         onSwitchToRegister={() => {
           setShowLoginForm(false);
@@ -356,13 +356,13 @@ const SigninButton = () => {
         }}
       />
 
-      {/* Modal para Registro con Email */}
+      {/* Email Register Modal */}
       <RegisterEmailForm
         isOpen={showRegisterForm}
         onClose={() => setShowRegisterForm(false)}
         onSuccess={() => {
           setShowRegisterForm(false);
-          window.location.reload(); // Recargar para mostrar el badge
+          window.location.reload(); // Reload to show badge
         }}
         onSwitchToLogin={() => {
           setShowRegisterForm(false);

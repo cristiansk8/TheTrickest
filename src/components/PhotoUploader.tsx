@@ -23,25 +23,25 @@ export default function PhotoUploader({
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Validar tipo de archivo
+    // Validate file type
     if (!file.type.startsWith('image/')) {
-      alert('Solo se permiten archivos de imagen');
+      alert('Only image files are allowed');
       return;
     }
 
-    // Validar tamaño (máx 5MB)
+    // Validate size (max 5MB)
     if (file.size > 5 * 1024 * 1024) {
-      alert('La imagen no puede superar 5MB');
+      alert('Image cannot exceed 5MB');
       return;
     }
 
-    // Validar límite de fotos
+    // Validate photo limit
     if (currentPhotos.length >= maxPhotos) {
-      alert(`Máximo ${maxPhotos} fotos permitidas`);
+      alert(`Maximum ${maxPhotos} photos allowed`);
       return;
     }
 
-    // Convertir a base64
+    // Convert to base64
     const reader = new FileReader();
     reader.onload = async () => {
       const base64 = reader.result as string;
@@ -68,7 +68,7 @@ export default function PhotoUploader({
         }
       } catch (error) {
         console.error('Error uploading photo:', error);
-        alert('Error al subir la foto');
+        alert('Error uploading photo');
       } finally {
         setUploading(false);
       }
@@ -84,13 +84,13 @@ export default function PhotoUploader({
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <h3 className="text-white font-black uppercase">📸 Fotos del Spot</h3>
+        <h3 className="text-white font-black uppercase">📸 Spot Photos</h3>
         <span className="text-accent-cyan-400 text-sm">
           {currentPhotos.length}/{maxPhotos}
         </span>
       </div>
 
-      {/* Botón de Upload */}
+      {/* Upload Button */}
       <div className="flex gap-2">
         <button
           onClick={handleCameraClick}
@@ -100,12 +100,12 @@ export default function PhotoUploader({
           {uploading ? (
             <>
               <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-              Subiendo...
+              Uploading...
             </>
           ) : (
             <>
               <Camera className="w-5 h-5" />
-              {currentPhotos.length > 0 ? 'Agregar Otra' : 'Subir Foto'}
+              {currentPhotos.length > 0 ? 'Add Another' : 'Upload Photo'}
             </>
           )}
         </button>
@@ -120,14 +120,14 @@ export default function PhotoUploader({
         />
       </div>
 
-      {/* Preview de fotos */}
+      {/* Photo preview */}
       {currentPhotos.length > 0 && (
         <div className="grid grid-cols-3 md:grid-cols-5 gap-2">
           {currentPhotos.map((photo, index) => (
             <div key={index} className="relative group">
               <img
                 src={photo}
-                alt={`Foto ${index + 1}`}
+                alt={`Photo ${index + 1}`}
                 className="w-full h-20 object-cover rounded-lg border-2 border-accent-cyan-400"
               />
               <button
@@ -144,9 +144,9 @@ export default function PhotoUploader({
       {/* Info */}
       <div className="bg-neutral-800/50 border border-neutral-600 rounded p-3">
         <p className="text-accent-cyan-100 text-xs">
-          <strong>Tip:</strong> Las fotos ayudan a que otros skaters reconozcan el spot más rápido.
+          <strong>Tip:</strong> Photos help other skaters recognize the spot faster.
           {' '}
-          Máximo {maxPhotos} fotos de 5MB cada una.
+          Maximum {maxPhotos} photos of 5MB each.
         </p>
       </div>
     </div>

@@ -29,7 +29,7 @@ export function VotingCallToAction() {
           });
         }
       } catch (error) {
-        console.error('Error al cargar estadísticas de votación:', error);
+        console.error('Error loading voting statistics:', error);
       } finally {
         setLoading(false);
       }
@@ -62,18 +62,18 @@ export function VotingCallToAction() {
                 <div className="absolute inset-0 w-2 h-2 bg-green-500 rounded-full animate-ping" />
               </div>
               <span className="text-sm font-medium text-neutral-300">
-                Sistema Activo • Votación en Vivo
+                System Active • Live Voting
               </span>
             </div>
           </div>
 
           {/* Heading */}
           <h2 className="text-4xl md:text-5xl font-bold text-center mb-6 bg-gradient-to-r from-accent-purple-400 via-accent-pink-400 to-accent-blue-400 bg-clip-text text-transparent">
-            Comunidad en Acción
+            Community in Action
           </h2>
 
           <p className="text-xl text-center text-neutral-400 mb-12 max-w-2xl mx-auto">
-            La comunidad decide quién gana. Participa votando las mejores
+            The community decides who wins. Participate by voting for the best
             submissions.
           </p>
 
@@ -109,7 +109,7 @@ export function VotingCallToAction() {
                   {stats?.pending || 0}
                 </div>
                 <div className="text-sm text-neutral-400">
-                  Submissions Pendientes
+                  Pending Submissions
                 </div>
               </motion.div>
 
@@ -129,7 +129,7 @@ export function VotingCallToAction() {
                   {stats?.communityApproved || 0}
                 </div>
                 <div className="text-sm text-neutral-400">
-                  Aprobadas por Comunidad
+                  Community Approved
                 </div>
               </motion.div>
 
@@ -148,7 +148,7 @@ export function VotingCallToAction() {
                 <div className="text-3xl font-bold text-white mb-2">
                   {stats?.needingVotes || 0}
                 </div>
-                <div className="text-sm text-neutral-400">Necesitan Tu Voto</div>
+                <div className="text-sm text-neutral-400">Need Your Vote</div>
               </motion.div>
             </div>
           )}
@@ -163,10 +163,10 @@ export function VotingCallToAction() {
               >
                 <span className="flex items-center gap-2">
                   {loading
-                    ? 'Cargando...'
+                    ? 'Loading...'
                     : stats?.pending
-                    ? `Ver ${stats.pending} Submissions`
-                    : 'Ir a Votar'}
+                    ? `View ${stats.pending} Submissions`
+                    : 'Go Vote'}
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </span>
               </motion.button>

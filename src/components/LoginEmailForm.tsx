@@ -32,13 +32,13 @@ export default function LoginEmailForm({ isOpen, onClose, onSuccess, onSwitchToR
       });
 
       if (result?.error) {
-        setError('Credenciales inválidas. Por favor, verifica tu email y contraseña.');
+        setError('Invalid credentials. Please verify your email and password.');
       } else {
-        // Mostrar modal de bienvenida
+        // Show welcome modal
         onSuccess();
       }
     } catch (err) {
-      setError('Ocurrió un error. Por favor, intenta de nuevo.');
+      setError('An error occurred. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -52,7 +52,7 @@ export default function LoginEmailForm({ isOpen, onClose, onSuccess, onSwitchToR
         <div className="bg-gradient-to-r from-accent-cyan-500 to-accent-blue-500 p-4 border-b-4 border-accent-cyan-300">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-black uppercase tracking-wider text-white drop-shadow-lg">
-              📧 LOGIN CON EMAIL
+              📧 LOGIN WITH EMAIL
             </h2>
             <button
               onClick={onClose}
@@ -91,7 +91,7 @@ export default function LoginEmailForm({ isOpen, onClose, onSuccess, onSwitchToR
           {/* Password Input */}
           <div>
             <label htmlFor="password" className="block text-accent-cyan-300 font-black uppercase text-sm mb-2 tracking-wider">
-              🔒 Contraseña
+              🔒 Password
             </label>
             <input
               id="password"
@@ -111,7 +111,7 @@ export default function LoginEmailForm({ isOpen, onClose, onSuccess, onSwitchToR
             disabled={isLoading}
             className="w-full py-4 bg-gradient-to-r from-accent-cyan-500 to-accent-blue-500 hover:from-accent-cyan-400 hover:to-accent-blue-400 text-white font-black uppercase tracking-wider text-lg rounded-lg border-4 border-accent-cyan-300 shadow-lg shadow-accent-cyan-500/50 hover:shadow-accent-cyan-400/70 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
           >
-            {isLoading ? '⏳ CARGANDO...' : '🎮 ENTRAR'}
+            {isLoading ? '⏳ LOADING...' : '🎮 SIGN IN'}
           </button>
 
           {/* Divider */}
@@ -120,7 +120,7 @@ export default function LoginEmailForm({ isOpen, onClose, onSuccess, onSwitchToR
               <div className="w-full border-t-2 border-neutral-700"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-neutral-900 text-neutral-400 font-bold uppercase">O</span>
+              <span className="px-4 bg-neutral-900 text-neutral-400 font-bold uppercase">OR</span>
             </div>
           </div>
 
@@ -131,14 +131,14 @@ export default function LoginEmailForm({ isOpen, onClose, onSuccess, onSwitchToR
             disabled={isLoading}
             className="w-full py-4 bg-gradient-to-r from-accent-purple-600 to-accent-pink-600 hover:from-accent-purple-500 hover:to-accent-pink-500 text-white font-black uppercase tracking-wider text-lg rounded-lg border-4 border-accent-purple-400 shadow-lg shadow-accent-purple-500/50 hover:shadow-accent-purple-400/70 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            🔐 CONTINUAR CON GOOGLE
+            🔐 CONTINUE WITH GOOGLE
           </button>
 
           {/* Link to Register */}
           {onSwitchToRegister && (
             <div className="text-center pt-4 border-t-2 border-neutral-700">
               <p className="text-neutral-400 text-sm mb-3 font-bold">
-                ¿No tienes cuenta?
+                Don't have an account?
               </p>
               <button
                 type="button"
@@ -146,7 +146,7 @@ export default function LoginEmailForm({ isOpen, onClose, onSuccess, onSwitchToR
                 disabled={isLoading}
                 className="w-full py-3 bg-gradient-to-r from-accent-pink-600/20 to-accent-purple-600/20 hover:from-accent-pink-600/40 hover:to-accent-purple-600/40 text-accent-pink-300 hover:text-accent-pink-200 font-black uppercase tracking-wider text-sm rounded-lg border-2 border-accent-pink-500 hover:border-accent-pink-400 shadow-lg shadow-accent-pink-500/30 hover:shadow-accent-pink-400/50 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                ✍️ CREAR CUENTA NUEVA
+                ✍️ CREATE NEW ACCOUNT
               </button>
             </div>
           )}

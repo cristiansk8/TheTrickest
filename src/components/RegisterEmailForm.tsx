@@ -25,21 +25,21 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
     e.preventDefault();
     setError('');
 
-    // Validaciones
+    // Validations
     if (password !== confirmPassword) {
-      setError('Las contraseñas no coinciden');
+      setError('Passwords do not match');
       return;
     }
 
     if (password.length < 6) {
-      setError('La contraseña debe tener al menos 6 caracteres');
+      setError('Password must be at least 6 characters');
       return;
     }
 
     setIsLoading(true);
 
     try {
-      // Crear cuenta
+      // Create account
       const response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -49,12 +49,12 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
       const data = await response.json();
 
       if (!response.ok) {
-        setError(data.error || 'Error al crear la cuenta');
+        setError(data.error || 'Error creating account');
         setIsLoading(false);
         return;
       }
 
-      // Auto-login después de registro exitoso
+      // Auto-login after successful registration
       const result = await signIn('credentials', {
         email,
         password,
@@ -62,13 +62,13 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
       });
 
       if (result?.error) {
-        setError('Cuenta creada pero error al iniciar sesión. Por favor, inicia sesión manualmente.');
+        setError('Account created but error signing in. Please sign in manually.');
       } else {
-        // Mostrar modal de bienvenida
+        // Show welcome modal
         onSuccess();
       }
     } catch (err) {
-      setError('Ocurrió un error. Por favor, intenta de nuevo.');
+      setError('An error occurred. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -82,7 +82,7 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
         <div className="bg-gradient-to-r from-accent-pink-500 to-accent-purple-500 p-4 border-b-4 border-accent-pink-300">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-black uppercase tracking-wider text-white drop-shadow-lg">
-              ✍️ CREAR CUENTA
+              ✍️ CREATE ACCOUNT
             </h2>
             <button
               onClick={onClose}
@@ -104,7 +104,7 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
           {/* Name Input */}
           <div>
             <label htmlFor="name" className="block text-accent-pink-300 font-black uppercase text-sm mb-2 tracking-wider">
-              👤 Nombre
+              👤 Name
             </label>
             <input
               id="name"
@@ -113,7 +113,7 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
               onChange={(e) => setName(e.target.value)}
               required
               className="w-full px-4 py-3 bg-neutral-800 border-2 border-accent-pink-500 rounded-lg text-white font-bold focus:outline-none focus:border-accent-pink-300 focus:shadow-lg focus:shadow-accent-pink-500/50 transition-all"
-              placeholder="Tu nombre"
+              placeholder="Your name"
               disabled={isLoading}
             />
           </div>
@@ -138,7 +138,7 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
           {/* Password Input */}
           <div>
             <label htmlFor="register-password" className="block text-accent-pink-300 font-black uppercase text-sm mb-2 tracking-wider">
-              🔒 Contraseña
+              🔒 Password
             </label>
             <input
               id="register-password"
@@ -151,13 +151,13 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
               placeholder="••••••••"
               disabled={isLoading}
             />
-            <p className="text-xs text-neutral-400 mt-1 font-bold">Mínimo 6 caracteres</p>
+            <p className="text-xs text-neutral-400 mt-1 font-bold">Minimum 6 characters</p>
           </div>
 
           {/* Confirm Password Input */}
           <div>
             <label htmlFor="confirm-password" className="block text-accent-pink-300 font-black uppercase text-sm mb-2 tracking-wider">
-              🔒 Confirmar Contraseña
+              🔒 Confirm Password
             </label>
             <input
               id="confirm-password"
@@ -178,7 +178,7 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
             disabled={isLoading}
             className="w-full py-4 bg-gradient-to-r from-accent-pink-500 to-accent-purple-500 hover:from-accent-pink-400 hover:to-accent-purple-400 text-white font-black uppercase tracking-wider text-lg rounded-lg border-4 border-accent-pink-300 shadow-lg shadow-accent-pink-500/50 hover:shadow-accent-pink-400/70 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
           >
-            {isLoading ? '⏳ CREANDO CUENTA...' : '🎮 CREAR CUENTA'}
+            {isLoading ? '⏳ CREATING ACCOUNT...' : '🎮 CREATE ACCOUNT'}
           </button>
 
           {/* Divider */}
@@ -187,7 +187,7 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
               <div className="w-full border-t-2 border-neutral-700"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-neutral-900 text-neutral-400 font-bold uppercase">O</span>
+              <span className="px-4 bg-neutral-900 text-neutral-400 font-bold uppercase">OR</span>
             </div>
           </div>
 
@@ -198,14 +198,14 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
             disabled={isLoading}
             className="w-full py-4 bg-gradient-to-r from-accent-purple-600 to-accent-cyan-600 hover:from-accent-purple-500 hover:to-accent-cyan-500 text-white font-black uppercase tracking-wider text-lg rounded-lg border-4 border-accent-purple-400 shadow-lg shadow-accent-purple-500/50 hover:shadow-accent-purple-400/70 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            🔐 REGISTRARME CON GOOGLE
+            🔐 SIGN UP WITH GOOGLE
           </button>
 
           {/* Link to Login */}
           {onSwitchToLogin && (
             <div className="text-center pt-4 border-t-2 border-neutral-700">
               <p className="text-neutral-400 text-sm mb-3 font-bold">
-                ¿Ya tienes cuenta?
+                Already have an account?
               </p>
               <button
                 type="button"
@@ -213,7 +213,7 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
                 disabled={isLoading}
                 className="w-full py-3 bg-gradient-to-r from-accent-cyan-600/20 to-accent-blue-600/20 hover:from-accent-cyan-600/40 hover:to-accent-blue-600/40 text-accent-cyan-300 hover:text-accent-cyan-200 font-black uppercase tracking-wider text-sm rounded-lg border-2 border-accent-cyan-500 hover:border-accent-cyan-400 shadow-lg shadow-accent-cyan-500/30 hover:shadow-accent-cyan-400/50 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                📧 INICIAR SESIÓN
+                📧 SIGN IN
               </button>
             </div>
           )}

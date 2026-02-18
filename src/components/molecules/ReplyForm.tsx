@@ -29,7 +29,7 @@ export default function ReplyForm({
     e.preventDefault();
 
     if (!session?.user?.email) {
-      setError('Debes iniciar sesión para responder');
+      setError('You must sign in to reply');
       setTimeout(() => setError(null), 3000);
       return;
     }
@@ -37,13 +37,13 @@ export default function ReplyForm({
     const trimmedContent = content.trim();
 
     if (!trimmedContent) {
-      setError('La respuesta no puede estar vacía');
+      setError('Reply cannot be empty');
       setTimeout(() => setError(null), 3000);
       return;
     }
 
     if (trimmedContent.length > maxLength) {
-      setError(`La respuesta excede los ${maxLength} caracteres`);
+      setError(`Reply exceeds ${maxLength} characters`);
       setTimeout(() => setError(null), 3000);
       return;
     }
@@ -66,19 +66,19 @@ export default function ReplyForm({
       if (!response.ok) {
         const errorMessage = typeof data.error === 'string'
           ? data.error
-          : data.error?.message || data.data?.message || 'Error al crear respuesta';
+          : data.error?.message || data.data?.message || 'Error creating reply';
         setError(errorMessage);
         setTimeout(() => setError(null), 3000);
         return;
       }
 
-      // Success - limpiar formulario y notificar
+      // Success - clear form and notify
       setContent('');
       onReplyCreated();
 
     } catch (err) {
-      console.error('Error creando respuesta:', err);
-      setError('Error al crear respuesta. Inténtalo de nuevo.');
+      console.error('Error creating reply:', err);
+      setError('Error creating reply. Please try again.');
       setTimeout(() => setError(null), 3000);
     } finally {
       setIsSubmitting(false);
@@ -90,7 +90,7 @@ export default function ReplyForm({
       {/* Header */}
       <div className="flex items-center justify-between mb-2">
         <span className="text-xs font-bold text-accent-cyan-400">
-          💬 Respondiendo
+          💬 Replying
         </span>
         <button
           onClick={onCancel}
@@ -114,7 +114,7 @@ export default function ReplyForm({
           <textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            placeholder="Escribe tu respuesta..."
+            placeholder="Write your reply..."
             disabled={isSubmitting}
             maxLength={maxLength}
             rows={2}
@@ -143,7 +143,7 @@ export default function ReplyForm({
             disabled={isSubmitting}
             className="px-3 py-1.5 bg-neutral-700 hover:bg-neutral-600 border border-neutral-500 rounded text-xs font-bold text-neutral-300 transition-colors disabled:opacity-50"
           >
-            Cancelar
+            Cancel
           </button>
 
           <button
@@ -160,12 +160,12 @@ export default function ReplyForm({
             {isSubmitting ? (
               <>
                 <div className="w-3 h-3 animate-spin border-2 border-white border-t-transparent rounded-full" />
-                Enviando...
+                Sending...
               </>
             ) : (
               <>
                 <Send className="w-3 h-3" />
-                Responder
+                Reply
               </>
             )}
           </button>
@@ -173,7 +173,7 @@ export default function ReplyForm({
 
         {!session && (
           <p className="text-[10px] text-neutral-500 text-center">
-            🔒 Necesitas una cuenta para responder
+            🔒 You need an account to reply
           </p>
         )}
       </form>

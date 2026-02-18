@@ -21,32 +21,32 @@ export default function ImageUpload({
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Validar tipo de archivo
+    // Validate file type
     if (!file.type.startsWith('image/')) {
-      alert('Solo se permiten imágenes');
+      alert('Only images are allowed');
       return;
     }
 
-    // Validar tamaño (máx 5MB)
+    // Validate size (max 5MB)
     if (file.size > 5 * 1024 * 1024) {
-      alert('La imagen no debe superar 5MB');
+      alert('Image must not exceed 5MB');
       return;
     }
 
     setUploading(true);
 
     try {
-      // Crear FormData para enviar el archivo
+      // Create FormData to send the file
       const formData = new FormData();
       formData.append('file', file);
 
-      // Subir a tu API
+      // Upload to API
       const response = await fetch('/api/upload/profile-image', {
         method: 'POST',
         body: formData,
       });
 
-      if (!response.ok) throw new Error('Error al subir la imagen');
+      if (!response.ok) throw new Error('Error uploading image');
 
       const data = await response.json();
       const imageUrl = data.url;
@@ -54,8 +54,8 @@ export default function ImageUpload({
       setPreview(imageUrl);
       onImageChange(imageUrl);
     } catch (error) {
-      console.error('Error al subir imagen:', error);
-      alert('Error al subir la imagen. Intenta de nuevo.');
+      console.error('Error uploading image:', error);
+      alert('Error uploading image. Please try again.');
     } finally {
       setUploading(false);
     }
@@ -71,7 +71,7 @@ export default function ImageUpload({
 
   return (
     <div className="flex flex-col items-center gap-4">
-      {/* Preview de la imagen */}
+      {/* Image preview */}
       <div className="relative group">
         <div className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-accent-cyan-500 shadow-lg shadow-accent-cyan-500/50 overflow-hidden bg-neutral-800 flex items-center justify-center">
           {preview ? (
@@ -87,7 +87,7 @@ export default function ImageUpload({
           )}
         </div>
 
-        {/* Botón de eliminar (solo si hay imagen) */}
+        {/* Delete button (only if there's an image) */}
         {preview && !uploading && (
           <button
             type="button"
@@ -98,7 +98,7 @@ export default function ImageUpload({
           </button>
         )}
 
-        {/* Overlay de carga */}
+        {/* Loading overlay */}
         {uploading && (
           <div className="absolute inset-0 bg-black/70 rounded-full flex items-center justify-center">
             <div className="animate-spin rounded-full h-8 w-8 border-t-4 border-b-4 border-accent-cyan-400"></div>
@@ -106,7 +106,7 @@ export default function ImageUpload({
         )}
       </div>
 
-      {/* Botón de upload */}
+      {/* Upload button */}
       <div className="flex flex-col items-center gap-2">
         <input
           ref={fileInputRef}
@@ -123,10 +123,10 @@ export default function ImageUpload({
           }`}
         >
           <Upload className="w-4 h-4" />
-          {uploading ? 'Subiendo...' : 'Cambiar Foto'}
+          {uploading ? 'Uploading...' : 'Change Photo'}
         </label>
         <p className="text-xs text-neutral-400 text-center">
-          JPG, PNG o GIF (máx. 5MB)
+          JPG, PNG or GIF (max. 5MB)
         </p>
       </div>
     </div>
