@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { getEmbedUrl } from '@/lib/youtube';
+import { useTranslations } from 'next-intl';
 
 interface Submission {
   id: number;
@@ -29,6 +30,7 @@ interface SubmissionHistoryCardProps {
 
 export default function SubmissionHistoryCard({ submission }: SubmissionHistoryCardProps) {
   const [expanded, setExpanded] = useState(false);
+  const t = useTranslations('submissionHistoryCard');
 
   // Determine gradient color based on status
   const getBorderGradient = () => {
@@ -58,19 +60,19 @@ export default function SubmissionHistoryCard({ submission }: SubmissionHistoryC
       case 'pending':
         return (
           <span className="bg-accent-yellow-500 text-black px-3 py-1 rounded-full text-xs font-bold uppercase animate-pulse">
-            ⏳ Pending
+            {t('pending')}
           </span>
         );
       case 'approved':
         return (
           <span className="bg-green-500 text-white px-3 py-1 rounded-full text-xs font-bold uppercase">
-            ✅ Approved
+            {t('approved')}
           </span>
         );
       case 'rejected':
         return (
           <span className="bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold uppercase">
-            ❌ Rejected
+            {t('rejected')}
           </span>
         );
       default:
@@ -102,11 +104,11 @@ export default function SubmissionHistoryCard({ submission }: SubmissionHistoryC
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 mb-4">
           <div className="flex-1">
             <h3 className="text-lg md:text-xl font-black text-white uppercase tracking-wider">
-              {submission.challenge.isBonus && '🌟 BONUS: '}
+              {submission.challenge.isBonus && `${t('bonus')}: `}
               {submission.challenge.name}
             </h3>
             <p className="text-neutral-400 text-xs">
-              Level {submission.challenge.level} • Submitted on {formatDate(submission.submittedAt)}
+              {t('level', { level: submission.challenge.level })} • {t('submittedOn')} {formatDate(submission.submittedAt)}
             </p>
           </div>
           <div className="flex gap-2">
@@ -122,7 +124,7 @@ export default function SubmissionHistoryCard({ submission }: SubmissionHistoryC
           </span>
           {submission.status === 'approved' && submission.score !== null && (
             <span className="bg-green-600 text-white px-2 py-1 rounded-full text-xs font-bold uppercase">
-              Score: {submission.score}
+              {t('score')}: {submission.score}
             </span>
           )}
         </div>
@@ -132,12 +134,12 @@ export default function SubmissionHistoryCard({ submission }: SubmissionHistoryC
           <div className="mb-4 p-3 bg-neutral-800 rounded-lg border-2 border-neutral-700">
             <div className="flex flex-col md:flex-row justify-between text-xs text-neutral-400">
               <p>
-                <span className="font-bold text-neutral-300">Evaluated by:</span>{' '}
-                {submission.judge?.name || 'Judge'}
+                <span className="font-bold text-neutral-300">{t('evaluatedBy')}:</span>{' '}
+                {submission.judge?.name || t('judge')}
               </p>
               {submission.evaluatedAt && (
                 <p>
-                  <span className="font-bold text-neutral-300">Date:</span>{' '}
+                  <span className="font-bold text-neutral-300">{t('date')}:</span>{' '}
                   {formatDate(submission.evaluatedAt)}
                 </p>
               )}
@@ -148,7 +150,7 @@ export default function SubmissionHistoryCard({ submission }: SubmissionHistoryC
         {/* Feedback */}
         {submission.feedback && (
           <div className="mb-4 p-3 bg-neutral-800 rounded-lg border-2 border-neutral-700">
-            <p className="text-neutral-300 font-bold text-xs uppercase mb-1">Judge Comments:</p>
+            <p className="text-neutral-300 font-bold text-xs uppercase mb-1">{t('judgeComments')}:</p>
             <p className="text-neutral-400 text-sm">{submission.feedback}</p>
           </div>
         )}
@@ -159,7 +161,7 @@ export default function SubmissionHistoryCard({ submission }: SubmissionHistoryC
             onClick={() => setExpanded(!expanded)}
             className="w-full bg-neutral-800 hover:bg-neutral-700 text-accent-cyan-400 font-bold py-2 px-4 rounded-lg uppercase text-xs tracking-wider transition-all border-2 border-neutral-700 hover:border-accent-cyan-500"
           >
-            {expanded ? '▲ Hide Video' : '▼ Show Video'}
+            {expanded ? `▲ ${t('hideVideo')}` : `▼ ${t('showVideo')}`}
           </button>
 
           {expanded && (

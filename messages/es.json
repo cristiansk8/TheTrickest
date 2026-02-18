@@ -361,5 +361,34 @@
     "errorSelectCity": "Por favor selecciona una ciudad",
     "errorCompleting": "Error al completar perfil",
     "errorUnknown": "Error desconocido al completar perfil"
+  },
+  "welcomeModal": {
+    "title": "BIENVENIDO!",
+    "player": "JUGADOR",
+    "getReady": "Prepárate para Grabar",
+    "getReadyDesc": "Completa tu perfil y comienza a subir tus mejores trucos",
+    "step1Title": "PERFIL",
+    "step1Desc": "Completa tu info",
+    "step2Title": "TRUCOS",
+    "step2Desc": "Elige tus desafíos",
+    "step3Title": "GRABAR",
+    "step3Desc": "Sube tus videos",
+    "continuingIn": "Continuando en {seconds}s...",
+    "skip": "SALTAR"
+  },
+  "submissionHistoryCard": {
+    "bonus": "BONUS",
+    "level": "Nivel {level}",
+    "submittedOn": "Enviado el",
+    "pending": "Pendiente",
+    "approved": "Aprobado",
+    "rejected": "Rechazado",
+    "score": "Puntuación",
+    "evaluatedBy": "Evaluado por",
+    "judge": "Juez",
+    "date": "Fecha",
+    "judgeComments": "Comentarios del Juez",
+    "hideVideo": "Ocultar Video",
+    "showVideo": "Ver Video"
   }
 }

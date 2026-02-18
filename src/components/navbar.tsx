@@ -1,6 +1,6 @@
 'use client';
 import { useSession } from 'next-auth/react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { usePathname } from 'next/navigation';
 import { MdAdminPanelSettings } from 'react-icons/md';
 import { itemsNavbar } from '../../data';

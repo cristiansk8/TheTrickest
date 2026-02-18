@@ -361,5 +361,34 @@
     "errorSelectCity": "Please select a city",
     "errorCompleting": "Error completing profile",
     "errorUnknown": "Unknown error completing profile"
+  },
+  "welcomeModal": {
+    "title": "WELCOME!",
+    "player": "PLAYER",
+    "getReady": "Get Ready to Record",
+    "getReadyDesc": "Complete your profile and start uploading your best tricks",
+    "step1Title": "PROFILE",
+    "step1Desc": "Complete your info",
+    "step2Title": "TRICKS",
+    "step2Desc": "Choose your challenges",
+    "step3Title": "RECORD",
+    "step3Desc": "Upload your videos",
+    "continuingIn": "Continuing in {seconds}s...",
+    "skip": "SKIP"
+  },
+  "submissionHistoryCard": {
+    "bonus": "BONUS",
+    "level": "Level {level}",
+    "submittedOn": "Submitted on",
+    "pending": "Pending",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "score": "Score",
+    "evaluatedBy": "Evaluated by",
+    "judge": "Judge",
+    "date": "Date",
+    "judgeComments": "Judge Comments",
+    "hideVideo": "Hide Video",
+    "showVideo": "Show Video"
   }
 }
