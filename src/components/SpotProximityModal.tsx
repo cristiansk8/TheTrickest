@@ -280,9 +280,9 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
     setError('');
 
     // Debug: log before sending
-    console.log('📸 Enviando registro con foto:', {
+    console.log('📸 Sending registration with photo:', {
       photoUrl: photo,
-      photoPreview: photoPreview ? 'existe' : 'no existe',
+      photoPreview: photoPreview ? 'exists' : 'does not exist',
       uploadingPhoto,
       photosArray: photo ? [photo] : []
     });
@@ -747,7 +747,7 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
                     </>
                   ) : (
                     <div className="space-y-2">
-                      {/* Preview de la imagen */}
+                      {/* Image preview */}
                       <div className="relative bg-neutral-900 border-2 border-green-500 rounded-lg overflow-hidden">
                         <img
                           src={photoPreview}
@@ -756,27 +756,27 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
                         />
                         {uploadingPhoto && (
                           <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                            <div className="text-white font-bold">⏳ Subiendo...</div>
+                            <div className="text-white font-bold">⏳ Uploading...</div>
                           </div>
                         )}
                       </div>
 
-                      {/* Botones de acción */}
+                      {/* Action buttons */}
                       <div className="grid grid-cols-2 gap-2">
-                        {/* Tomar nueva foto */}
+                        {/* Take new photo */}
                         <button
                           type="button"
                           onClick={handleCameraCapture}
                           className="flex items-center justify-center gap-2 bg-accent-cyan-600 hover:bg-accent-cyan-500 text-white p-2 rounded-lg border-2 border-accent-cyan-400 transition-colors"
                         >
                           <Camera className="w-4 h-4" />
-                          <span className="font-bold text-sm">Nueva foto</span>
+                          <span className="font-bold text-sm">New photo</span>
                         </button>
 
-                        {/* Cambiar archivo */}
+                        {/* Change file */}
                         <label className="flex items-center justify-center gap-2 bg-accent-purple-600 hover:bg-accent-purple-500 text-white p-2 rounded-lg border-2 border-accent-purple-400 cursor-pointer transition-colors">
                           <Video className="w-4 h-4" />
-                          <span className="font-bold text-sm">Subir</span>
+                          <span className="font-bold text-sm">Upload</span>
                           <input
                             ref={fileInputRef}
                             type="file"

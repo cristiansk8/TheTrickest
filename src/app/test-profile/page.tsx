@@ -38,7 +38,7 @@ export default function SimpleProfilePage() {
     return (
       <div className="min-h-screen bg-neutral-900 p-8 text-white text-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-accent-cyan-400 mx-auto mb-4"></div>
-        <p>Cargando perfil...</p>
+        <p>Loading profile...</p>
       </div>
     );
   }
@@ -46,7 +46,7 @@ export default function SimpleProfilePage() {
   if (!profile) {
     return (
       <div className="min-h-screen bg-neutral-900 p-8 text-white text-center">
-        <p>Perfil no encontrado</p>
+        <p>Profile not found</p>
       </div>
     );
   }
@@ -54,14 +54,14 @@ export default function SimpleProfilePage() {
   return (
     <div className="min-h-screen bg-neutral-900 p-8 text-white">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold mb-8">Perfil de {profile.name}</h1>
+        <h1 className="text-4xl font-bold mb-8">{profile.name}'s Profile</h1>
 
         {/* Share Buttons */}
         <div className="flex gap-3 mb-8">
           <button
             onClick={() => {
               const url = window.location.href;
-              const text = `¡Mira el perfil de ${profile.name} en Trickest!`;
+              const text = `Check out ${profile.name}'s profile on Trickest!`;
               const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
               window.open(twitterUrl, '_blank');
             }}
@@ -84,11 +84,11 @@ export default function SimpleProfilePage() {
           <button
             onClick={() => {
               navigator.clipboard.writeText(window.location.href);
-              alert('Enlace copiado!');
+              alert('Link copied!');
             }}
             className="bg-neutral-700 hover:bg-neutral-600 text-white font-bold py-2 px-4 rounded-lg flex items-center gap-2"
           >
-            <FaShare /> Copiar
+            <FaShare /> Copy
           </button>
         </div>
 
@@ -112,15 +112,15 @@ export default function SimpleProfilePage() {
           <div className="grid grid-cols-3 gap-4">
             <div className="text-center">
               <p className="text-2xl font-bold text-accent-yellow-400">{profile.stats?.totalScore || 0}</p>
-              <p className="text-neutral-400">Puntos</p>
+              <p className="text-neutral-400">Points</p>
             </div>
             <div className="text-center">
               <p className="text-2xl font-bold text-green-400">{profile.stats?.approvedSubmissions || 0}</p>
-              <p className="text-neutral-400">Trucos</p>
+              <p className="text-neutral-400">Tricks</p>
             </div>
             <div className="text-center">
               <p className="text-2xl font-bold text-accent-purple-400">{profile.socialStats?.followerCount || 0}</p>
-              <p className="text-neutral-400">Seguidores</p>
+              <p className="text-neutral-400">Followers</p>
             </div>
           </div>
         </div>
