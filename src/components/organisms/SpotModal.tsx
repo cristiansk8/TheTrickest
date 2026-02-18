@@ -28,7 +28,7 @@ export default function SpotModal({ isOpen, spotId, commentId, onClose }: SpotMo
   const [spot, setSpot] = useState<Spot | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Cerrar con ESC
+  // Close with ESC
   useEffect(() => {
     if (!isOpen) return;
 
@@ -40,7 +40,7 @@ export default function SpotModal({ isOpen, spotId, commentId, onClose }: SpotMo
     return () => document.removeEventListener('keydown', handleEscape);
   }, [isOpen, onClose]);
 
-  // Cargar datos del spot
+  // Load spot data
   useEffect(() => {
     if (!isOpen || !spotId) return;
 
@@ -53,7 +53,7 @@ export default function SpotModal({ isOpen, spotId, commentId, onClose }: SpotMo
           setSpot(data.data || data);
         }
       } catch (error) {
-        console.error('Error cargando spot:', error);
+        console.error('Error loading spot:', error);
       } finally {
         setLoading(false);
       }
@@ -63,7 +63,7 @@ export default function SpotModal({ isOpen, spotId, commentId, onClose }: SpotMo
   }, [isOpen, spotId]);
 
 
-  // Prevenir scroll del body
+  // Prevent body scroll
   useEffect(() => {
     if (!isOpen) return;
     document.body.style.overflow = 'hidden';
@@ -93,7 +93,7 @@ export default function SpotModal({ isOpen, spotId, commentId, onClose }: SpotMo
               <button
                 onClick={onClose}
                 className="p-2 hover:bg-neutral-100 rounded-full transition-colors"
-                aria-label="Cerrar"
+                aria-label="Close"
               >
                 <X className="w-5 h-5 text-neutral-600" />
               </button>
@@ -129,7 +129,7 @@ export default function SpotModal({ isOpen, spotId, commentId, onClose }: SpotMo
                       <div className="flex items-center gap-2 mt-3">
                         <Star className="w-4 h-4 text-accent-yellow-500 fill-accent-yellow-500" />
                         <span className="text-sm font-medium">
-                          {spot.confidenceScore}% confianza
+                          {spot.confidenceScore}% confidence
                         </span>
                         <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
                           {spot.type}
@@ -138,14 +138,14 @@ export default function SpotModal({ isOpen, spotId, commentId, onClose }: SpotMo
                     </div>
                   </div>
                 ) : (
-                  <p className="text-neutral-500">No se encontró el spot</p>
+                  <p className="text-neutral-500">Spot not found</p>
                 )}
               </div>
 
               {/* Comments */}
               <div className="p-6">
                 <div className="mb-4">
-                  <h3 className="text-lg font-bold text-neutral-900">Comentarios</h3>
+                  <h3 className="text-lg font-bold text-neutral-900">Comments</h3>
                 </div>
                 <SpotComments spotId={spotId} maxHeight="none" highlightCommentId={commentId} />
               </div>
@@ -156,7 +156,7 @@ export default function SpotModal({ isOpen, spotId, commentId, onClose }: SpotMo
               <div className="bg-neutral-50 border border-neutral-200 rounded-lg p-3">
                 <input
                   type="text"
-                  placeholder="Escribe un comentario..."
+                  placeholder="Write a comment..."
                   className="w-full outline-none text-neutral-900 placeholder-neutral-400"
                 />
               </div>

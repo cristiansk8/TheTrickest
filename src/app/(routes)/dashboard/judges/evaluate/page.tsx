@@ -40,7 +40,7 @@ export default function JudgeEvaluatePage() {
   const [feedback, setFeedback] = useState<string>('');
   const [notification, setNotification] = useState('');
 
-  // Verificar si el usuario es juez o admin
+  // Check if user is judge or admin
   useEffect(() => {
     if (status === 'authenticated') {
       const userRole = session?.user?.role;
@@ -50,7 +50,7 @@ export default function JudgeEvaluatePage() {
     }
   }, [status, session, router]);
 
-  // Cargar submissions según la pestaña activa
+  // Load submissions based on active tab
   useEffect(() => {
     if (status === 'authenticated') {
       if (activeTab === 'pending') {
@@ -133,7 +133,7 @@ export default function JudgeEvaluatePage() {
       setNotification(`✅ Submission ${approved ? 'approved' : 'rejected'} successfully`);
       setScore(0);
       setFeedback('');
-      // Recargar la lista actual
+      // Reload current list
       if (activeTab === 'pending') {
         fetchPendingSubmissions();
       } else {
@@ -156,7 +156,7 @@ export default function JudgeEvaluatePage() {
         <div className="flex-1 flex items-center justify-center min-h-screen bg-gradient-to-br from-accent-purple-900 via-accent-blue-900 to-black">
           <div className="text-center">
             <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-accent-cyan-400 mx-auto"></div>
-            <p className="mt-4 text-accent-cyan-400 font-bold text-xl">CARGANDO...</p>
+            <p className="mt-4 text-accent-cyan-400 font-bold text-xl">LOADING...</p>
           </div>
         </div>
       </div>
@@ -207,7 +207,7 @@ export default function JudgeEvaluatePage() {
         </div>
       </div>
 
-      {/* Notificación */}
+      {/* Notification */}
       {notification && (
         <div className={`max-w-7xl mx-auto mb-6 animate-pulse ${
           notification.includes("✅") ? "bg-green-500" : "bg-red-500"
@@ -216,7 +216,7 @@ export default function JudgeEvaluatePage() {
         </div>
       )}
 
-      {/* Lista de Submissions */}
+      {/* Submissions List */}
       <div className="max-w-7xl mx-auto">
         {submissions.length === 0 ? (
           <div className="bg-gradient-to-r from-neutral-800 to-neutral-900 border-4 border-neutral-700 rounded-lg p-8 text-center">
@@ -235,7 +235,7 @@ export default function JudgeEvaluatePage() {
                 className="bg-gradient-to-r from-accent-yellow-500 to-accent-orange-500 p-1 rounded-lg shadow-2xl"
               >
                 <div className="bg-neutral-900 rounded-lg p-6">
-                  {/* Info del skater y desafío */}
+                  {/* Skater and challenge info */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <div>
                       <p className="text-accent-cyan-400 font-bold text-sm mb-1">SKATER</p>
@@ -269,9 +269,9 @@ export default function JudgeEvaluatePage() {
                     </div>
                   </div>
 
-                  {/* Formulario de evaluación o Resultado */}
+                  {/* Evaluation form or Result */}
                   {activeTab === 'pending' ? (
-                    // Pestaña Pendientes - Formulario de evaluación
+                    // Pending tab - Evaluation form
                     evaluating === submission.id ? (
                       <div className="space-y-4">
                         <div>
@@ -325,11 +325,11 @@ export default function JudgeEvaluatePage() {
                         onClick={() => setEvaluating(submission.id)}
                         className="w-full bg-accent-yellow-500 hover:bg-accent-yellow-600 text-white font-black py-4 px-6 rounded-lg border-4 border-white uppercase tracking-wider text-lg shadow-2xl transform hover:scale-105 transition-all"
                       >
-                        📝 EVALUAR
+                        📝 EVALUATE
                       </button>
                     )
                   ) : (
-                    // Pestaña Evaluadas - Mostrar resultado
+                    // Evaluated tab - Show result
                     <div className="space-y-4">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>

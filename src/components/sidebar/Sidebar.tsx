@@ -126,7 +126,7 @@ export const Sidebar = () => {
   const { data: session, status } = useSession();
   const [totalScore, setTotalScore] = useState(0);
 
-  // Determinar qué menú mostrar según el rol
+  // Determine which menu to show based on role
   const menuItems = useMemo(() => {
     const userRole = session?.user?.role || 'skater';
 
@@ -139,7 +139,7 @@ export const Sidebar = () => {
     }
   }, [session?.user?.role]);
 
-  // Obtener el score total del usuario
+  // Get user's total score
   useEffect(() => {
     if (status === 'authenticated' && session?.user?.email) {
       const fetchScore = async () => {
@@ -157,7 +157,7 @@ export const Sidebar = () => {
     }
   }, [status, session?.user?.email]);
 
-  // Obtener el badge del rol
+  // Get role badge
   const getRoleBadge = () => {
     const userRole = session?.user?.role || 'skater';
 
@@ -186,7 +186,7 @@ export const Sidebar = () => {
       id="menu"
       className="bg-neutral-900 min-h-auto lg:min-h-screen z-10 text-neutral-300 w-full lg:w-72 left-0 overflow-y-auto border-r-4 border-neutral-800"
     >
-      {/* Logo Header con estilo arcade */}
+      {/* Logo Header with arcade style */}
       <div className="p-4">
         <Link href="/">
           <div className="bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 p-[3px] rounded-lg shadow-lg shadow-accent-cyan-500/30 hover:shadow-accent-cyan-500/50 transition-all cursor-pointer">
@@ -214,7 +214,7 @@ export const Sidebar = () => {
         </div>
       </div>
 
-      {/* Perfil del usuario */}
+      {/* User profile */}
       <div className="px-4 mb-6">
         <div className="bg-gradient-to-r from-accent-purple-500 to-accent-pink-500 p-[3px] rounded-lg">
           <div className="bg-neutral-900 rounded-lg p-4">
@@ -249,7 +249,7 @@ export const Sidebar = () => {
         </div>
       </div>
 
-      {/* Menú de navegación */}
+      {/* Navigation menu */}
       <div className="px-4 pb-4">
         <p className="text-neutral-500 text-xs uppercase font-bold tracking-wider mb-3 px-2">
           Navigation
@@ -261,7 +261,7 @@ export const Sidebar = () => {
         </div>
       </div>
 
-      {/* Botón de Logout */}
+      {/* Logout button */}
       <div className="px-4 pb-6 mt-auto">
         <button
           onClick={() => signOut({ callbackUrl: '/' })}

@@ -65,11 +65,11 @@ export default function TopCommentPreview({
     const diffHours = Math.floor(diffMs / 3600000);
     const diffDays = Math.floor(diffMs / 86400000);
 
-    if (diffMins < 1) return 'ahora mismo';
-    if (diffMins < 60) return `hace ${diffMins} min`;
-    if (diffHours < 24) return `hace ${diffHours}h`;
-    if (diffDays < 7) return `hace ${diffDays}d`;
-    return date.toLocaleDateString('es-ES');
+    if (diffMins < 1) return 'just now';
+    if (diffMins < 60) return `${diffMins} min ago`;
+    if (diffHours < 24) return `${diffHours}h ago`;
+    if (diffDays < 7) return `${diffDays}d ago`;
+    return date.toLocaleDateString('en-US');
   };
 
   if (loading) {
@@ -82,7 +82,7 @@ export default function TopCommentPreview({
     );
   }
 
-  // No hay comentarios
+  // No comments
   if (!topComment) {
     return (
       <div className="mt-3 pt-3 border-t border-neutral-200">
@@ -91,36 +91,36 @@ export default function TopCommentPreview({
           className="w-full py-2 px-3 bg-accent-cyan-600 hover:bg-accent-cyan-700 border-2 border-accent-cyan-400 rounded-lg text-white font-bold transition-all flex items-center justify-center gap-2"
         >
           <MessageSquare className="w-4 h-4" />
-          Sé el primero en comentar
+          Be the first to comment
         </button>
       </div>
     );
   }
 
-  // Hay comentarios - mostrar el top
+  // Has comments - show top comment
   return (
     <div className="mt-3 pt-3 border-t border-neutral-200">
-      {/* Header del preview */}
+      {/* Preview header */}
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-1 text-sm">
           <TrendingUp className="w-4 h-4 text-green-500" />
           <span className="font-bold text-green-600">
-            Comentario destacado
+            Top comment
           </span>
         </div>
         <span className="text-xs text-neutral-500">
-          {totalComments} {totalComments === 1 ? 'comentario' : 'comentarios'}
+          {totalComments} {totalComments === 1 ? 'comment' : 'comments'}
         </span>
       </div>
 
       {/* Top comment preview */}
       <div className="bg-neutral-50 border border-neutral-300 rounded-lg p-3">
-        {/* Autor */}
+        {/* Author */}
         <div className="flex items-center gap-2 mb-2">
           {topComment.user.photo ? (
             <img
               src={topComment.user.photo}
-              alt={topComment.user.name || 'Usuario'}
+              alt={topComment.user.name || 'User'}
               className="w-6 h-6 rounded-full border border-neutral-300 object-cover"
             />
           ) : (
@@ -130,7 +130,7 @@ export default function TopCommentPreview({
           )}
           <div className="flex-1 min-w-0">
             <p className="text-xs font-bold text-neutral-900 truncate">
-              {topComment.user.name || 'Usuario'}
+              {topComment.user.name || 'User'}
             </p>
             <p className="text-[10px] text-neutral-500">
               {formatDate(topComment.createdAt)}
@@ -138,7 +138,7 @@ export default function TopCommentPreview({
           </div>
         </div>
 
-        {/* Contenido (truncado) */}
+        {/* Content (truncated) */}
         <p className="text-xs text-neutral-700 line-clamp-2 mb-2">
           {topComment.content.length > 100
             ? topComment.content.substring(0, 100) + '...'
@@ -154,29 +154,29 @@ export default function TopCommentPreview({
             )}
           </div>
 
-          {/* Botón "Ver más" */}
+          {/* "View all" button */}
           <button
             onClick={onViewAllComments}
             className="text-xs font-bold text-accent-cyan-600 hover:text-accent-cyan-700 flex items-center gap-1"
           >
-            Ver todos
+            View all
             <ChevronDown className="w-3 h-3" />
           </button>
         </div>
       </div>
 
-      {/* Botón completo */}
+      {/* Full button */}
       <button
         onClick={onViewAllComments}
         className="w-full mt-2 py-2 px-3 bg-neutral-100 hover:bg-accent-cyan-50 border-2 border-neutral-300 hover:border-accent-cyan-400 rounded-lg font-bold text-neutral-700 hover:text-accent-cyan-700 transition-all text-sm flex items-center justify-center gap-2"
       >
         <MessageSquare className="w-4 h-4" />
-        Ver todos los comentarios ({totalComments})
+        View all comments ({totalComments})
       </button>
 
       {!session && (
         <p className="text-[10px] text-neutral-500 text-center mt-1">
-          🔒 Inicia sesión para comentar
+          🔒 Sign in to comment
         </p>
       )}
     </div>

@@ -14,7 +14,7 @@ export default function ProfilePage() {
   const [notification, setNotification] = useState('');
   const [activeTab, setActiveTab] = useState<'general' | 'setup' | 'social'>(
     'general'
-  ); // Tab activo
+  ); // Active tab
   const [formData, setFormData] = useState({
     facebook: '',
     instagram: '',
@@ -23,29 +23,29 @@ export default function ProfilePage() {
   });
   const [showShareMenu, setShowShareMenu] = useState(false);
 
-  // Función para compartir el perfil
+  // Function to share profile
   const handleShareProfile = async () => {
     if (!session?.user?.username) return;
     const profileUrl = `${window.location.origin}/profile/${session.user.username}`;
 
-    // Si el navegador soporta Web Share API
+    // If browser supports Web Share API
     if (navigator.share) {
       try {
         await navigator.share({
-          title: `Perfil de ${session.user.username} - Thetrickest`,
-          text: '¡Mira mi perfil en Thetrickest!',
+          title: `${session.user.username}'s Profile - Thetrickest`,
+          text: 'Check out my profile on Thetrickest!',
           url: profileUrl,
         });
         return; // Share successful, exit
       } catch (error) {
-        console.log('Error al compartir:', error);
+        console.log('Error sharing:', error);
       }
     }
 
-    // Fallback: copiar al portapapeles
+    // Fallback: copy to clipboard
     try {
       await navigator.clipboard.writeText(profileUrl);
-      setNotification('✅ ¡Link copiado al portapapeles!');
+      setNotification('✅ Link copied to clipboard!');
       setTimeout(() => setNotification(''), 3000);
     } catch (error) {
       // If clipboard fails, create a temporary input element
@@ -57,18 +57,18 @@ export default function ProfilePage() {
       input.select();
       try {
         document.execCommand('copy');
-        setNotification('✅ ¡Link copiado al portapapeles!');
+        setNotification('✅ Link copied to clipboard!');
         setTimeout(() => setNotification(''), 3000);
       } catch (err) {
         console.error('Failed to copy:', err);
-        setNotification('❌ No se pudo copiar el enlace');
+        setNotification('❌ Could not copy the link');
         setTimeout(() => setNotification(''), 3000);
       }
       document.body.removeChild(input);
     }
   };
 
-  // Funciones para compartir en redes específicas
+  // Functions to share on specific social networks
   const shareOnFacebook = () => {
     if (!session?.user?.username) return;
     const profileUrl = `${window.location.origin}/profile/${session.user.username}`;
@@ -83,7 +83,7 @@ export default function ProfilePage() {
   const shareOnTwitter = () => {
     if (!session?.user?.username) return;
     const profileUrl = `${window.location.origin}/profile/${session.user.username}`;
-    const text = `¡Mira mi perfil en Thetrickest! 🛹`;
+    const text = `Check out my profile on Thetrickest! 🛹`;
     window.open(
       `https://twitter.com/intent/tweet?text=${encodeURIComponent(
         text
@@ -95,16 +95,16 @@ export default function ProfilePage() {
   const shareOnWhatsApp = () => {
     if (!session?.user?.username) return;
     const profileUrl = `${window.location.origin}/profile/${session.user.username}`;
-    const text = `¡Mira mi perfil en Thetrickest! 🛹 ${profileUrl}`;
+    const text = `Check out my profile on Thetrickest! 🛹 ${profileUrl}`;
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
   };
 
-  // Verifica si estamos en el cliente
+  // Check if we're on the client
   useEffect(() => {
     setIsClient(true);
   }, []);
 
-  // Cerrar menú al hacer clic fuera
+  // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as HTMLElement;
@@ -117,7 +117,7 @@ export default function ProfilePage() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [showShareMenu]);
 
-  // Carga los datos del perfil cuando el usuario está autenticado
+  // Load profile data when user is authenticated
   useEffect(() => {
     if (status !== 'authenticated' || !session?.user?.email) return;
 
@@ -128,12 +128,12 @@ export default function ProfilePage() {
           `/api/skate_profiles/social_media?email=${session.user?.email}`
         );
         const data = await response.json();
-        console.log('Datos recibidos:', data);
+        console.log('Data received:', data);
 
-        // Si el usuario no tiene redes sociales (404), simplemente deja los campos vacíos
+        // If user has no social media (404), leave fields empty
         if (response.status === 404 || !data.exists) {
           console.log(
-            'Usuario nuevo sin redes sociales, campos vacíos por defecto'
+            'New user without social media, empty fields by default'
           );
           setFormData({
             facebook: '',
@@ -144,12 +144,12 @@ export default function ProfilePage() {
           return;
         }
 
-        // Si hay un error real del servidor (500), mostrar notificación
+        // If there's a real server error (500), show notification
         if (!response.ok) {
-          throw new Error('Error del servidor al obtener el perfil.');
+          throw new Error('Server error while fetching profile.');
         }
 
-        // Ajusta la asignación para usar data.socialMedia
+        // Adjust assignment to use data.socialMedia
         setFormData({
           facebook: data.socialMedia?.facebook || '',
           instagram: data.socialMedia?.instagram || '',
@@ -157,9 +157,9 @@ export default function ProfilePage() {
           twitter: data.socialMedia?.twitter || '',
         });
       } catch (error) {
-        console.error('Error al obtener perfil:', error);
-        setNotification('❌ Error al cargar los datos del perfil.');
-        // Auto-limpiar notificación de error después de 5 segundos
+        console.error('Error fetching profile:', error);
+        setNotification('❌ Error loading profile data.');
+        // Auto-clear error notification after 5 seconds
         setTimeout(() => {
           setNotification('');
         }, 5000);
@@ -171,20 +171,20 @@ export default function ProfilePage() {
     fetchProfile();
   }, [status, session?.user?.email]);
 
-  // Maneja los cambios en los inputs
+  // Handle input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Maneja el submit del formulario
+  // Handle form submit
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    setNotification(''); // Reinicia la notificación antes de enviar
+    setNotification(''); // Reset notification before sending
 
     if (!session?.user) {
-      console.error('No estás autenticado');
-      setNotification('❌ No estás autenticado.');
+      console.error('Not authenticated');
+      setNotification('❌ You are not authenticated.');
       setLoading(false);
       return;
     }
@@ -196,7 +196,7 @@ export default function ProfilePage() {
       twitter: formData.twitter,
       tiktok: formData.tiktok,
     };
-    console.log('Datos JSON a enviar:', jsonData);
+    console.log('JSON data to send:', jsonData);
 
     try {
       const response = await fetch('/api/skate_profiles/social_media', {
@@ -217,17 +217,17 @@ export default function ProfilePage() {
         throw new Error(data.error);
       }
 
-      console.log('Registro exitoso:', data);
+      console.log('Registration successful:', data);
       setIsRegistered(true);
-      setNotification('✅ Configuración actualizada con éxito.'); // Notificación de éxito
+      setNotification('✅ Settings updated successfully.'); // Success notification
 
-      // Limpia la notificación después de 5 segundos
+      // Clear notification after 5 seconds
       setTimeout(() => {
         setNotification('');
       }, 5000);
     } catch (error) {
-      console.error('Error al registrar:', error);
-      setNotification('❌ Error al actualizar la configuración.'); // Notificación de error
+      console.error('Error registering:', error);
+      setNotification('❌ Error updating settings.'); // Error notification
     } finally {
       setLoading(false);
     }
@@ -246,7 +246,7 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-neutral-900 via-accent-purple-900 to-neutral-900 p-4 md:p-8">
-      {/* Header con efecto retro */}
+      {/* Header with retro effect */}
       <div className="max-w-7xl mx-auto mb-8 relative z-50">
         <div className="bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 p-1 rounded-lg shadow-2xl">
           <div className="bg-neutral-900 rounded-lg p-6">
@@ -267,7 +267,7 @@ export default function ProfilePage() {
                     rel="noopener noreferrer"
                     className="bg-accent-yellow-500 hover:bg-accent-yellow-600 text-white font-black py-3 px-6 rounded-lg border-4 border-white uppercase tracking-wider text-sm shadow-lg transform hover:scale-105 transition-all text-center whitespace-nowrap relative z-50"
                   >
-                    👁️ Ver Perfil Público
+                    👁️ View Public Profile
                   </Link>
                   <div className="relative share-menu-container z-50">
                     <button
@@ -275,7 +275,7 @@ export default function ProfilePage() {
                       onClick={() => setShowShareMenu(!showShareMenu)}
                       className="w-full md:w-auto bg-accent-purple-600 hover:bg-accent-purple-700 text-white font-black py-3 px-6 rounded-lg border-4 border-white uppercase tracking-wider text-sm shadow-lg transform hover:scale-105 transition-all whitespace-nowrap relative z-50"
                     >
-                      🔗 Compartir
+                      🔗 Share
                     </button>
                     {showShareMenu && (
                       <div className="absolute left-0 md:right-0 md:left-auto mt-2 w-56 bg-neutral-800 border-4 border-accent-purple-500 rounded-lg shadow-2xl z-[60] overflow-hidden">
@@ -317,7 +317,7 @@ export default function ProfilePage() {
                           }}
                           className="w-full text-left px-4 py-3 text-white hover:bg-accent-purple-600 transition-colors flex items-center gap-3 font-bold border-t-2 border-accent-purple-500"
                         >
-                          📋 Copiar Link
+                          📋 Copy Link
                         </button>
                       </div>
                     )}
@@ -329,7 +329,7 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      {/* Sistema de Tabs estilo arcade */}
+      {/* Arcade style tabs system */}
       <div className="max-w-7xl mx-auto mb-6">
         <div className="flex flex-col md:flex-row gap-3 md:gap-4">
           <button
@@ -340,7 +340,7 @@ export default function ProfilePage() {
                 : 'bg-neutral-800 text-neutral-400 border-4 border-neutral-700 hover:border-accent-cyan-500'
             } rounded-lg text-sm md:text-base`}
           >
-            👤 INFO GENERAL
+            👤 GENERAL INFO
           </button>
 
           <button
@@ -362,12 +362,12 @@ export default function ProfilePage() {
                 : 'bg-neutral-800 text-neutral-400 border-4 border-neutral-700 hover:border-green-500'
             } rounded-lg text-sm md:text-base`}
           >
-            🌐 REDES SOCIALES
+            🌐 SOCIAL MEDIA
           </button>
         </div>
       </div>
 
-      {/* Notificación flotante */}
+      {/* Floating notification */}
       {notification && (
         <div
           className={`max-w-7xl mx-auto mb-6 animate-pulse ${
@@ -380,29 +380,29 @@ export default function ProfilePage() {
         </div>
       )}
 
-      {/* Contenido de las tabs */}
+      {/* Tab content */}
       <div className="max-w-7xl mx-auto">
-        {/* Tab: Información General */}
+        {/* Tab: General Info */}
         {activeTab === 'general' && (
           <div className="animate-fadeIn">
             <GeneralInfoForm />
           </div>
         )}
 
-        {/* Tab: Setup Soñado */}
+        {/* Tab: Dream Setup */}
         {activeTab === 'setup' && (
           <div className="animate-fadeIn">
             <SkateSetupPage />
           </div>
         )}
 
-        {/* Tab: Redes Sociales */}
+        {/* Tab: Social Media */}
         {activeTab === 'social' && (
           <div className="animate-fadeIn">
             <div className="bg-gradient-to-r from-green-500 to-accent-teal-500 p-1 rounded-lg shadow-2xl">
               <div className="bg-neutral-900 rounded-lg p-6 md:p-8">
                 <h2 className="text-2xl md:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-accent-teal-400 uppercase mb-6 text-center md:text-left">
-                  🌐 Conecta tus redes
+                  🌐 Connect your social media
                 </h2>
 
                 <form
@@ -475,14 +475,14 @@ export default function ProfilePage() {
                     </div>
                   </div>
 
-                  {/* Botón de guardar estilo arcade */}
+                  {/* Arcade style save button */}
                   <div className="flex justify-center mt-8">
                     <button
                       className="bg-green-500 hover:bg-green-600 text-white font-black py-4 px-12 rounded-lg border-4 border-white uppercase tracking-wider text-lg shadow-2xl transform hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                       type="submit"
                       disabled={loading}
                     >
-                      {loading ? '⏳ GUARDANDO...' : '💾 GUARDAR'}
+                      {loading ? '⏳ SAVING...' : '💾 SAVE'}
                     </button>
                   </div>
                 </form>
@@ -492,7 +492,7 @@ export default function ProfilePage() {
         )}
       </div>
 
-      {/* Agregar estilos de animación */}
+      {/* Add animation styles */}
       <style jsx>{`
         @keyframes fadeIn {
           from {

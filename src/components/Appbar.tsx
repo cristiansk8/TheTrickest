@@ -100,7 +100,7 @@ const Appbar = () => {
   const handleNotificationClick = async (notification: Notification) => {
     setLoading(true);
     try {
-      // Marcar como leída
+      // Mark as read
       await fetch('/api/notifications', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
@@ -110,26 +110,26 @@ const Appbar = () => {
         })
       });
 
-      // Actualizar estado local
+      // Update local state
       setNotifications(prev =>
         prev.map(n => n.id === notification.id ? { ...n, isRead: true } : n)
       );
 
-      // Refrescar contador desde el provider
+      // Refresh counter from provider
       await refreshUnreadCount();
 
-      // Si es comentario, abrir modal
+      // If comment, open modal
       if (notification.type === 'comment_reply' || notification.type === 'comment_mention') {
-        console.log('🔔 Notificación de comentario:', notification);
+        console.log('🔔 Comment notification:', notification);
         console.log('📦 Metadata:', notification.metadata);
 
         const spotId = notification.metadata?.spotId;
         const commentId = notification.metadata?.commentId;
 
-        console.log('✅ Datos extraídos:', { spotId, commentId });
+        console.log('✅ Extracted data:', { spotId, commentId });
 
         if (spotId) {
-          console.log('🚀 Abriendo modal con spotId:', spotId, 'commentId:', commentId);
+          console.log('🚀 Opening modal with spotId:', spotId, 'commentId:', commentId);
           setModalSpotId(spotId);
           setModalCommentId(commentId || null);
           setShowSpotModal(true);
@@ -138,7 +138,7 @@ const Appbar = () => {
         }
       }
 
-      // Redirigir si tiene link
+      // Redirect if has link
       if (notification.link) {
         window.location.href = notification.link;
       }
@@ -161,10 +161,10 @@ const Appbar = () => {
         })
       });
 
-      // Actualizar estado local
+      // Update local state
       setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
 
-      // Refrescar contador desde el provider
+      // Refresh counter from provider
       await refreshUnreadCount();
     } catch (err) {
       console.error('Error:', err);
@@ -202,7 +202,7 @@ const Appbar = () => {
     <header className="fixed top-0 left-0 right-0 z-[9990] flex p-4 items-center w-full bg-transparent backdrop-blur-sm">
       <SigninButton />
 
-      {/* User Score Badge - dentro del header */}
+      {/* User Score Badge - inside header */}
       {session?.user && (
         <Link href="/dashboard/skaters/profile" className="ml-4">
           <div className="flex items-center gap-2 md:gap-3 bg-neutral-800/80 px-3 py-2 rounded-lg border-2 border-accent-cyan-500/50 hover:border-accent-cyan-400 hover:shadow-lg hover:shadow-accent-cyan-500/30 transition-all cursor-pointer hover:scale-105">
@@ -223,7 +223,7 @@ const Appbar = () => {
               )}
             </div>
 
-            {/* User Info - oculto en móvil */}
+            {/* User Info - hidden on mobile */}
             <div className="hidden sm:flex flex-col">
               <p className="text-white font-bold text-xs md:text-sm uppercase tracking-wider leading-tight truncate max-w-[100px] md:max-w-[150px]">
                 {userScore?.name || session.user.name || 'Skater'}
@@ -239,14 +239,14 @@ const Appbar = () => {
         </Link>
       )}
 
-      {/* Botones flotantes a la derecha */}
+      {/* Floating buttons on the right */}
       <div className="ml-auto flex items-center gap-2 md:gap-3">
-        {/* Botón de Ubicación */}
+        {/* Location button */}
         {session?.user?.email && (
           <LocationToggle />
         )}
 
-        {/* Botón de Notificaciones */}
+        {/* Notifications button */}
         {session?.user?.email && (
           <div className="relative notifications-container">
             <button
@@ -263,7 +263,7 @@ const Appbar = () => {
             >
               <Bell className="w-5 h-5 md:w-6 md:h-6" />
 
-              {/* Badge de notificaciones */}
+              {/* Notifications badge */}
               {unreadCount > 0 && (
                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center animate-bounce">
                   {unreadCount > 9 ? '9+' : unreadCount}
@@ -271,12 +271,12 @@ const Appbar = () => {
               )}
             </button>
 
-            {/* Dropdown de Notificaciones */}
+            {/* Notifications dropdown */}
             {showNotifications && (
               <div className="absolute top-full right-0 mt-2 w-80 md:w-96 bg-neutral-900 border-4 border-green-500 rounded-lg shadow-2xl z-[9991] max-h-[32rem] flex flex-col">
                 <div className="p-4 border-b border-green-500 flex justify-between items-center">
                   <h3 className="text-white font-black uppercase text-lg">
-                    🔔 Notificaciones
+                    🔔 Notifications
                   </h3>
                   {unreadCount > 0 && (
                     <button
@@ -284,7 +284,7 @@ const Appbar = () => {
                       disabled={loading}
                       className="text-green-400 hover:text-green-300 text-xs font-bold uppercase transition-colors disabled:opacity-50"
                     >
-                      Marcar todas
+                      Mark all
                     </button>
                   )}
                 </div>
@@ -292,7 +292,7 @@ const Appbar = () => {
                 <div className="flex-1 overflow-y-auto">
                   {notifications.length === 0 ? (
                     <div className="p-6 text-center">
-                      <p className="text-neutral-400">No tienes notificaciones</p>
+                      <p className="text-neutral-400">You have no notifications</p>
                     </div>
                   ) : (
                     <div className="divide-y divide-neutral-700">
@@ -322,7 +322,7 @@ const Appbar = () => {
                                 {notification.message}
                               </p>
                               <p className="text-neutral-500 text-xs mt-1">
-                                {new Date(notification.createdAt).toLocaleDateString('es-ES', {
+                                {new Date(notification.createdAt).toLocaleDateString('en-US', {
                                   day: 'numeric',
                                   month: 'short',
                                   hour: '2-digit',
@@ -341,11 +341,11 @@ const Appbar = () => {
           </div>
         )}
 
-        {/* Botón de Votación Comunitaria */}
+        {/* Community Voting button */}
 
       </div>
 
-      {/* Modal de Spot con Comentarios */}
+      {/* Spot Modal with Comments */}
       <SpotModal
         isOpen={showSpotModal}
         spotId={modalSpotId}
