@@ -154,11 +154,11 @@ export default function ExplorePage() {
         <div className="bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 p-1 rounded-lg shadow-2xl shadow-accent-cyan-500/30">
           <div className="bg-neutral-900 rounded-lg p-6">
             <h1 className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-cyan-400 to-accent-purple-400 uppercase tracking-wider text-center">
-              🛹 EXPLORA SKATERS
+              🛹 EXPLORE SKATERS
             </h1>
             <p className="text-accent-cyan-300 mt-2 text-sm md:text-base text-center">
-              Descubre la comunidad Trickest - encuentra skaters para seguir y
-              conectar
+              Discover the Trickest community - find skaters to follow and
+              connect
             </p>
           </div>
         </div>
@@ -169,7 +169,7 @@ export default function ExplorePage() {
         <div className="bg-neutral-800/50 rounded-lg p-4">
           <div className="flex flex-wrap gap-4 justify-center">
             <Select
-              label="Ordenar por"
+              label="Sort by"
               selectedKeys={[filters.sortBy]}
               onSelectionChange={(keys) =>
                 handleFilterChange('sortBy', Array.from(keys)[0] as string)
@@ -177,18 +177,18 @@ export default function ExplorePage() {
               className="w-48"
             >
               <SelectItem key="score" value="score">
-                Puntuación
+                Score
               </SelectItem>
               <SelectItem key="followers" value="followers">
-                Seguidores
+                Followers
               </SelectItem>
               <SelectItem key="recent" value="recent">
-                Más Recientes
+                Most Recent
               </SelectItem>
             </Select>
 
             <Select
-              label="Rol"
+              label="Role"
               selectedKeys={[filters.role]}
               onSelectionChange={(keys) =>
                 handleFilterChange('role', Array.from(keys)[0] as string)
@@ -196,13 +196,13 @@ export default function ExplorePage() {
               className="w-48"
             >
               <SelectItem key="all" value="all">
-                Todos
+                All
               </SelectItem>
               <SelectItem key="skater" value="skater">
                 Skaters
               </SelectItem>
               <SelectItem key="judge" value="judge">
-                Jueces
+                Judges
               </SelectItem>
               <SelectItem key="admin" value="admin">
                 Admins
@@ -285,7 +285,7 @@ export default function ExplorePage() {
                       <p className="text-green-400 font-bold text-lg">
                         {skater.stats.approvedSubmissions}
                       </p>
-                      <p className="text-neutral-400 text-xs uppercase">Trucos</p>
+                      <p className="text-neutral-400 text-xs uppercase">Tricks</p>
                     </div>
                   </div>
 
@@ -295,13 +295,13 @@ export default function ExplorePage() {
                       <p className="text-accent-purple-400 font-bold">
                         {skater.stats.followerCount}
                       </p>
-                      <p className="text-neutral-500">Seguidores</p>
+                      <p className="text-neutral-500">Followers</p>
                     </div>
                     <div className="text-center">
                       <p className="text-accent-purple-400 font-bold">
                         {skater.stats.followingCount}
                       </p>
-                      <p className="text-neutral-500">Siguiendo</p>
+                      <p className="text-neutral-500">Following</p>
                     </div>
                   </div>
 
@@ -315,7 +315,7 @@ export default function ExplorePage() {
                         className="w-full bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 text-white font-bold uppercase text-sm"
                         size="sm"
                       >
-                        Ver Perfil
+                        View Profile
                       </Button>
                     </Link>
                     <Button
@@ -340,7 +340,7 @@ export default function ExplorePage() {
                 className="bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 text-white font-bold uppercase tracking-wider px-8 py-3"
                 startContent={!loadingMore && <MdRefresh size={20} />}
               >
-                {loadingMore ? 'Cargando...' : 'Cargar Más Skaters'}
+                {loadingMore ? 'Loading...' : 'Load More Skaters'}
               </Button>
             </div>
           )}
@@ -349,10 +349,10 @@ export default function ExplorePage() {
             <div className="text-center py-12">
               <MdOutlineSkateboarding className="text-neutral-600 text-6xl mx-auto mb-4" />
               <p className="text-neutral-500 text-xl">
-                No se encontraron skaters
+                No skaters found
               </p>
               <p className="text-neutral-600 mt-2">
-                ¡Sé el primero en registrarte!
+                Be the first to sign up!
               </p>
             </div>
           )}
@@ -365,15 +365,15 @@ export default function ExplorePage() {
           <div className="bg-neutral-900 rounded-lg p-6">
             <GiTrophy className="text-accent-yellow-400 text-4xl mx-auto mb-4" />
             <h2 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-yellow-400 to-accent-orange-400 uppercase tracking-wider mb-2">
-              ¡Únete a la Comunidad!
+              Join the Community!
             </h2>
             <p className="text-neutral-300 mb-4">
-              Regístrate y comienza tu viaje en Trickest. Completa desafíos,
-              gana puntos y conecta con otros skaters.
+              Sign up and start your journey on Trickest. Complete challenges,
+              earn points and connect with other skaters.
             </p>
             <Link href="/dashboard">
               <Button className="bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 text-white font-black uppercase tracking-wider px-8 py-3">
-                🚀 Comenzar Ahora
+                🚀 Start Now
               </Button>
             </Link>
           </div>

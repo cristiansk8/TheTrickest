@@ -20,7 +20,7 @@ export default function SkateSetupPage() {
     tenis: '',
   });
 
-  // Referencias para los carruseles
+  // Carousel refs
   const carouselRefs = {
     madero: useRef<HTMLDivElement>(null),
     trucks: useRef<HTMLDivElement>(null),
@@ -29,7 +29,7 @@ export default function SkateSetupPage() {
     tenis: useRef<HTMLDivElement>(null),
   };
 
-  // Opciones populares para cada categoría
+  // Popular options for each category
   const setupOptions = {
     madero: [
       'Element',
@@ -107,10 +107,10 @@ export default function SkateSetupPage() {
           `/api/skate_profiles/dream_setup?email=${session.user?.email}`
         );
         if (!response.ok)
-          throw new Error('No se pudo obtener la configuración de skate.');
+          throw new Error('Could not get skate setup.');
 
         const data = await response.json();
-        console.log('Datos recibidos:', data);
+        console.log('Data received:', data);
 
         setFormData({
           madero: data.wishSkate?.madero || '',
@@ -120,7 +120,7 @@ export default function SkateSetupPage() {
           tenis: data.wishSkate?.tenis || '',
         });
       } catch (error) {
-        console.error('Error al obtener la configuración:', error);
+        console.error('Error getting setup:', error);
       } finally {
         setLoading(false);
       }
@@ -129,7 +129,7 @@ export default function SkateSetupPage() {
     fetchSkateSetup();
   }, [status, session?.user?.email]);
 
-  if (!isClient) return <p>Cargando...</p>;
+  if (!isClient) return <p>Loading...</p>;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -137,7 +137,7 @@ export default function SkateSetupPage() {
     setNotification('');
 
     if (!session?.user) {
-      setNotification('⚠️ No estás autenticado.');
+      setNotification('⚠️ Not authenticated.');
       setLoading(false);
       return;
     }
@@ -159,13 +159,13 @@ export default function SkateSetupPage() {
       const data = await response.json();
       if (data.error) throw new Error(data.error);
 
-      setNotification('✅ Configuración actualizada con éxito.');
+      setNotification('✅ Setup updated successfully.');
       setTimeout(() => {
         setNotification('');
       }, 5000);
     } catch (error) {
       setNotification(
-        '❌ Error al actualizar la configuración. Inténtalo de nuevo.'
+        '❌ Error updating setup. Please try again.'
       );
       console.error('Error:', error);
     } finally {
@@ -193,7 +193,7 @@ export default function SkateSetupPage() {
         {loading && (
           <div className="text-center py-4">
             <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-4 border-b-4 border-accent-purple-400"></div>
-            <p className="text-accent-purple-400 mt-2 font-bold">Cargando...</p>
+            <p className="text-accent-purple-400 mt-2 font-bold">Loading...</p>
           </div>
         )}
 
@@ -256,7 +256,7 @@ export default function SkateSetupPage() {
             </div>
           </div>
 
-          {/* Carrusel de opciones para cada categoría */}
+          {/* Options carousel for each category */}
           {Object.entries(setupOptions).map(([key, options]) => {
             const icons = {
               madero: '🪵',
@@ -282,9 +282,9 @@ export default function SkateSetupPage() {
                   {labels[key as keyof typeof labels]}
                 </label>
 
-                {/* Carrusel horizontal */}
+                {/* Horizontal carousel */}
                 <div className="relative group">
-                  {/* Botón izquierdo */}
+                  {/* Left button */}
                   <button
                     type="button"
                     onClick={() =>
@@ -298,7 +298,7 @@ export default function SkateSetupPage() {
                     <ChevronLeft className="w-5 h-5" />
                   </button>
 
-                  {/* Contenedor del carrusel */}
+                  {/* Carousel container */}
                   <div
                     ref={carouselRefs[key as keyof typeof carouselRefs]}
                     className="flex gap-3 overflow-x-auto scrollbar-hide scroll-smooth pb-4"
@@ -329,14 +329,14 @@ export default function SkateSetupPage() {
                       </button>
                     ))}
 
-                    {/* Opción "Custom" al final */}
+                    {/* "Custom" option at the end */}
                     <button
                       type="button"
                       onClick={() => {
                         const custom = prompt(
-                          `Ingresa tu ${
+                          `Enter your custom ${
                             labels[key as keyof typeof labels]
-                          } personalizado:`
+                          }:`
                         );
                         if (custom) {
                           setFormData({ ...formData, [key]: custom });
@@ -348,7 +348,7 @@ export default function SkateSetupPage() {
                     </button>
                   </div>
 
-                  {/* Botón derecho */}
+                  {/* Right button */}
                   <button
                     type="button"
                     onClick={() =>
@@ -363,11 +363,11 @@ export default function SkateSetupPage() {
                   </button>
                 </div>
 
-                {/* Mostrar selección actual */}
+                {/* Show current selection */}
                 {formData[key as keyof typeof formData] && (
                   <div className="bg-neutral-800/50 border-2 border-accent-purple-500/30 rounded-lg p-3">
                     <p className="text-sm text-neutral-400">
-                      Seleccionado:{' '}
+                      Selected:{' '}
                       <span className="text-white font-bold">
                         {formData[key as keyof typeof formData]}
                       </span>
@@ -378,7 +378,7 @@ export default function SkateSetupPage() {
             );
           })}
 
-          {/* Botón guardar - THPS Style */}
+          {/* Save button - THPS Style */}
           <div className="flex justify-center mt-8 pt-6 border-t-4 border-accent-purple-500/30">
             <button
               className="bg-gradient-to-r from-accent-purple-500 via-accent-pink-500 to-accent-blue-500 hover:from-accent-purple-400 hover:via-accent-pink-400 hover:to-accent-blue-400 text-white font-black py-5 px-16 rounded-xl border-4 border-white uppercase tracking-wider text-xl shadow-2xl transform hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed animate-pulse"
@@ -390,7 +390,7 @@ export default function SkateSetupPage() {
           </div>
         </form>
 
-        {/* Preview del setup completo */}
+        {/* Complete setup preview */}
         {(formData.madero ||
           formData.trucks ||
           formData.ruedas ||
@@ -434,7 +434,7 @@ export default function SkateSetupPage() {
         )}
       </div>
 
-      {/* CSS para ocultar scrollbar */}
+      {/* CSS to hide scrollbar */}
       <style jsx>{`
         .scrollbar-hide::-webkit-scrollbar {
           display: none;

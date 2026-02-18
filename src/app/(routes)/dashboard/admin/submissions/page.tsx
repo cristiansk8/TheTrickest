@@ -183,10 +183,10 @@ export default function AdminSubmissionsPage() {
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-cyan-400 to-accent-purple-400 uppercase tracking-wider mb-2">
-          📹 GESTIÓN DE SUBMISSIONS
+          📹 SUBMISSIONS MANAGEMENT
         </h1>
         <p className="text-neutral-600 text-lg">
-          Revisa y re-evalúa los envíos de los usuarios
+          Review and re-evaluate user submissions
         </p>
       </div>
 
@@ -195,7 +195,7 @@ export default function AdminSubmissionsPage() {
         <Card className="bg-gradient-to-br from-accent-yellow-500 to-accent-orange-600 border-4 border-white shadow-lg shadow-accent-yellow-500/30">
           <CardBody className="text-center">
             <MdSchedule size={32} className="text-white mx-auto mb-2" />
-            <p className="text-white text-sm font-bold uppercase tracking-wider">Pendientes</p>
+            <p className="text-white text-sm font-bold uppercase tracking-wider">Pending</p>
             <p className="text-3xl font-black text-white">{stats.pending}</p>
           </CardBody>
         </Card>
@@ -203,7 +203,7 @@ export default function AdminSubmissionsPage() {
         <Card className="bg-gradient-to-br from-green-500 to-accent-teal-600 border-4 border-white shadow-lg shadow-green-500/30">
           <CardBody className="text-center">
             <MdCheckCircle size={32} className="text-white mx-auto mb-2" />
-            <p className="text-white text-sm font-bold uppercase tracking-wider">Aprobadas</p>
+            <p className="text-white text-sm font-bold uppercase tracking-wider">Approved</p>
             <p className="text-3xl font-black text-white">{stats.approved}</p>
           </CardBody>
         </Card>
@@ -211,7 +211,7 @@ export default function AdminSubmissionsPage() {
         <Card className="bg-gradient-to-br from-red-500 to-accent-pink-600 border-4 border-white shadow-lg shadow-red-500/30">
           <CardBody className="text-center">
             <MdCancel size={32} className="text-white mx-auto mb-2" />
-            <p className="text-white text-sm font-bold uppercase tracking-wider">Rechazadas</p>
+            <p className="text-white text-sm font-bold uppercase tracking-wider">Rejected</p>
             <p className="text-3xl font-black text-white">{stats.rejected}</p>
           </CardBody>
         </Card>
@@ -221,14 +221,14 @@ export default function AdminSubmissionsPage() {
       <Card className="bg-neutral-900 border-4 border-neutral-700">
         <CardHeader>
           <h3 className="text-xl font-black text-white uppercase tracking-wider">
-            🔍 Filtros
+            🔍 Filters
           </h3>
         </CardHeader>
         <CardBody>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <Select
-              label="Estado"
-              placeholder="Todos los estados"
+              label="Status"
+              placeholder="All statuses"
               selectedKeys={[filters.status]}
               onSelectionChange={(keys) => setFilters(prev => ({
                 ...prev,
@@ -236,15 +236,15 @@ export default function AdminSubmissionsPage() {
                 page: 1
               }))}
             >
-              <SelectItem key="all" value="all">Todos</SelectItem>
-              <SelectItem key="pending" value="pending">Pendientes</SelectItem>
-              <SelectItem key="approved" value="approved">Aprobadas</SelectItem>
-              <SelectItem key="rejected" value="rejected">Rechazadas</SelectItem>
+              <SelectItem key="all" value="all">All</SelectItem>
+              <SelectItem key="pending" value="pending">Pending</SelectItem>
+              <SelectItem key="approved" value="approved">Approved</SelectItem>
+              <SelectItem key="rejected" value="rejected">Rejected</SelectItem>
             </Select>
 
             <Input
               label="Challenge ID"
-              placeholder="ID del desafío"
+              placeholder="Challenge ID"
               value={filters.challengeId}
               onChange={(e) => setFilters(prev => ({
                 ...prev,
@@ -254,8 +254,8 @@ export default function AdminSubmissionsPage() {
             />
 
             <Input
-              label="Email del Usuario"
-              placeholder="usuario@email.com"
+              label="User Email"
+              placeholder="user@email.com"
               value={filters.userId}
               onChange={(e) => setFilters(prev => ({
                 ...prev,
@@ -275,7 +275,7 @@ export default function AdminSubmissionsPage() {
                 })}
                 className="bg-neutral-700 text-white font-bold"
               >
-                Limpiar Filtros
+                Clear Filters
               </Button>
             </div>
           </div>
@@ -369,7 +369,7 @@ export default function AdminSubmissionsPage() {
 
               {submissions.length === 0 && (
                 <div className="text-center py-8">
-                  <p className="text-neutral-400 text-lg">No se encontraron submissions</p>
+                  <p className="text-neutral-400 text-lg">No submissions found</p>
                 </div>
               )}
             </div>
@@ -385,11 +385,11 @@ export default function AdminSubmissionsPage() {
             onClick={() => setFilters(prev => ({ ...prev, page: prev.page - 1 }))}
             className="bg-gradient-to-r from-accent-cyan-500 to-accent-blue-600 text-white font-bold"
           >
-            Anterior
+            Previous
           </Button>
 
           <span className="flex items-center px-4 py-2 bg-neutral-800 text-white rounded-lg">
-            Página {pagination.page} de {pagination.pages}
+            Page {pagination.page} of {pagination.pages}
           </span>
 
           <Button
@@ -397,7 +397,7 @@ export default function AdminSubmissionsPage() {
             onClick={() => setFilters(prev => ({ ...prev, page: prev.page + 1 }))}
             className="bg-gradient-to-r from-accent-cyan-500 to-accent-blue-600 text-white font-bold"
           >
-            Siguiente
+            Next
           </Button>
         </div>
       )}
@@ -411,7 +411,7 @@ export default function AdminSubmissionsPage() {
       >
         <ModalContent>
           <ModalHeader className="text-white font-black uppercase tracking-wider">
-            🔄 RE-EVALUAR SUBMISSION
+            🔄 RE-EVALUATE SUBMISSION
           </ModalHeader>
           <ModalBody className="space-y-4">
             {selectedSubmission && (
@@ -422,7 +422,7 @@ export default function AdminSubmissionsPage() {
             )}
 
             <Input
-              label="Nuevo Score (0-100)"
+              label="New Score (0-100)"
               type="number"
               min="0"
               max="100"
@@ -432,8 +432,8 @@ export default function AdminSubmissionsPage() {
             />
 
             <Textarea
-              label="Feedback (opcional)"
-              placeholder="Comentarios sobre la evaluación..."
+              label="Feedback (optional)"
+              placeholder="Comments about the evaluation..."
               value={reevaluateForm.feedback}
               onChange={(e) => setReevaluateForm(prev => ({ ...prev, feedback: e.target.value }))}
             />
@@ -443,14 +443,14 @@ export default function AdminSubmissionsPage() {
               onClick={onClose}
               className="bg-neutral-700 text-white"
             >
-              Cancelar
+              Cancel
             </Button>
             <Button
               onClick={handleReevaluate}
               isLoading={reevaluating !== null}
               className="bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 text-white font-bold uppercase tracking-wider"
             >
-              Re-evaluar
+              Re-evaluate
             </Button>
           </ModalFooter>
         </ModalContent>

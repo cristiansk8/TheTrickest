@@ -28,26 +28,26 @@ const SkateProfileCompletionModal: React.FC<ModalProps> = ({ openModal, handleMo
         setError('');
 
         if (!session?.user) {
-            setError('No estás autenticado. Por favor inicia sesión nuevamente.');
+            setError('Not authenticated. Please sign in again.');
             setLoading(false);
             return;
         }
 
-        // Validaciones del formulario
+        // Form validations
         if (!formData.phone) {
-            setError('El teléfono es obligatorio');
+            setError('Phone is required');
             setLoading(false);
             return;
         }
 
         if (!selectedDepartment) {
-            setError('Debes seleccionar un departamento');
+            setError('Please select a department');
             setLoading(false);
             return;
         }
 
         if (!selectedCity) {
-            setError('Debes seleccionar una ciudad');
+            setError('Please select a city');
             setLoading(false);
             return;
         }
@@ -60,9 +60,9 @@ const SkateProfileCompletionModal: React.FC<ModalProps> = ({ openModal, handleMo
                 departamento: selectedDepartment,
             };
 
-            console.log('Completando perfil:', payload);
+            console.log('Completing profile:', payload);
 
-            // Actualizar el perfil del usuario (PUT en lugar de POST)
+            // Update user profile (PUT instead of POST)
             const response = await fetch('/api/skate_profiles/general_info', {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
@@ -72,17 +72,17 @@ const SkateProfileCompletionModal: React.FC<ModalProps> = ({ openModal, handleMo
             const data = await response.json();
 
             if (!response.ok) {
-                throw new Error(data.error || 'Error al completar perfil');
+                throw new Error(data.error || 'Error completing profile');
             }
 
-            console.log('Perfil completado exitosamente:', data);
+            console.log('Profile completed successfully:', data);
             handleModal();
 
-            // Recargar la página para actualizar el estado de la sesión
+            // Reload page to update session state
             window.location.reload();
         } catch (error) {
-            console.error('Error al completar perfil:', error);
-            setError(error instanceof Error ? error.message : 'Error desconocido al completar perfil');
+            console.error('Error completing profile:', error);
+            setError(error instanceof Error ? error.message : 'Unknown error completing profile');
         } finally {
             setLoading(false);
         }
@@ -94,10 +94,10 @@ const SkateProfileCompletionModal: React.FC<ModalProps> = ({ openModal, handleMo
         <div className="fixed inset-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50">
             <div className="w-full h-full md:max-w-[460px] md:h-auto bg-white shadow-lg py-2 rounded-md flex flex-col">
                 <h2 className="text-sm font-medium text-neutral-900 border-b border-neutral-300 py-3 px-4 mb-4">
-                    Completa tu registro
+                    Complete your registration
                 </h2>
 
-                {/* Mensaje de error */}
+                {/* Error message */}
                 {error && (
                     <div className="mx-4 mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
                         <p className="text-sm">{error}</p>
@@ -105,9 +105,9 @@ const SkateProfileCompletionModal: React.FC<ModalProps> = ({ openModal, handleMo
                 )}
 
                 <form onSubmit={handleSubmit} className="space-y-4 px-4 pb-4 flex-grow">
-                    {/* Campo Teléfono */}
+                    {/* Phone field */}
                     <div>
-                        <label className="block text-neutral-700 text-sm font-bold mb-2">Teléfono:</label>
+                        <label className="block text-neutral-700 text-sm font-bold mb-2">Phone:</label>
                         <input
                             type="tel"
                             name="phone"
@@ -118,7 +118,7 @@ const SkateProfileCompletionModal: React.FC<ModalProps> = ({ openModal, handleMo
                         />
                     </div>
 
-                    {/* Componente de selección de ubicación con estilos */}
+                    {/* Location selection component */}
                     <LocationSelector
                         selectedCity={selectedCity}
                         setSelectedCity={setSelectedCity}
@@ -126,20 +126,20 @@ const SkateProfileCompletionModal: React.FC<ModalProps> = ({ openModal, handleMo
                         setSelectedDepartment={setSelectedDepartment}
                     />
 
-                    {/* Botón Enviar */}
+                    {/* Submit button */}
                     <button
                         type="submit"
                         className="w-full bg-accent-blue-500 hover:bg-accent-blue-700 text-white font-bold py-2 px-4 rounded"
                         disabled={loading}
                     >
-                        {loading ? "Cargando..." : "Enviar"}
+                        {loading ? "Loading..." : "Submit"}
                     </button>
                 </form>
 
-                {/* Botón Cerrar */}
+                {/* Close button */}
                 <div className="border-t border-neutral-300 flex justify-between items-center px-4 pt-2">
                     <button type="button" className="h-8 px-2 text-sm rounded-md bg-neutral-700 text-white" onClick={handleModal}>
-                        Cerrar
+                        Close
                     </button>
                 </div>
             </div>

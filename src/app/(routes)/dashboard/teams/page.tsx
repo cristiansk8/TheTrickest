@@ -100,7 +100,7 @@ export default function TeamsPage() {
       }
     } catch (err) {
       console.error('Error:', err);
-      setError('Error al cargar los datos');
+      setError('Error loading data');
     } finally {
       setLoading(false);
     }
@@ -128,7 +128,7 @@ export default function TeamsPage() {
           setShowSearchResults(true);
         }
       } catch (err) {
-        console.error('Error buscando usuarios:', err);
+        console.error('Error searching users:', err);
       } finally {
         setSearching(false);
       }
@@ -173,7 +173,7 @@ export default function TeamsPage() {
       const data = await res.json();
 
       if (!res.ok) {
-        alert(data.error || 'Error al crear el equipo');
+        alert(data.error || 'Error creating team');
         return;
       }
 
@@ -184,7 +184,7 @@ export default function TeamsPage() {
       fetchData();
     } catch (err) {
       console.error('Error:', err);
-      alert('Error al crear el equipo');
+      alert('Error creating team');
     } finally {
       setCreating(false);
     }
@@ -192,7 +192,7 @@ export default function TeamsPage() {
 
   const handleLeaveTeam = async () => {
     if (!myTeam) return;
-    if (!confirm('¿Estás seguro de que quieres abandonar el equipo?')) return;
+    if (!confirm('Are you sure you want to leave the team?')) return;
 
     setActionLoading(myTeam.id);
     try {
@@ -203,14 +203,14 @@ export default function TeamsPage() {
       const data = await res.json();
 
       if (!res.ok) {
-        alert(data.error || 'Error al abandonar el equipo');
+        alert(data.error || 'Error leaving team');
         return;
       }
 
       fetchData();
     } catch (err) {
       console.error('Error:', err);
-      alert('Error al abandonar el equipo');
+      alert('Error leaving team');
     } finally {
       setActionLoading(null);
     }
@@ -243,7 +243,7 @@ export default function TeamsPage() {
       const data = await res.json();
 
       if (!res.ok) {
-        alert(data.error || 'Error al actualizar el equipo');
+        alert(data.error || 'Error updating team');
         return;
       }
 
@@ -251,7 +251,7 @@ export default function TeamsPage() {
       fetchData();
     } catch (err) {
       console.error('Error:', err);
-      alert('Error al actualizar el equipo');
+      alert('Error updating team');
     } finally {
       setUpdating(false);
     }
@@ -286,7 +286,7 @@ export default function TeamsPage() {
       console.log('Respuesta del servidor:', { status: res.status, data });
 
       if (!res.ok) {
-        setInviteError(data.error || 'Error al enviar la invitación');
+        setInviteError(data.error || 'Error sending invitation');
         return;
       }
 
@@ -305,7 +305,7 @@ export default function TeamsPage() {
       }, 1500);
     } catch (err) {
       console.error('Error completo:', err);
-      setInviteError('Error de conexión al enviar la invitación');
+      setInviteError('Connection error sending invitation');
     } finally {
       setInviting(false);
     }
@@ -321,15 +321,15 @@ export default function TeamsPage() {
       const data = await res.json();
 
       if (!res.ok) {
-        alert(data.error || 'Error al aceptar la invitación');
+        alert(data.error || 'Error accepting invitation');
         return;
       }
 
-      alert('¡Te has unido al equipo exitosamente!');
+      alert('You successfully joined the team!');
       fetchData();
     } catch (err) {
       console.error('Error:', err);
-      alert('Error al aceptar la invitación');
+      alert('Error accepting invitation');
     } finally {
       setActionLoading(null);
     }
@@ -345,14 +345,14 @@ export default function TeamsPage() {
       const data = await res.json();
 
       if (!res.ok) {
-        alert(data.error || 'Error al rechazar la invitación');
+        alert(data.error || 'Error rejecting invitation');
         return;
       }
 
       fetchData();
     } catch (err) {
       console.error('Error:', err);
-      alert('Error al rechazar la invitación');
+      alert('Error rejecting invitation');
     } finally {
       setActionLoading(null);
     }
@@ -360,7 +360,7 @@ export default function TeamsPage() {
 
   const handleDeleteTeam = async () => {
     if (!myTeam) return;
-    if (!confirm('¿Estás seguro de que quieres ELIMINAR el equipo? Esta acción no se puede deshacer.')) return;
+    if (!confirm('Are you sure you want to DELETE the team? This action cannot be undone.')) return;
 
     setActionLoading(myTeam.id);
     try {
@@ -371,14 +371,14 @@ export default function TeamsPage() {
       const data = await res.json();
 
       if (!res.ok) {
-        alert(data.error || 'Error al eliminar el equipo');
+        alert(data.error || 'Error deleting team');
         return;
       }
 
       fetchData();
     } catch (err) {
       console.error('Error:', err);
-      alert('Error al eliminar el equipo');
+      alert('Error deleting team');
     } finally {
       setActionLoading(null);
     }
@@ -389,7 +389,7 @@ export default function TeamsPage() {
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-accent-purple-900 via-accent-blue-900 to-black">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-accent-purple-400 mx-auto"></div>
-          <p className="mt-4 text-accent-purple-400 font-bold text-xl">CARGANDO EQUIPOS...</p>
+          <p className="mt-4 text-accent-purple-400 font-bold text-xl">LOADING TEAMS...</p>
         </div>
       </div>
     );
@@ -402,10 +402,10 @@ export default function TeamsPage() {
         <div className="bg-gradient-to-r from-accent-purple-500 to-accent-pink-600 p-1 rounded-lg shadow-2xl">
           <div className="bg-neutral-900 rounded-lg p-6">
             <h1 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-purple-400 to-accent-pink-400 uppercase tracking-wider text-center">
-              👥 EQUIPOS
+              👥 TEAMS
             </h1>
             <p className="text-accent-purple-300 mt-2 text-sm md:text-base text-center">
-              Únete a un equipo o crea el tuyo propio
+              Join a team or create your own
             </p>
           </div>
         </div>
@@ -423,7 +423,7 @@ export default function TeamsPage() {
       {/* My Team Section */}
       <div className="max-w-6xl mx-auto mb-8">
         <h2 className="text-2xl font-black text-white uppercase tracking-wider mb-4">
-          🏠 Mi Equipo
+          🏠 My Team
         </h2>
 
         {myTeam ? (
@@ -442,10 +442,10 @@ export default function TeamsPage() {
                           height={64}
                           className="rounded-lg object-cover"
                           onError={() => {
-                            console.error('Error cargando logo:', myTeam.logo);
+                            console.error('Error loading logo:', myTeam.logo);
                           }}
                           onLoad={() => {
-                            console.log('Logo cargado exitosamente:', myTeam.logo);
+                            console.log('Logo loaded successfully:', myTeam.logo);
                           }}
                         />
                       </div>
@@ -458,7 +458,7 @@ export default function TeamsPage() {
                       <h3 className="text-2xl font-bold text-white">{myTeam.name}</h3>
                       {myTeam.isOwner && (
                         <span className="text-xs bg-accent-yellow-500 text-black px-2 py-1 rounded-full font-bold">
-                          CREADOR
+                          OWNER
                         </span>
                       )}
                     </div>
@@ -474,7 +474,7 @@ export default function TeamsPage() {
                       <p className="text-white text-2xl font-black">{myTeam.totalScore}</p>
                     </div>
                     <div className="bg-neutral-800 rounded-lg p-3 text-center">
-                      <p className="text-neutral-400 text-xs uppercase">Miembros</p>
+                      <p className="text-neutral-400 text-xs uppercase">Members</p>
                       <p className="text-white text-2xl font-black">
                         {myTeam.memberCount}/{myTeam.maxMembers}
                       </p>
@@ -490,13 +490,13 @@ export default function TeamsPage() {
                           className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition-colors"
                           disabled={myTeam.memberCount >= myTeam.maxMembers}
                         >
-                          👥 Invitar
+                          👥 Invite
                         </button>
                         <button
                           onClick={handleEditTeam}
                           className="bg-accent-purple-500 hover:bg-accent-purple-700 text-white font-bold py-2 px-4 rounded-lg transition-colors"
                         >
-                          ✏️ Editar
+                          ✏️ Edit
                         </button>
                       </>
                     )}
@@ -506,7 +506,7 @@ export default function TeamsPage() {
                         disabled={actionLoading === myTeam.id}
                         className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition-colors disabled:opacity-50"
                       >
-                        {actionLoading === myTeam.id ? 'Eliminando...' : 'Eliminar Equipo'}
+                        {actionLoading === myTeam.id ? 'Deleting...' : 'Delete Team'}
                       </button>
                     ) : (
                       <button
@@ -514,7 +514,7 @@ export default function TeamsPage() {
                         disabled={actionLoading === myTeam.id}
                         className="bg-accent-orange-600 hover:bg-accent-orange-700 text-white font-bold py-2 px-4 rounded-lg transition-colors disabled:opacity-50"
                       >
-                        {actionLoading === myTeam.id ? 'Saliendo...' : 'Abandonar Equipo'}
+                        {actionLoading === myTeam.id ? 'Leaving...' : 'Leave Team'}
                       </button>
                     )}
                   </div>
@@ -522,7 +522,7 @@ export default function TeamsPage() {
 
                 {/* Members List */}
                 <div className="md:w-1/3">
-                  <h4 className="text-white font-bold mb-3">Miembros</h4>
+                  <h4 className="text-white font-bold mb-3">Members</h4>
                   <div className="space-y-2">
                     {myTeam.members.map((member) => (
                       <div
@@ -568,12 +568,12 @@ export default function TeamsPage() {
           </div>
         ) : (
           <div className="bg-neutral-800 border-2 border-dashed border-neutral-600 rounded-lg p-8 text-center">
-            <p className="text-neutral-400 text-lg mb-4">No perteneces a ningún equipo</p>
+            <p className="text-neutral-400 text-lg mb-4">You don't belong to any team</p>
             <button
               onClick={() => setShowCreateModal(true)}
               className="bg-accent-purple-500 hover:bg-accent-purple-600 text-white font-bold py-3 px-6 rounded-lg transition-all transform hover:scale-105 border-4 border-white shadow-lg shadow-accent-purple-500/50"
             >
-              + CREAR EQUIPO
+              + CREATE TEAM
             </button>
           </div>
         )}
@@ -583,7 +583,7 @@ export default function TeamsPage() {
       {!myTeam && invitations.length > 0 && (
         <div className="max-w-6xl mx-auto mb-8">
           <h2 className="text-2xl font-black text-white uppercase tracking-wider mb-4">
-            📧 Invitaciones Pendientes
+            📧 Pending Invitations
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -616,7 +616,7 @@ export default function TeamsPage() {
                     <div className="flex-1">
                       <h3 className="text-white font-bold">{invitation.teamName}</h3>
                       <p className="text-neutral-400 text-xs">
-                        por {invitation.owner.name || 'Skater'}
+                        by {invitation.owner.name || 'Skater'}
                       </p>
                     </div>
                   </div>
@@ -629,7 +629,7 @@ export default function TeamsPage() {
 
                   <div className="flex justify-between items-center mb-3">
                     <div className="text-neutral-400 text-sm">
-                      {invitation.memberCount}/{invitation.maxMembers} miembros
+                      {invitation.memberCount}/{invitation.maxMembers} members
                     </div>
                   </div>
 
@@ -639,14 +639,14 @@ export default function TeamsPage() {
                       disabled={actionLoading === invitation.id}
                       className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition-colors disabled:opacity-50"
                     >
-                      {actionLoading === invitation.id ? '⏳' : '✅ Aceptar'}
+                      {actionLoading === invitation.id ? '⏳' : '✅ Accept'}
                     </button>
                     <button
                       onClick={() => handleRejectInvitation(invitation.id)}
                       disabled={actionLoading === invitation.id}
                       className="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition-colors disabled:opacity-50"
                     >
-                      {actionLoading === invitation.id ? '⏳' : '❌ Rechazar'}
+                      {actionLoading === invitation.id ? '⏳' : '❌ Reject'}
                     </button>
                   </div>
                 </div>
@@ -656,20 +656,20 @@ export default function TeamsPage() {
         </div>
       )}
 
-      {/* Info: Solo por invitación */}
+      {/* Info: Invitation only */}
       {!myTeam && invitations.length === 0 && (
         <div className="max-w-6xl mx-auto">
           <div className="bg-gradient-to-r from-accent-purple-500 to-accent-pink-500 p-1 rounded-lg">
             <div className="bg-neutral-900 rounded-lg p-8 text-center">
               <div className="text-6xl mb-4">📧</div>
               <h3 className="text-2xl font-black text-white uppercase mb-3">
-                Únete por Invitación
+                Join by Invitation
               </h3>
               <p className="text-neutral-300 mb-2">
-                Solo puedes unirte a un equipo si recibes una invitación del creador.
+                You can only join a team if you receive an invitation from the owner.
               </p>
               <p className="text-neutral-400 text-sm">
-                O crea tu propio equipo y comienza a invitar a otros skaters.
+                Or create your own team and start inviting other skaters.
               </p>
             </div>
           </div>
@@ -681,14 +681,14 @@ export default function TeamsPage() {
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
           <div className="bg-neutral-900 border-4 border-accent-purple-500 rounded-lg p-6 w-full max-w-md">
             <h2 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-purple-400 to-accent-pink-400 uppercase mb-6 text-center">
-              ⚡ Crear Equipo
+              ⚡ Create Team
             </h2>
 
             <form onSubmit={handleCreateTeam} className="space-y-4">
-              {/* Nombre del equipo */}
+              {/* Team name */}
               <div>
                 <label className="text-accent-purple-400 text-sm font-bold uppercase block mb-2">
-                  Nombre del equipo *
+                  Team Name *
                 </label>
                 <input
                   type="text"
@@ -701,14 +701,14 @@ export default function TeamsPage() {
                   maxLength={30}
                 />
                 <p className="text-neutral-300 text-xs mt-1">
-                  Mínimo 3 caracteres. Espacios permitidos.
+                  Minimum 3 characters. Spaces allowed.
                 </p>
               </div>
 
-              {/* Logo del equipo */}
+              {/* Team logo */}
               <div>
                 <label className="text-accent-purple-400 text-sm font-bold uppercase block mb-2">
-                  Logo (URL de imagen)
+                  Logo (Image URL)
                 </label>
                 <input
                   type="url"
@@ -718,14 +718,14 @@ export default function TeamsPage() {
                   placeholder="https://i.imgur.com/ejemplo.jpg"
                 />
                 <p className="text-neutral-300 text-xs mt-1">
-                  URL directa de imagen (ej: Imgur, Cloudinary). No usar links de Facebook/Instagram, usa la URL directa de la imagen.
+                  Direct image URL (e.g., Imgur, Cloudinary). Don't use Facebook/Instagram links, use the direct image URL.
                 </p>
               </div>
 
-              {/* Vista previa del logo */}
+              {/* Logo preview */}
               {newTeamLogo && (
                 <div className="bg-neutral-800 rounded-lg p-3 border-2 border-neutral-700">
-                  <p className="text-neutral-400 text-xs uppercase mb-2">Vista previa:</p>
+                  <p className="text-neutral-400 text-xs uppercase mb-2">Preview:</p>
                   <div className="flex items-center gap-3">
                     <img
                       src={newTeamLogo}
@@ -737,32 +737,32 @@ export default function TeamsPage() {
                     />
                     <div className="flex-1">
                       <p className="text-white text-sm font-bold truncate">
-                        {newTeamName || 'Nombre del equipo'}
+                        {newTeamName || 'Team name'}
                       </p>
                     </div>
                   </div>
                 </div>
               )}
 
-              {/* Descripción */}
+              {/* Description */}
               <div>
                 <label className="text-accent-purple-400 text-sm font-bold uppercase block mb-2">
-                  Descripción
+                  Description
                 </label>
                 <textarea
                   value={newTeamDescription}
                   onChange={(e) => setNewTeamDescription(e.target.value)}
                   className="w-full bg-neutral-800 border-2 border-neutral-600 rounded-lg px-4 py-3 text-white placeholder-neutral-400 focus:border-accent-purple-500 focus:outline-none resize-none transition-colors"
-                  placeholder="Somos un equipo de skaters apasionados que..."
+                  placeholder="We are a team of passionate skaters who..."
                   rows={3}
                   maxLength={200}
                 />
                 <p className="text-neutral-300 text-xs mt-1 text-right">
-                  {newTeamDescription.length}/200 caracteres
+                  {newTeamDescription.length}/200 characters
                 </p>
               </div>
 
-              {/* Botones */}
+              {/* Buttons */}
               <div className="flex gap-3 pt-2">
                 <button
                   type="button"
@@ -774,14 +774,14 @@ export default function TeamsPage() {
                   }}
                   className="flex-1 bg-neutral-700 hover:bg-neutral-600 text-white font-bold py-3 px-4 rounded-lg transition-colors border-2 border-neutral-600 uppercase"
                 >
-                  Cancelar
+                  Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={creating || !newTeamName.trim() || newTeamName.trim().length < 3}
                   className="flex-1 bg-accent-purple-500 hover:bg-accent-purple-600 text-white font-bold py-3 px-4 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed border-4 border-white shadow-lg shadow-accent-purple-500/50 uppercase"
                 >
-                  {creating ? '⏳ Creando...' : '✨ Crear'}
+                  {creating ? '⏳ Creating...' : '✨ Create'}
                 </button>
               </div>
             </form>
@@ -794,14 +794,14 @@ export default function TeamsPage() {
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
           <div className="bg-neutral-900 border-4 border-accent-purple-500 rounded-lg p-6 w-full max-w-md">
             <h2 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-purple-400 to-accent-pink-400 uppercase mb-6 text-center">
-              ✏️ Editar Equipo
+              ✏️ Edit Team
             </h2>
 
             <form onSubmit={handleUpdateTeam} className="space-y-4">
-              {/* Nombre del equipo */}
+              {/* Team name */}
               <div>
                 <label className="text-accent-purple-400 text-sm font-bold uppercase block mb-2">
-                  Nombre del equipo
+                  Team Name
                 </label>
                 <input
                   type="text"
@@ -814,10 +814,10 @@ export default function TeamsPage() {
                 />
               </div>
 
-              {/* Logo del equipo */}
+              {/* Team logo */}
               <div>
                 <label className="text-accent-purple-400 text-sm font-bold uppercase block mb-2">
-                  Logo (URL de imagen)
+                  Logo (Image URL)
                 </label>
                 <input
                   type="url"
@@ -827,14 +827,14 @@ export default function TeamsPage() {
                   placeholder="https://i.imgur.com/ejemplo.jpg"
                 />
                 <p className="text-neutral-300 text-xs mt-1">
-                  URL directa de imagen. Usa Imgur, Cloudinary, etc.
+                  Direct image URL. Use Imgur, Cloudinary, etc.
                 </p>
               </div>
 
-              {/* Vista previa del logo */}
+              {/* Logo preview */}
               {editTeamLogo && (
                 <div className="bg-neutral-800 rounded-lg p-3 border-2 border-neutral-700">
-                  <p className="text-neutral-400 text-xs uppercase mb-2">Vista previa:</p>
+                  <p className="text-neutral-400 text-xs uppercase mb-2">Preview:</p>
                   <div className="flex items-center gap-3">
                     <img
                       src={editTeamLogo}
@@ -853,39 +853,39 @@ export default function TeamsPage() {
                 </div>
               )}
 
-              {/* Descripción */}
+              {/* Description */}
               <div>
                 <label className="text-accent-purple-400 text-sm font-bold uppercase block mb-2">
-                  Descripción
+                  Description
                 </label>
                 <textarea
                   value={editTeamDescription}
                   onChange={(e) => setEditTeamDescription(e.target.value)}
                   className="w-full bg-neutral-800 border-2 border-neutral-600 rounded-lg px-4 py-3 text-white placeholder-neutral-400 focus:border-accent-purple-500 focus:outline-none resize-none transition-colors"
-                  placeholder="Somos un equipo de skaters apasionados que..."
+                  placeholder="We are a team of passionate skaters who..."
                   rows={3}
                   maxLength={200}
                 />
                 <p className="text-neutral-300 text-xs mt-1 text-right">
-                  {editTeamDescription.length}/200 caracteres
+                  {editTeamDescription.length}/200 characters
                 </p>
               </div>
 
-              {/* Botones */}
+              {/* Buttons */}
               <div className="flex gap-3 pt-2">
                 <button
                   type="button"
                   onClick={() => setShowEditModal(false)}
                   className="flex-1 bg-neutral-700 hover:bg-neutral-600 text-white font-bold py-3 px-4 rounded-lg transition-colors border-2 border-neutral-600 uppercase"
                 >
-                  Cancelar
+                  Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={updating}
                   className="flex-1 bg-accent-purple-500 hover:bg-accent-purple-600 text-white font-bold py-3 px-4 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed border-4 border-white shadow-lg shadow-accent-purple-500/50 uppercase"
                 >
-                  {updating ? '⏳ Guardando...' : '💾 Guardar'}
+                  {updating ? '⏳ Saving...' : '💾 Save'}
                 </button>
               </div>
             </form>
@@ -898,7 +898,7 @@ export default function TeamsPage() {
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
           <div className="bg-neutral-900 border-4 border-green-500 rounded-lg p-6 w-full max-w-md">
             <h2 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-accent-cyan-400 uppercase mb-6 text-center">
-              👥 Invitar Miembro
+              👥 Invite Member
             </h2>
 
             {/* Error Message */}
@@ -911,15 +911,15 @@ export default function TeamsPage() {
             {/* Success Message */}
             {inviteSuccess && (
               <div className="bg-green-500/20 border-2 border-green-500 rounded-lg p-3 mb-4">
-                <p className="text-green-400 text-sm font-bold text-center">✅ ¡Invitación enviada exitosamente!</p>
+                <p className="text-green-400 text-sm font-bold text-center">✅ Invitation sent successfully!</p>
               </div>
             )}
 
             <form onSubmit={handleInviteMember} className="space-y-4">
-              {/* Buscar Skater */}
+              {/* Search Skater */}
               <div className="relative">
                 <label className="text-green-400 text-sm font-bold uppercase block mb-2">
-                  🔍 Buscar Skater
+                  🔍 Search Skater
                 </label>
                 <input
                   type="text"
@@ -929,11 +929,11 @@ export default function TeamsPage() {
                     if (searchResults.length > 0) setShowSearchResults(true);
                   }}
                   className="w-full bg-neutral-800 border-2 border-neutral-600 rounded-lg px-4 py-3 text-white placeholder-neutral-400 focus:border-green-500 focus:outline-none transition-colors"
-                  placeholder="Nombre, email o username..."
+                  placeholder="Name, email or username..."
                   autoComplete="off"
                 />
                 <p className="text-neutral-300 text-xs mt-1">
-                  Escribe al menos 2 caracteres para buscar
+                  Type at least 2 characters to search
                 </p>
 
                 {/* Loading indicator */}
@@ -988,11 +988,11 @@ export default function TeamsPage() {
                         {/* Team Status Badge */}
                         {user.hasTeam ? (
                           <span className="text-xs bg-red-600 text-white px-2 py-1 rounded-full font-bold whitespace-nowrap">
-                            Ya tiene equipo
+                            Already has team
                           </span>
                         ) : (
                           <span className="text-xs bg-green-600 text-white px-2 py-1 rounded-full font-bold whitespace-nowrap">
-                            Disponible ✓
+                            Available ✓
                           </span>
                         )}
                       </button>
@@ -1003,15 +1003,15 @@ export default function TeamsPage() {
                 {/* No Results */}
                 {showSearchResults && searchResults.length === 0 && !searching && searchQuery.length >= 2 && (
                   <div className="absolute top-full left-0 right-0 mt-1 bg-neutral-800 border-2 border-neutral-600 rounded-lg p-4 text-center">
-                    <p className="text-neutral-400 text-sm">No se encontraron skaters</p>
+                    <p className="text-neutral-400 text-sm">No skaters found</p>
                   </div>
                 )}
               </div>
 
-              {/* Email seleccionado */}
+              {/* Selected email */}
               {inviteEmail && (
                 <div className="bg-neutral-800 rounded-lg p-3 border-2 border-green-500">
-                  <p className="text-neutral-400 text-xs uppercase mb-1">Email seleccionado:</p>
+                  <p className="text-neutral-400 text-xs uppercase mb-1">Selected email:</p>
                   <p className="text-white font-bold truncate">{inviteEmail}</p>
                   <button
                     type="button"
@@ -1021,21 +1021,21 @@ export default function TeamsPage() {
                     }}
                     className="text-red-400 text-xs mt-2 hover:text-red-300 transition-colors"
                   >
-                    ❌ Limpiar selección
+                    ❌ Clear selection
                   </button>
                 </div>
               )}
 
-              {/* Info del equipo */}
+              {/* Team info */}
               <div className="bg-neutral-800 rounded-lg p-4 border-2 border-neutral-700">
-                <p className="text-neutral-400 text-xs uppercase mb-2">Equipo:</p>
+                <p className="text-neutral-400 text-xs uppercase mb-2">Team:</p>
                 <p className="text-white font-bold">{myTeam.name}</p>
                 <p className="text-neutral-400 text-sm mt-2">
-                  Espacios: {myTeam.memberCount}/{myTeam.maxMembers}
+                  Slots: {myTeam.memberCount}/{myTeam.maxMembers}
                 </p>
               </div>
 
-              {/* Botones */}
+              {/* Buttons */}
               <div className="flex gap-3 pt-2">
                 <button
                   type="button"
@@ -1048,14 +1048,14 @@ export default function TeamsPage() {
                   }}
                   className="flex-1 bg-neutral-700 hover:bg-neutral-600 text-white font-bold py-3 px-4 rounded-lg transition-colors border-2 border-neutral-600 uppercase"
                 >
-                  Cancelar
+                  Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={inviting || !inviteEmail.trim()}
                   className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed border-4 border-white shadow-lg shadow-green-500/50 uppercase"
                 >
-                  {inviting ? '⏳ Enviando...' : '📧 Enviar'}
+                  {inviting ? '⏳ Sending...' : '📧 Send'}
                 </button>
               </div>
             </form>

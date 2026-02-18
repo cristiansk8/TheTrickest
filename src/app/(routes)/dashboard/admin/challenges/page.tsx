@@ -93,7 +93,7 @@ export default function AdminChallengesPage() {
         ? { challengeId: editingChallenge.id, action: 'update', ...formData }
         : formData;
 
-      console.log('Enviando:', { method, body });
+      console.log('Sending:', { method, body });
 
       const response = await fetch(url, {
         method,
@@ -102,25 +102,25 @@ export default function AdminChallengesPage() {
       });
 
       const data = await response.json();
-      console.log('Respuesta:', data);
+      console.log('Response:', data);
 
       if (response.ok) {
-        alert(editingChallenge ? 'Desafío actualizado exitosamente' : 'Desafío creado exitosamente');
+        alert(editingChallenge ? 'Challenge updated successfully' : 'Challenge created successfully');
         fetchChallenges();
         onClose();
       } else {
-        alert(data.error || 'Error al guardar el desafío');
+        alert(data.error || 'Error saving challenge');
         console.error('Error saving challenge:', data);
       }
     } catch (error) {
       console.error('Error saving challenge:', error);
-      alert('Error al guardar el desafío');
+      alert('Error saving challenge');
     }
     setSaving(false);
   };
 
   const handleDelete = async (challengeId: number) => {
-    if (!confirm('¿Estás seguro de eliminar este desafío? Esta acción no se puede deshacer.')) {
+    if (!confirm('Are you sure you want to delete this challenge? This action cannot be undone.')) {
       return;
     }
 
@@ -135,11 +135,11 @@ export default function AdminChallengesPage() {
         fetchChallenges();
       } else {
         const data = await response.json();
-        alert(data.error || 'Error al eliminar el desafío');
+        alert(data.error || 'Error deleting challenge');
       }
     } catch (error) {
       console.error('Error deleting challenge:', error);
-      alert('Error al eliminar el desafío');
+      alert('Error deleting challenge');
     }
   };
 
@@ -167,10 +167,10 @@ export default function AdminChallengesPage() {
       <div className="mb-16 pb-8">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-cyan-400 to-accent-purple-400 uppercase tracking-wider mb-2">
-            🛹 GESTIÓN DE DESAFÍOS
+            🛹 CHALLENGE MANAGEMENT
           </h1>
           <p className="text-neutral-600 text-lg mb-10">
-            Crea y administra los challenges de la plataforma
+            Create and manage the platform's challenges
           </p>
         </div>
         <div className="flex justify-center relative z-10 pb-4">
@@ -180,7 +180,7 @@ export default function AdminChallengesPage() {
             size="lg"
             leftIcon={<MdAdd size={20} />}
           >
-            Nuevo Desafío
+            New Challenge
           </Button>
         </div>
       </div>
@@ -235,7 +235,7 @@ export default function AdminChallengesPage() {
 
                 <div className="flex justify-between items-center">
                   <div className="text-center">
-                    <p className="text-neutral-400 text-xs uppercase tracking-wider">Puntos</p>
+                    <p className="text-neutral-400 text-xs uppercase tracking-wider">Points</p>
                     <p className="text-2xl font-black text-accent-yellow-400">{challenge.points}</p>
                   </div>
                   <div className="text-center">
@@ -252,15 +252,15 @@ export default function AdminChallengesPage() {
 
                 <div className="flex gap-2">
                   <div className="flex-1 bg-green-500/20 p-2 rounded text-center">
-                    <p className="text-green-400 text-xs font-bold uppercase tracking-wider">Aprobadas</p>
+                    <p className="text-green-400 text-xs font-bold uppercase tracking-wider">Approved</p>
                     <p className="text-green-400 font-black">{challenge.approvedSubmissions}</p>
                   </div>
                   <div className="flex-1 bg-accent-yellow-500/20 p-2 rounded text-center">
-                    <p className="text-accent-yellow-400 text-xs font-bold uppercase tracking-wider">Pendientes</p>
+                    <p className="text-accent-yellow-400 text-xs font-bold uppercase tracking-wider">Pending</p>
                     <p className="text-accent-yellow-400 font-black">{challenge.pendingSubmissions}</p>
                   </div>
                   <div className="flex-1 bg-red-500/20 p-2 rounded text-center">
-                    <p className="text-red-400 text-xs font-bold uppercase tracking-wider">Rechazadas</p>
+                    <p className="text-red-400 text-xs font-bold uppercase tracking-wider">Rejected</p>
                     <p className="text-red-400 font-black">{challenge.rejectedSubmissions}</p>
                   </div>
                 </div>
@@ -278,7 +278,7 @@ export default function AdminChallengesPage() {
                       leftIcon={<MdPlayArrow size={16} />}
                       className="w-full"
                     >
-                      Ver Demo
+                      View Demo
                     </Button>
                   </a>
                 )}
@@ -298,18 +298,18 @@ export default function AdminChallengesPage() {
       >
         <ModalContent>
           <ModalHeader className="text-white font-black uppercase tracking-wider text-center pb-4 pt-8 border-b-2 border-neutral-700">
-            {editingChallenge ? '✏️ EDITAR DESAFÍO' : '➕ CREAR NUEVO DESAFÍO'}
+            {editingChallenge ? '✏️ EDIT CHALLENGE' : '➕ CREATE NEW CHALLENGE'}
           </ModalHeader>
 
           <ModalBody className="px-8 py-8">
             <div className="space-y-8">
-              {/* Nombre del Desafío */}
+              {/* Challenge Name */}
               <div>
                 <label className="block text-neutral-300 font-bold uppercase tracking-wider text-sm mb-3">
-                  Nombre del Desafío
+                  Challenge Name
                 </label>
                 <Input
-                  placeholder="Ej: Ollie Perfecto"
+                  placeholder="E.g.: Perfect Ollie"
                   value={formData.name}
                   onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                   className="text-white"
@@ -321,13 +321,13 @@ export default function AdminChallengesPage() {
                 />
               </div>
 
-              {/* Descripción */}
+              {/* Description */}
               <div>
                 <label className="block text-neutral-300 font-bold uppercase tracking-wider text-sm mb-3">
-                  Descripción
+                  Description
                 </label>
                 <Textarea
-                  placeholder="Describe el desafío en detalle..."
+                  placeholder="Describe the challenge in detail..."
                   value={formData.description}
                   onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
                   className="text-white"
@@ -340,11 +340,11 @@ export default function AdminChallengesPage() {
                 />
               </div>
 
-              {/* Dificultad y Puntos */}
+              {/* Difficulty and Points */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
                   <label className="block text-neutral-300 font-bold uppercase tracking-wider text-sm mb-3">
-                    Dificultad
+                    Difficulty
                   </label>
                   <Select
                     selectedKeys={[formData.difficulty]}
@@ -357,16 +357,16 @@ export default function AdminChallengesPage() {
                       trigger: "bg-neutral-800 border-2 border-neutral-600 hover:border-accent-cyan-500"
                     }}
                   >
-                    <SelectItem key="easy" value="easy">Fácil</SelectItem>
-                    <SelectItem key="medium" value="medium">Medio</SelectItem>
-                    <SelectItem key="hard" value="hard">Difícil</SelectItem>
-                    <SelectItem key="expert" value="expert">Experto</SelectItem>
+                    <SelectItem key="easy" value="easy">Easy</SelectItem>
+                    <SelectItem key="medium" value="medium">Medium</SelectItem>
+                    <SelectItem key="hard" value="hard">Hard</SelectItem>
+                    <SelectItem key="expert" value="expert">Expert</SelectItem>
                   </Select>
                 </div>
 
                 <div>
                   <label className="block text-neutral-300 font-bold uppercase tracking-wider text-sm mb-3">
-                    Puntos
+                    Points
                   </label>
                   <Input
                     type="number"
@@ -382,10 +382,10 @@ export default function AdminChallengesPage() {
                 </div>
               </div>
 
-              {/* URL del Video */}
+              {/* Video URL */}
               <div>
                 <label className="block text-neutral-300 font-bold uppercase tracking-wider text-sm mb-3">
-                  URL del Video Demo (YouTube)
+                  Demo Video URL (YouTube)
                 </label>
                 <Input
                   placeholder="https://youtube.com/watch?v=..."
@@ -410,7 +410,7 @@ export default function AdminChallengesPage() {
                   />
                   <div className="flex-1">
                     <p className="text-white font-bold uppercase tracking-wider mb-1">🌟 Challenge Bonus</p>
-                    <p className="text-neutral-400 text-sm leading-relaxed">Este desafío otorgará puntos extra y aparecerá destacado en la plataforma</p>
+                    <p className="text-neutral-400 text-sm leading-relaxed">This challenge will grant extra points and appear featured on the platform</p>
                   </div>
                 </label>
               </div>
@@ -423,7 +423,7 @@ export default function AdminChallengesPage() {
               variant="secondary"
               size="lg"
             >
-              Cancelar
+              Cancel
             </Button>
             <Button
               onClick={handleSubmit}
@@ -431,7 +431,7 @@ export default function AdminChallengesPage() {
               variant="primary"
               size="lg"
             >
-              {editingChallenge ? 'Actualizar' : 'Crear'} Desafío
+              {editingChallenge ? 'Update' : 'Create'} Challenge
             </Button>
           </ModalFooter>
         </ModalContent>
