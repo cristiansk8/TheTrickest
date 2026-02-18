@@ -73,7 +73,7 @@ export default function LeaderboardPage() {
         }
       } catch (err) {
         console.error('Error:', err);
-        setError('Error al cargar el leaderboard');
+        setError('Error loading leaderboard');
       } finally {
         setLoading(false);
       }
@@ -118,7 +118,7 @@ export default function LeaderboardPage() {
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-accent-cyan-400 mx-auto"></div>
           <p className="mt-4 text-accent-cyan-400 font-bold text-xl">
-            CARGANDO RANKING...
+            LOADING RANKINGS...
           </p>
         </div>
       </div>
@@ -135,7 +135,7 @@ export default function LeaderboardPage() {
               🏆 LEADERBOARD
             </h1>
             <p className="text-accent-yellow-300 mt-2 text-sm md:text-base text-center">
-              Los mejores skaters y equipos de la plataforma
+              The best skaters and teams on the platform
             </p>
           </div>
         </div>
@@ -162,7 +162,7 @@ export default function LeaderboardPage() {
                 : 'bg-neutral-800 text-neutral-400 hover:bg-neutral-700'
             }`}
           >
-            👥 Equipos
+            Teams
           </button>
         </div>
       </div>
@@ -174,7 +174,7 @@ export default function LeaderboardPage() {
             <div className="bg-neutral-900 rounded-lg p-4 flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <span className="text-2xl font-black text-accent-cyan-400">
-                  Tu posición: #{currentUserRank.rank}
+                  Your position: #{currentUserRank.rank}
                 </span>
               </div>
               <div className="text-right">
@@ -182,7 +182,7 @@ export default function LeaderboardPage() {
                   {currentUserRank.totalScore} pts
                 </p>
                 <p className="text-neutral-400 text-sm">
-                  {currentUserRank.challengesCompleted} challenges completados
+                  {currentUserRank.challengesCompleted} challenges completed
                 </p>
               </div>
             </div>
@@ -205,10 +205,10 @@ export default function LeaderboardPage() {
           {usersLeaderboard.length === 0 ? (
             <div className="bg-neutral-800 border-4 border-neutral-700 rounded-lg p-8 text-center">
               <p className="text-neutral-400 text-xl">
-                No hay skaters en el ranking aún
+                No skaters in the ranking yet
               </p>
               <p className="text-neutral-500 mt-2">
-                ¡Sé el primero en completar un challenge!
+                Be the first to complete a challenge!
               </p>
             </div>
           ) : (
@@ -250,7 +250,7 @@ export default function LeaderboardPage() {
                         {user.name}
                         {user.email === session?.user?.email && (
                           <span className="ml-2 text-accent-cyan-400 text-sm">
-                            (Tú)
+                            (You)
                           </span>
                         )}
                       </h3>
@@ -269,7 +269,7 @@ export default function LeaderboardPage() {
                       <p className="text-white font-black text-2xl">
                         {user.totalScore}
                       </p>
-                      <p className="text-neutral-400 text-xs uppercase">puntos</p>
+                      <p className="text-neutral-400 text-xs uppercase">points</p>
                     </div>
                     <div className="text-right hidden md:block">
                       <p className="text-accent-cyan-400 font-bold">
@@ -316,7 +316,7 @@ export default function LeaderboardPage() {
                     <h3 className="text-white font-bold hover:text-accent-cyan-400 transition-colors">
                       {user.name}
                       {user.email === session?.user?.email && (
-                        <span className="ml-2 text-accent-cyan-400 text-sm">(Tú)</span>
+                        <span className="ml-2 text-accent-cyan-400 text-sm">(You)</span>
                       )}
                     </h3>
                     <div className="flex gap-4 text-sm">
@@ -357,9 +357,9 @@ export default function LeaderboardPage() {
           {teamsLeaderboard.length === 0 ? (
             <div className="bg-neutral-800 border-4 border-neutral-700 rounded-lg p-8 text-center">
               <p className="text-neutral-400 text-xl">
-                No hay equipos en el ranking aún
+                No teams in the ranking yet
               </p>
-              <p className="text-neutral-500 mt-2">¡Crea un equipo y compite!</p>
+              <p className="text-neutral-500 mt-2">Create a team and compete!</p>
             </div>
           ) : (
             <div className="space-y-3">
@@ -395,17 +395,17 @@ export default function LeaderboardPage() {
                         {team.name}
                       </h3>
                       <p className="text-neutral-400 text-sm">
-                        👑 {team.owner.name || 'Capitán'}
+                        {team.owner.name || 'Captain'}
                       </p>
                       <p className="text-accent-purple-400 text-sm">
-                        {team.memberCount}/{team.maxMembers} miembros
+                        {team.memberCount}/{team.maxMembers} members
                       </p>
                     </div>
                     <div className="text-right">
                       <p className="text-white font-black text-2xl">
                         {team.totalScore}
                       </p>
-                      <p className="text-neutral-400 text-xs uppercase">puntos</p>
+                      <p className="text-neutral-400 text-xs uppercase">points</p>
                     </div>
                     <div className="text-right hidden md:block">
                       <p className="text-accent-purple-400 font-bold">
@@ -446,7 +446,7 @@ export default function LeaderboardPage() {
                   <div className="flex-1">
                     <h3 className="text-white font-bold">{team.name}</h3>
                     <p className="text-neutral-500 text-sm">
-                      {team.memberCount}/{team.maxMembers} miembros
+                      {team.memberCount}/{team.maxMembers} members
                     </p>
                   </div>
                   <div className="text-right">
@@ -473,8 +473,8 @@ export default function LeaderboardPage() {
         <div className="bg-neutral-800/50 rounded-lg p-4">
           <p className="text-neutral-400 text-center text-sm">
             {activeTab === 'users'
-              ? 'Los puntos se calculan sumando los scores de todas tus submissions aprobadas.'
-              : 'Los puntos del equipo son la suma de los puntos de todos sus miembros.'}
+              ? 'Los points se calculan sumando los scores de todas tus submissions aprobadas.'
+              : 'Los points del equipo son la suma de los points de todos sus members.'}
           </p>
         </div>
       </div>

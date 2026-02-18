@@ -82,7 +82,7 @@ export default function TricksPage() {
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-accent-purple-900 via-accent-blue-900 to-black">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-accent-cyan-400 mx-auto"></div>
-          <p className="mt-4 text-accent-cyan-400 font-bold text-xl">CARGANDO CHALLENGES...</p>
+          <p className="mt-4 text-accent-cyan-400 font-bold text-xl">LOADING CHALLENGES...</p>
         </div>
       </div>
     );
@@ -98,7 +98,7 @@ export default function TricksPage() {
               🎯 CHALLENGES
             </h1>
             <p className="text-accent-cyan-300 mt-2 text-sm md:text-base text-center md:text-left">
-              Completa trucos para ganar puntos y subir en el ranking
+              Complete tricks to earn points and climb the ranking
             </p>
           </div>
         </div>
@@ -109,13 +109,13 @@ export default function TricksPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-gradient-to-r from-accent-purple-500 to-accent-pink-500 p-1 rounded-lg">
             <div className="bg-neutral-900 rounded-lg p-4 text-center">
-              <p className="text-neutral-400 text-xs uppercase">Puntos Disponibles</p>
+              <p className="text-neutral-400 text-xs uppercase">Available Points</p>
               <p className="text-white text-2xl font-black">{totalPoints}</p>
             </div>
           </div>
           <div className="bg-gradient-to-r from-green-500 to-accent-teal-500 p-1 rounded-lg">
             <div className="bg-neutral-900 rounded-lg p-4 text-center">
-              <p className="text-neutral-400 text-xs uppercase">Completados</p>
+              <p className="text-neutral-400 text-xs uppercase">Completed</p>
               <p className="text-white text-2xl font-black">
                 {completedChallenges} / {challenges.length}
               </p>
@@ -123,7 +123,7 @@ export default function TricksPage() {
           </div>
           <div className="bg-gradient-to-r from-accent-yellow-500 to-accent-orange-500 p-1 rounded-lg">
             <div className="bg-neutral-900 rounded-lg p-4 text-center">
-              <p className="text-neutral-400 text-xs uppercase">Puntos Ganados</p>
+              <p className="text-neutral-400 text-xs uppercase">Points Earned</p>
               <p className="text-white text-2xl font-black">{earnedPoints}</p>
             </div>
           </div>

@@ -17,8 +17,8 @@ const urbanist = Urbanist({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Trickest - Skateboarding Challenge Platform",
-  description: "Patina, graba y postea tus mejores trucos. Compite con skaters de todo el mundo.",
-  keywords: 'skateboarding, skate, trucos, tricks, challenges, competencia, skaters, patineta',
+  description: "Skate, record and post your best tricks. Compete with skaters from around the world.",
+  keywords: 'skateboarding, skate, tricks, challenges, competition, skaters, skateboard',
   manifest: '/manifest.json',
   themeColor: "rgb(var(--brand-pink))",
   icons: {
@@ -34,7 +34,7 @@ export const metadata = {
   },
   openGraph: {
     title: 'Trickest - Skateboarding Challenge Platform',
-    description: 'Patina, graba y postea tus mejores trucos. Compite con skaters de todo el mundo.',
+    description: 'Skate, record and post your best tricks. Compete with skaters from around the world.',
     type: 'website',
     images: [
       {
@@ -48,7 +48,7 @@ export const metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Trickest - Skateboarding Challenge Platform',
-    description: 'Patina, graba y postea tus mejores trucos',
+    description: 'Skate, record and post your best tricks',
     images: ['/logo.png'],
   },
 };

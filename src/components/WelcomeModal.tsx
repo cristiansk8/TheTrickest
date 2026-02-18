@@ -38,7 +38,7 @@ export default function WelcomeModal({ isOpen, userName, onClose }: WelcomeModal
         <div className="bg-gradient-to-r from-green-500 to-accent-cyan-500 p-6 border-b-4 border-green-300">
           <div className="flex items-center justify-center">
             <h2 className="text-3xl md:text-4xl font-black uppercase tracking-wider text-white drop-shadow-lg animate-pulse">
-              🎮 ¡BIENVENIDO!
+              🎮 WELCOME!
             </h2>
           </div>
         </div>
@@ -48,7 +48,7 @@ export default function WelcomeModal({ isOpen, userName, onClose }: WelcomeModal
           {/* User Name */}
           <div className="bg-gradient-to-r from-accent-cyan-500/20 to-green-500/20 border-2 border-accent-cyan-400 rounded-lg p-6">
             <p className="text-accent-cyan-300 text-sm uppercase tracking-wider mb-2 font-bold">
-              JUGADOR
+              PLAYER
             </p>
             <h3 className="text-3xl md:text-5xl font-black text-white uppercase tracking-wider drop-shadow-lg">
               {userName}
@@ -59,25 +59,25 @@ export default function WelcomeModal({ isOpen, userName, onClose }: WelcomeModal
           <div className="space-y-4">
             <div className="bg-neutral-800/50 border-2 border-green-500 rounded-lg p-4">
               <p className="text-green-300 text-lg md:text-xl font-black uppercase">
-                🎬 Prepárate para grabar
+                🎬 Get Ready to Record
               </p>
               <p className="text-neutral-300 text-sm md:text-base mt-2 font-bold">
-                Completa tu perfil y empieza a subir tus mejores trucos
+                Complete your profile and start uploading your best tricks
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
               <div className="bg-neutral-800/50 border-2 border-accent-cyan-500 rounded-lg p-3">
-                <p className="text-accent-cyan-300 font-black">1️⃣ PERFIL</p>
-                <p className="text-neutral-400 text-xs mt-1">Completa tu información</p>
+                <p className="text-accent-cyan-300 font-black">1️⃣ PROFILE</p>
+                <p className="text-neutral-400 text-xs mt-1">Complete your info</p>
               </div>
               <div className="bg-neutral-800/50 border-2 border-accent-purple-500 rounded-lg p-3">
-                <p className="text-accent-purple-300 font-black">2️⃣ TRUCOS</p>
-                <p className="text-neutral-400 text-xs mt-1">Elige tus desafíos</p>
+                <p className="text-accent-purple-300 font-black">2️⃣ TRICKS</p>
+                <p className="text-neutral-400 text-xs mt-1">Choose your challenges</p>
               </div>
               <div className="bg-neutral-800/50 border-2 border-accent-pink-500 rounded-lg p-3">
-                <p className="text-accent-pink-300 font-black">3️⃣ GRABA</p>
-                <p className="text-neutral-400 text-xs mt-1">Sube tus videos</p>
+                <p className="text-accent-pink-300 font-black">3️⃣ RECORD</p>
+                <p className="text-neutral-400 text-xs mt-1">Upload your videos</p>
               </div>
             </div>
           </div>
@@ -86,7 +86,7 @@ export default function WelcomeModal({ isOpen, userName, onClose }: WelcomeModal
           <div className="pt-4">
             <div className="inline-block bg-green-500/20 border-2 border-green-400 rounded-full px-6 py-3">
               <p className="text-green-300 text-sm uppercase tracking-wider font-black">
-                Continuando en {countdown}s...
+                Continuing in {countdown}s...
               </p>
             </div>
           </div>
@@ -96,7 +96,7 @@ export default function WelcomeModal({ isOpen, userName, onClose }: WelcomeModal
             onClick={onClose}
             className="w-full md:w-auto px-8 py-3 bg-gradient-to-r from-accent-cyan-600 to-accent-blue-600 hover:from-accent-cyan-500 hover:to-accent-blue-500 text-white font-black uppercase tracking-wider text-sm rounded-lg border-2 border-accent-cyan-300 shadow-lg shadow-accent-cyan-500/50 hover:shadow-accent-cyan-400/70 transition-all transform hover:scale-105"
           >
-            ⏩ SALTAR
+            ⏩ SKIP
           </button>
         </div>
 

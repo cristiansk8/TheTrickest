@@ -47,7 +47,7 @@ export default function AdminSettingsPage() {
     try {
       const numValue = parseInt(totalLevels);
       if (isNaN(numValue) || numValue < 1 || numValue > 20) {
-        setMessage({ type: 'error', text: 'El total de niveles debe estar entre 1 y 20' });
+        setMessage({ type: 'error', text: 'Total levels must be between 1 and 20' });
         setSaving(false);
         return;
       }
@@ -58,19 +58,19 @@ export default function AdminSettingsPage() {
         body: JSON.stringify({
           key: 'total_levels',
           value: totalLevels,
-          description: 'Total de niveles en el sistema'
+          description: 'Total levels in the system'
         }),
       });
 
       if (response.ok) {
-        setMessage({ type: 'success', text: '✅ Configuración guardada exitosamente' });
+        setMessage({ type: 'success', text: '✅ Settings saved successfully' });
       } else {
         const errorData = await response.json();
-        setMessage({ type: 'error', text: errorData.error || 'Error al guardar' });
+        setMessage({ type: 'error', text: errorData.error || 'Error saving' });
       }
     } catch (error) {
       console.error('Error saving settings:', error);
-      setMessage({ type: 'error', text: 'Error al guardar la configuración' });
+      setMessage({ type: 'error', text: 'Error saving configuration' });
     } finally {
       setSaving(false);
     }
@@ -90,10 +90,10 @@ export default function AdminSettingsPage() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-cyan-400 to-accent-purple-600 uppercase tracking-wider mb-2">
-            ⚙️ Configuración del Sistema
+            ⚙️ System Settings
           </h1>
           <p className="text-neutral-400 text-lg">
-            Administra las configuraciones globales de la plataforma
+            Manage global platform settings
           </p>
         </div>
 
@@ -103,10 +103,10 @@ export default function AdminSettingsPage() {
             {/* Total Levels Setting */}
             <div>
               <label className="block text-accent-cyan-400 font-black text-lg uppercase tracking-wider mb-3">
-                🎮 Total de Niveles
+                🎮 Total Levels
               </label>
               <p className="text-neutral-400 text-sm mb-4">
-                Define cuántos niveles totales habrá en el sistema. Los niveles bonus se intercalarán automáticamente entre los niveles regulares.
+                Define how many total levels will be in the system. Bonus levels will be automatically interspersed between regular levels.
               </p>
               <div className="flex flex-col md:flex-row gap-4 items-start md:items-center">
                 <input
@@ -118,8 +118,8 @@ export default function AdminSettingsPage() {
                   className="w-full md:w-32 bg-neutral-800 border-4 border-accent-purple-500 text-white text-2xl font-black px-4 py-3 rounded-lg focus:border-accent-cyan-400 focus:outline-none text-center"
                 />
                 <div className="text-neutral-300">
-                  <p className="font-bold">Niveles totales (regulares + bonus)</p>
-                  <p className="text-sm text-neutral-400">Mínimo: 1, Máximo: 20</p>
+                  <p className="font-bold">Total levels (regular + bonus)</p>
+                  <p className="text-sm text-neutral-400">Minimum: 1, Maximum: 20</p>
                 </div>
               </div>
             </div>
@@ -127,13 +127,13 @@ export default function AdminSettingsPage() {
             {/* Info Box */}
             <div className="bg-accent-purple-900/30 border-2 border-accent-purple-500 rounded-lg p-4">
               <h3 className="text-accent-purple-400 font-black uppercase tracking-wider mb-2 flex items-center gap-2">
-                <span>ℹ️</span> Información
+                <span>ℹ️</span> Information
               </h3>
               <ul className="text-neutral-300 text-sm space-y-2">
-                <li>• Los niveles regulares se mostrarán con números (1, 2, 3...)</li>
-                <li>• Los niveles bonus se mostrarán con íconos de estrella ⭐</li>
-                <li>• Los bonus se intercalan automáticamente cada 3 niveles regulares</li>
-                <li>• Los slots sin challenges creados aparecerán como "bloqueados"</li>
+                <li>• Regular levels will be displayed with numbers (1, 2, 3...)</li>
+                <li>• Bonus levels will be displayed with star icons ⭐</li>
+                <li>• Bonuses are automatically interspersed every 3 regular levels</li>
+                <li>• Slots without created challenges will appear as "locked"</li>
               </ul>
             </div>
 
@@ -155,7 +155,7 @@ export default function AdminSettingsPage() {
                 disabled={saving}
                 className="bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 hover:from-accent-cyan-400 hover:to-accent-purple-500 text-white font-black text-lg py-4 px-10 rounded-xl border-4 border-white uppercase tracking-wider shadow-2xl transform hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {saving ? '💾 Guardando...' : '💾 Guardar Configuración'}
+                {saving ? '💾 Saving...' : '💾 Save Settings'}
               </button>
             </div>
           </div>
@@ -164,10 +164,10 @@ export default function AdminSettingsPage() {
         {/* Preview Section */}
         <div className="mt-8 bg-neutral-900 border-4 border-neutral-700 rounded-2xl p-6 shadow-2xl">
           <h2 className="text-2xl font-black text-accent-cyan-400 uppercase tracking-wider mb-4">
-            👁️ Vista Previa
+            👁️ Preview
           </h2>
           <p className="text-neutral-400 mb-4">
-            Así se verán los tabs con <span className="text-accent-cyan-400 font-black">{totalLevels}</span> niveles totales:
+            This is how tabs will look with <span className="text-accent-cyan-400 font-black">{totalLevels}</span> total levels:
           </p>
           <div className="flex flex-wrap gap-2 justify-center bg-neutral-800 p-4 rounded-lg">
             {Array.from({ length: parseInt(totalLevels) || 8 }).map((_, index) => {

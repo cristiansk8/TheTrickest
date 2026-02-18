@@ -108,7 +108,7 @@ export default function HomeLevelSection() {
               // Nivel bloqueado (aún no creado)
               levelSlots.push({
                 name: `Level ${i + 1}`,
-                description: 'Este nivel aún no está disponible. ¡Mantente atento!',
+                description: 'This level is not yet available. Stay tuned!',
                 isLocked: true,
                 isBonus: false,
                 displayLevel: i + 1,
@@ -161,7 +161,7 @@ export default function HomeLevelSection() {
             🎮 CHALLENGES
           </h2>
           <p className="text-accent-cyan-300 text-lg md:text-xl max-w-3xl mx-auto">
-            Completa los desafíos, sube tus videos y demuestra que eres el mejor skater
+            Complete the challenges, upload your videos and prove you're the best skater
           </p>
         </div>
 
@@ -310,7 +310,7 @@ export default function HomeLevelSection() {
           >
             <div className="flex items-center gap-3">
               <MdEmojiEvents size={28} />
-              Ver Todos los Desafíos
+              View All Challenges
             </div>
           </a>
         </div>

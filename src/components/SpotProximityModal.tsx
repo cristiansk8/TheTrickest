@@ -126,7 +126,7 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
   const [validatedSpotIds, setValidatedSpotIds] = useState<Set<number>>(new Set());
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Estados para el mapa
+  // Map states
   const [mapComponents, setMapComponents] = useState<any>(null);
   const [mapLoading, setMapLoading] = useState(false);
 
@@ -140,7 +140,7 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
     setError('');
 
     if (!navigator.geolocation) {
-      setError('Tu navegador no soporta geolocalización');
+      setError('Your browser does not support geolocation');
       return;
     }
 
@@ -153,12 +153,12 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
         setUserLocation(location);
         setTempMapLocation(location);
 
-        // Ir al modo de confirmación de ubicación con mapa
+        // Go to location confirmation mode with map
         setMode('confirming_location');
         loadMapComponents();
       },
       (error) => {
-        setError('No se pudo obtener tu ubicación. Asegúrate de dar permisos.');
+        setError('Could not get your location. Make sure to grant permissions.');
         console.error('Geolocation error:', error);
       },
       { enableHighAccuracy: true, timeout: 10000 }
@@ -168,7 +168,7 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
   const loadMapComponents = async () => {
     setMapLoading(true);
     try {
-      // Importar CSS de Leaflet
+      // Import Leaflet CSS
       if (typeof window !== 'undefined') {
         require('leaflet/dist/leaflet.css');
       }
@@ -188,8 +188,8 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
         L: leaflet
       });
     } catch (err) {
-      console.error('Error cargando mapa:', err);
-      setError('Error al cargar el mapa');
+      console.error('Error loading map:', err);
+      setError('Error loading the map');
     } finally {
       setMapLoading(false);
     }
@@ -198,7 +198,7 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
   const handleLocationConfirmed = (lat: number, lng: number) => {
     setConfirmedLocation({ lat, lng });
 
-    // Buscar spots cercanos con la ubicación confirmada
+    // Search for nearby spots with the confirmed location
     checkNearbySpots(lat, lng);
   };
 
@@ -216,7 +216,7 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
         setMode('new');
       }
     } catch (err) {
-      console.error('Error buscando spots cercanos:', err);
+      console.error('Error searching for nearby spots:', err);
       setMode('new');
     }
   };
@@ -241,27 +241,27 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || 'Error al validar');
+        throw new Error(data.message || 'Error validating');
       }
 
-      // Marcar como validado
+      // Mark as validated
       setValidatedSpotIds(prev => new Set(prev).add(spotId));
 
-      // Mostrar animación de corazón
+      // Show heart animation
       setShowHeartAnimation(true);
 
-      // Mostrar mensaje de éxito con el conteo de validaciones
+      // Show success message with validation count
       const validationCount = data.validationCount || 1;
-      setSuccessMessage(`✅ ¡Validación confirmada!\n\n${validationCount} ${validationCount === 1 ? 'persona ha' : 'personas han'} validado este spot\n+2 pts de reputación`);
+      setSuccessMessage(`Validation confirmed!\n\n${validationCount} ${validationCount === 1 ? 'person has' : 'people have'} validated this spot\n+2 reputation pts`);
 
       onSpotValidated?.();
 
-      // Ocultar animación después de 1.5 segundos
+      // Hide animation after 1.5 seconds
       setTimeout(() => {
         setShowHeartAnimation(false);
       }, 1500);
 
-      // Cerrar después de 2.5 segundos
+      // Close after 2.5 seconds
       setTimeout(() => {
         handleClose();
       }, 2500);
@@ -279,7 +279,7 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
     setLoading(true);
     setError('');
 
-    // Debug: log antes de enviar
+    // Debug: log before sending
     console.log('📸 Enviando registro con foto:', {
       photoUrl: photo,
       photoPreview: photoPreview ? 'existe' : 'no existe',
@@ -307,14 +307,14 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
       const data = await response.json();
 
       if (!response.ok) {
-        // Si hay spots cercanos, mostrar opciones
+        // If there are nearby spots, show options
         if (data.code === 'NEARBY_SPOTS_FOUND' && data.canProceed && !forceProceed) {
           const nearbyList = data.nearbySpots.map((s: any) =>
             `• ${s.name} (${s.type.toLowerCase()}) - ${Math.round(s.distance)}m`
           ).join('\n');
 
           const proceed = confirm(
-            `⚠️ ${data.message}\n\nSpots cercanos:\n${nearbyList}\n\n¿Continuar con el registro de todas formas?`
+            `${data.message}\n\nNearby spots:\n${nearbyList}\n\nContinue with registration anyway?`
           );
 
           if (proceed) {
@@ -324,32 +324,32 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
           return;
         }
 
-        // Si hay demasiados spots, bloquear
+        // If there are too many spots, block
         if (data.code === 'TOO_MANY_NEARBY') {
           const nearbyList = data.nearbySpots.map((s: any) =>
             `• ${s.name} (${s.type.toLowerCase()}) - ${Math.round(s.distance)}m`
           ).join('\n');
 
           setError(
-            `${data.message}\n\nSpots cercanos:\n${nearbyList}\n\n${data.suggest}`
+            `${data.message}\n\nNearby spots:\n${nearbyList}\n\n${data.suggest}`
           );
           setLoading(false);
           return;
         }
 
-        throw new Error(data.message || 'Error al registrar');
+        throw new Error(data.message || 'Error registering');
       }
 
-      // Extraer el spot de la respuesta (successResponse wrapper)
+      // Extract the spot from the response (successResponse wrapper)
       const spotData = data.data?.spot || data.spot;
       const message = data.data?.message || data.message;
 
-      // Mostrar mensaje de éxito amigable
+      // Show friendly success message
       setSuccessMessage(`✅ ${message}\n\nScore: ${spotData.confidenceScore}\nStage: ${spotData.stage}`);
 
       onSpotRegistered?.();
 
-      // Cerrar después de 2.5 segundos
+      // Close after 2.5 seconds
       setTimeout(() => {
         handleClose();
       }, 2500);
@@ -362,23 +362,23 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
 
   const handlePhotoUpload = async (file: File, isLive: boolean = false) => {
     if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) {
-      alert('Solo se permiten imágenes o videos');
+      alert('Only images or videos are allowed');
       return;
     }
 
     if (file.size > 10 * 1024 * 1024) {
-      alert('El archivo no puede superar 10MB');
+      alert('File cannot exceed 10MB');
       return;
     }
 
-    // Crear preview local inmediatamente
+    // Create local preview immediately
     const reader = new FileReader();
     reader.onload = (e) => {
       setPhotoPreview(e.target?.result as string);
     };
     reader.readAsDataURL(file);
 
-    // Subir a Supabase en segundo plano
+    // Upload to Supabase in the background
     setUploadingPhoto(true);
     const uploadReader = new FileReader();
     uploadReader.onload = async () => {
@@ -425,11 +425,11 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
 
   const handleCameraCapture = async () => {
     try {
-      // Crear input element temporal con capture attribute
+      // Create temporary input element with capture attribute
       const input = document.createElement('input');
       input.type = 'file';
       input.accept = 'image/*';
-      input.capture = 'environment'; // Usa la cámara trasera
+      input.capture = 'environment'; // Use the back camera
       input.onchange = (e) => {
         const file = (e.target as HTMLInputElement).files?.[0];
         if (file) {
@@ -439,7 +439,7 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
       input.click();
     } catch (err) {
       console.error('Error accessing camera:', err);
-      alert('No se pudo acceder a la cámara. Asegúrate de dar permisos.');
+      alert('Could not access the camera. Make sure to grant permissions.');
     }
   };
 
@@ -470,7 +470,7 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
         <div className="bg-neutral-800 px-6 py-4 border-b-4 border-accent-cyan-400">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-black uppercase text-accent-cyan-400">
-              📍 {mode === 'loading' ? 'Detectando...' : mode === 'confirming_location' ? 'Confirma Ubicación' : mode === 'nearby' ? 'Spots Cercanos' : 'Nuevo Spot'}
+              {mode === 'loading' ? 'Detecting...' : mode === 'confirming_location' ? 'Confirm Location' : mode === 'nearby' ? 'Nearby Spots' : 'New Spot'}
             </h2>
             <button
               onClick={handleClose}
@@ -523,8 +523,8 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
               <div className="animate-pulse mb-4">
                 <MapPin className="w-16 h-16 text-accent-cyan-400 mx-auto" />
               </div>
-              <p className="text-accent-cyan-300 font-bold text-lg">Obteniendo tu ubicación...</p>
-              <p className="text-neutral-400 text-sm mt-2">Esto puede tomar unos segundos</p>
+              <p className="text-accent-cyan-300 font-bold text-lg">Getting your location...</p>
+              <p className="text-neutral-400 text-sm mt-2">This may take a few seconds</p>
             </div>
           )}
 
@@ -532,10 +532,10 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
           {mode === 'confirming_location' && tempMapLocation && (
             <div className="space-y-4">
               <p className="text-accent-cyan-300 font-bold text-center">
-                📍 Confirma la ubicación exacta del spot
+                Confirm the exact location of the spot
               </p>
               <p className="text-neutral-400 text-sm text-center">
-                Haz clic en el mapa para ajustar la posición del marcador
+                Click on the map to adjust the marker position
               </p>
 
               {/* Map Container */}
@@ -544,7 +544,7 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
                   <div className="w-full h-[350px] rounded-lg bg-neutral-900 flex items-center justify-center">
                     <div className="text-center">
                       <div className="animate-spin w-10 h-10 border-3 border-accent-cyan-400 border-t-transparent rounded-full mx-auto mb-3"></div>
-                      <p className="text-accent-cyan-300 font-bold text-sm">Cargando mapa...</p>
+                      <p className="text-accent-cyan-300 font-bold text-sm">Loading map...</p>
                     </div>
                   </div>
                 ) : (
@@ -564,13 +564,13 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
                   onClick={handleClose}
                   className="bg-neutral-700 hover:bg-neutral-600 text-white font-bold py-3 px-4 rounded-lg border-2 border-neutral-500 transition-colors"
                 >
-                  Cancelar
+                  Cancel
                 </button>
                 <button
                   onClick={() => tempMapLocation && handleLocationConfirmed(tempMapLocation.lat, tempMapLocation.lng)}
                   className="bg-green-600 hover:bg-green-500 text-white font-bold py-3 px-4 rounded-lg border-2 border-green-400 transition-colors"
                 >
-                  ✓ Confirmar
+                  Confirm
                 </button>
               </div>
             </div>
@@ -581,10 +581,10 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
             <div>
               <div className="bg-accent-cyan-900/30 border-2 border-accent-cyan-500 rounded-lg p-4 mb-4">
                 <p className="text-accent-cyan-300 font-bold">
-                  🎯 Se encontraron {nearbySpots.length} spot(s) cerca de ti
+                  Found {nearbySpots.length} spot(s) near you
                 </p>
                 <p className="text-neutral-400 text-sm mt-1">
-                  Valida uno para sumar puntos a tu reputación
+                  Validate one to add points to your reputation
                 </p>
               </div>
 
@@ -600,13 +600,13 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
                         <p className="text-accent-purple-400 text-sm capitalize">{spot.type.toLowerCase()}</p>
                       </div>
                       <div className="flex flex-col gap-1 items-end">
-                        {/* Distancia */}
+                        {/* Distance */}
                         <div className="bg-green-600 px-3 py-1 rounded-full border-2 border-green-400">
                           <span className="text-white font-black text-sm">
                             {Math.round(spot.distance)}m
                           </span>
                         </div>
-                        {/* Validaciones */}
+                        {/* Validations */}
                         {spot.validationCount !== undefined && spot.validationCount > 0 && (
                           <div className="bg-accent-cyan-600 px-2 py-0.5 rounded-full border-2 border-accent-cyan-400">
                             <span className="text-white font-black text-xs">
@@ -628,22 +628,22 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
                       }`}
                     >
                       {validatingSpotId === spot.id
-                        ? '⏳ Validando...'
+                        ? 'Validating...'
                         : validatedSpotIds.has(spot.id)
-                        ? '✓ Validado'
-                        : '✅ Validar'}
+                        ? 'Validated'
+                        : 'Validate'}
                     </button>
                   </div>
                 ))}
               </div>
 
               <div className="mt-4 pt-4 border-t border-neutral-700">
-                <p className="text-neutral-400 text-sm mb-2">¿Ninguno es correcto?</p>
+                <p className="text-neutral-400 text-sm mb-2">None of these correct?</p>
                 <button
                   onClick={() => setMode('new')}
                   className="w-full bg-accent-purple-600 hover:bg-accent-purple-500 text-white font-bold py-2 px-4 rounded-lg border-2 border-accent-purple-400 transition-colors"
                 >
-                  ➕ Registrar Nuevo Spot
+                  Register New Spot
                 </button>
               </div>
             </div>
@@ -656,14 +656,14 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
               <div className="bg-green-900/30 border-2 border-green-500 rounded-lg p-3">
                 <p className="text-green-300 font-bold text-sm flex items-center gap-2">
                   <MapPin className="w-4 h-4" />
-                  ✅ Ubicación detectada correctamente
+                  Location detected correctly
                 </p>
               </div>
 
               {/* Name */}
               <div>
                 <label className="block text-accent-cyan-300 font-black uppercase text-sm mb-2">
-                  📍 Nombre del Spot *
+                  Spot Name *
                 </label>
                 <input
                   type="text"
@@ -672,7 +672,7 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   className="w-full px-4 py-3 bg-neutral-900 border-2 border-accent-cyan-500 rounded-lg text-white font-bold focus:outline-none focus:border-accent-cyan-300"
-                  placeholder="Ej: Skatepark Magdalena"
+                  placeholder="Ex: Downtown Skatepark"
                   autoFocus
                 />
               </div>
@@ -680,7 +680,7 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
               {/* Type */}
               <div>
                 <label className="block text-accent-cyan-300 font-black uppercase text-sm mb-2">
-                  🎯 Tipo *
+                  Type *
                 </label>
                 <select
                   value={formData.type}
@@ -696,7 +696,7 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
               {/* Photo/Video */}
               <div>
                 <label className="block text-accent-cyan-300 font-black uppercase text-sm mb-2">
-                  📸 Foto (opcional)
+                  Photo (optional)
                 </label>
                 <div className="space-y-2">
                   {!photoPreview ? (
@@ -708,13 +708,13 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
                       >
                         <Camera className="w-5 h-5 text-accent-purple-400" />
                         <span className="text-accent-purple-300 font-bold text-sm">
-                          Agregar foto
+                          Add photo
                         </span>
                       </button>
 
                       {showCameraOptions && (
                         <div className="grid grid-cols-2 gap-2">
-                          {/* Tomar foto ahora */}
+                          {/* Take photo now */}
                           <button
                             type="button"
                             onClick={handleCameraCapture}
@@ -722,16 +722,16 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
                           >
                             <Camera className="w-6 h-6" />
                             <span className="font-bold text-xs text-center">
-                              📷 Tomar foto<br/>
+                              Take photo<br/>
                               <span className="text-accent-cyan-200">+10 pts</span>
                             </span>
                           </button>
 
-                          {/* Subir existente */}
+                          {/* Upload existing */}
                           <label className="flex flex-col items-center gap-2 bg-accent-purple-600 hover:bg-accent-purple-500 text-white p-3 rounded-lg border-2 border-accent-purple-400 cursor-pointer transition-colors">
                             <Video className="w-6 h-6" />
                             <span className="font-bold text-xs text-center">
-                              📁 Subir<br/>
+                              Upload<br/>
                               <span className="text-accent-purple-200">+5 pts</span>
                             </span>
                             <input
@@ -789,12 +789,12 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
 
                       {uploadingPhoto && !photo && (
                         <p className="text-accent-yellow-400 text-xs font-bold text-center animate-pulse">
-                          ⏳ Subiendo foto al servidor... espera un momento
+                          Uploading photo to server... please wait
                         </p>
                       )}
                       {photo && (
                         <p className="text-green-400 text-xs font-bold text-center">
-                          ✅ Foto lista para guardar
+                          Photo ready to save
                         </p>
                       )}
                     </div>
@@ -805,14 +805,14 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
               {/* Description */}
               <div>
                 <label className="block text-accent-cyan-300 font-black uppercase text-sm mb-2">
-                  📝 Descripción (opcional)
+                  Description (optional)
                 </label>
                 <textarea
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   className="w-full px-4 py-3 bg-neutral-900 border-2 border-accent-cyan-500 rounded-lg text-white font-bold focus:outline-none focus:border-accent-cyan-300"
                   rows={2}
-                  placeholder="Describe el spot..."
+                  placeholder="Describe the spot..."
                 />
               </div>
 
@@ -832,7 +832,7 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
                 disabled={loading || !formData.name || uploadingPhoto}
                 className="w-full bg-accent-cyan-600 hover:bg-accent-cyan-500 disabled:bg-neutral-600 disabled:cursor-not-allowed text-white font-black uppercase tracking-wider text-lg px-6 py-3 rounded-xl border-4 border-white shadow-2xl transition-all transform hover:scale-105 disabled:transform-none"
               >
-                {loading ? '⏳ Registrando...' : uploadingPhoto ? '📤 Subiendo foto...' : '🚀 REGISTRAR SPOT'}
+                {loading ? 'Registering...' : uploadingPhoto ? 'Uploading photo...' : 'REGISTER SPOT'}
               </button>
 
               {/* Cancel */}
@@ -841,7 +841,7 @@ export default function SpotProximityModal({ isOpen, onClose, onSpotRegistered, 
                 onClick={() => setMode('nearby')}
                 className="w-full text-neutral-400 hover:text-white font-bold underline"
               >
-                ← Volver a spots cercanos
+                Back to nearby spots
               </button>
             </form>
           )}

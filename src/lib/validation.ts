@@ -5,91 +5,91 @@ import { NextResponse } from "next/server";
 
 export const registerSchema = z.object({
   email: z.string()
-    .min(1, "Email es requerido")
-    .email("Formato de email inválido")
-    .max(255, "Email demasiado largo")
+    .min(1, "Email is required")
+    .email("Invalid email format")
+    .max(255, "Email is too long")
     .toLowerCase()
     .trim(),
   password: z.string()
-    .min(8, "La contraseña debe tener al menos 8 caracteres")
-    .max(100, "La contraseña es demasiado larga")
-    .regex(/[A-Z]/, "La contraseña debe contener al menos una mayúscula")
-    .regex(/[a-z]/, "La contraseña debe contener al menos una minúscula")
-    .regex(/[0-9]/, "La contraseña debe contener al menos un número")
-    .regex(/[^A-Za-z0-9]/, "La contraseña debe contener al menos un carácter especial (@$!%*?&)"),
+    .min(8, "Password must be at least 8 characters")
+    .max(100, "Password is too long")
+    .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
+    .regex(/[a-z]/, "Password must contain at least one lowercase letter")
+    .regex(/[0-9]/, "Password must contain at least one number")
+    .regex(/[^A-Za-z0-9]/, "Password must contain at least one special character (@$!%*?&)"),
   name: z.string()
-    .min(2, "El nombre debe tener al menos 2 caracteres")
-    .max(100, "El nombre es demasiado largo")
+    .min(2, "Name must be at least 2 characters")
+    .max(100, "Name is too long")
     .trim()
     .optional(),
 });
 
 export const loginSchema = z.object({
   email: z.string()
-    .min(1, "Email es requerido")
-    .email("Formato de email inválido")
+    .min(1, "Email is required")
+    .email("Invalid email format")
     .toLowerCase()
     .trim(),
   password: z.string()
-    .min(1, "Contraseña es requerida"),
+    .min(1, "Password is required"),
 });
 
 export const setPasswordSchema = z.object({
   email: z.string()
-    .min(1, "Email es requerido")
-    .email("Formato de email inválido")
+    .min(1, "Email is required")
+    .email("Invalid email format")
     .toLowerCase()
     .trim(),
   password: z.string()
-    .min(8, "La contraseña debe tener al menos 8 caracteres")
-    .max(100, "La contraseña es demasiado larga")
-    .regex(/[A-Z]/, "La contraseña debe contener al menos una mayúscula")
-    .regex(/[a-z]/, "La contraseña debe contener al menos una minúscula")
-    .regex(/[0-9]/, "La contraseña debe contener al menos un número")
-    .regex(/[^A-Za-z0-9]/, "La contraseña debe contener al menos un carácter especial (@$!%*?&)"),
+    .min(8, "Password must be at least 8 characters")
+    .max(100, "Password is too long")
+    .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
+    .regex(/[a-z]/, "Password must contain at least one lowercase letter")
+    .regex(/[0-9]/, "Password must contain at least one number")
+    .regex(/[^A-Za-z0-9]/, "Password must contain at least one special character (@$!%*?&)"),
 });
 
 // ==================== SUBMISSION SCHEMAS ====================
 
 export const submitTrickSchema = z.object({
   challengeId: z.string()
-    .min(1, "Challenge ID es requerido")
-    .regex(/^\d+$/, "Challenge ID debe ser un número"),
+    .min(1, "Challenge ID is required")
+    .regex(/^\d+$/, "Challenge ID must be a number"),
   videoUrl: z.string()
-    .min(1, "URL del video es requerida")
-    .url("URL inválida")
+    .min(1, "Video URL is required")
+    .url("Invalid URL")
     .refine(
       (url) => {
         return url.includes('youtube.com') || url.includes('youtu.be');
       },
-      "La URL debe ser de YouTube"
+      "URL must be from YouTube"
     ),
 });
 
 export const evaluateSubmissionSchema = z.object({
   submissionId: z.string()
-    .min(1, "Submission ID es requerido")
-    .regex(/^\d+$/, "Submission ID debe ser un número"),
+    .min(1, "Submission ID is required")
+    .regex(/^\d+$/, "Submission ID must be a number"),
   status: z.enum(['approved', 'rejected']),
   score: z.number()
-    .int("El score debe ser un número entero")
-    .min(0, "El score mínimo es 0")
-    .max(100, "El score máximo es 100")
+    .int("Score must be an integer")
+    .min(0, "Minimum score is 0")
+    .max(100, "Maximum score is 100")
     .optional(),
   feedback: z.string()
-    .max(1000, "El feedback no puede exceder 1000 caracteres")
+    .max(1000, "Feedback cannot exceed 1000 characters")
     .optional(),
   evaluatedBy: z.string().email().optional(),
 }).refine(
   (data) => {
-    // Si es approved, debe tener score
+    // If approved, must have score
     if (data.status === 'approved' && data.score === undefined) {
       return false;
     }
     return true;
   },
   {
-    message: "El score es obligatorio cuando la submission es aprobada",
+    message: "Score is required when the submission is approved",
     path: ["score"],
   }
 );
@@ -98,69 +98,69 @@ export const evaluateSubmissionSchema = z.object({
 
 export const createTeamSchema = z.object({
   name: z.string()
-    .min(3, "El nombre debe tener al menos 3 caracteres")
-    .max(50, "El nombre no puede exceder 50 caracteres")
+    .min(3, "Name must be at least 3 characters")
+    .max(50, "Name cannot exceed 50 characters")
     .trim()
-    .regex(/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s\-_]+$/, "El nombre contiene caracteres inválidos"),
+    .regex(/^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s\-_]+$/, "Name contains invalid characters"),
   description: z.string()
-    .max(500, "La descripción no puede exceder 500 caracteres")
+    .max(500, "Description cannot exceed 500 characters")
     .trim()
     .optional(),
-  logo: z.string().url("URL de logo inválida").optional(),
+  logo: z.string().url("Invalid logo URL").optional(),
 });
 
 export const joinTeamSchema = z.object({
   teamId: z.string()
-    .min(1, "Team ID es requerido")
-    .regex(/^\d+$/, "Team ID debe ser un número"),
+    .min(1, "Team ID is required")
+    .regex(/^\d+$/, "Team ID must be a number"),
 });
 
 // ==================== USER PROFILE SCHEMAS ====================
 
 export const updateGeneralInfoSchema = z.object({
   name: z.string()
-    .min(2, "El nombre debe tener al menos 2 caracteres")
-    .max(100, "El nombre es demasiado largo")
+    .min(2, "Name must be at least 2 characters")
+    .max(100, "Name is too long")
     .trim()
     .optional(),
   username: z.string()
-    .min(3, "El username debe tener al menos 3 caracteres")
-    .max(30, "El username no puede exceder 30 caracteres")
-    .regex(/^[a-zA-Z0-9_]+$/, "El username solo puede contener letras, números y guiones bajos")
+    .min(3, "Username must be at least 3 characters")
+    .max(30, "Username cannot exceed 30 characters")
+    .regex(/^[a-zA-Z0-9_]+$/, "Username can only contain letters, numbers and underscores")
     .toLowerCase()
     .trim()
     .optional(),
   phone: z.string()
-    .regex(/^[+]?[\d\s\-()]+$/, "Formato de teléfono inválido")
+    .regex(/^[+]?[\d\s\-()]+$/, "Invalid phone format")
     .optional(),
   departamento: z.string().trim().optional(),
   ciudad: z.string().trim().optional(),
 });
 
 export const updateSocialMediaSchema = z.object({
-  facebook: z.string().url("URL de Facebook inválida").or(z.literal("")).optional(),
-  instagram: z.string().url("URL de Instagram inválida").or(z.literal("")).optional(),
-  twitter: z.string().url("URL de Twitter/X inválida").or(z.literal("")).optional(),
-  tiktok: z.string().url("URL de TikTok inválida").or(z.literal("")).optional(),
+  facebook: z.string().url("Invalid Facebook URL").or(z.literal("")).optional(),
+  instagram: z.string().url("Invalid Instagram URL").or(z.literal("")).optional(),
+  twitter: z.string().url("Invalid Twitter/X URL").or(z.literal("")).optional(),
+  tiktok: z.string().url("Invalid TikTok URL").or(z.literal("")).optional(),
 });
 
 // ==================== SPOT SCHEMAS ====================
 
 export const createSpotSchema = z.object({
   name: z.string()
-    .min(3, "El nombre debe tener al menos 3 caracteres")
-    .max(100, "El nombre es demasiado largo")
+    .min(3, "Name must be at least 3 characters")
+    .max(100, "Name is too long")
     .trim(),
   description: z.string()
-    .max(500, "La descripción no puede exceder 500 caracteres")
+    .max(500, "Description cannot exceed 500 characters")
     .trim()
     .optional(),
   latitude: z.number()
-    .min(-90, "Latitud inválida")
-    .max(90, "Latitud inválida"),
+    .min(-90, "Invalid latitude")
+    .max(90, "Invalid latitude"),
   longitude: z.number()
-    .min(-180, "Longitud inválida")
-    .max(180, "Longitud inválida"),
+    .min(-180, "Invalid longitude")
+    .max(180, "Invalid longitude"),
   type: z.enum(["street", "park", "plaza", "other"]),
 });
 
@@ -281,7 +281,7 @@ export function handleValidationError(error: unknown): Response {
   if (error instanceof z.ZodError) {
     return errorResponse(
       'VALIDATION_ERROR',
-      'Datos inválidos',
+      'Invalid data',
       400,
       process.env.NODE_ENV === 'development' ? error.issues : undefined
     );
@@ -289,7 +289,7 @@ export function handleValidationError(error: unknown): Response {
 
   return errorResponse(
     'INTERNAL_ERROR',
-    'Error procesando la solicitud',
+    'Error processing request',
     500
   );
 }

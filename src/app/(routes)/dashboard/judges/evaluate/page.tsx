@@ -71,7 +71,7 @@ export default function JudgeEvaluatePage() {
       if (!response.ok) {
         const errorData = await response.json();
         console.error('❌ Error response:', errorData);
-        throw new Error(errorData.message || errorData.error || 'Error al obtener submissions');
+        throw new Error(errorData.message || errorData.error || 'Error loading submissions');
       }
 
       const data = await response.json();
@@ -81,7 +81,7 @@ export default function JudgeEvaluatePage() {
     } catch (error: any) {
       console.error('❌ Error fetching submissions:', error);
       console.error('Error message:', error.message);
-      setNotification('❌ Error al cargar las submissions pendientes: ' + error.message);
+      setNotification('❌ Error loading pending submissions: ' + error.message);
     } finally {
       setLoading(false);
     }
@@ -97,7 +97,7 @@ export default function JudgeEvaluatePage() {
       if (!response.ok) {
         const errorData = await response.json();
         console.error('❌ Error response:', errorData);
-        throw new Error(errorData.message || errorData.error || 'Error al obtener submissions evaluadas');
+        throw new Error(errorData.message || errorData.error || 'Error loading evaluated submissions');
       }
 
       const data = await response.json();
@@ -107,7 +107,7 @@ export default function JudgeEvaluatePage() {
     } catch (error: any) {
       console.error('❌ Error fetching evaluated submissions:', error);
       console.error('Error message:', error.message);
-      setNotification('❌ Error al cargar las submissions evaluadas: ' + error.message);
+      setNotification('❌ Error loading evaluated submissions: ' + error.message);
     } finally {
       setLoading(false);
     }
@@ -128,9 +128,9 @@ export default function JudgeEvaluatePage() {
         }),
       });
 
-      if (!response.ok) throw new Error('Error al evaluar');
+      if (!response.ok) throw new Error('Error evaluating');
 
-      setNotification(`✅ Submission ${approved ? 'aprobada' : 'rechazada'} exitosamente`);
+      setNotification(`✅ Submission ${approved ? 'approved' : 'rejected'} successfully`);
       setScore(0);
       setFeedback('');
       // Recargar la lista actual
@@ -143,7 +143,7 @@ export default function JudgeEvaluatePage() {
       setTimeout(() => setNotification(''), 3000);
     } catch (error) {
       console.error('Error:', error);
-      setNotification('❌ Error al evaluar la submission');
+      setNotification('❌ Error evaluating submission');
     } finally {
       setEvaluating(null);
     }
@@ -172,10 +172,10 @@ export default function JudgeEvaluatePage() {
         <div className="bg-gradient-to-r from-accent-yellow-500 to-accent-orange-600 p-1 rounded-lg shadow-2xl">
           <div className="bg-neutral-900 rounded-lg p-6">
             <h1 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-yellow-400 to-accent-orange-400 uppercase tracking-wider text-center md:text-left">
-              ⚖️ Panel de Evaluación
+              ⚖️ Evaluation Panel
             </h1>
             <p className="text-accent-yellow-300 mt-2 text-sm md:text-base text-center md:text-left">
-              {session?.user?.email || "Juez"}
+              {session?.user?.email || "Judge"}
             </p>
           </div>
         </div>
@@ -192,7 +192,7 @@ export default function JudgeEvaluatePage() {
                 : 'bg-neutral-800 text-neutral-400 border-4 border-neutral-700 hover:border-neutral-500'
             }`}
           >
-            ⏳ Pendientes
+            ⏳ Pending
           </button>
           <button
             onClick={() => setActiveTab('evaluated')}
@@ -202,7 +202,7 @@ export default function JudgeEvaluatePage() {
                 : 'bg-neutral-800 text-neutral-400 border-4 border-neutral-700 hover:border-neutral-500'
             }`}
           >
-            ✅ Evaluadas
+            ✅ Evaluated
           </button>
         </div>
       </div>
@@ -222,8 +222,8 @@ export default function JudgeEvaluatePage() {
           <div className="bg-gradient-to-r from-neutral-800 to-neutral-900 border-4 border-neutral-700 rounded-lg p-8 text-center">
             <p className="text-neutral-400 text-xl font-bold">
               {activeTab === 'pending'
-                ? '✅ No hay submissions pendientes de evaluación'
-                : '📭 No has evaluado ninguna submission aún'
+                ? '✅ No pending submissions to evaluate'
+                : '📭 You have not evaluated any submissions yet'
               }
             </p>
           </div>
@@ -243,7 +243,7 @@ export default function JudgeEvaluatePage() {
                       <p className="text-neutral-400 text-sm">{submission.user.email}</p>
                     </div>
                     <div>
-                      <p className="text-accent-purple-400 font-bold text-sm mb-1">DESAFÍO</p>
+                      <p className="text-accent-purple-400 font-bold text-sm mb-1">CHALLENGE</p>
                       <p className="text-white text-lg font-black">
                         Level {submission.challenge.level}: {submission.challenge.name}
                       </p>
@@ -276,7 +276,7 @@ export default function JudgeEvaluatePage() {
                       <div className="space-y-4">
                         <div>
                           <label className="block text-accent-cyan-400 font-bold mb-2 uppercase text-sm">
-                            Puntaje (0-100)
+                            Score (0-100)
                           </label>
                           <input
                             type="number"
@@ -289,14 +289,14 @@ export default function JudgeEvaluatePage() {
                         </div>
                         <div>
                           <label className="block text-accent-cyan-400 font-bold mb-2 uppercase text-sm">
-                            Comentarios
+                            Comments
                           </label>
                           <textarea
                             value={feedback}
                             onChange={(e) => setFeedback(e.target.value)}
                             rows={3}
                             className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white focus:border-accent-cyan-500 focus:outline-none"
-                            placeholder="Escribe tus comentarios..."
+                            placeholder="Write your comments..."
                           />
                         </div>
                         <div className="flex gap-4">
@@ -304,20 +304,20 @@ export default function JudgeEvaluatePage() {
                             onClick={() => handleEvaluate(submission.id, true)}
                             className="flex-1 bg-gradient-to-r from-green-500 to-accent-teal-500 hover:from-green-400 hover:to-accent-teal-400 text-white font-black py-3 px-6 rounded-lg border-4 border-white uppercase tracking-wider shadow-2xl transform hover:scale-105 transition-all"
                           >
-                            ✅ APROBAR
+                            ✅ APPROVE
                           </button>
                           <button
                             onClick={() => handleEvaluate(submission.id, false)}
                             className="flex-1 bg-gradient-to-r from-red-500 to-accent-pink-500 hover:from-red-400 hover:to-accent-pink-400 text-white font-black py-3 px-6 rounded-lg border-4 border-white uppercase tracking-wider shadow-2xl transform hover:scale-105 transition-all"
                           >
-                            ❌ RECHAZAR
+                            ❌ REJECT
                           </button>
                         </div>
                         <button
                           onClick={() => setEvaluating(null)}
                           className="w-full bg-neutral-700 hover:bg-neutral-600 text-white font-bold py-2 px-4 rounded-lg uppercase text-sm"
                         >
-                          Cancelar
+                          Cancel
                         </button>
                       </div>
                     ) : (
@@ -333,17 +333,17 @@ export default function JudgeEvaluatePage() {
                     <div className="space-y-4">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                          <p className="text-neutral-400 text-sm uppercase font-bold mb-1">Estado</p>
+                          <p className="text-neutral-400 text-sm uppercase font-bold mb-1">Status</p>
                           <div className={`inline-block px-4 py-2 rounded-lg border-4 font-black uppercase ${
                             submission.status === 'approved'
                               ? 'bg-green-500 border-green-300 text-white'
                               : 'bg-red-500 border-red-300 text-white'
                           }`}>
-                            {submission.status === 'approved' ? '✅ APROBADO' : '❌ RECHAZADO'}
+                            {submission.status === 'approved' ? '✅ APPROVED' : '❌ REJECTED'}
                           </div>
                         </div>
                         <div>
-                          <p className="text-neutral-400 text-sm uppercase font-bold mb-1">Puntaje</p>
+                          <p className="text-neutral-400 text-sm uppercase font-bold mb-1">Score</p>
                           <p className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-yellow-400 to-accent-orange-400">
                             {submission.score || 0}
                           </p>
@@ -351,16 +351,16 @@ export default function JudgeEvaluatePage() {
                       </div>
                       {submission.feedback && (
                         <div>
-                          <p className="text-neutral-400 text-sm uppercase font-bold mb-2">Comentarios</p>
+                          <p className="text-neutral-400 text-sm uppercase font-bold mb-2">Comments</p>
                           <div className="bg-neutral-800 border-4 border-neutral-700 rounded-lg p-4">
                             <p className="text-white">{submission.feedback}</p>
                           </div>
                         </div>
                       )}
                       <div>
-                        <p className="text-neutral-400 text-sm uppercase font-bold mb-1">Evaluado el</p>
+                        <p className="text-neutral-400 text-sm uppercase font-bold mb-1">Evaluated on</p>
                         <p className="text-white font-bold">
-                          {submission.evaluatedAt ? new Date(submission.evaluatedAt).toLocaleString('es-ES') : 'N/A'}
+                          {submission.evaluatedAt ? new Date(submission.evaluatedAt).toLocaleString('en-US') : 'N/A'}
                         </p>
                       </div>
                     </div>

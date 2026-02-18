@@ -60,14 +60,14 @@ export default function SubmissionsPage() {
     try {
       setLoading(true);
       const response = await fetch('/api/submissions/user');
-      if (!response.ok) throw new Error('Error al cargar submissions');
+      if (!response.ok) throw new Error('Error loading submissions');
 
       const data = await response.json();
       setSubmissions(data.submissions || []);
       setStats(data.stats || null);
     } catch (error) {
       console.error('Error:', error);
-      setError('Error al cargar tus submissions');
+      setError('Error loading your submissions');
     } finally {
       setLoading(false);
     }
@@ -84,7 +84,7 @@ export default function SubmissionsPage() {
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-accent-purple-900 via-accent-blue-900 to-black">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-accent-cyan-400 mx-auto"></div>
-          <p className="mt-4 text-accent-cyan-400 font-bold text-xl">CARGANDO HISTORIAL...</p>
+          <p className="mt-4 text-accent-cyan-400 font-bold text-xl">LOADING HISTORY...</p>
         </div>
       </div>
     );
@@ -100,7 +100,7 @@ export default function SubmissionsPage() {
               📹 MY SUBMISSIONS
             </h1>
             <p className="text-accent-purple-300 mt-2 text-sm md:text-base text-center md:text-left">
-              Historial completo de tus submissions y evaluaciones
+              Complete history of your submissions and evaluations
             </p>
           </div>
         </div>
@@ -118,19 +118,19 @@ export default function SubmissionsPage() {
             </div>
             <div className="bg-gradient-to-r from-accent-yellow-500 to-accent-orange-500 p-1 rounded-lg">
               <div className="bg-neutral-900 rounded-lg p-4 text-center">
-                <p className="text-neutral-400 text-xs uppercase">Pendientes</p>
+                <p className="text-neutral-400 text-xs uppercase">Pending</p>
                 <p className="text-white text-2xl font-black">{stats.pending}</p>
               </div>
             </div>
             <div className="bg-gradient-to-r from-green-500 to-accent-teal-500 p-1 rounded-lg">
               <div className="bg-neutral-900 rounded-lg p-4 text-center">
-                <p className="text-neutral-400 text-xs uppercase">Aprobados</p>
+                <p className="text-neutral-400 text-xs uppercase">Approved</p>
                 <p className="text-white text-2xl font-black">{stats.approved}</p>
               </div>
             </div>
             <div className="bg-gradient-to-r from-red-500 to-accent-pink-500 p-1 rounded-lg">
               <div className="bg-neutral-900 rounded-lg p-4 text-center">
-                <p className="text-neutral-400 text-xs uppercase">Rechazados</p>
+                <p className="text-neutral-400 text-xs uppercase">Rejected</p>
                 <p className="text-white text-2xl font-black">{stats.rejected}</p>
               </div>
             </div>
@@ -155,7 +155,7 @@ export default function SubmissionsPage() {
                 : 'bg-neutral-800 text-neutral-400 border-2 border-neutral-700 hover:border-neutral-500'
             }`}
           >
-            Todos ({submissions.length})
+            All ({submissions.length})
           </button>
           <button
             onClick={() => setFilter('pending')}
@@ -165,7 +165,7 @@ export default function SubmissionsPage() {
                 : 'bg-neutral-800 text-neutral-400 border-2 border-neutral-700 hover:border-neutral-500'
             }`}
           >
-            ⏳ Pendientes ({stats?.pending || 0})
+            ⏳ Pending ({stats?.pending || 0})
           </button>
           <button
             onClick={() => setFilter('approved')}
@@ -175,7 +175,7 @@ export default function SubmissionsPage() {
                 : 'bg-neutral-800 text-neutral-400 border-2 border-neutral-700 hover:border-neutral-500'
             }`}
           >
-            ✅ Aprobados ({stats?.approved || 0})
+            ✅ Approved ({stats?.approved || 0})
           </button>
           <button
             onClick={() => setFilter('rejected')}
@@ -185,7 +185,7 @@ export default function SubmissionsPage() {
                 : 'bg-neutral-800 text-neutral-400 border-2 border-neutral-700 hover:border-neutral-500'
             }`}
           >
-            ❌ Rechazados ({stats?.rejected || 0})
+            ❌ Rejected ({stats?.rejected || 0})
           </button>
         </div>
       </div>
@@ -205,20 +205,20 @@ export default function SubmissionsPage() {
           <div className="bg-gradient-to-r from-neutral-700 to-neutral-800 border-4 border-neutral-600 rounded-lg p-8 text-center">
             <p className="text-neutral-300 text-xl font-bold mb-2">
               {filter === 'all'
-                ? '📭 No tienes submissions aún'
-                : `📭 No tienes submissions ${filter === 'pending' ? 'pendientes' : filter === 'approved' ? 'aprobadas' : 'rechazadas'}`}
+                ? 'No submissions yet'
+                : `No ${filter === 'pending' ? 'pending' : filter === 'approved' ? 'approved' : 'rejected'} submissions`}
             </p>
             <p className="text-neutral-400 text-sm mb-4">
               {filter === 'all'
-                ? '¡Comienza a enviar tus videos para los challenges!'
-                : 'Cambia el filtro para ver otras submissions'}
+                ? 'Start submitting your videos for the challenges!'
+                : 'Change the filter to see other submissions'}
             </p>
             {filter === 'all' && (
               <button
                 onClick={() => router.push('/dashboard/skaters/tricks')}
                 className="bg-gradient-to-r from-accent-cyan-500 to-accent-blue-500 hover:from-accent-cyan-400 hover:to-accent-blue-400 text-white font-black py-3 px-6 rounded-lg border-4 border-white uppercase tracking-wider shadow-2xl transform hover:scale-105 transition-all"
               >
-                🎯 Ver Challenges
+                View Challenges
               </button>
             )}
           </div>

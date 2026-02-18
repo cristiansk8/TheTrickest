@@ -138,9 +138,9 @@ export default function PublicProfilePage() {
 
         if (!response.ok) {
           if (response.status === 404) {
-            setError('Usuario no encontrado');
+            setError('User not found');
           } else {
-            setError('Error al cargar el perfil');
+            setError('Error loading profile');
           }
           return;
         }
@@ -162,7 +162,7 @@ export default function PublicProfilePage() {
         }
       } catch (err) {
         console.error('Error:', err);
-        setError('Error al cargar el perfil');
+        setError('Error loading profile');
       } finally {
         setLoading(false);
       }
@@ -184,7 +184,7 @@ export default function PublicProfilePage() {
       case 'judge':
         return (
           <span className="text-xs bg-gradient-to-r from-accent-yellow-500 to-accent-amber-500 text-black px-3 py-1 rounded-full font-black uppercase tracking-wider shadow-lg shadow-accent-yellow-500/50">
-            JUEZ
+            JUDGE
           </span>
         );
       default:
@@ -198,7 +198,7 @@ export default function PublicProfilePage() {
 
   const getDifficultyLabel = (difficulty: number) => {
     const labels = ['', 'Ollie', 'Kickflip', 'Heelflip', '50-50', 'Boardslide', 'Pop Shuvit', '360 Flip', 'Hardflip', 'Varial Kickflip', 'Switch Kickflip'];
-    return labels[difficulty] || `Nivel ${difficulty}`;
+    return labels[difficulty] || `Level ${difficulty}`;
   };
 
   if (loading) {
@@ -206,7 +206,7 @@ export default function PublicProfilePage() {
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-accent-purple-900 via-accent-blue-900 to-black">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-accent-cyan-400 mx-auto"></div>
-          <p className="mt-4 text-accent-cyan-400 font-bold text-xl">CARGANDO PERFIL...</p>
+          <p className="mt-4 text-accent-cyan-400 font-bold text-xl">LOADING PROFILE...</p>
         </div>
       </div>
     );
@@ -217,12 +217,12 @@ export default function PublicProfilePage() {
       <div className="min-h-screen bg-gradient-to-br from-neutral-900 via-accent-purple-900 to-neutral-900 p-4 md:p-8 flex items-center justify-center">
         <div className="bg-gradient-to-r from-red-500 to-accent-orange-500 p-1 rounded-lg shadow-2xl">
           <div className="bg-neutral-900 rounded-lg p-8 text-center">
-            <p className="text-red-400 font-bold text-xl">{error || 'Perfil no disponible'}</p>
+            <p className="text-red-400 font-bold text-xl">{error || 'Profile not available'}</p>
             <Link
               href="/dashboard/leaderboard"
               className="inline-block mt-4 text-accent-cyan-400 hover:text-accent-cyan-300 font-bold uppercase"
             >
-              ← Volver al Leaderboard
+              Back to Leaderboard
             </Link>
           </div>
         </div>
@@ -283,18 +283,18 @@ export default function PublicProfilePage() {
                 </div>
 
                 <p className="text-neutral-500 text-xs mt-2">
-                  Miembro desde {new Date(profile.memberSince).toLocaleDateString('es-ES', { year: 'numeric', month: 'long' })}
+                  Member since {new Date(profile.memberSince).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}
                 </p>
 
                 {/* Follow Stats */}
                 <div className="flex items-center gap-6 mt-3 justify-center md:justify-start">
                   <div className="text-center">
                     <p className="text-accent-cyan-400 font-bold text-lg">{profile.socialStats?.followerCount || 0}</p>
-                    <p className="text-neutral-400 text-xs">Seguidores</p>
+                    <p className="text-neutral-400 text-xs">Followers</p>
                   </div>
                   <div className="text-center">
                     <p className="text-accent-cyan-400 font-bold text-lg">{profile.socialStats?.followingCount || 0}</p>
-                    <p className="text-neutral-400 text-xs">Siguiendo</p>
+                    <p className="text-neutral-400 text-xs">Following</p>
                   </div>
                 </div>
               </div>
@@ -323,7 +323,7 @@ export default function PublicProfilePage() {
                   }`}
                   startContent={following ? <MdPersonRemove size={20} /> : <MdPersonAdd size={20} />}
                 >
-                  {following ? 'Dejar de Seguir' : 'Seguir'}
+                  {following ? 'Unfollow' : 'Follow'}
                 </Button>
               </div>
             )}
@@ -343,21 +343,21 @@ export default function PublicProfilePage() {
 
           <div className="bg-gradient-to-r from-accent-blue-500 to-accent-cyan-600 p-[3px] rounded-lg">
             <div className="bg-neutral-900 rounded-lg p-4 text-center h-full">
-              <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider">Tasa Éxito</p>
+              <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider">Success Rate</p>
               <p className="text-3xl font-black text-accent-cyan-400">{profile.stats.successRate}%</p>
             </div>
           </div>
 
           <div className="bg-gradient-to-r from-accent-purple-500 to-accent-pink-600 p-[3px] rounded-lg">
             <div className="bg-neutral-900 rounded-lg p-4 text-center h-full">
-              <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider">Racha Actual</p>
+              <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider">Current Streak</p>
               <p className="text-3xl font-black text-accent-purple-400">{profile.stats.currentStreak}</p>
             </div>
           </div>
 
           <div className="bg-gradient-to-r from-accent-rose-500 to-red-600 p-[3px] rounded-lg">
             <div className="bg-neutral-900 rounded-lg p-4 text-center h-full">
-              <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider">Mejor Racha</p>
+              <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider">Best Streak</p>
               <p className="text-3xl font-black text-accent-rose-400">{profile.stats.bestStreak}</p>
             </div>
           </div>
@@ -378,29 +378,29 @@ export default function PublicProfilePage() {
                 />
               </div>
               <p className="text-center text-white font-bold text-sm mt-2">
-                {profile.stats.achievementsUnlocked}/{profile.stats.totalAchievements} Logros
+                {profile.stats.achievementsUnlocked}/{profile.stats.totalAchievements} Achievements
               </p>
             </div>
           </div>
 
           <div className="bg-gradient-to-r from-accent-cyan-500 to-accent-blue-600 p-[3px] rounded-lg">
             <div className="bg-neutral-900 rounded-lg p-4">
-              <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider mb-2">Actividad Reciente</p>
+              <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider mb-2">Recent Activity</p>
               <div className="space-y-1 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-neutral-300">Esta semana:</span>
+                  <span className="text-neutral-300">This week:</span>
                   <span className="text-accent-cyan-400 font-bold">{profile.activitySummary.thisWeek}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-neutral-300">Este mes:</span>
+                  <span className="text-neutral-300">This month:</span>
                   <span className="text-accent-cyan-400 font-bold">{profile.activitySummary.thisMonth}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-neutral-300">Última submission:</span>
+                  <span className="text-neutral-300">Last submission:</span>
                   <span className="text-accent-cyan-400 font-bold text-xs">
                     {profile.activitySummary.lastSubmission
-                      ? new Date(profile.activitySummary.lastSubmission).toLocaleDateString('es-ES')
-                      : 'Nunca'}
+                      ? new Date(profile.activitySummary.lastSubmission).toLocaleDateString('en-US')
+                      : 'Never'}
                   </span>
                 </div>
               </div>
@@ -411,17 +411,17 @@ export default function PublicProfilePage() {
         {/* Difficulty Stats */}
         <div className="bg-gradient-to-r from-neutral-700 to-neutral-800 p-[3px] rounded-lg">
           <div className="bg-neutral-900 rounded-lg p-4">
-            <h3 className="text-white font-bold text-lg mb-4 text-center uppercase tracking-wider">Estadísticas por Dificultad</h3>
+            <h3 className="text-white font-bold text-lg mb-4 text-center uppercase tracking-wider">Statistics by Difficulty</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {Object.entries(profile.stats.difficultyStats).map(([difficulty, stats]) => (
                 <div key={difficulty} className="text-center">
                   <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider mb-1">
-                    {difficulty === 'easy' ? 'Fácil' :
-                     difficulty === 'medium' ? 'Medio' :
-                     difficulty === 'hard' ? 'Difícil' : 'Experto'}
+                    {difficulty === 'easy' ? 'Easy' :
+                     difficulty === 'medium' ? 'Medium' :
+                     difficulty === 'hard' ? 'Hard' : 'Expert'}
                   </p>
                   <p className="text-2xl font-black text-accent-cyan-400">{stats.completed}</p>
-                  <p className="text-neutral-500 text-xs">completados</p>
+                  <p className="text-neutral-500 text-xs">completed</p>
                   {stats.avgScore > 0 && (
                     <p className="text-accent-yellow-400 text-sm font-bold">{stats.avgScore} avg</p>
                   )}
@@ -438,7 +438,7 @@ export default function PublicProfilePage() {
         <div className="bg-gradient-to-r from-accent-yellow-500 to-accent-orange-500 p-[3px] rounded-lg">
           <div className="bg-neutral-900 rounded-lg p-6 h-full">
             <h2 className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-yellow-400 to-accent-orange-400 uppercase mb-4 flex items-center gap-2">
-              <GiTrophy className="text-accent-yellow-400" /> 🏆 LOGROS DESBLOQUEADOS
+              <GiTrophy className="text-accent-yellow-400" /> ACHIEVEMENTS UNLOCKED
             </h2>
 
             {profile.achievements.length > 0 ? (
@@ -474,7 +474,7 @@ export default function PublicProfilePage() {
                             </span>
                             {achievement.unlockedDate && (
                               <span className="text-neutral-500 text-xs">
-                                {new Date(achievement.unlockedDate).toLocaleDateString('es-ES')}
+                                {new Date(achievement.unlockedDate).toLocaleDateString('en-US')}
                               </span>
                             )}
                           </div>
@@ -487,8 +487,8 @@ export default function PublicProfilePage() {
             ) : (
               <div className="text-center py-8">
                 <GiTrophy className="text-neutral-600 text-4xl mx-auto mb-4" />
-                <p className="text-neutral-500">Sin logros desbloqueados aún</p>
-                <p className="text-neutral-600 text-sm mt-2">¡Envía tu primera submission para comenzar!</p>
+                <p className="text-neutral-500">No achievements unlocked yet</p>
+                <p className="text-neutral-600 text-sm mt-2">Submit your first submission to get started!</p>
               </div>
             )}
           </div>
@@ -498,7 +498,7 @@ export default function PublicProfilePage() {
         <div className="bg-gradient-to-r from-accent-purple-500 to-accent-pink-500 p-[3px] rounded-lg">
           <div className="bg-neutral-900 rounded-lg p-6 h-full">
             <h2 className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-purple-400 to-accent-pink-400 uppercase mb-4 flex items-center gap-2">
-              <MdOutlineSkateboarding className="text-accent-purple-400" /> 📅 ACTIVIDAD RECIENTE
+              <MdOutlineSkateboarding className="text-accent-purple-400" /> RECENT ACTIVITY
             </h2>
 
             {profile.recentActivity.length > 0 ? (
@@ -537,14 +537,14 @@ export default function PublicProfilePage() {
                               {activity.difficulty}
                             </span>
                             <span className="text-neutral-400 text-xs">
-                              {new Date(activity.date).toLocaleDateString('es-ES')}
+                              {new Date(activity.date).toLocaleDateString('en-US')}
                             </span>
                           </div>
                         </div>
                         {activity.score && (
                           <div className="text-right">
                             <p className="text-2xl font-black text-accent-yellow-400">{activity.score}</p>
-                            <p className="text-neutral-500 text-xs">puntos</p>
+                            <p className="text-neutral-500 text-xs">points</p>
                           </div>
                         )}
                       </div>
@@ -555,8 +555,8 @@ export default function PublicProfilePage() {
             ) : (
               <div className="text-center py-8">
                 <MdOutlineSkateboarding className="text-neutral-600 text-4xl mx-auto mb-4" />
-                <p className="text-neutral-500">Sin actividad reciente</p>
-                <p className="text-neutral-600 text-sm mt-2">¡Envía tu primera submission!</p>
+                <p className="text-neutral-500">No recent activity</p>
+                <p className="text-neutral-600 text-sm mt-2">Submit your first submission!</p>
               </div>
             )}
           </div>
@@ -573,7 +573,7 @@ export default function PublicProfilePage() {
               <div className="space-y-3">
                 {profile.skateSetup.madero && (
                   <div className="bg-neutral-800 border-2 border-neutral-700 rounded-lg p-3">
-                    <p className="text-neutral-500 text-xs uppercase">Tabla</p>
+                    <p className="text-neutral-500 text-xs uppercase">Deck</p>
                     <p className="text-white font-bold">{profile.skateSetup.madero}</p>
                   </div>
                 )}
@@ -585,19 +585,19 @@ export default function PublicProfilePage() {
                 )}
                 {profile.skateSetup.ruedas && (
                   <div className="bg-neutral-800 border-2 border-neutral-700 rounded-lg p-3">
-                    <p className="text-neutral-500 text-xs uppercase">Ruedas</p>
+                    <p className="text-neutral-500 text-xs uppercase">Wheels</p>
                     <p className="text-white font-bold">{profile.skateSetup.ruedas}</p>
                   </div>
                 )}
                 {profile.skateSetup.rodamientos && (
                   <div className="bg-neutral-800 border-2 border-neutral-700 rounded-lg p-3">
-                    <p className="text-neutral-500 text-xs uppercase">Rodamientos</p>
+                    <p className="text-neutral-500 text-xs uppercase">Bearings</p>
                     <p className="text-white font-bold">{profile.skateSetup.rodamientos}</p>
                   </div>
                 )}
                 {profile.skateSetup.tenis && (
                   <div className="bg-neutral-800 border-2 border-neutral-700 rounded-lg p-3">
-                    <p className="text-neutral-500 text-xs uppercase">Tenis</p>
+                    <p className="text-neutral-500 text-xs uppercase">Shoes</p>
                     <p className="text-white font-bold">{profile.skateSetup.tenis}</p>
                   </div>
                 )}
@@ -605,8 +605,8 @@ export default function PublicProfilePage() {
             ) : (
               <div className="text-center py-8">
                 <GiSkateboard className="text-neutral-600 text-4xl mx-auto mb-4" />
-                <p className="text-neutral-500">Setup no configurado</p>
-                <p className="text-neutral-600 text-sm mt-2">Configura tu dream setup en tu perfil</p>
+                <p className="text-neutral-500">Setup not configured</p>
+                <p className="text-neutral-600 text-sm mt-2">Configure your dream setup in your profile</p>
               </div>
             )}
           </div>
@@ -620,7 +620,7 @@ export default function PublicProfilePage() {
           <div className="bg-gradient-to-r from-green-500 to-accent-teal-500 p-[3px] rounded-lg">
             <div className="bg-neutral-900 rounded-lg p-6">
               <h2 className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-accent-teal-400 uppercase mb-4 text-center">
-                🌐 Redes Sociales
+                Social Media
               </h2>
 
               <div className="flex flex-wrap justify-center gap-4">
@@ -681,7 +681,7 @@ export default function PublicProfilePage() {
             href="/dashboard/skaters/profile"
             className="inline-block bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 hover:from-accent-cyan-400 hover:to-accent-purple-500 text-white font-black py-3 px-8 rounded-lg border-4 border-white uppercase tracking-wider shadow-lg shadow-accent-cyan-500/30 transform hover:scale-105 transition-all"
           >
-            ✏️ Editar Mi Perfil
+            Edit My Profile
           </Link>
         </div>
       )}
@@ -692,7 +692,7 @@ export default function PublicProfilePage() {
           href="/dashboard/leaderboard"
           className="text-accent-cyan-400 hover:text-accent-cyan-300 font-bold uppercase text-sm"
         >
-          ← Volver al Leaderboard
+          Back to Leaderboard
         </Link>
       </div>
     </div>

@@ -1,7 +1,7 @@
 import prisma from '@/app/lib/prisma';
 
 /**
- * Helper functions para crear notificaciones automáticas
+ * Helper functions to create automatic notifications
  */
 
 export async function createNotification({
@@ -31,11 +31,11 @@ export async function createNotification({
       },
     });
   } catch (error) {
-    console.error('Error creando notificación:', error);
+    console.error('Error creating notification:', error);
   }
 }
 
-// Notificación cuando un juez evalúa un submission
+// Notification when a judge evaluates a submission
 export async function notifySubmissionEvaluated({
   userEmail,
   submissionId,
@@ -55,13 +55,13 @@ export async function notifySubmissionEvaluated({
 }) {
   const isApproved = status === 'approved';
   const emoji = isApproved ? '✅' : '❌';
-  const action = isApproved ? 'aprobó' : 'rechazó';
+  const action = isApproved ? 'approved' : 'rejected';
 
   await createNotification({
     userId: userEmail,
     type: 'submission_evaluated',
-    title: `${emoji} Evaluación: ${challengeName}`,
-    message: `${judgeName || 'Un juez'} ${action} tu truco${isApproved && score ? ` con ${score} puntos` : ''}`,
+    title: `${emoji} Evaluation: ${challengeName}`,
+    message: `${judgeName || 'A judge'} ${action} your trick${isApproved && score ? ` with ${score} points` : ''}`,
     link: `/dashboard/skaters/tricks`,
     metadata: {
       submissionId,
@@ -73,7 +73,7 @@ export async function notifySubmissionEvaluated({
   });
 }
 
-// Notificación cuando alguien te invita a un equipo
+// Notification when someone invites you to a team
 export async function notifyTeamInvitation({
   userEmail,
   teamName,
@@ -88,8 +88,8 @@ export async function notifyTeamInvitation({
   await createNotification({
     userId: userEmail,
     type: 'team_invitation',
-    title: `👥 Invitación de equipo`,
-    message: `${inviterName || 'Alguien'} te invitó a unirte a "${teamName}"`,
+    title: `👥 Team Invitation`,
+    message: `${inviterName || 'Someone'} invited you to join "${teamName}"`,
     link: `/dashboard/teams`,
     metadata: {
       teamId,
@@ -98,7 +98,7 @@ export async function notifyTeamInvitation({
   });
 }
 
-// Notificación cuando tu posición en el ranking cambia
+// Notification when your ranking position changes
 export async function notifyRankingUpdate({
   userEmail,
   newPosition,
@@ -112,14 +112,14 @@ export async function notifyRankingUpdate({
 }) {
   const improved = newPosition < oldPosition;
   const emoji = improved ? '📈' : '📉';
-  const action = improved ? 'subiste' : 'bajaste';
+  const action = improved ? 'moved up' : 'moved down';
   const change = Math.abs(newPosition - oldPosition);
 
   await createNotification({
     userId: userEmail,
     type: 'ranking_update',
-    title: `${emoji} Ranking actualizado`,
-    message: `${action} ${change} ${change === 1 ? 'posición' : 'posiciones'} en el ranking ${category === 'team' ? 'de equipos' : 'individual'}. Ahora estás en el puesto #${newPosition}`,
+    title: `${emoji} Ranking Updated`,
+    message: `You ${action} ${change} ${change === 1 ? 'position' : 'positions'} in the ${category === 'team' ? 'team' : 'individual'} ranking. You are now at #${newPosition}`,
     link: `/dashboard/ranking`,
     metadata: {
       newPosition,
@@ -129,7 +129,7 @@ export async function notifyRankingUpdate({
   });
 }
 
-// Notificación cuando alguien te sigue
+// Notification when someone follows you
 export async function notifyNewFollower({
   userEmail,
   followerEmail,
@@ -144,8 +144,8 @@ export async function notifyNewFollower({
   await createNotification({
     userId: userEmail,
     type: 'new_follower',
-    title: `🔔 Nuevo seguidor`,
-    message: `${followerName || 'Un skater'} comenzó a seguirte`,
+    title: `🔔 New Follower`,
+    message: `${followerName || 'A skater'} started following you`,
     link: `/profile/${followerEmail}`,
     metadata: {
       followerEmail,
@@ -155,7 +155,7 @@ export async function notifyNewFollower({
   });
 }
 
-// Notificación cuando alguien vota tu submission
+// Notification when someone votes on your submission
 export async function notifyVoteReceived({
   userEmail,
   challengeName,
@@ -172,8 +172,8 @@ export async function notifyVoteReceived({
   await createNotification({
     userId: userEmail,
     type: 'vote_received',
-    title: `${emoji} Nuevo voto en "${challengeName}"`,
-    message: `Tu submission recibió un ${voteType === 'upvote' ? 'voto positivo' : 'voto negativo'} de la comunidad`,
+    title: `${emoji} New vote on "${challengeName}"`,
+    message: `Your submission received a ${voteType === 'upvote' ? 'positive vote' : 'negative vote'} from the community`,
     link: `/dashboard/skaters/tricks`,
     metadata: {
       submissionId,
@@ -183,7 +183,7 @@ export async function notifyVoteReceived({
   });
 }
 
-// Notificación cuando una submission es aprobada por la comunidad
+// Notification when a submission is approved by the community
 export async function notifyCommunityApproved({
   userEmail,
   challengeName,
@@ -198,8 +198,8 @@ export async function notifyCommunityApproved({
   await createNotification({
     userId: userEmail,
     type: 'community_approved',
-    title: `🎉 ¡Aprobado por la comunidad!`,
-    message: `Tu truco "${challengeName}" fue aprobado automáticamente con ${upvotes} votos positivos`,
+    title: `🎉 Approved by the community!`,
+    message: `Your trick "${challengeName}" was automatically approved with ${upvotes} positive votes`,
     link: `/dashboard/skaters/tricks`,
     metadata: {
       submissionId,
@@ -209,7 +209,7 @@ export async function notifyCommunityApproved({
   });
 }
 
-// Notificación cuando te aceptan en un equipo
+// Notification when you are accepted into a team
 export async function notifyTeamAccepted({
   userEmail,
   teamName,
@@ -222,8 +222,8 @@ export async function notifyTeamAccepted({
   await createNotification({
     userId: userEmail,
     type: 'team_accepted',
-    title: `🎊 ¡Te uniste a un equipo!`,
-    message: `Ahora eres parte de "${teamName}"`,
+    title: `🎊 You joined a team!`,
+    message: `You are now part of "${teamName}"`,
     link: `/dashboard/teams`,
     metadata: {
       teamId,

@@ -63,7 +63,7 @@ export default function VotePage() {
       );
 
       if (!response.ok) {
-        throw new Error('Error al cargar submissions');
+        throw new Error('Error loading submissions');
       }
 
       const data = await response.json();
@@ -76,7 +76,7 @@ export default function VotePage() {
 
       setPagination(data.pagination);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error desconocido');
+      setError(err instanceof Error ? err.message : 'Unknown error');
     } finally {
       setIsLoading(false);
     }
@@ -103,23 +103,23 @@ export default function VotePage() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || 'Error al votar');
+        throw new Error(errorData.error || 'Error voting');
       }
 
-      // Remover la submission de la lista después de votar
+      // Remove the submission from the list after voting
       setSubmissions((prev) => prev.filter((s) => s.id !== submissionId));
       setPagination((prev) => ({
         ...prev,
         total: prev.total - 1,
       }));
 
-      // Si quedan pocas submissions, cargar más
+      // If few submissions remain, load more
       if (submissions.length <= 3 && pagination.hasMore) {
         fetchSubmissions(pagination.offset + pagination.limit);
       }
     } catch (err) {
-      console.error('Error al votar:', err);
-      alert(err instanceof Error ? err.message : 'Error al votar');
+      console.error('Error voting:', err);
+      alert(err instanceof Error ? err.message : 'Error voting');
     }
   };
 
@@ -134,7 +134,7 @@ export default function VotePage() {
       <div className="min-h-screen flex items-center justify-center bg-surface-base">
         <div className="text-center">
           <Loader2 className="w-12 h-12 animate-spin text-accent-cyan-400 mx-auto mb-4" />
-          <p className="text-neutral-400">Cargando...</p>
+          <p className="text-neutral-400">Loading...</p>
         </div>
       </div>
     );
@@ -155,10 +155,10 @@ export default function VotePage() {
             </div>
             <div>
               <h1 className="text-3xl font-bold bg-gradient-to-r from-accent-cyan-400 to-accent-blue-500 bg-clip-text text-transparent">
-                Votación Comunitaria
+                Community Voting
               </h1>
               <p className="text-neutral-400">
-                Ayuda a evaluar los trucos de la comunidad
+                Help evaluate the community's tricks
               </p>
             </div>
           </div>
@@ -175,7 +175,7 @@ export default function VotePage() {
                     {pagination.total}
                   </p>
                   <p className="text-sm text-neutral-400">
-                    Submissions pendientes
+                    Pending submissions
                   </p>
                 </div>
               </div>
@@ -193,7 +193,7 @@ export default function VotePage() {
                         .length
                     }
                   </p>
-                  <p className="text-sm text-neutral-400">Listas para decisión</p>
+                  <p className="text-sm text-neutral-400">Ready for decision</p>
                 </div>
               </div>
             </div>
@@ -208,7 +208,7 @@ export default function VotePage() {
                     {submissions.length}
                   </p>
                   <p className="text-sm text-neutral-400">
-                    Disponibles para votar
+                    Available to vote
                   </p>
                 </div>
               </div>
@@ -220,18 +220,18 @@ export default function VotePage() {
             <div className="flex items-start gap-3">
               <AlertCircle className="w-5 h-5 text-accent-cyan-400 mt-0.5 flex-shrink-0" />
               <div className="text-sm text-accent-cyan-300">
-                <p className="font-semibold mb-1">¿Cómo funciona?</p>
+                <p className="font-semibold mb-1">How does it work?</p>
                 <ul className="space-y-1 text-accent-cyan-400/80">
                   <li>
-                    • Vota 👍 si el truco está bien ejecutado y cumple los
-                    requisitos
+                    • Vote 👍 if the trick is well executed and meets the
+                    requirements
                   </li>
-                  <li>• Vota 👎 si el truco no cumple con los estándares</li>
+                  <li>• Vote 👎 if the trick does not meet the standards</li>
                   <li>
-                    • Si una submission recibe {'>'}80% de votos positivos con
-                    mínimo 10 votos, se aprueba automáticamente
+                    • If a submission receives {'>'}80% positive votes with
+                    at least 10 votes, it is automatically approved
                   </li>
-                  <li>• Las submissions dudosas serán revisadas por jueces</li>
+                  <li>• Doubtful submissions will be reviewed by judges</li>
                 </ul>
               </div>
             </div>
@@ -243,7 +243,7 @@ export default function VotePage() {
           <div className="flex items-center justify-center py-20">
             <div className="text-center">
               <Loader2 className="w-12 h-12 animate-spin text-accent-cyan-400 mx-auto mb-4" />
-              <p className="text-neutral-400">Cargando submissions...</p>
+              <p className="text-neutral-400">Loading submissions...</p>
             </div>
           </div>
         ) : error ? (
@@ -255,17 +255,17 @@ export default function VotePage() {
               onClick={() => fetchSubmissions(0)}
               className="mt-4 px-4 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-lg transition-colors"
             >
-              Reintentar
+              Retry
             </button>
           </div>
         ) : submissions.length === 0 ? (
           <div className="bg-surface-card border border-neutral-800 rounded-lg p-12 text-center">
             <Vote className="w-16 h-16 text-neutral-600 mx-auto mb-4" />
             <h3 className="text-xl font-bold text-neutral-400 mb-2">
-              ¡Todo al día! 🎉
+              All caught up!
             </h3>
             <p className="text-neutral-500">
-              No hay submissions disponibles para votar en este momento.
+              No submissions available to vote on at this time.
             </p>
           </div>
         ) : (
@@ -294,11 +294,11 @@ export default function VotePage() {
                   {isLoading ? (
                     <>
                       <Loader2 className="w-5 h-5 animate-spin" />
-                      Cargando...
+                      Loading...
                     </>
                   ) : (
                     <>
-                      Cargar más
+                      Load more
                       <TrendingUp className="w-5 h-5" />
                     </>
                   )}

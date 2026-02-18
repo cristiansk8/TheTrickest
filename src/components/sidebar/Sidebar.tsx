@@ -14,20 +14,20 @@ const skaterMenuItems = [
   {
     path: '/dashboard/skaters/profile',
     icon: <MdOutlineSkateboarding size={28} />,
-    title: 'Perfil',
-    subTitle: 'editar perfil'
+    title: 'Profile',
+    subTitle: 'edit profile'
   },
   {
     path: '/dashboard/skaters/tricks',
     icon: <GiSkateboard size={28} />,
-    title: 'Trucos',
-    subTitle: 'trucos en curso'
+    title: 'Tricks',
+    subTitle: 'in progress'
   },
   {
     path: '/dashboard/skaters/submissions',
     icon: <FaVideo size={28} />,
     title: 'Submissions',
-    subTitle: 'historial'
+    subTitle: 'history'
   },
   {
     path: '/dashboard/leaderboard',
@@ -38,14 +38,14 @@ const skaterMenuItems = [
   {
     path: '/dashboard/teams',
     icon: <MdGroups size={28} />,
-    title: 'Equipos',
-    subTitle: 'mi equipo'
+    title: 'Teams',
+    subTitle: 'my team'
   },
   {
     path: '/dashboard/skaters/logros',
     icon: <GiTrophy size={28} />,
-    title: 'Logros',
-    subTitle: 'achievements'
+    title: 'Achievements',
+    subTitle: 'badges'
   }
 ]
 
@@ -53,20 +53,20 @@ const judgeMenuItems = [
   {
     path: '/dashboard/judges/evaluate',
     icon: <MdGavel size={28} />,
-    title: 'Evaluar',
-    subTitle: 'pendientes e historial'
+    title: 'Evaluate',
+    subTitle: 'pending & history'
   },
   {
     path: '/dashboard/skaters/profile',
     icon: <MdOutlineSkateboarding size={28} />,
-    title: 'Perfil',
-    subTitle: 'editar perfil'
+    title: 'Profile',
+    subTitle: 'edit profile'
   },
   {
     path: '/dashboard/skaters/tricks',
     icon: <GiSkateboard size={28} />,
-    title: 'Trucos',
-    subTitle: 'como skater'
+    title: 'Tricks',
+    subTitle: 'as skater'
   },
   {
     path: '/dashboard/leaderboard',
@@ -77,8 +77,8 @@ const judgeMenuItems = [
   {
     path: '/dashboard/teams',
     icon: <MdGroups size={28} />,
-    title: 'Equipos',
-    subTitle: 'mi equipo'
+    title: 'Teams',
+    subTitle: 'my team'
   }
 ]
 
@@ -86,26 +86,26 @@ const adminMenuItems = [
   {
     path: '/dashboard/admin/users',
     icon: <MdAdminPanelSettings size={28} />,
-    title: 'Usuarios',
-    subTitle: 'gestionar'
+    title: 'Users',
+    subTitle: 'manage'
   },
   {
     path: '/dashboard/admin/challenges',
     icon: <GiSkateboard size={28} />,
-    title: 'Desafíos',
-    subTitle: 'gestionar'
+    title: 'Challenges',
+    subTitle: 'manage'
   },
   {
     path: '/dashboard/admin/settings',
     icon: <MdSettings size={28} />,
-    title: 'Configuración',
-    subTitle: 'sistema'
+    title: 'Settings',
+    subTitle: 'system'
   },
   {
     path: '/dashboard/judges/evaluate',
     icon: <MdGavel size={28} />,
-    title: 'Evaluar',
-    subTitle: 'calificar'
+    title: 'Evaluate',
+    subTitle: 'score'
   },
   {
     path: '/dashboard/leaderboard',
@@ -116,8 +116,8 @@ const adminMenuItems = [
   {
     path: '/dashboard/teams',
     icon: <MdGroups size={28} />,
-    title: 'Equipos',
-    subTitle: 'gestionar'
+    title: 'Teams',
+    subTitle: 'manage'
   }
 ]
 
@@ -170,7 +170,7 @@ export const Sidebar = () => {
     } else if (userRole === 'judge') {
       return (
         <span className="text-xs bg-gradient-to-r from-accent-yellow-500 to-accent-amber-500 text-black px-3 py-1 rounded-full font-black uppercase tracking-wider shadow-lg shadow-accent-yellow-500/50">
-          JUEZ
+          JUDGE
         </span>
       );
     }
@@ -206,7 +206,7 @@ export const Sidebar = () => {
       <div className="px-4 mb-4">
         <div className="bg-gradient-to-r from-accent-yellow-500 to-accent-orange-500 p-[3px] rounded-lg">
           <div className="bg-neutral-900 rounded-lg p-3 text-center">
-            <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider">Tu Score</p>
+            <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider">Your Score</p>
             <p className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-yellow-400 to-accent-orange-400">
               {totalScore}
             </p>
@@ -219,7 +219,7 @@ export const Sidebar = () => {
         <div className="bg-gradient-to-r from-accent-purple-500 to-accent-pink-500 p-[3px] rounded-lg">
           <div className="bg-neutral-900 rounded-lg p-4">
             <p className="text-neutral-500 text-xs uppercase font-bold tracking-wider mb-2">
-              Bienvenido
+              Welcome
             </p>
             {status === "loading" ? (
               <div className="flex items-center justify-center py-2">
@@ -252,7 +252,7 @@ export const Sidebar = () => {
       {/* Menú de navegación */}
       <div className="px-4 pb-4">
         <p className="text-neutral-500 text-xs uppercase font-bold tracking-wider mb-3 px-2">
-          Navegación
+          Navigation
         </p>
         <div className="space-y-2">
           {menuItems.map(item => (
@@ -271,7 +271,7 @@ export const Sidebar = () => {
             <MdLogout size={24} className="text-red-400" />
             <div className="flex flex-col items-start">
               <span className="text-sm font-black text-white uppercase tracking-wide">
-                Cerrar Sesión
+                Sign Out
               </span>
               <span className="text-xs text-neutral-400 uppercase tracking-wider">
                 Logout
