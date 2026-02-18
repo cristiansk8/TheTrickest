@@ -30,7 +30,7 @@ interface SubmissionHistoryCardProps {
 export default function SubmissionHistoryCard({ submission }: SubmissionHistoryCardProps) {
   const [expanded, setExpanded] = useState(false);
 
-  // Determinar color del gradiente según estado
+  // Determine gradient color based on status
   const getBorderGradient = () => {
     switch (submission.status) {
       case 'pending': return 'from-accent-yellow-500 to-accent-orange-500';
@@ -40,7 +40,7 @@ export default function SubmissionHistoryCard({ submission }: SubmissionHistoryC
     }
   };
 
-  // Formatear fecha
+  // Format date
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
@@ -52,7 +52,7 @@ export default function SubmissionHistoryCard({ submission }: SubmissionHistoryC
     });
   };
 
-  // Badge de estado
+  // Status badge
   const getStatusBadge = () => {
     switch (submission.status) {
       case 'pending':
@@ -78,7 +78,7 @@ export default function SubmissionHistoryCard({ submission }: SubmissionHistoryC
     }
   };
 
-  // Badge de dificultad
+  // Difficulty badge
   const getDifficultyBadge = () => {
     const colors = {
       easy: 'bg-accent-cyan-500',
@@ -98,7 +98,7 @@ export default function SubmissionHistoryCard({ submission }: SubmissionHistoryC
   return (
     <div className={`bg-gradient-to-r ${getBorderGradient()} p-1 rounded-lg shadow-2xl`}>
       <div className="bg-neutral-900 rounded-lg p-4 md:p-6">
-        {/* Header Compacto */}
+        {/* Compact Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 mb-4">
           <div className="flex-1">
             <h3 className="text-lg md:text-xl font-black text-white uppercase tracking-wider">
@@ -127,7 +127,7 @@ export default function SubmissionHistoryCard({ submission }: SubmissionHistoryC
           )}
         </div>
 
-        {/* Información de Evaluación */}
+        {/* Evaluation Info */}
         {submission.status !== 'pending' && (
           <div className="mb-4 p-3 bg-neutral-800 rounded-lg border-2 border-neutral-700">
             <div className="flex flex-col md:flex-row justify-between text-xs text-neutral-400">
@@ -153,7 +153,7 @@ export default function SubmissionHistoryCard({ submission }: SubmissionHistoryC
           </div>
         )}
 
-        {/* Video Expandible */}
+        {/* Expandable Video */}
         <div>
           <button
             onClick={() => setExpanded(!expanded)}

@@ -32,7 +32,7 @@ interface ChallengeCardProps {
 export default function ChallengeCard({ challenge, onSubmitClick }: ChallengeCardProps) {
   const [showDescription, setShowDescription] = useState(false);
 
-  // Determinar color del gradiente según dificultad
+  // Determine gradient color based on difficulty
   const getBorderGradient = () => {
     if (challenge.isBonus) {
       return 'from-accent-pink-500 via-accent-purple-500 to-accent-cyan-500 animate-gradient';
@@ -46,7 +46,7 @@ export default function ChallengeCard({ challenge, onSubmitClick }: ChallengeCar
     }
   };
 
-  // Determinar badge de dificultad
+  // Determine difficulty badge
   const getDifficultyBadge = () => {
     const colors = {
       easy: 'bg-accent-cyan-500',
@@ -63,12 +63,12 @@ export default function ChallengeCard({ challenge, onSubmitClick }: ChallengeCar
     );
   };
 
-  // Determinar estado y botón
+  // Determine status and button
   const renderActionButton = () => {
     const submission = challenge.userSubmission;
 
     if (!submission) {
-      // No ha enviado
+      // Has not submitted
       return (
         <button
           onClick={onSubmitClick}
@@ -80,7 +80,7 @@ export default function ChallengeCard({ challenge, onSubmitClick }: ChallengeCar
     }
 
     if (submission.status === 'pending') {
-      // Pendiente de evaluación
+      // Pending evaluation
       return (
         <div className="w-full bg-gradient-to-r from-accent-yellow-500 to-accent-orange-500 p-1 rounded-lg animate-pulse">
           <div className="bg-neutral-900 rounded-lg py-3 px-6 text-center">
@@ -93,7 +93,7 @@ export default function ChallengeCard({ challenge, onSubmitClick }: ChallengeCar
     }
 
     if (submission.status === 'approved') {
-      // Aprobado
+      // Approved
       return (
         <div className="w-full bg-gradient-to-r from-green-500 to-accent-teal-500 p-1 rounded-lg">
           <div className="bg-neutral-900 rounded-lg py-3 px-6 text-center">
@@ -106,7 +106,7 @@ export default function ChallengeCard({ challenge, onSubmitClick }: ChallengeCar
     }
 
     if (submission.status === 'rejected') {
-      // Rechazado - puede reintentar
+      // Rejected - can try again
       return (
         <div className="space-y-2">
           <div className="w-full bg-gradient-to-r from-red-500 to-accent-pink-500 p-1 rounded-lg">
