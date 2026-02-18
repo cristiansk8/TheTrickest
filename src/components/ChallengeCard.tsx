@@ -200,7 +200,7 @@ export default function ChallengeCard({ challenge, onSubmitClick }: ChallengeCar
                 onClick={() => setShowDescription(!showDescription)}
                 className="text-accent-cyan-400 text-xs font-bold mt-1 hover:text-accent-cyan-300"
               >
-                {showDescription ? '▲ Ver menos' : '▼ Ver más'}
+                {showDescription ? '▲ Show less' : '▼ Show more'}
               </button>
             )}
           </div>

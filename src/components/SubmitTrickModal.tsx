@@ -45,7 +45,7 @@ export default function SubmitTrickModal({
       const isValid = validateYouTubeUrl(videoUrl);
       setIsValidUrl(isValid);
       if (!isValid) {
-        setError('URL de YouTube inválida');
+        setError('Invalid YouTube URL');
       } else {
         setError('');
       }
@@ -59,7 +59,7 @@ export default function SubmitTrickModal({
     e.preventDefault();
 
     if (!isValidUrl || !challenge) {
-      setError('Por favor ingresa una URL válida de YouTube');
+      setError('Please enter a valid YouTube URL');
       return;
     }
 
@@ -79,7 +79,7 @@ export default function SubmitTrickModal({
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || data.error || 'Error al enviar');
+        throw new Error(data.message || data.error || 'Error submitting');
       }
 
       // Success
@@ -90,7 +90,7 @@ export default function SubmitTrickModal({
 
     } catch (error: any) {
       console.error('Error:', error);
-      setError(error.message || 'Error al enviar la submission');
+      setError(error.message || 'Error submitting your video');
     } finally {
       setLoading(false);
     }
@@ -164,13 +164,13 @@ export default function SubmitTrickModal({
                   disabled={loading}
                 />
                 {isValidUrl === true && (
-                  <p className="text-green-400 text-sm mt-2 font-bold">✅ URL válida</p>
+                  <p className="text-green-400 text-sm mt-2 font-bold">✅ Valid URL</p>
                 )}
                 {isValidUrl === false && (
-                  <p className="text-red-400 text-sm mt-2 font-bold">❌ URL inválida</p>
+                  <p className="text-red-400 text-sm mt-2 font-bold">❌ Invalid URL</p>
                 )}
                 <p className="text-neutral-500 text-xs mt-2">
-                  Ejemplo: https://www.youtube.com/watch?v=VIDEO_ID
+                  Example: https://www.youtube.com/watch?v=VIDEO_ID
                 </p>
               </div>
 
@@ -189,7 +189,7 @@ export default function SubmitTrickModal({
                   className="flex-1 bg-neutral-700 hover:bg-neutral-600 text-white font-bold py-3 px-6 rounded-lg uppercase tracking-wider transition-all"
                   disabled={loading}
                 >
-                  Cancelar
+                  Cancel
                 </button>
                 <button
                   type="submit"
@@ -200,7 +200,7 @@ export default function SubmitTrickModal({
                       : 'bg-gradient-to-r from-accent-yellow-500 to-accent-orange-500 hover:from-accent-yellow-400 hover:to-accent-orange-400 text-white hover:scale-105'
                   }`}
                 >
-                  {loading ? '⏳ Enviando...' : '🚀 Enviar Video'}
+                  {loading ? '⏳ Submitting...' : '🚀 Submit Video'}
                 </button>
               </div>
             </form>

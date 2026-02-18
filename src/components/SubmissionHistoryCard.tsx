@@ -43,7 +43,7 @@ export default function SubmissionHistoryCard({ submission }: SubmissionHistoryC
   // Formatear fecha
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('es-ES', {
+    return date.toLocaleDateString('en-US', {
       day: '2-digit',
       month: 'short',
       year: 'numeric',
@@ -58,19 +58,19 @@ export default function SubmissionHistoryCard({ submission }: SubmissionHistoryC
       case 'pending':
         return (
           <span className="bg-accent-yellow-500 text-black px-3 py-1 rounded-full text-xs font-bold uppercase animate-pulse">
-            ⏳ Pendiente
+            ⏳ Pending
           </span>
         );
       case 'approved':
         return (
           <span className="bg-green-500 text-white px-3 py-1 rounded-full text-xs font-bold uppercase">
-            ✅ Aprobado
+            ✅ Approved
           </span>
         );
       case 'rejected':
         return (
           <span className="bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold uppercase">
-            ❌ Rechazado
+            ❌ Rejected
           </span>
         );
       default:
@@ -106,7 +106,7 @@ export default function SubmissionHistoryCard({ submission }: SubmissionHistoryC
               {submission.challenge.name}
             </h3>
             <p className="text-neutral-400 text-xs">
-              Level {submission.challenge.level} • Enviado el {formatDate(submission.submittedAt)}
+              Level {submission.challenge.level} • Submitted on {formatDate(submission.submittedAt)}
             </p>
           </div>
           <div className="flex gap-2">
@@ -132,12 +132,12 @@ export default function SubmissionHistoryCard({ submission }: SubmissionHistoryC
           <div className="mb-4 p-3 bg-neutral-800 rounded-lg border-2 border-neutral-700">
             <div className="flex flex-col md:flex-row justify-between text-xs text-neutral-400">
               <p>
-                <span className="font-bold text-neutral-300">Evaluado por:</span>{' '}
-                {submission.judge?.name || 'Juez'}
+                <span className="font-bold text-neutral-300">Evaluated by:</span>{' '}
+                {submission.judge?.name || 'Judge'}
               </p>
               {submission.evaluatedAt && (
                 <p>
-                  <span className="font-bold text-neutral-300">Fecha:</span>{' '}
+                  <span className="font-bold text-neutral-300">Date:</span>{' '}
                   {formatDate(submission.evaluatedAt)}
                 </p>
               )}
@@ -148,7 +148,7 @@ export default function SubmissionHistoryCard({ submission }: SubmissionHistoryC
         {/* Feedback */}
         {submission.feedback && (
           <div className="mb-4 p-3 bg-neutral-800 rounded-lg border-2 border-neutral-700">
-            <p className="text-neutral-300 font-bold text-xs uppercase mb-1">Comentarios del Juez:</p>
+            <p className="text-neutral-300 font-bold text-xs uppercase mb-1">Judge Comments:</p>
             <p className="text-neutral-400 text-sm">{submission.feedback}</p>
           </div>
         )}
@@ -159,7 +159,7 @@ export default function SubmissionHistoryCard({ submission }: SubmissionHistoryC
             onClick={() => setExpanded(!expanded)}
             className="w-full bg-neutral-800 hover:bg-neutral-700 text-accent-cyan-400 font-bold py-2 px-4 rounded-lg uppercase text-xs tracking-wider transition-all border-2 border-neutral-700 hover:border-accent-cyan-500"
           >
-            {expanded ? '▲ Ocultar Video' : '▼ Ver Video'}
+            {expanded ? '▲ Hide Video' : '▼ Show Video'}
           </button>
 
           {expanded && (

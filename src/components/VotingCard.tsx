@@ -60,7 +60,7 @@ export default function VotingCard({
       await onVote(submission.id, voteType);
       setLocalVote(voteType);
     } catch (error) {
-      console.error('Error al votar:', error);
+      console.error('Error voting:', error);
     } finally {
       setIsVoting(false);
     }
@@ -114,7 +114,7 @@ export default function VotingCard({
           />
         ) : (
           <div className="flex items-center justify-center h-full">
-            <p className="text-neutral-400">Video no disponible</p>
+            <p className="text-neutral-400">Video not available</p>
           </div>
         )}
 
@@ -122,7 +122,7 @@ export default function VotingCard({
         {isCloseToApproval && (
           <div className="absolute top-2 right-2 bg-green-500/90 text-white px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">
             <TrendingUp className="w-3 h-3" />
-            ¡Cerca de aprobación!
+            Close to approval!
           </div>
         )}
       </div>
@@ -147,7 +147,7 @@ export default function VotingCard({
 
           <div className="flex items-center gap-2 flex-wrap">
             <span className="px-2 py-1 bg-accent-cyan-500/20 text-accent-cyan-400 rounded text-xs font-medium">
-              Nivel {submission.challenge.level}
+              Level {submission.challenge.level}
             </span>
             <span
               className={`px-2 py-1 rounded text-xs font-medium ${getDifficultyColor(
@@ -178,11 +178,11 @@ export default function VotingCard({
           )}
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium text-white truncate">
-              {submission.user.name || 'Usuario'}
+              {submission.user.name || 'User'}
             </p>
             <div className="flex items-center gap-1 text-xs text-neutral-400">
               <Clock className="w-3 h-3" />
-              {new Date(submission.submittedAt).toLocaleDateString('es-ES', {
+              {new Date(submission.submittedAt).toLocaleDateString('en-US', {
                 day: 'numeric',
                 month: 'short',
                 year: 'numeric',
@@ -216,19 +216,19 @@ export default function VotingCard({
               <p className="text-2xl font-bold text-green-400">
                 {submission.upvotes}
               </p>
-              <p className="text-xs text-neutral-400">👍 Positivos</p>
+              <p className="text-xs text-neutral-400">👍 Upvotes</p>
             </div>
             <div className="bg-red-500/10 rounded p-2">
               <p className="text-2xl font-bold text-red-400">
                 {submission.downvotes}
               </p>
-              <p className="text-xs text-neutral-400">👎 Negativos</p>
+              <p className="text-xs text-neutral-400">👎 Downvotes</p>
             </div>
             <div className="bg-accent-cyan-500/10 rounded p-2">
               <p className="text-2xl font-bold text-accent-cyan-400">
                 {positivePercentage}%
               </p>
-              <p className="text-xs text-neutral-400">Aprobación</p>
+              <p className="text-xs text-neutral-400">Approval</p>
             </div>
           </div>
 
@@ -236,8 +236,8 @@ export default function VotingCard({
           {needsVotes > 0 && (
             <div className="bg-accent-yellow-500/10 border border-accent-yellow-500/30 rounded p-2 text-center">
               <p className="text-sm text-accent-yellow-400">
-                Necesita <span className="font-bold">{needsVotes}</span> voto
-                {needsVotes !== 1 ? 's' : ''} más para evaluación automática
+                Needs <span className="font-bold">{needsVotes}</span> more vote
+                {needsVotes !== 1 ? 's' : ''} for automatic evaluation
               </p>
             </div>
           )}
@@ -261,7 +261,7 @@ export default function VotingCard({
                 localVote === 'upvote' ? 'fill-white' : ''
               }`}
             />
-            Aprobar
+            Approve
           </motion.button>
 
           <motion.button
@@ -280,14 +280,14 @@ export default function VotingCard({
                 localVote === 'downvote' ? 'fill-white' : ''
               }`}
             />
-            Rechazar
+            Reject
           </motion.button>
         </div>
 
         {/* Already Voted Message */}
         {localVote && (
           <p className="text-center text-sm text-neutral-400">
-            Ya votaste en esta submission
+            You already voted on this submission
           </p>
         )}
       </div>
