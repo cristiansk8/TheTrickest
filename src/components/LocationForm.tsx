@@ -19,7 +19,7 @@ export default function LocationForm() {
     showOnMap: false,
   });
 
-  // Cargar datos de ubicación existentes
+  // Load existing location data
   useEffect(() => {
     if (!session?.user?.email) return;
 
@@ -36,17 +36,17 @@ export default function LocationForm() {
           });
         }
       } catch (error) {
-        console.error('Error al cargar ubicación:', error);
+        console.error('Error loading location:', error);
       }
     };
 
     fetchLocation();
   }, [session?.user?.email]);
 
-  // Activar ubicación GPS
+  // Activate GPS location
   const handleActivateLocation = () => {
     if (!navigator.geolocation) {
-      setNotification('❌ Tu navegador no soporta geolocalización.');
+      setNotification('❌ Your browser does not support geolocation.');
       setTimeout(() => setNotification(''), 3000);
       return;
     }
@@ -59,32 +59,32 @@ export default function LocationForm() {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
         });
-        setNotification('✅ ¡Ubicación obtenida exitosamente!');
+        setNotification('✅ Location obtained successfully!');
         setTimeout(() => setNotification(''), 3000);
         setLoading(false);
       },
       (error) => {
-        console.error('Error obteniendo ubicación:', error);
-        setNotification('❌ No se pudo obtener tu ubicación. Verifica los permisos del navegador.');
+        console.error('Error getting location:', error);
+        setNotification('❌ Could not get your location. Check browser permissions.');
         setTimeout(() => setNotification(''), 5000);
         setLoading(false);
       }
     );
   };
 
-  // Guardar configuración
+  // Save configuration
   const handleSave = async () => {
     setLoading(true);
     setNotification('');
 
     if (!session?.user?.email) {
-      setNotification('❌ No estás autenticado.');
+      setNotification('❌ You are not authenticated.');
       setLoading(false);
       return;
     }
 
     if (locationData.showOnMap && (!locationData.latitude || !locationData.longitude)) {
-      setNotification('❌ Debes activar tu ubicación primero.');
+      setNotification('❌ You must activate your location first.');
       setLoading(false);
       return;
     }
@@ -107,14 +107,14 @@ export default function LocationForm() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Error al actualizar ubicación');
+        throw new Error(data.error || 'Error updating location');
       }
 
-      setNotification('✅ ¡Configuración guardada exitosamente!');
+      setNotification('✅ Configuration saved successfully!');
       setTimeout(() => setNotification(''), 5000);
     } catch (error) {
       console.error('Error:', error);
-      setNotification('❌ Error al guardar configuración.');
+      setNotification('❌ Error saving configuration.');
     } finally {
       setLoading(false);
     }
@@ -126,14 +126,14 @@ export default function LocationForm() {
         {/* Header */}
         <div className="text-center mb-8">
           <h2 className="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-yellow-400 to-accent-orange-400 uppercase mb-4">
-            📍 Comparte tu Ubicación
+            📍 Share Your Location
           </h2>
           <p className="text-neutral-300 text-lg max-w-2xl mx-auto">
-            Permite que otros skaters te encuentren en el mapa de la comunidad
+            Let other skaters find you on the community map
           </p>
         </div>
 
-        {/* Notificación */}
+        {/* Notification */}
         {notification && (
           <div
             className={`mb-6 animate-pulse ${
@@ -146,7 +146,7 @@ export default function LocationForm() {
           </div>
         )}
 
-        {/* Botón de activar ubicación */}
+        {/* Activate location button */}
         <div className="mb-8">
           <button
             onClick={handleActivateLocation}
@@ -154,30 +154,30 @@ export default function LocationForm() {
             className="w-full bg-accent-yellow-500 hover:bg-accent-yellow-600 text-white font-black py-6 px-8 rounded-xl border-4 border-white uppercase tracking-wider text-xl shadow-2xl transform hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
           >
             {loading ? (
-              <>⏳ OBTENIENDO UBICACIÓN...</>
+              <>⏳ GETTING LOCATION...</>
             ) : locationData.latitude && locationData.longitude ? (
-              <>✅ UBICACIÓN ACTIVADA</>
+              <>✅ LOCATION ACTIVATED</>
             ) : (
-              <>🌍 ACTIVAR MI UBICACIÓN</>
+              <>🌍 ACTIVATE MY LOCATION</>
             )}
           </button>
         </div>
 
-        {/* Info de ubicación obtenida */}
+        {/* Location info obtained */}
         {locationData.latitude && locationData.longitude && (
           <div className="bg-neutral-800 border-4 border-green-500 rounded-xl p-6 mb-8">
             <div className="text-center">
               <div className="text-green-400 text-6xl mb-4">✅</div>
               <h3 className="text-white font-black text-xl uppercase mb-3">
-                Ubicación Detectada
+                Location Detected
               </h3>
               <div className="text-neutral-300 space-y-2">
                 <p className="font-bold">
-                  📍 Coordenadas: {locationData.latitude.toFixed(4)}, {locationData.longitude.toFixed(4)}
+                  📍 Coordinates: {locationData.latitude.toFixed(4)}, {locationData.longitude.toFixed(4)}
                 </p>
                 {locationData.ciudad && (
                   <p className="font-bold">
-                    🏙️ Ciudad: {locationData.ciudad}
+                    🏙️ City: {locationData.ciudad}
                   </p>
                 )}
               </div>
@@ -185,7 +185,7 @@ export default function LocationForm() {
           </div>
         )}
 
-        {/* Toggle para aparecer en el mapa */}
+        {/* Toggle to appear on map */}
         <div className="bg-accent-purple-900/40 border-4 border-accent-purple-500 rounded-xl p-6 mb-8">
           <label className="flex items-center gap-4 cursor-pointer">
             <input
@@ -196,30 +196,30 @@ export default function LocationForm() {
             />
             <div className="flex-1">
               <p className="text-white font-black text-lg uppercase tracking-wide">
-                🗺️ Aparecer en el mapa público
+                🗺️ Appear on public map
               </p>
               <p className="text-neutral-400 text-sm mt-1">
-                Los demás skaters podrán verte en el mapa de la comunidad
+                Other skaters will be able to see you on the community map
               </p>
             </div>
           </label>
         </div>
 
-        {/* Botón guardar */}
+        {/* Save button */}
         <div className="text-center">
           <button
             onClick={handleSave}
             disabled={loading}
             className="bg-accent-purple-600 hover:bg-accent-purple-700 text-white font-black py-5 px-16 rounded-xl border-4 border-white uppercase tracking-wider text-xl shadow-2xl transform hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? '⏳ GUARDANDO...' : '💾 GUARDAR'}
+            {loading ? '⏳ SAVING...' : '💾 SAVE'}
           </button>
         </div>
 
-        {/* Info adicional */}
+        {/* Additional info */}
         <div className="mt-8 text-center">
           <p className="text-neutral-400 text-sm">
-            💡 <strong>Tip:</strong> Tu ubicación exacta no se comparte. Solo tu ciudad aproximada aparecerá en el mapa.
+            💡 <strong>Tip:</strong> Your exact location is not shared. Only your approximate city will appear on the map.
           </p>
         </div>
       </div>

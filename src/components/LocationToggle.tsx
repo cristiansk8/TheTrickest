@@ -9,7 +9,7 @@ export default function LocationToggle() {
   const [showOnMap, setShowOnMap] = useState(false);
   const [hasLocation, setHasLocation] = useState(false);
 
-  // Cargar estado actual
+  // Load current state
   useEffect(() => {
     if (!session?.user?.email) return;
 
@@ -22,27 +22,27 @@ export default function LocationToggle() {
           setHasLocation(!!(data.latitude && data.longitude));
         }
       } catch (error) {
-        console.error('Error al cargar estado de ubicación:', error);
+        console.error('Error loading location status:', error);
       }
     };
 
     fetchLocationStatus();
   }, [session?.user?.email]);
 
-  // Toggle ubicación
+  // Toggle location
   const handleToggle = async () => {
     if (!session?.user?.email) {
-      console.log('[LocationToggle] No hay sesión');
+      console.log('[LocationToggle] No session');
       return;
     }
 
     console.log('[LocationToggle] Toggle clicked:', { hasLocation, showOnMap });
 
-    // Si no tiene ubicación guardada, pedirla primero
+    // If no saved location, request it first
     if (!hasLocation && !showOnMap) {
-      console.log('[LocationToggle] No tiene ubicación, pidiendo GPS...');
+      console.log('[LocationToggle] No location, requesting GPS...');
       if (!navigator.geolocation) {
-        alert('❌ Tu navegador no soporta geolocalización.');
+        alert('❌ Your browser does not support geolocation.');
         return;
       }
 
@@ -50,8 +50,8 @@ export default function LocationToggle() {
       navigator.geolocation.getCurrentPosition(
         async (position) => {
           try {
-            console.log('[LocationToggle] GPS obtenido:', position.coords);
-            // Guardar ubicación y activar showOnMap
+            console.log('[LocationToggle] GPS obtained:', position.coords);
+            // Save location and activate showOnMap
             const response = await fetch('/api/user/location', {
               method: 'PUT',
               headers: { 'Content-Type': 'application/json' },
@@ -68,42 +68,42 @@ export default function LocationToggle() {
 
             if (response.ok) {
               const data = await response.json();
-              console.log('[LocationToggle] Respuesta del servidor:', data);
+              console.log('[LocationToggle] Server response:', data);
               setShowOnMap(data.showOnMap);
               setHasLocation(true);
-              // Emitir evento para actualizar el mapa
+              // Emit event to update map
               window.dispatchEvent(new Event('skater-location-updated'));
             } else {
-              console.error('[LocationToggle] Error en respuesta:', response.status);
+              console.error('[LocationToggle] Error in response:', response.status);
             }
           } catch (error) {
-            console.error('Error al guardar ubicación:', error);
-            alert('❌ Error al guardar ubicación');
+            console.error('Error saving location:', error);
+            alert('❌ Error saving location');
           } finally {
             setLoading(false);
           }
         },
         (error) => {
-          console.error('Error obteniendo ubicación:', error);
-          alert('❌ No se pudo obtener tu ubicación. Verifica los permisos del navegador.');
+          console.error('Error getting location:', error);
+          alert('❌ Could not get your location. Check browser permissions.');
           setLoading(false);
         }
       );
     } else {
-      // Ya tiene ubicación, solo cambiar el toggle
-      console.log('[LocationToggle] Tiene ubicación, cambiando toggle...');
+      // Already has location, just change the toggle
+      console.log('[LocationToggle] Has location, changing toggle...');
       setLoading(true);
       try {
         const newShowOnMapState = !showOnMap;
-        console.log('[LocationToggle] Nuevo estado:', newShowOnMapState);
+        console.log('[LocationToggle] New state:', newShowOnMapState);
 
-        // Construir cuerpo de la petición: solo enviar showOnMap, preservar coordenadas existentes
+        // Build request body: only send showOnMap, preserve existing coordinates
         const requestBody: any = {
           email: session.user.email,
           showOnMap: newShowOnMapState,
         };
 
-        console.log('[LocationToggle] Enviando request:', requestBody);
+        console.log('[LocationToggle] Sending request:', requestBody);
 
         const response = await fetch('/api/user/location', {
           method: 'PUT',
@@ -113,16 +113,16 @@ export default function LocationToggle() {
 
         if (response.ok) {
           const data = await response.json();
-          console.log('[LocationToggle] ✅ Toggle exitoso:', data);
+          console.log('[LocationToggle] ✅ Toggle successful:', data);
           setShowOnMap(newShowOnMapState);
-          // Emitir evento para actualizar el mapa
+          // Emit event to update map
           window.dispatchEvent(new Event('skater-location-updated'));
         } else {
           const errorData = await response.json().catch(() => ({}));
-          console.error('[LocationToggle] ❌ Error en toggle:', response.status, errorData);
+          console.error('[LocationToggle] ❌ Error in toggle:', response.status, errorData);
         }
       } catch (error) {
-        console.error('Error al actualizar ubicación:', error);
+        console.error('Error updating location:', error);
       } finally {
         setLoading(false);
       }
@@ -133,7 +133,7 @@ export default function LocationToggle() {
     <button
       onClick={handleToggle}
       disabled={loading}
-      title={showOnMap ? 'Visible en el mapa - Click para ocultar' : 'Aparecer en el mapa - Click para mostrar'}
+      title={showOnMap ? 'Visible on map - Click to hide' : 'Appear on map - Click to show'}
       className="group relative flex items-center justify-center w-10 h-10 md:w-12 md:h-12 text-white font-bold rounded-lg shadow-lg transition-all transform hover:scale-105 border-2 disabled:opacity-50 disabled:cursor-not-allowed bg-green-600/80 hover:bg-green-500/90 border-green-300 hover:shadow-green-500/50"
     >
       <span className="text-lg md:text-xl transition-transform duration-300">
