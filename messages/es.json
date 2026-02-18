@@ -390,5 +390,19 @@
     "judgeComments": "Comentarios del Juez",
     "hideVideo": "Ocultar Video",
     "showVideo": "Ver Video"
+  },
+  "votingCard": {
+    "videoNotAvailable": "Video no disponible",
+    "closeToApproval": "Cerca de aprobación!",
+    "level": "Nivel {level}",
+    "user": "Usuario",
+    "upvotes": "A favor",
+    "downvotes": "En contra",
+    "approval": "Aprobación",
+    "needsVotes": "Necesita {count} voto más para evaluación automática",
+    "needsVotesPlural": "Necesita {count} votos más para evaluación automática",
+    "approve": "Aprobar",
+    "reject": "Rechazar",
+    "alreadyVoted": "Ya votaste en esta entrega"
   }
 }

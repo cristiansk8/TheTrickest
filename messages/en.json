@@ -390,5 +390,19 @@
     "judgeComments": "Judge Comments",
     "hideVideo": "Hide Video",
     "showVideo": "Show Video"
+  },
+  "votingCard": {
+    "videoNotAvailable": "Video not available",
+    "closeToApproval": "Close to approval!",
+    "level": "Level {level}",
+    "user": "User",
+    "upvotes": "Upvotes",
+    "downvotes": "Downvotes",
+    "approval": "Approval",
+    "needsVotes": "Needs {count} more vote for automatic evaluation",
+    "needsVotesPlural": "Needs {count} more votes for automatic evaluation",
+    "approve": "Approve",
+    "reject": "Reject",
+    "alreadyVoted": "You already voted on this submission"
   }
 }
