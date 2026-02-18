@@ -3,7 +3,7 @@ import ContainerPage from '@/components/container'
 import PortfolioBox from '@/components/portfolio-box'
 import TransitionPage from '@/components/transition-page'
 import React from 'react'
-import { dataPortfolio } from '../../../../data'
+import { dataPortfolio } from '../../../../../data'
 
 const page = () => {
   return (

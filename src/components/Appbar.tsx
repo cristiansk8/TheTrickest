@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import SigninButton from './SigninButton';
 import LocationToggle from './LocationToggle';
+import LanguageSwitcher from './LanguageSwitcher';
 import { useRealtime } from '@/providers/SupabaseRealtimeProvider';
 import SpotModal from '@/components/organisms/SpotModal';
 
@@ -241,6 +242,9 @@ const Appbar = () => {
 
       {/* Floating buttons on the right */}
       <div className="ml-auto flex items-center gap-2 md:gap-3">
+        {/* Language Switcher */}
+        <LanguageSwitcher />
+
         {/* Location button */}
         {session?.user?.email && (
           <LocationToggle />

@@ -1,5 +1,5 @@
 import React from 'react'
-import { dataTeam } from '../../../../../data'
+import { dataTeam } from '../../../../../../data'
 import { notFound } from "next/navigation";
 import Image from 'next/image';
 import Link from 'next/link';

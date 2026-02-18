@@ -1,0 +1,189 @@
+{
+  "common": {
+    "loading": "Cargando...",
+    "error": "Error",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "submit": "Enviar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "create": "Crear",
+    "close": "Cerrar",
+    "confirm": "Confirmar",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "sort": "Ordenar",
+    "viewAll": "Ver Todo",
+    "seeMore": "Ver Más",
+    "noResults": "No se encontraron resultados"
+  },
+  "auth": {
+    "signIn": "Iniciar Sesión",
+    "signOut": "Cerrar Sesión",
+    "signUp": "Registrarse",
+    "register": "Registrarse",
+    "login": "Entrar",
+    "logout": "Salir",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "confirmPassword": "Confirmar Contraseña",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "continueWithGoogle": "Continuar con Google",
+    "orContinueWith": "O continuar con",
+    "alreadyHaveAccount": "¿Ya tienes una cuenta?",
+    "dontHaveAccount": "¿No tienes una cuenta?",
+    "createAccount": "Crear Cuenta"
+  },
+  "navigation": {
+    "home": "Inicio",
+    "dashboard": "Panel",
+    "profile": "Perfil",
+    "spots": "Spots",
+    "leaderboard": "Clasificación",
+    "explore": "Explorar",
+    "about": "Acerca de",
+    "teams": "Equipos",
+    "adminPanel": "Panel Admin"
+  },
+  "sidebar": {
+    "navigation": "Navegación",
+    "welcome": "Bienvenido",
+    "yourScore": "Tu Puntuación",
+    "skater": "SKATER",
+    "judge": "JUEZ",
+    "admin": "ADMIN"
+  },
+  "menu": {
+    "profile": "Perfil",
+    "editProfile": "editar perfil",
+    "tricks": "Trucos",
+    "inProgress": "en progreso",
+    "submissions": "Entregas",
+    "history": "historial",
+    "ranking": "Ranking",
+    "topSkaters": "mejores skaters",
+    "teams": "Equipos",
+    "myTeam": "mi equipo",
+    "achievements": "Logros",
+    "badges": "insignias",
+    "evaluate": "Evaluar",
+    "pendingHistory": "pendientes e historial",
+    "asSkater": "como skater",
+    "users": "Usuarios",
+    "manage": "gestionar",
+    "challenges": "Desafíos",
+    "settings": "Configuración",
+    "system": "sistema",
+    "score": "puntuación"
+  },
+  "home": {
+    "followSteps": "Sigue los pasos",
+    "meetCommunity": "CONOCE LA COMUNIDAD",
+    "communityDescription": "Descubre skaters talentosos, sigue sus progresos y conecta con la comunidad Trickest"
+  },
+  "dashboard": {
+    "title": "Panel",
+    "welcome": "Bienvenido de nuevo",
+    "recentActivity": "Actividad Reciente",
+    "quickActions": "Acciones Rápidas",
+    "statistics": "Estadísticas",
+    "pendingSubmissions": "Entregas Pendientes",
+    "approvedSubmissions": "Entregas Aprobadas",
+    "totalPoints": "Puntos Totales"
+  },
+  "spots": {
+    "title": "Spots de Skate",
+    "description": "Descubre los mejores spots de skate en tu área",
+    "addSpot": "Agregar Spot",
+    "nearMe": "Cerca de Mí",
+    "allSpots": "Todos los Spots",
+    "spotDetails": "Detalles del Spot",
+    "address": "Dirección",
+    "type": "Tipo",
+    "rating": "Calificación"
+  },
+  "challenges": {
+    "title": "Desafíos",
+    "description": "Completa desafíos para ganar puntos y subir en la clasificación",
+    "difficulty": "Dificultad",
+    "points": "Puntos",
+    "submitTrick": "Enviar Truco",
+    "viewDemo": "Ver Demo",
+    "level": "Nivel",
+    "bonus": "Bonus"
+  },
+  "submissions": {
+    "title": "Entregas",
+    "pending": "Pendiente",
+    "approved": "Aprobado",
+    "rejected": "Rechazado",
+    "submitNew": "Enviar Nuevo",
+    "videoUrl": "URL del Video",
+    "notes": "Notas",
+    "feedback": "Retroalimentación",
+    "score": "Puntuación",
+    "status": "Estado"
+  },
+  "leaderboard": {
+    "title": "Clasificación",
+    "rank": "Posición",
+    "skater": "Skater",
+    "points": "Puntos",
+    "tricksCompleted": "Trucos Completados",
+    "topSkaters": "Mejores Skaters"
+  },
+  "profile": {
+    "title": "Perfil",
+    "editProfile": "Editar Perfil",
+    "username": "Nombre de usuario",
+    "bio": "Biografía",
+    "location": "Ubicación",
+    "socialMedia": "Redes Sociales",
+    "stance": "Postura",
+    "yearsSkating": "Años Patinando",
+    "favoriteSpot": "Spot Favorito",
+    "followers": "Seguidores",
+    "following": "Siguiendo",
+    "follow": "Seguir",
+    "unfollow": "Dejar de Seguir"
+  },
+  "teams": {
+    "title": "Equipos",
+    "createTeam": "Crear Equipo",
+    "joinTeam": "Unirse a Equipo",
+    "leaveTeam": "Dejar Equipo",
+    "teamName": "Nombre del Equipo",
+    "members": "Miembros",
+    "teamScore": "Puntuación del Equipo",
+    "captain": "Capitán"
+  },
+  "judges": {
+    "evaluate": "Evaluar",
+    "pendingEvaluations": "Evaluaciones Pendientes",
+    "evaluationHistory": "Historial de Evaluaciones",
+    "approve": "Aprobar",
+    "reject": "Rechazar",
+    "addFeedback": "Agregar Retroalimentación"
+  },
+  "admin": {
+    "dashboard": "Panel de Admin",
+    "manageUsers": "Gestionar Usuarios",
+    "manageChallenges": "Gestionar Desafíos",
+    "manageTeams": "Gestionar Equipos",
+    "systemSettings": "Configuración del Sistema"
+  },
+  "errors": {
+    "generic": "Algo salió mal",
+    "notFound": "Página no encontrada",
+    "unauthorized": "Acceso no autorizado",
+    "forbidden": "Acceso prohibido",
+    "networkError": "Error de red. Por favor intenta de nuevo.",
+    "validationError": "Por favor verifica tu información"
+  },
+  "metadata": {
+    "title": "Trickest - Plataforma de Desafíos de Skateboarding",
+    "description": "Patina, graba y publica tus mejores trucos. Compite con skaters de todo el mundo."
+  }
+}
