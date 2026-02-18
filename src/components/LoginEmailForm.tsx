@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
+import { useTranslations } from 'next-intl';
 import ModalPortal from './ModalPortal';
 
 interface LoginEmailFormProps {
@@ -16,6 +17,7 @@ export default function LoginEmailForm({ isOpen, onClose, onSuccess, onSwitchToR
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const t = useTranslations('loginForm');
 
   if (!isOpen) return null;
 
@@ -32,13 +34,12 @@ export default function LoginEmailForm({ isOpen, onClose, onSuccess, onSwitchToR
       });
 
       if (result?.error) {
-        setError('Invalid credentials. Please verify your email and password.');
+        setError(t('invalidCredentials'));
       } else {
-        // Show welcome modal
         onSuccess();
       }
     } catch (err) {
-      setError('An error occurred. Please try again.');
+      setError(t('errorOccurred'));
     } finally {
       setIsLoading(false);
     }
@@ -52,7 +53,7 @@ export default function LoginEmailForm({ isOpen, onClose, onSuccess, onSwitchToR
         <div className="bg-gradient-to-r from-accent-cyan-500 to-accent-blue-500 p-4 border-b-4 border-accent-cyan-300">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-black uppercase tracking-wider text-white drop-shadow-lg">
-              📧 LOGIN WITH EMAIL
+              {t('title')}
             </h2>
             <button
               onClick={onClose}
@@ -67,14 +68,14 @@ export default function LoginEmailForm({ isOpen, onClose, onSuccess, onSwitchToR
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           {error && (
             <div className="bg-red-500/20 border-2 border-red-500 rounded-lg p-3 text-red-200 text-sm font-bold">
-              ⚠️ {error}
+              {error}
             </div>
           )}
 
           {/* Email Input */}
           <div>
             <label htmlFor="email" className="block text-accent-cyan-300 font-black uppercase text-sm mb-2 tracking-wider">
-              📧 Email
+              {t('email')}
             </label>
             <input
               id="email"
@@ -91,7 +92,7 @@ export default function LoginEmailForm({ isOpen, onClose, onSuccess, onSwitchToR
           {/* Password Input */}
           <div>
             <label htmlFor="password" className="block text-accent-cyan-300 font-black uppercase text-sm mb-2 tracking-wider">
-              🔒 Password
+              {t('password')}
             </label>
             <input
               id="password"
@@ -111,7 +112,7 @@ export default function LoginEmailForm({ isOpen, onClose, onSuccess, onSwitchToR
             disabled={isLoading}
             className="w-full py-4 bg-gradient-to-r from-accent-cyan-500 to-accent-blue-500 hover:from-accent-cyan-400 hover:to-accent-blue-400 text-white font-black uppercase tracking-wider text-lg rounded-lg border-4 border-accent-cyan-300 shadow-lg shadow-accent-cyan-500/50 hover:shadow-accent-cyan-400/70 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
           >
-            {isLoading ? '⏳ LOADING...' : '🎮 SIGN IN'}
+            {isLoading ? t('loading') : t('signIn')}
           </button>
 
           {/* Divider */}
@@ -120,7 +121,7 @@ export default function LoginEmailForm({ isOpen, onClose, onSuccess, onSwitchToR
               <div className="w-full border-t-2 border-neutral-700"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-neutral-900 text-neutral-400 font-bold uppercase">OR</span>
+              <span className="px-4 bg-neutral-900 text-neutral-400 font-bold uppercase">{t('or')}</span>
             </div>
           </div>
 
@@ -131,14 +132,14 @@ export default function LoginEmailForm({ isOpen, onClose, onSuccess, onSwitchToR
             disabled={isLoading}
             className="w-full py-4 bg-gradient-to-r from-accent-purple-600 to-accent-pink-600 hover:from-accent-purple-500 hover:to-accent-pink-500 text-white font-black uppercase tracking-wider text-lg rounded-lg border-4 border-accent-purple-400 shadow-lg shadow-accent-purple-500/50 hover:shadow-accent-purple-400/70 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            🔐 CONTINUE WITH GOOGLE
+            {t('continueWithGoogle')}
           </button>
 
           {/* Link to Register */}
           {onSwitchToRegister && (
             <div className="text-center pt-4 border-t-2 border-neutral-700">
               <p className="text-neutral-400 text-sm mb-3 font-bold">
-                Don't have an account?
+                {t('noAccount')}
               </p>
               <button
                 type="button"
@@ -146,7 +147,7 @@ export default function LoginEmailForm({ isOpen, onClose, onSuccess, onSwitchToR
                 disabled={isLoading}
                 className="w-full py-3 bg-gradient-to-r from-accent-pink-600/20 to-accent-purple-600/20 hover:from-accent-pink-600/40 hover:to-accent-purple-600/40 text-accent-pink-300 hover:text-accent-pink-200 font-black uppercase tracking-wider text-sm rounded-lg border-2 border-accent-pink-500 hover:border-accent-pink-400 shadow-lg shadow-accent-pink-500/30 hover:shadow-accent-pink-400/50 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                ✍️ CREATE NEW ACCOUNT
+                {t('createAccount')}
               </button>
             </div>
           )}

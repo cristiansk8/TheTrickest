@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
+import { useTranslations } from 'next-intl';
 import ModalPortal from './ModalPortal';
 
 interface RegisterEmailFormProps {
@@ -18,6 +19,7 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const t = useTranslations('registerForm');
 
   if (!isOpen) return null;
 
@@ -27,12 +29,12 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
 
     // Validations
     if (password !== confirmPassword) {
-      setError('Passwords do not match');
+      setError(t('passwordsNoMatch'));
       return;
     }
 
     if (password.length < 6) {
-      setError('Password must be at least 6 characters');
+      setError(t('passwordMinLength'));
       return;
     }
 
@@ -49,7 +51,7 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
       const data = await response.json();
 
       if (!response.ok) {
-        setError(data.error || 'Error creating account');
+        setError(data.error || t('errorCreating'));
         setIsLoading(false);
         return;
       }
@@ -62,13 +64,12 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
       });
 
       if (result?.error) {
-        setError('Account created but error signing in. Please sign in manually.');
+        setError(t('accountCreatedSignInError'));
       } else {
-        // Show welcome modal
         onSuccess();
       }
     } catch (err) {
-      setError('An error occurred. Please try again.');
+      setError(t('errorOccurred'));
     } finally {
       setIsLoading(false);
     }
@@ -82,7 +83,7 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
         <div className="bg-gradient-to-r from-accent-pink-500 to-accent-purple-500 p-4 border-b-4 border-accent-pink-300">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-black uppercase tracking-wider text-white drop-shadow-lg">
-              ✍️ CREATE ACCOUNT
+              {t('title')}
             </h2>
             <button
               onClick={onClose}
@@ -97,14 +98,14 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           {error && (
             <div className="bg-red-500/20 border-2 border-red-500 rounded-lg p-3 text-red-200 text-sm font-bold">
-              ⚠️ {error}
+              {error}
             </div>
           )}
 
           {/* Name Input */}
           <div>
             <label htmlFor="name" className="block text-accent-pink-300 font-black uppercase text-sm mb-2 tracking-wider">
-              👤 Name
+              {t('name')}
             </label>
             <input
               id="name"
@@ -113,7 +114,7 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
               onChange={(e) => setName(e.target.value)}
               required
               className="w-full px-4 py-3 bg-neutral-800 border-2 border-accent-pink-500 rounded-lg text-white font-bold focus:outline-none focus:border-accent-pink-300 focus:shadow-lg focus:shadow-accent-pink-500/50 transition-all"
-              placeholder="Your name"
+              placeholder={t('namePlaceholder')}
               disabled={isLoading}
             />
           </div>
@@ -121,7 +122,7 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
           {/* Email Input */}
           <div>
             <label htmlFor="register-email" className="block text-accent-pink-300 font-black uppercase text-sm mb-2 tracking-wider">
-              📧 Email
+              {t('email')}
             </label>
             <input
               id="register-email"
@@ -138,7 +139,7 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
           {/* Password Input */}
           <div>
             <label htmlFor="register-password" className="block text-accent-pink-300 font-black uppercase text-sm mb-2 tracking-wider">
-              🔒 Password
+              {t('password')}
             </label>
             <input
               id="register-password"
@@ -151,13 +152,13 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
               placeholder="••••••••"
               disabled={isLoading}
             />
-            <p className="text-xs text-neutral-400 mt-1 font-bold">Minimum 6 characters</p>
+            <p className="text-xs text-neutral-400 mt-1 font-bold">{t('minCharacters')}</p>
           </div>
 
           {/* Confirm Password Input */}
           <div>
             <label htmlFor="confirm-password" className="block text-accent-pink-300 font-black uppercase text-sm mb-2 tracking-wider">
-              🔒 Confirm Password
+              {t('confirmPassword')}
             </label>
             <input
               id="confirm-password"
@@ -178,7 +179,7 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
             disabled={isLoading}
             className="w-full py-4 bg-gradient-to-r from-accent-pink-500 to-accent-purple-500 hover:from-accent-pink-400 hover:to-accent-purple-400 text-white font-black uppercase tracking-wider text-lg rounded-lg border-4 border-accent-pink-300 shadow-lg shadow-accent-pink-500/50 hover:shadow-accent-pink-400/70 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
           >
-            {isLoading ? '⏳ CREATING ACCOUNT...' : '🎮 CREATE ACCOUNT'}
+            {isLoading ? t('creating') : t('createAccount')}
           </button>
 
           {/* Divider */}
@@ -187,7 +188,7 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
               <div className="w-full border-t-2 border-neutral-700"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-neutral-900 text-neutral-400 font-bold uppercase">OR</span>
+              <span className="px-4 bg-neutral-900 text-neutral-400 font-bold uppercase">{t('or')}</span>
             </div>
           </div>
 
@@ -198,14 +199,14 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
             disabled={isLoading}
             className="w-full py-4 bg-gradient-to-r from-accent-purple-600 to-accent-cyan-600 hover:from-accent-purple-500 hover:to-accent-cyan-500 text-white font-black uppercase tracking-wider text-lg rounded-lg border-4 border-accent-purple-400 shadow-lg shadow-accent-purple-500/50 hover:shadow-accent-purple-400/70 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            🔐 SIGN UP WITH GOOGLE
+            {t('signUpWithGoogle')}
           </button>
 
           {/* Link to Login */}
           {onSwitchToLogin && (
             <div className="text-center pt-4 border-t-2 border-neutral-700">
               <p className="text-neutral-400 text-sm mb-3 font-bold">
-                Already have an account?
+                {t('alreadyHaveAccount')}
               </p>
               <button
                 type="button"
@@ -213,7 +214,7 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
                 disabled={isLoading}
                 className="w-full py-3 bg-gradient-to-r from-accent-cyan-600/20 to-accent-blue-600/20 hover:from-accent-cyan-600/40 hover:to-accent-blue-600/40 text-accent-cyan-300 hover:text-accent-cyan-200 font-black uppercase tracking-wider text-sm rounded-lg border-2 border-accent-cyan-500 hover:border-accent-cyan-400 shadow-lg shadow-accent-cyan-500/30 hover:shadow-accent-cyan-400/50 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                📧 SIGN IN
+                {t('signIn')}
               </button>
             </div>
           )}
