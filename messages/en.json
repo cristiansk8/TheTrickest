@@ -238,6 +238,22 @@
     "accountCreatedSignInError": "Account created but error signing in. Please sign in manually.",
     "errorOccurred": "An error occurred. Please try again."
   },
+  "setPasswordModal": {
+    "title": "ADDITIONAL SECURITY",
+    "subtitle": "For security, create a password for your account",
+    "password": "Password",
+    "passwordPlaceholder": "Minimum 6 characters",
+    "confirmPassword": "Confirm Password",
+    "confirmPlaceholder": "Repeat your password",
+    "securityNote": "This password will be used in addition to your Google account for extra security",
+    "setPassword": "SET PASSWORD",
+    "saving": "SAVING...",
+    "skipForNow": "SKIP FOR NOW",
+    "pressEscToClose": "Press ESC to close",
+    "passwordMinLength": "Password must be at least 6 characters",
+    "passwordsNoMatch": "Passwords do not match",
+    "errorSetting": "Error setting password"
+  },
   "metadata": {
     "title": "Trickest - Skateboarding Challenge Platform",
     "description": "Skate, record and post your best tricks. Compete with skaters from around the world."
