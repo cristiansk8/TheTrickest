@@ -1,9 +1,10 @@
 "use client";
 
 import { Bell } from 'lucide-react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
+import { useTranslations } from 'next-intl';
 import SigninButton from './SigninButton';
 import LocationToggle from './LocationToggle';
 import LanguageSwitcher from './LanguageSwitcher';
@@ -37,6 +38,7 @@ const Appbar = () => {
   const [showSpotModal, setShowSpotModal] = useState(false);
   const [modalSpotId, setModalSpotId] = useState<number | null>(null);
   const [modalCommentId, setModalCommentId] = useState<number | null>(null);
+  const t = useTranslations();
 
 
   // Fetch user score and photo
@@ -280,7 +282,7 @@ const Appbar = () => {
               <div className="absolute top-full right-0 mt-2 w-80 md:w-96 bg-neutral-900 border-4 border-green-500 rounded-lg shadow-2xl z-[9991] max-h-[32rem] flex flex-col">
                 <div className="p-4 border-b border-green-500 flex justify-between items-center">
                   <h3 className="text-white font-black uppercase text-lg">
-                    🔔 Notifications
+                    🔔 {t('notifications.title')}
                   </h3>
                   {unreadCount > 0 && (
                     <button
@@ -288,7 +290,7 @@ const Appbar = () => {
                       disabled={loading}
                       className="text-green-400 hover:text-green-300 text-xs font-bold uppercase transition-colors disabled:opacity-50"
                     >
-                      Mark all
+                      {t('notifications.markAll')}
                     </button>
                   )}
                 </div>
@@ -296,7 +298,7 @@ const Appbar = () => {
                 <div className="flex-1 overflow-y-auto">
                   {notifications.length === 0 ? (
                     <div className="p-6 text-center">
-                      <p className="text-neutral-400">You have no notifications</p>
+                      <p className="text-neutral-400">{t('notifications.empty')}</p>
                     </div>
                   ) : (
                     <div className="divide-y divide-neutral-700">

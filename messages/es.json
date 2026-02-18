@@ -174,6 +174,11 @@
     "manageTeams": "Gestionar Equipos",
     "systemSettings": "Configuración del Sistema"
   },
+  "notifications": {
+    "title": "Notificaciones",
+    "markAll": "Marcar todas",
+    "empty": "No tienes notificaciones"
+  },
   "errors": {
     "generic": "Algo salió mal",
     "notFound": "Página no encontrada",
@@ -181,6 +186,24 @@
     "forbidden": "Acceso prohibido",
     "networkError": "Error de red. Por favor intenta de nuevo.",
     "validationError": "Por favor verifica tu información"
+  },
+  "signinMenu": {
+    "continue": "🎮 CONTINUAR",
+    "completeProfile": "⚠️ COMPLETAR PERFIL",
+    "partners": "🤝 SOCIOS",
+    "howToPlay": "❓ CÓMO JUGAR",
+    "logout": "🚪 SALIR",
+    "loginGoogle": "🔐 ENTRAR CON GOOGLE",
+    "loginEmail": "📧 ENTRAR CON EMAIL",
+    "createAccount": "✍️ CREAR CUENTA",
+    "activePlayer": "JUGADOR ACTIVO",
+    "mainMenu": "MENÚ PRINCIPAL",
+    "profileComplete": "PERFIL COMPLETO",
+    "profileBasic": "PERFIL BÁSICO",
+    "controls": "⌨️ Usa ↑↓ para navegar | Enter para seleccionar | ESC para cerrar",
+    "completeProfileTitle": "COMPLETAR PERFIL",
+    "howToPlayTitle": "CÓMO JUGAR",
+    "pressEscToClose": "⌨️ Presiona ESC para cerrar"
   },
   "metadata": {
     "title": "Trickest - Plataforma de Desafíos de Skateboarding",
