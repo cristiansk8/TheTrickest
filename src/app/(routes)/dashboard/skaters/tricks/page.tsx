@@ -38,13 +38,13 @@ export default function TricksPage() {
     try {
       setLoading(true);
       const response = await fetch('/api/challenges');
-      if (!response.ok) throw new Error('Error al cargar challenges');
+      if (!response.ok) throw new Error('Error loading challenges');
 
       const data = await response.json();
       setChallenges(data.challenges || []);
     } catch (error) {
       console.error('Error:', error);
-      setError('Error al cargar los challenges');
+      setError('Error loading challenges');
     } finally {
       setLoading(false);
     }
@@ -60,11 +60,11 @@ export default function TricksPage() {
   };
 
   const handleSubmitSuccess = () => {
-    // Refrescar challenges para actualizar el estado
+    // Refresh challenges to update status
     fetchChallenges();
   };
 
-  // Calcular estadísticas
+  // Calculate statistics
   const totalPoints = challenges.reduce((acc, c) => acc + c.points, 0);
   const completedChallenges = challenges.filter(
     c => c.userSubmission?.status === 'approved'
@@ -73,7 +73,7 @@ export default function TricksPage() {
     .filter(c => c.userSubmission?.status === 'approved')
     .reduce((acc, c) => acc + (c.userSubmission?.score || 0), 0);
 
-  // Separar bonus del resto
+  // Separate bonus from the rest
   const regularChallenges = challenges.filter(c => !c.isBonus);
   const bonusChallenge = challenges.find(c => c.isBonus);
 
@@ -142,7 +142,7 @@ export default function TricksPage() {
       {/* Regular Challenges Grid */}
       <div className="max-w-7xl mx-auto mb-8">
         <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-wider mb-6">
-          📋 Niveles 1-10
+          📋 Levels 1-10
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {regularChallenges.map((challenge) => (
@@ -159,7 +159,7 @@ export default function TricksPage() {
       {bonusChallenge && (
         <div className="max-w-7xl mx-auto mb-8">
           <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-wider mb-6">
-            🌟 NIVEL BONUS
+            🌟 BONUS LEVEL
           </h2>
           <div className="max-w-2xl mx-auto">
             <ChallengeCard

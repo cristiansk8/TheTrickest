@@ -17,12 +17,12 @@ const THEME_COLORS = {
   inkInverse: "#ffffff",
 };
 
-// Importar CSS de Leaflet solo en el cliente
+// Import Leaflet CSS only on client
 if (typeof window !== 'undefined') {
   require('leaflet/dist/leaflet.css');
 }
 
-// Función para crear icono personalizado de skater con foto
+// Function to create custom skater icon with photo
 const createSkaterIcon = (photo: string | undefined, name: string | undefined) => {
   const imageUrl = photo || '';
   const initial = name?.charAt(0).toUpperCase() || '?';
@@ -46,12 +46,12 @@ const createSkaterIcon = (photo: string | undefined, name: string | undefined) =
   });
 };
 
-// Función para crear icono personalizado del spot con foto
+// Function to create custom spot icon with photo
 const createSpotIcon = (photos: string[] | undefined, type: 'skatepark' | 'skateshop', name: string) => {
   const hasPhoto = photos && photos.length > 0;
   const photoUrl = hasPhoto ? photos[0] : '';
 
-  // Colores según tipo
+  // Colors by type
   const borderColor = type === 'skatepark'
     ? THEME_COLORS.brandCyan // Cyan para skateparks
     : THEME_COLORS.brandPink; // Pink para skateshops
@@ -152,7 +152,7 @@ interface UnifiedMapProps {
   onViewAllComments?: () => void;
 }
 
-// Componente para centrar el mapa automáticamente
+// Component to auto-center the map
 function MapController({ spots, skaters }: { spots: Spot[]; skaters: Skater[] }) {
   const map = useMap();
 
@@ -174,7 +174,7 @@ function MapController({ spots, skaters }: { spots: Spot[]; skaters: Skater[] })
 export default function UnifiedMap({
   spots = [],
   skaters = [],
-  center = [4.711, -74.0721], // Bogotá por defecto
+  center = [4.711, -74.0721], // Default: Bogotá
   zoom = 6,
   height = '600px',
   showSpots = true,
@@ -189,12 +189,12 @@ export default function UnifiedMap({
   const [validatedSpotIds, setValidatedSpotIds] = useState<Set<number>>(new Set());
   const [validationError, setValidationError] = useState<string | null>(null);
 
-  // Montar componente solo en el cliente y agregar estilos CSS
+  // Mount component only on client and add CSS styles
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setMounted(true);
 
-      // Agregar estilos CSS para los marcadores de skaters
+      // Add CSS styles for skater markers
       const style = document.createElement('style');
       style.id = 'skater-marker-styles';
       style.innerHTML = `
@@ -264,7 +264,7 @@ export default function UnifiedMap({
         }
       `;
 
-      // Evitar duplicar estilos
+      // Avoid duplicating styles
       if (!document.getElementById('skater-marker-styles')) {
         document.head.appendChild(style);
       }
@@ -278,10 +278,10 @@ export default function UnifiedMap({
     }
   }, []);
 
-  // Función para validar un spot
+  // Function to validate a spot
   const handleValidateSpot = async (spotId: number, spotLat: number, spotLng: number) => {
     if (!session?.user?.email) {
-      setValidationError('Debes iniciar sesión para validar spots');
+      setValidationError('You must sign in to validate spots');
       setTimeout(() => setValidationError(null), 3000);
       return;
     }
@@ -290,10 +290,10 @@ export default function UnifiedMap({
     setValidationError(null);
 
     try {
-      // Obtener ubicación del usuario
+      // Get user location
       const position = await new Promise<GeolocationPosition>((resolve, reject) => {
         if (!navigator.geolocation) {
-          reject(new Error('Geolocalización no soportada'));
+          reject(new Error('Geolocation not supported'));
           return;
         }
         navigator.geolocation.getCurrentPosition(
@@ -306,7 +306,7 @@ export default function UnifiedMap({
       const userLat = position.coords.latitude;
       const userLng = position.coords.longitude;
 
-      // Llamar al endpoint de validación
+      // Call validation endpoint
       const response = await fetch(`/api/spots/${spotId}/validate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -320,37 +320,37 @@ export default function UnifiedMap({
       const data = await response.json();
 
       if (!response.ok) {
-        // Si el error es por distancia, mostrar mensaje amigable
+        // If error is due to distance, show friendly message
         if (data.currentDistance) {
           setValidationError(
-            `Estás a ${data.currentDistance}m del spot. Debes estar a menos de 50m para validar.`
+            `You are ${data.currentDistance}m from the spot. You must be within 50m to validate.`
           );
         } else {
-          setValidationError(data.message || 'Error al validar');
+          setValidationError(data.message || 'Error validating');
         }
         setTimeout(() => setValidationError(null), 4000);
         return;
       }
 
-      // Marcar como validado
+      // Mark as validated
       setValidatedSpotIds(prev => new Set(prev).add(spotId));
 
-      // Mostrar mensaje de éxito temporal
+      // Show temporary success message
       const validationCount = data.data?.validationCount || 1;
-      setValidationError(`✅ Validado! (${validationCount} ${validationCount === 1 ? 'persona' : 'personas'}) +2 pts`);
+      setValidationError(`✅ Validated! (${validationCount} ${validationCount === 1 ? 'person' : 'people'}) +2 pts`);
       setTimeout(() => setValidationError(null), 3000);
 
-      // Recargar spots para actualizar el contador
+      // Reload spots to update counter
       onSpotValidated?.();
 
     } catch (error: any) {
-      console.error('Error validando spot:', error);
-      if (error.message?.includes('Geolocalización')) {
-        setValidationError('Activa el GPS para validar spots');
+      console.error('Error validating spot:', error);
+      if (error.message?.includes('Geolocation')) {
+        setValidationError('Enable GPS to validate spots');
       } else if (error.message?.includes('timeout')) {
-        setValidationError('Tiempo de espera agotado. Verifica tu GPS.');
+        setValidationError('Timeout reached. Check your GPS.');
       } else {
-        setValidationError('Error al validar. Inténtalo de nuevo.');
+        setValidationError('Error validating. Try again.');
       }
       setTimeout(() => setValidationError(null), 3000);
     } finally {
@@ -365,7 +365,7 @@ export default function UnifiedMap({
         style={{ height }}
       >
         <div className="text-accent-cyan-400 font-black text-xl">
-          🗺️ CARGANDO MAPA...
+          🗺️ LOADING MAP...
         </div>
       </div>
     );
@@ -391,7 +391,7 @@ export default function UnifiedMap({
           <MapController spots={displaySpots} skaters={displaySkaters} />
         )}
 
-        {/* Marcadores de Spots */}
+        {/* Spot Markers */}
         {displaySpots.map((spot) => (
           <Marker
             key={`spot-${spot.id}`}
@@ -405,7 +405,7 @@ export default function UnifiedMap({
           >
             <Popup>
               <div className="p-2 min-w-[200px]">
-                {/* Foto del spot si existe */}
+                {/* Spot photo if exists */}
                 {spot.photos && spot.photos.length > 0 && (
                   <div className="mb-3">
                     <img
@@ -415,7 +415,7 @@ export default function UnifiedMap({
                     />
                     {spot.photos.length > 1 && (
                       <p className="text-xs text-neutral-500 mt-1 text-center">
-                        +{spot.photos.length - 1} más
+                        +{spot.photos.length - 1} more
                       </p>
                     )}
                   </div>
@@ -461,7 +461,7 @@ export default function UnifiedMap({
                   {spot.phone && (
                     <a href={`tel:${spot.phone}`}
                        className="text-xs bg-green-600 text-white px-2 py-1 rounded font-bold hover:bg-green-700">
-                      📞 Llamar
+                      📞 Call
                     </a>
                   )}
                   {spot.website && (
@@ -472,11 +472,11 @@ export default function UnifiedMap({
                   )}
                 </div>
 
-                {/* Validación rápida */}
+                {/* Quick validation */}
                 <div className="mt-3 pt-3 border-t border-neutral-200">
                   {spot.validationCount !== undefined && spot.validationCount > 0 && (
                     <p className="text-xs text-neutral-600 mb-2 text-center">
-                      ✓ {spot.validationCount} {spot.validationCount === 1 ? 'validación' : 'validaciones'}
+                      ✓ {spot.validationCount} {spot.validationCount === 1 ? 'validation' : 'validations'}
                       {spot.stage && (
                         <span className="ml-1 px-1 py-0.5 bg-accent-purple-100 text-accent-purple-700 rounded text-[10px] uppercase">
                           {spot.stage}
@@ -495,17 +495,17 @@ export default function UnifiedMap({
                         ? 'bg-accent-pink-600 border-accent-pink-400 text-white cursor-not-allowed opacity-75'
                         : 'bg-neutral-200 hover:bg-accent-pink-100 border-neutral-300 hover:border-accent-pink-400 text-neutral-700 hover:text-accent-pink-700 cursor-pointer'
                     } ${!session ? 'opacity-60 cursor-not-allowed' : ''}`}
-                    title={!session ? 'Inicia sesión para validar' : validatedSpotIds.has(spot.id) ? '✅ Ya validaste este spot' : 'Validar spot (requiere GPS)'}
+                    title={!session ? 'Sign in to validate' : validatedSpotIds.has(spot.id) ? '✅ Already validated this spot' : 'Validate spot (requires GPS)'}
                   >
                     <Heart
                       className={`w-5 h-5 ${validatedSpotIds.has(spot.id) ? 'fill-white' : validatingSpotId === spot.id ? 'animate-pulse' : ''}`}
                     />
                     <span>
                       {validatingSpotId === spot.id
-                        ? 'Verificando ubicación...'
+                        ? 'Verifying location...'
                         : validatedSpotIds.has(spot.id)
-                        ? '✅ ¡Validado!'
-                        : 'Validar'}
+                        ? '✅ Validated!'
+                        : 'Validate'}
                     </span>
                   </button>
 
@@ -517,7 +517,7 @@ export default function UnifiedMap({
 
                   {!session && (
                     <p className="text-[10px] text-neutral-500 text-center mt-1">
-                      🔒 Inicia sesión para validar
+                      🔒 Sign in to validate
                     </p>
                   )}
                 </div>
@@ -535,7 +535,7 @@ export default function UnifiedMap({
           </Marker>
         ))}
 
-        {/* Marcadores de Skaters */}
+        {/* Skater Markers */}
         {displaySkaters.map((skater) => (
           <Marker
             key={`skater-${skater.id}`}
@@ -595,13 +595,13 @@ export default function UnifiedMap({
                   </div>
                   <div>
                     <p className="text-green-600 font-bold">{skater.stats.approvedSubmissions}</p>
-                    <p className="text-xs text-neutral-500">Trucos</p>
+                    <p className="text-xs text-neutral-500">Tricks</p>
                   </div>
                 </div>
 
                 <Link href={`/profile/${skater.username}`}>
                   <button className="w-full bg-accent-purple-600 text-white px-3 py-2 rounded font-bold hover:bg-accent-purple-700 text-sm">
-                    Ver Perfil
+                    View Profile
                   </button>
                 </Link>
               </div>
