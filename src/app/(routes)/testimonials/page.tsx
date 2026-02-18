@@ -35,10 +35,10 @@ const TestimonialPage = () => {
                                                 27.000
                                             </span>  </a>
                                     </div>
-                                    <p>Equipo: Trium company</p>
+                                    <p>Team: Trium company</p>
                                 </div>
                                 <div>
-                                    <h1>Equipamiento</h1>
+                                    <h1>Equipment</h1>
                                     <div>
                                     <a className="flex items-center mb-2 mr-5 text-ink-subtle hover:text-brand-pink" href="javascript:void(0)">
                                             <span className="mr-1">
@@ -62,20 +62,20 @@ const TestimonialPage = () => {
 
                         </div>
                         <p>
-                            Con pasión en cada truco, persigo la gloria sobre ruedas. ¡Listo para conquistar la competencia!
+                            With passion in every trick, I chase glory on wheels. Ready to conquer the competition!
                         </p>
                     </div>
                     <ul nav-tabs className="group flex flex-wrap items-stretch text-[1.15rem] font-semibold list-none border-b-2 border-transparent border-solid active-assignments">
                         <li className="flex mt-2 -mb-[2px]">
-                            <a aria-controls="summary" className="py-5 mr-1 sm:mr-3 lg:mr-10 transition-colors duration-200 ease-in-out border-b-2 border-transparent group-[.active-summary]:border-brand-pink group-[.active-summary]:text-brand-pink text-ink-muted hover:border-brand-pink" href="javascript:void(0)"> Trucos </a>
+                            <a aria-controls="summary" className="py-5 mr-1 sm:mr-3 lg:mr-10 transition-colors duration-200 ease-in-out border-b-2 border-transparent group-[.active-summary]:border-brand-pink group-[.active-summary]:text-brand-pink text-ink-muted hover:border-brand-pink" href="javascript:void(0)"> Tricks </a>
                         </li>
                         <li className="flex mt-2 -mb-[2px]">
-                            <a aria-controls="assignments" className="py-5 mr-1 sm:mr-3 lg:mr-10 transition-colors duration-200 ease-in-out border-b-2 border-transparent group-[.active-assignments]:border-brand-pink group-[.active-assignments]:text-brand-pink text-ink-muted hover:border-brand-pink" href="javascript:void(0)"> Logros </a>
+                            <a aria-controls="assignments" className="py-5 mr-1 sm:mr-3 lg:mr-10 transition-colors duration-200 ease-in-out border-b-2 border-transparent group-[.active-assignments]:border-brand-pink group-[.active-assignments]:text-brand-pink text-ink-muted hover:border-brand-pink" href="javascript:void(0)"> Achievements </a>
                         </li>
 
                     </ul>
                     <div className='pt-28 text-center'>
-                        <h1 className='text-neutral-200 my-2 text-2xl md:text-4xl font-bold'>Mis trucos</h1>
+                        <h1 className='text-neutral-200 my-2 text-2xl md:text-4xl font-bold'>My tricks</h1>
                         <HighScore />
                     </div>
                 </div>

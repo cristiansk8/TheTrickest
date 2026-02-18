@@ -4,13 +4,13 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 
-// Dynamic import del mapa para evitar problemas con SSR
+// Dynamic import of the map to avoid SSR issues
 const UnifiedMap = dynamic(() => import('@/components/organisms/UnifiedMap'), {
   ssr: false,
   loading: () => (
     <div className="w-full h-[500px] rounded-xl border-4 border-accent-cyan-400 bg-neutral-900 flex items-center justify-center">
       <div className="text-accent-cyan-400 font-black text-xl animate-pulse">
-        🗺️ CARGANDO MAPA...
+        🗺️ LOADING MAP...
       </div>
     </div>
   ),
@@ -70,14 +70,14 @@ export default function HomeMapSection() {
   useEffect(() => {
     fetchData();
 
-    // Revalidar datos cada 30 segundos
+    // Revalidate data every 30 seconds
     const interval = setInterval(() => {
       fetchData();
     }, 30000);
 
-    // Escuchar evento de actualización de ubicación
+    // Listen for location update event
     const handleLocationUpdate = () => {
-      console.log('🗺️ Ubicación actualizada, recargando mapa...');
+      console.log('🗺️ Location updated, reloading map...');
       fetchData();
     };
 
@@ -91,7 +91,7 @@ export default function HomeMapSection() {
 
   const fetchData = async () => {
     try {
-      // Fetch spots y skaters en paralelo
+      // Fetch spots and skaters in parallel
       const [spotsResponse, skatersResponse] = await Promise.all([
         fetch('/api/spots'),
         fetch('/api/map/skaters'),
@@ -135,11 +135,11 @@ export default function HomeMapSection() {
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-6xl font-black uppercase tracking-wider mb-4">
             <span className="bg-gradient-to-r from-accent-cyan-400 to-accent-purple-600 text-transparent bg-clip-text">
-              🗺️ EXPLORA SPOTS
+              🗺️ EXPLORE SPOTS
             </span>
           </h2>
           <p className="text-xl text-neutral-300 font-bold max-w-2xl mx-auto">
-            Encuentra skateparks y skateshops en tu ciudad
+            Find skateparks and skateshops in your city
           </p>
         </div>
 
@@ -196,7 +196,7 @@ export default function HomeMapSection() {
                 : 'bg-neutral-700 hover:bg-neutral-600 text-neutral-300 border-2 border-neutral-600'
             }`}
           >
-            📍 {showSpots ? 'Ocultar' : 'Mostrar'} Spots
+            📍 {showSpots ? 'Hide' : 'Show'} Spots
           </button>
 
           <button
@@ -207,7 +207,7 @@ export default function HomeMapSection() {
                 : 'bg-neutral-700 hover:bg-neutral-600 text-neutral-300 border-2 border-neutral-600'
             }`}
           >
-            👤 {showSkaters ? 'Ocultar' : 'Mostrar'} Skaters
+            👤 {showSkaters ? 'Hide' : 'Show'} Skaters
           </button>
 
           <button
@@ -218,25 +218,25 @@ export default function HomeMapSection() {
             disabled={loading}
             className="px-6 py-3 rounded-lg font-black uppercase tracking-wider transition-all bg-green-600 hover:bg-green-700 text-white border-2 border-green-300 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            🔄 {loading ? 'Actualizando...' : 'Refrescar'}
+            🔄 {loading ? 'Updating...' : 'Refresh'}
           </button>
         </div>
 
-        {/* Mapa */}
+        {/* Map */}
         {loading ? (
           <div className="w-full h-[500px] rounded-xl border-4 border-accent-cyan-400 bg-neutral-900 flex items-center justify-center">
             <div className="text-accent-cyan-400 font-black text-2xl animate-pulse">
-              ⏳ CARGANDO MAPA...
+              ⏳ LOADING MAP...
             </div>
           </div>
         ) : (spots.length === 0 && skaters.length === 0) ? (
           <div className="w-full h-[500px] rounded-xl border-4 border-accent-yellow-400 bg-neutral-900 flex flex-col items-center justify-center gap-4">
             <div className="text-accent-yellow-400 font-black text-4xl">🗺️</div>
             <div className="text-accent-yellow-400 font-black text-2xl uppercase">
-              Aún no hay datos en el mapa
+              No data on the map yet
             </div>
             <p className="text-neutral-400 font-bold">
-              ¡Sé el primero en agregar spots o activar tu ubicación!
+              Be the first to add spots or enable your location!
             </p>
           </div>
         ) : (
@@ -253,11 +253,11 @@ export default function HomeMapSection() {
         <div className="mt-8 text-center">
           <Link href="/spots">
             <button className="bg-accent-purple-600 hover:bg-accent-purple-700 text-white font-black uppercase tracking-wider text-lg px-8 py-4 rounded-xl border-4 border-white shadow-2xl shadow-accent-purple-500/50 hover:shadow-accent-purple-400/70 transition-all transform hover:scale-105">
-              🔍 VER MAPA COMPLETO
+              🔍 VIEW FULL MAP
             </button>
           </Link>
           <p className="text-neutral-400 text-sm mt-2 font-bold">
-            Explora todos los skateparks y skateshops en el mapa interactivo
+            Explore all skateparks and skateshops on the interactive map
           </p>
         </div>
 
@@ -272,13 +272,13 @@ export default function HomeMapSection() {
               </h3>
             </div>
             <p className="text-neutral-300 mb-4">
-              Encuentra los mejores lugares para patinar en tu ciudad: rampas,
-              bowls, street plazas y más.
+              Find the best places to skate in your city: ramps,
+              bowls, street plazas and more.
             </p>
             <ul className="space-y-2 text-neutral-400">
               <li className="flex items-center gap-2">
                 <span className="text-accent-cyan-400">✓</span>
-                Ubicación exacta con GPS
+                Exact GPS location
               </li>
               <li className="flex items-center gap-2">
                 <span className="text-accent-cyan-400">✓</span>
@@ -286,7 +286,7 @@ export default function HomeMapSection() {
               </li>
               <li className="flex items-center gap-2">
                 <span className="text-accent-cyan-400">✓</span>
-                Ratings y reviews
+                Ratings and reviews
               </li>
             </ul>
           </div>
@@ -300,21 +300,21 @@ export default function HomeMapSection() {
               </h3>
             </div>
             <p className="text-neutral-300 mb-4">
-              Encuentra tiendas donde comprar tablas, trucks, ruedas y todo el
-              equipo que necesitas.
+              Find stores where you can buy decks, trucks, wheels and all the
+              gear you need.
             </p>
             <ul className="space-y-2 text-neutral-400">
               <li className="flex items-center gap-2">
                 <span className="text-accent-pink-400">✓</span>
-                Tiendas verificadas
+                Verified stores
               </li>
               <li className="flex items-center gap-2">
                 <span className="text-accent-pink-400">✓</span>
-                Contacto directo (teléfono, web)
+                Direct contact (phone, web)
               </li>
               <li className="flex items-center gap-2">
                 <span className="text-accent-pink-400">✓</span>
-                Redes sociales
+                Social media
               </li>
             </ul>
           </div>

@@ -27,13 +27,13 @@ export async function generateMetadata({ params }: ProfileLayoutProps): Promise<
       const followers = profile.socialStats?.followerCount || 0;
 
       return {
-        title: `${profile.name || 'Skater'} - Perfil Trickest ${roleEmoji[profile.role as keyof typeof roleEmoji] || '🛹'}`,
-        description: `${roleEmoji[profile.role as keyof typeof roleEmoji] || '🛹'} ${profile.name || 'Skater'} - ${profile.stats?.totalScore || 0} puntos, ${profile.stats?.approvedSubmissions || 0} trucos completados, ${achievements} logros. ${followers} seguidores. ¡Descubre su perfil en Trickest!`,
-        keywords: ['skateboarding', 'trucos', 'skater', 'trickest', profile.name, profile.role, 'skate community'],
+        title: `${profile.name || 'Skater'} - Trickest Profile ${roleEmoji[profile.role as keyof typeof roleEmoji] || '🛹'}`,
+        description: `${roleEmoji[profile.role as keyof typeof roleEmoji] || '🛹'} ${profile.name || 'Skater'} - ${profile.stats?.totalScore || 0} points, ${profile.stats?.approvedSubmissions || 0} completed tricks, ${achievements} achievements. ${followers} followers. Check out their profile on Trickest!`,
+        keywords: ['skateboarding', 'tricks', 'skater', 'trickest', profile.name, profile.role, 'skate community'],
         authors: [{ name: profile.name || 'Trickest Skater' }],
         openGraph: {
-          title: `${profile.name || 'Skater'} - Perfil Trickest ${roleEmoji[profile.role as keyof typeof roleEmoji] || '🛹'}`,
-          description: `${roleEmoji[profile.role as keyof typeof roleEmoji] || '🛹'} Skater ${profile.role} con ${profile.stats?.totalScore || 0} puntos y ${profile.stats?.approvedSubmissions || 0} trucos completados. ${achievements} logros desbloqueados. ¡Únete a la comunidad!`,
+          title: `${profile.name || 'Skater'} - Trickest Profile ${roleEmoji[profile.role as keyof typeof roleEmoji] || '🛹'}`,
+          description: `${roleEmoji[profile.role as keyof typeof roleEmoji] || '🛹'} ${profile.role} skater with ${profile.stats?.totalScore || 0} points and ${profile.stats?.approvedSubmissions || 0} completed tricks. ${achievements} unlocked achievements. Join the community!`,
           url: `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/profile/${params.username}`,
           siteName: 'Trickest',
           images: [
@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: ProfileLayoutProps): Promise<
               url: profile.photo || '/logo.png',
               width: 1200,
               height: 630,
-              alt: `Perfil de ${profile.name || 'Skater'} en Trickest - ${profile.stats?.totalScore || 0} puntos`,
+              alt: `${profile.name || 'Skater'}'s Profile on Trickest - ${profile.stats?.totalScore || 0} points`,
               type: 'image/jpeg',
             },
             {
@@ -52,18 +52,18 @@ export async function generateMetadata({ params }: ProfileLayoutProps): Promise<
               type: 'image/webp',
             },
           ],
-          locale: 'es_ES',
+          locale: 'en_US',
           type: 'website',
         },
         twitter: {
           card: 'summary_large_image',
           title: `${profile.name || 'Skater'} - Trickest ${roleEmoji[profile.role as keyof typeof roleEmoji] || '🛹'}`,
-          description: `${roleEmoji[profile.role as keyof typeof roleEmoji] || '🛹'} ${profile.stats?.totalScore || 0} puntos, ${profile.stats?.approvedSubmissions || 0} trucos, ${achievements} logros. ¡Mira su perfil!`,
-          creator: '@trickestapp', // Cambia esto por tu cuenta real
+          description: `${roleEmoji[profile.role as keyof typeof roleEmoji] || '🛹'} ${profile.stats?.totalScore || 0} points, ${profile.stats?.approvedSubmissions || 0} tricks, ${achievements} achievements. Check out their profile!`,
+          creator: '@trickestapp', // Change this to your actual account
           images: [
             {
               url: profile.photo || '/logo.png',
-              alt: `Perfil de ${profile.name || 'Skater'} en Trickest`,
+              alt: `${profile.name || 'Skater'}'s Profile on Trickest`,
             }
           ],
         },
@@ -89,8 +89,8 @@ export async function generateMetadata({ params }: ProfileLayoutProps): Promise<
 
   // Fallback metadata
   return {
-    title: 'Perfil Trickest',
-    description: 'Perfil de skater en Trickest',
+    title: 'Trickest Profile',
+    description: 'Skater profile on Trickest',
   };
 }
 
