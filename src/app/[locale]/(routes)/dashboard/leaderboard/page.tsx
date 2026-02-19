@@ -1,6 +1,7 @@
 'use client';
 
 import { useSession } from 'next-auth/react';
+import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -43,6 +44,7 @@ type Tab = 'users' | 'teams';
 
 export default function LeaderboardPage() {
   const { data: session } = useSession();
+  const t = useTranslations('leaderboardPage');
   const [activeTab, setActiveTab] = useState<Tab>('users');
   const [usersLeaderboard, setUsersLeaderboard] = useState<LeaderboardUser[]>(
     []
@@ -118,7 +120,7 @@ export default function LeaderboardPage() {
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-accent-cyan-400 mx-auto"></div>
           <p className="mt-4 text-accent-cyan-400 font-bold text-xl">
-            LOADING RANKINGS...
+            {t('loadingRankings')}
           </p>
         </div>
       </div>
@@ -132,10 +134,10 @@ export default function LeaderboardPage() {
         <div className="bg-gradient-to-r from-accent-yellow-500 to-accent-orange-600 p-1 rounded-lg shadow-2xl">
           <div className="bg-neutral-900 rounded-lg p-6">
             <h1 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-yellow-400 to-accent-orange-400 uppercase tracking-wider text-center">
-              🏆 LEADERBOARD
+              {`🏆 ${t('title')}`}
             </h1>
             <p className="text-accent-yellow-300 mt-2 text-sm md:text-base text-center">
-              The best skaters and teams on the platform
+              {t('subtitle')}
             </p>
           </div>
         </div>
@@ -152,7 +154,7 @@ export default function LeaderboardPage() {
                 : 'bg-neutral-800 text-neutral-400 hover:bg-neutral-700'
             }`}
           >
-            👤 Skaters
+            {`👤 ${t('skatersTab')}`}
           </button>
           <button
             onClick={() => setActiveTab('teams')}
@@ -162,7 +164,7 @@ export default function LeaderboardPage() {
                 : 'bg-neutral-800 text-neutral-400 hover:bg-neutral-700'
             }`}
           >
-            Teams
+            {t('teamsTab')}
           </button>
         </div>
       </div>
@@ -174,7 +176,7 @@ export default function LeaderboardPage() {
             <div className="bg-neutral-900 rounded-lg p-4 flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <span className="text-2xl font-black text-accent-cyan-400">
-                  Your position: #{currentUserRank.rank}
+                  {t('yourPosition', { rank: currentUserRank.rank })}
                 </span>
               </div>
               <div className="text-right">
@@ -182,7 +184,7 @@ export default function LeaderboardPage() {
                   {currentUserRank.totalScore} pts
                 </p>
                 <p className="text-neutral-400 text-sm">
-                  {currentUserRank.challengesCompleted} challenges completed
+                  {t('challengesCompleted', { count: currentUserRank.challengesCompleted })}
                 </p>
               </div>
             </div>
@@ -205,10 +207,10 @@ export default function LeaderboardPage() {
           {usersLeaderboard.length === 0 ? (
             <div className="bg-neutral-800 border-4 border-neutral-700 rounded-lg p-8 text-center">
               <p className="text-neutral-400 text-xl">
-                No skaters in the ranking yet
+                {t('noSkatersYet')}
               </p>
               <p className="text-neutral-500 mt-2">
-                Be the first to complete a challenge!
+                {t('beFirst')}
               </p>
             </div>
           ) : (
@@ -250,7 +252,7 @@ export default function LeaderboardPage() {
                         {user.name}
                         {user.email === session?.user?.email && (
                           <span className="ml-2 text-accent-cyan-400 text-sm">
-                            (You)
+                            {t('you')}
                           </span>
                         )}
                       </h3>
@@ -269,14 +271,14 @@ export default function LeaderboardPage() {
                       <p className="text-white font-black text-2xl">
                         {user.totalScore}
                       </p>
-                      <p className="text-neutral-400 text-xs uppercase">points</p>
+                      <p className="text-neutral-400 text-xs uppercase">{t('points')}</p>
                     </div>
                     <div className="text-right hidden md:block">
                       <p className="text-accent-cyan-400 font-bold">
                         {user.challengesCompleted}
                       </p>
                       <p className="text-neutral-400 text-xs uppercase">
-                        challenges
+                        {t('challenges')}
                       </p>
                     </div>
                   </div>
@@ -316,7 +318,7 @@ export default function LeaderboardPage() {
                     <h3 className="text-white font-bold hover:text-accent-cyan-400 transition-colors">
                       {user.name}
                       {user.email === session?.user?.email && (
-                        <span className="ml-2 text-accent-cyan-400 text-sm">(You)</span>
+                        <span className="ml-2 text-accent-cyan-400 text-sm">{t('you')}</span>
                       )}
                     </h3>
                     <div className="flex gap-4 text-sm">
@@ -342,7 +344,7 @@ export default function LeaderboardPage() {
                     <p className="text-accent-cyan-400 font-bold">
                       {user.challengesCompleted}
                     </p>
-                    <p className="text-neutral-500 text-xs">challenges</p>
+                    <p className="text-neutral-500 text-xs">{t('challenges')}</p>
                   </div>
                 </Link>
               ))}
@@ -357,9 +359,9 @@ export default function LeaderboardPage() {
           {teamsLeaderboard.length === 0 ? (
             <div className="bg-neutral-800 border-4 border-neutral-700 rounded-lg p-8 text-center">
               <p className="text-neutral-400 text-xl">
-                No teams in the ranking yet
+                {t('noTeamsYet')}
               </p>
-              <p className="text-neutral-500 mt-2">Create a team and compete!</p>
+              <p className="text-neutral-500 mt-2">{t('createAndCompete')}</p>
             </div>
           ) : (
             <div className="space-y-3">
@@ -395,24 +397,24 @@ export default function LeaderboardPage() {
                         {team.name}
                       </h3>
                       <p className="text-neutral-400 text-sm">
-                        {team.owner.name || 'Captain'}
+                        {team.owner.name || t('captain')}
                       </p>
                       <p className="text-accent-purple-400 text-sm">
-                        {team.memberCount}/{team.maxMembers} members
+                        {team.memberCount}/{team.maxMembers} {t('members')}
                       </p>
                     </div>
                     <div className="text-right">
                       <p className="text-white font-black text-2xl">
                         {team.totalScore}
                       </p>
-                      <p className="text-neutral-400 text-xs uppercase">points</p>
+                      <p className="text-neutral-400 text-xs uppercase">{t('points')}</p>
                     </div>
                     <div className="text-right hidden md:block">
                       <p className="text-accent-purple-400 font-bold">
                         {team.challengesCompleted}
                       </p>
                       <p className="text-neutral-400 text-xs uppercase">
-                        challenges
+                        {t('challenges')}
                       </p>
                     </div>
                   </div>
@@ -446,7 +448,7 @@ export default function LeaderboardPage() {
                   <div className="flex-1">
                     <h3 className="text-white font-bold">{team.name}</h3>
                     <p className="text-neutral-500 text-sm">
-                      {team.memberCount}/{team.maxMembers} members
+                      {team.memberCount}/{team.maxMembers} {t('members')}
                     </p>
                   </div>
                   <div className="text-right">
@@ -459,7 +461,7 @@ export default function LeaderboardPage() {
                     <p className="text-accent-purple-400 font-bold">
                       {team.challengesCompleted}
                     </p>
-                    <p className="text-neutral-500 text-xs">challenges</p>
+                    <p className="text-neutral-500 text-xs">{t('challenges')}</p>
                   </div>
                 </div>
               ))}
@@ -473,8 +475,8 @@ export default function LeaderboardPage() {
         <div className="bg-neutral-800/50 rounded-lg p-4">
           <p className="text-neutral-400 text-center text-sm">
             {activeTab === 'users'
-              ? 'Los points se calculan sumando los scores de todas tus submissions aprobadas.'
-              : 'Los points del equipo son la suma de los points de todos sus members.'}
+              ? t('legendUsers')
+              : t('legendTeams')}
           </p>
         </div>
       </div>

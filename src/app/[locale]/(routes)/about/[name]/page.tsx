@@ -2,8 +2,9 @@ import React from 'react'
 import { dataTeam } from '../../../../../../data'
 import { notFound } from "next/navigation";
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import TransitionPage from '@/components/transition-page';
+import { getTranslations } from 'next-intl/server';
 
 
 interface Props {
@@ -17,6 +18,7 @@ const getTemaMember = (name: string) => {
 
 const PageDetailEmployee = async ({ params }: Props) => {
     try {
+        const t = await getTranslations('aboutMember')
         const { name } = await params
         const teamMember = getTemaMember(name)
         const { name: memberName, imgURl, role, experience, education, skills, socialNetworks, description } = teamMember
@@ -52,7 +54,7 @@ const PageDetailEmployee = async ({ params }: Props) => {
                                 ))}
                             </div>
                             <div className="bg-surface-panel/70 p-4 text-sm font-semibold backdrop-blur-sm">
-                                <p>SKILLS</p>
+                                <p>{t('skills')}</p>
                                 <ul
                                     className="flex mt-4 flex-wrap items-center justify-start gap-2 gap-y-3 [&>li]:border-2 [&>li]:border-surface-border [&>li]:px-3 [&>li]:py-1 [&>li]:rounded-[4px] [&>li]:transition-all [&>li]:duration-150 [&>li]:ease-in [&>li:hover]:scale-105 [&>li:hover]:cursor-pointer">
                                     {

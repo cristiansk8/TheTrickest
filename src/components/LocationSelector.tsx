@@ -1,4 +1,7 @@
+'use client';
+
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface Departamento {
     id: number;
@@ -19,6 +22,7 @@ const LocationSelector: React.FC<LocationSelectorProps> = ({
     selectedDepartment,
     setSelectedDepartment
 }) => {
+    const t = useTranslations('locationSelector');
     const [departamentos, setDepartamentos] = useState<Departamento[]>([]);
     const [cities, setCities] = useState<string[]>([]);
 
@@ -46,7 +50,7 @@ const LocationSelector: React.FC<LocationSelectorProps> = ({
             {/* Department Selector */}
             <div className="group">
                 <label className="block text-accent-cyan-400 font-bold mb-2 uppercase tracking-wide text-sm md:text-base">
-                    🗺️ Department
+                    {`🗺️ ${t('department')}`}
                 </label>
                 <select
                     className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white focus:border-accent-cyan-500 focus:outline-none transition-all group-hover:border-accent-cyan-400 appearance-none cursor-pointer"
@@ -60,7 +64,7 @@ const LocationSelector: React.FC<LocationSelectorProps> = ({
                         paddingRight: '2.5rem'
                     }}
                 >
-                    <option value="" className="bg-neutral-800">Select a department</option>
+                    <option value="" className="bg-neutral-800">{t('selectDepartment')}</option>
                     {departamentos.map((departamento) => (
                         <option key={departamento.id} value={departamento.departamento} className="bg-neutral-800">
                             {departamento.departamento}
@@ -72,7 +76,7 @@ const LocationSelector: React.FC<LocationSelectorProps> = ({
             {/* City Selector */}
             <div className="group">
                 <label className="block text-accent-cyan-400 font-bold mb-2 uppercase tracking-wide text-sm md:text-base">
-                    🏙️ City
+                    {`🏙️ ${t('city')}`}
                 </label>
                 <select
                     className={`w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white focus:border-accent-cyan-500 focus:outline-none transition-all group-hover:border-accent-cyan-400 appearance-none cursor-pointer ${
@@ -90,7 +94,7 @@ const LocationSelector: React.FC<LocationSelectorProps> = ({
                     }}
                 >
                     <option value="" className="bg-neutral-800">
-                        {cities.length === 0 ? 'First select a department' : 'Select a city'}
+                        {cities.length === 0 ? t('firstSelectDepartment') : t('selectCity')}
                     </option>
                     {cities.map((city, index) => (
                         <option key={index} value={city} className="bg-neutral-800">

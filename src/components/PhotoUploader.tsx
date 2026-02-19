@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
+import { useTranslations } from 'next-intl';
 import { Camera, X, Upload } from 'lucide-react';
 
 interface PhotoUploaderProps {
@@ -16,6 +17,7 @@ export default function PhotoUploader({
   currentPhotos = [],
   spotId
 }: PhotoUploaderProps) {
+  const t = useTranslations('photoUploader');
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -25,19 +27,19 @@ export default function PhotoUploader({
 
     // Validate file type
     if (!file.type.startsWith('image/')) {
-      alert('Only image files are allowed');
+      alert(t('onlyImages'));
       return;
     }
 
     // Validate size (max 5MB)
     if (file.size > 5 * 1024 * 1024) {
-      alert('Image cannot exceed 5MB');
+      alert(t('maxSize'));
       return;
     }
 
     // Validate photo limit
     if (currentPhotos.length >= maxPhotos) {
-      alert(`Maximum ${maxPhotos} photos allowed`);
+      alert(t('maxPhotos', { max: maxPhotos }));
       return;
     }
 
@@ -68,7 +70,7 @@ export default function PhotoUploader({
         }
       } catch (error) {
         console.error('Error uploading photo:', error);
-        alert('Error uploading photo');
+        alert(t('errorUploading'));
       } finally {
         setUploading(false);
       }
@@ -84,7 +86,7 @@ export default function PhotoUploader({
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <h3 className="text-white font-black uppercase">📸 Spot Photos</h3>
+        <h3 className="text-white font-black uppercase">{`📸 ${t('title')}`}</h3>
         <span className="text-accent-cyan-400 text-sm">
           {currentPhotos.length}/{maxPhotos}
         </span>
@@ -100,12 +102,12 @@ export default function PhotoUploader({
           {uploading ? (
             <>
               <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-              Uploading...
+              {t('uploading')}
             </>
           ) : (
             <>
               <Camera className="w-5 h-5" />
-              {currentPhotos.length > 0 ? 'Add Another' : 'Upload Photo'}
+              {currentPhotos.length > 0 ? t('addAnother') : t('uploadPhoto')}
             </>
           )}
         </button>
@@ -144,9 +146,7 @@ export default function PhotoUploader({
       {/* Info */}
       <div className="bg-neutral-800/50 border border-neutral-600 rounded p-3">
         <p className="text-accent-cyan-100 text-xs">
-          <strong>Tip:</strong> Photos help other skaters recognize the spot faster.
-          {' '}
-          Maximum {maxPhotos} photos of 5MB each.
+          <strong>Tip:</strong> {t('tip')} {t('maxPhotosHint', { max: maxPhotos })}
         </p>
       </div>
     </div>

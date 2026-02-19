@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { Send, X } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 interface ReplyFormProps {
   spotId: number;
@@ -18,6 +19,7 @@ export default function ReplyForm({
   onCancel,
 }: ReplyFormProps) {
   const { data: session } = useSession();
+  const t = useTranslations('comments');
   const [content, setContent] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -29,7 +31,7 @@ export default function ReplyForm({
     e.preventDefault();
 
     if (!session?.user?.email) {
-      setError('You must sign in to reply');
+      setError(t('signInToReplyMsg'));
       setTimeout(() => setError(null), 3000);
       return;
     }
@@ -37,13 +39,13 @@ export default function ReplyForm({
     const trimmedContent = content.trim();
 
     if (!trimmedContent) {
-      setError('Reply cannot be empty');
+      setError(t('replyEmpty'));
       setTimeout(() => setError(null), 3000);
       return;
     }
 
     if (trimmedContent.length > maxLength) {
-      setError(`Reply exceeds ${maxLength} characters`);
+      setError(t('replyExceedsLimit', { max: maxLength }));
       setTimeout(() => setError(null), 3000);
       return;
     }
@@ -66,7 +68,7 @@ export default function ReplyForm({
       if (!response.ok) {
         const errorMessage = typeof data.error === 'string'
           ? data.error
-          : data.error?.message || data.data?.message || 'Error creating reply';
+          : data.error?.message || data.data?.message || t('errorCreatingReply');
         setError(errorMessage);
         setTimeout(() => setError(null), 3000);
         return;
@@ -78,7 +80,7 @@ export default function ReplyForm({
 
     } catch (err) {
       console.error('Error creating reply:', err);
-      setError('Error creating reply. Please try again.');
+      setError(t('errorCreatingReply'));
       setTimeout(() => setError(null), 3000);
     } finally {
       setIsSubmitting(false);
@@ -90,7 +92,7 @@ export default function ReplyForm({
       {/* Header */}
       <div className="flex items-center justify-between mb-2">
         <span className="text-xs font-bold text-accent-cyan-400">
-          💬 Replying
+          💬 {t('replying')}
         </span>
         <button
           onClick={onCancel}
@@ -114,7 +116,7 @@ export default function ReplyForm({
           <textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            placeholder="Write your reply..."
+            placeholder={t('replyPlaceholder')}
             disabled={isSubmitting}
             maxLength={maxLength}
             rows={2}
@@ -143,7 +145,7 @@ export default function ReplyForm({
             disabled={isSubmitting}
             className="px-3 py-1.5 bg-neutral-700 hover:bg-neutral-600 border border-neutral-500 rounded text-xs font-bold text-neutral-300 transition-colors disabled:opacity-50"
           >
-            Cancel
+            {t('cancel')}
           </button>
 
           <button
@@ -160,12 +162,12 @@ export default function ReplyForm({
             {isSubmitting ? (
               <>
                 <div className="w-3 h-3 animate-spin border-2 border-white border-t-transparent rounded-full" />
-                Sending...
+                {t('sending')}
               </>
             ) : (
               <>
                 <Send className="w-3 h-3" />
-                Reply
+                {t('reply')}
               </>
             )}
           </button>
@@ -173,7 +175,7 @@ export default function ReplyForm({
 
         {!session && (
           <p className="text-[10px] text-neutral-500 text-center">
-            🔒 You need an account to reply
+            🔒 {t('needAccountToReply')}
           </p>
         )}
       </form>

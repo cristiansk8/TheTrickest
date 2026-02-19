@@ -4,6 +4,7 @@ import VotingCard from '@/components/VotingCard';
 import { motion } from 'framer-motion';
 import { AlertCircle, Loader2, TrendingUp, Users, Vote } from 'lucide-react';
 import { useSession } from 'next-auth/react';
+import { useTranslations } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -37,6 +38,7 @@ interface Submission {
 export default function VotePage() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const t = useTranslations('votePage');
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -134,7 +136,7 @@ export default function VotePage() {
       <div className="min-h-screen flex items-center justify-center bg-surface-base">
         <div className="text-center">
           <Loader2 className="w-12 h-12 animate-spin text-accent-cyan-400 mx-auto mb-4" />
-          <p className="text-neutral-400">Loading...</p>
+          <p className="text-neutral-400">{t('loading')}</p>
         </div>
       </div>
     );
@@ -155,10 +157,10 @@ export default function VotePage() {
             </div>
             <div>
               <h1 className="text-3xl font-bold bg-gradient-to-r from-accent-cyan-400 to-accent-blue-500 bg-clip-text text-transparent">
-                Community Voting
+                {t('title')}
               </h1>
               <p className="text-neutral-400">
-                Help evaluate the community's tricks
+                {t('subtitle')}
               </p>
             </div>
           </div>
@@ -175,7 +177,7 @@ export default function VotePage() {
                     {pagination.total}
                   </p>
                   <p className="text-sm text-neutral-400">
-                    Pending submissions
+                    {t('pendingSubmissions')}
                   </p>
                 </div>
               </div>
@@ -193,7 +195,7 @@ export default function VotePage() {
                         .length
                     }
                   </p>
-                  <p className="text-sm text-neutral-400">Ready for decision</p>
+                  <p className="text-sm text-neutral-400">{t('readyForDecision')}</p>
                 </div>
               </div>
             </div>
@@ -208,7 +210,7 @@ export default function VotePage() {
                     {submissions.length}
                   </p>
                   <p className="text-sm text-neutral-400">
-                    Available to vote
+                    {t('availableToVote')}
                   </p>
                 </div>
               </div>
@@ -220,18 +222,16 @@ export default function VotePage() {
             <div className="flex items-start gap-3">
               <AlertCircle className="w-5 h-5 text-accent-cyan-400 mt-0.5 flex-shrink-0" />
               <div className="text-sm text-accent-cyan-300">
-                <p className="font-semibold mb-1">How does it work?</p>
+                <p className="font-semibold mb-1">{t('howItWorks')}</p>
                 <ul className="space-y-1 text-accent-cyan-400/80">
                   <li>
-                    • Vote 👍 if the trick is well executed and meets the
-                    requirements
+                    • 👍 {t('rule1')}
                   </li>
-                  <li>• Vote 👎 if the trick does not meet the standards</li>
+                  <li>• 👎 {t('rule2')}</li>
                   <li>
-                    • If a submission receives {'>'}80% positive votes with
-                    at least 10 votes, it is automatically approved
+                    • {t('rule3')}
                   </li>
-                  <li>• Doubtful submissions will be reviewed by judges</li>
+                  <li>• {t('rule4')}</li>
                 </ul>
               </div>
             </div>
@@ -243,7 +243,7 @@ export default function VotePage() {
           <div className="flex items-center justify-center py-20">
             <div className="text-center">
               <Loader2 className="w-12 h-12 animate-spin text-accent-cyan-400 mx-auto mb-4" />
-              <p className="text-neutral-400">Loading submissions...</p>
+              <p className="text-neutral-400">{t('loadingSubmissions')}</p>
             </div>
           </div>
         ) : error ? (
@@ -255,17 +255,17 @@ export default function VotePage() {
               onClick={() => fetchSubmissions(0)}
               className="mt-4 px-4 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-lg transition-colors"
             >
-              Retry
+              {t('retry')}
             </button>
           </div>
         ) : submissions.length === 0 ? (
           <div className="bg-surface-card border border-neutral-800 rounded-lg p-12 text-center">
             <Vote className="w-16 h-16 text-neutral-600 mx-auto mb-4" />
             <h3 className="text-xl font-bold text-neutral-400 mb-2">
-              All caught up!
+              {t('allCaughtUp')}
             </h3>
             <p className="text-neutral-500">
-              No submissions available to vote on at this time.
+              {t('noSubmissionsAvailable')}
             </p>
           </div>
         ) : (
@@ -294,11 +294,11 @@ export default function VotePage() {
                   {isLoading ? (
                     <>
                       <Loader2 className="w-5 h-5 animate-spin" />
-                      Loading...
+                      {t('loading')}
                     </>
                   ) : (
                     <>
-                      Load more
+                      {t('loadMore')}
                       <TrendingUp className="w-5 h-5" />
                     </>
                   )}

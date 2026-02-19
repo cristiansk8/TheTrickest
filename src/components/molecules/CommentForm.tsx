@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { Send } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 interface CommentFormProps {
   spotId: number;
@@ -13,9 +14,11 @@ interface CommentFormProps {
 export default function CommentForm({
   spotId,
   onCommentCreated,
-  placeholder = 'Share your experience at this spot...',
+  placeholder: placeholderProp,
 }: CommentFormProps) {
   const { data: session } = useSession();
+  const t = useTranslations('comments');
+  const placeholder = placeholderProp || t('placeholder');
   const [content, setContent] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -28,7 +31,7 @@ export default function CommentForm({
     e.preventDefault();
 
     if (!session?.user?.email) {
-      setError('You must sign in to comment');
+      setError(t('signInToComment'));
       setTimeout(() => setError(null), 3000);
       return;
     }
@@ -36,13 +39,13 @@ export default function CommentForm({
     const trimmedContent = content.trim();
 
     if (!trimmedContent) {
-      setError('Comment cannot be empty');
+      setError(t('commentEmpty'));
       setTimeout(() => setError(null), 3000);
       return;
     }
 
     if (trimmedContent.length > maxLength) {
-      setError(`Comment exceeds ${maxLength} characters`);
+      setError(t('commentExceedsLimit', { max: maxLength }));
       setTimeout(() => setError(null), 3000);
       return;
     }
@@ -63,21 +66,21 @@ export default function CommentForm({
         // Error can be an object or a string
         const errorMessage = typeof data.error === 'string'
           ? data.error
-          : data.error?.message || data.data?.message || 'Error creating comment';
+          : data.error?.message || data.data?.message || t('errorCreatingComment');
         setError(errorMessage);
         setTimeout(() => setError(null), 3000);
         return;
       }
 
       // Success
-      setSuccess('Comment posted!');
+      setSuccess(t('commentPosted'));
       setContent('');
       setTimeout(() => setSuccess(null), 2000);
       onCommentCreated();
 
     } catch (err) {
       console.error('Error creating comment:', err);
-      setError('Error creating comment. Please try again.');
+      setError(t('errorCreatingComment'));
       setTimeout(() => setError(null), 3000);
     } finally {
       setIsSubmitting(false);
@@ -141,19 +144,19 @@ export default function CommentForm({
         {isSubmitting ? (
           <>
             <div className="w-4 h-4 animate-spin border-2 border-white border-t-transparent rounded-full" />
-            Posting...
+            {t('posting')}
           </>
         ) : (
           <>
             <Send className="w-4 h-4" />
-            {session ? 'Comment' : 'Sign in to comment'}
+            {session ? t('comment') : t('signInToCommentBtn')}
           </>
         )}
       </button>
 
       {!session && (
         <p className="text-[10px] text-neutral-500 text-center">
-          🔒 You need an account to comment
+          🔒 {t('needAccountToComment')}
         </p>
       )}
     </form>

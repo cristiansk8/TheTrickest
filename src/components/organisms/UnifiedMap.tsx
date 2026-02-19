@@ -3,8 +3,9 @@
 import { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L, { DivIconOptions } from 'leaflet';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { useSession } from 'next-auth/react';
+import { useTranslations } from 'next-intl';
 import { Heart } from 'lucide-react';
 import { TopCommentPreview } from '@/components/molecules';
 
@@ -184,6 +185,7 @@ export default function UnifiedMap({
   onViewAllComments,
 }: UnifiedMapProps) {
   const { data: session } = useSession();
+  const t = useTranslations('unifiedMap');
   const [mounted, setMounted] = useState(false);
   const [validatingSpotId, setValidatingSpotId] = useState<number | null>(null);
   const [validatedSpotIds, setValidatedSpotIds] = useState<Set<number>>(new Set());
@@ -281,7 +283,7 @@ export default function UnifiedMap({
   // Function to validate a spot
   const handleValidateSpot = async (spotId: number, spotLat: number, spotLng: number) => {
     if (!session?.user?.email) {
-      setValidationError('You must sign in to validate spots');
+      setValidationError(t('signInToValidateSpots'));
       setTimeout(() => setValidationError(null), 3000);
       return;
     }
@@ -323,7 +325,7 @@ export default function UnifiedMap({
         // If error is due to distance, show friendly message
         if (data.currentDistance) {
           setValidationError(
-            `You are ${data.currentDistance}m from the spot. You must be within 50m to validate.`
+            t('distanceError', { distance: data.currentDistance })
           );
         } else {
           setValidationError(data.message || 'Error validating');
@@ -337,7 +339,7 @@ export default function UnifiedMap({
 
       // Show temporary success message
       const validationCount = data.data?.validationCount || 1;
-      setValidationError(`✅ Validated! (${validationCount} ${validationCount === 1 ? 'person' : 'people'}) +2 pts`);
+      setValidationError(`✅ ${t('validatedSuccess')} (${validationCount} ${validationCount === 1 ? t('person') : t('people')}) +2 pts`);
       setTimeout(() => setValidationError(null), 3000);
 
       // Reload spots to update counter
@@ -346,11 +348,11 @@ export default function UnifiedMap({
     } catch (error: any) {
       console.error('Error validating spot:', error);
       if (error.message?.includes('Geolocation')) {
-        setValidationError('Enable GPS to validate spots');
+        setValidationError(t('enableGps'));
       } else if (error.message?.includes('timeout')) {
-        setValidationError('Timeout reached. Check your GPS.');
+        setValidationError(t('timeout'));
       } else {
-        setValidationError('Error validating. Try again.');
+        setValidationError(t('errorValidating'));
       }
       setTimeout(() => setValidationError(null), 3000);
     } finally {
@@ -365,7 +367,7 @@ export default function UnifiedMap({
         style={{ height }}
       >
         <div className="text-accent-cyan-400 font-black text-xl">
-          🗺️ LOADING MAP...
+          {`🗺️ ${t('loadingMap')}`}
         </div>
       </div>
     );
@@ -415,7 +417,7 @@ export default function UnifiedMap({
                     />
                     {spot.photos.length > 1 && (
                       <p className="text-xs text-neutral-500 mt-1 text-center">
-                        +{spot.photos.length - 1} more
+                        {t('morePhotos', { count: spot.photos.length - 1 })}
                       </p>
                     )}
                   </div>
@@ -436,7 +438,7 @@ export default function UnifiedMap({
                       ? 'bg-accent-cyan-100 text-accent-cyan-700'
                       : 'bg-accent-pink-100 text-accent-pink-700'
                   }`}>
-                    {spot.type === 'skatepark' ? '🛹 Skatepark' : '🏪 Skateshop'}
+                    {spot.type === 'skatepark' ? `🛹 ${t('skatepark')}` : `🏪 ${t('skateshop')}`}
                   </span>
                 </div>
 
@@ -455,19 +457,19 @@ export default function UnifiedMap({
                   {spot.instagram && (
                     <a href={`https://instagram.com/${spot.instagram}`} target="_blank" rel="noopener noreferrer"
                        className="text-xs bg-accent-purple-600 text-white px-2 py-1 rounded font-bold hover:bg-accent-purple-700">
-                      📸 Instagram
+                      {`📸 ${t('instagram')}`}
                     </a>
                   )}
                   {spot.phone && (
                     <a href={`tel:${spot.phone}`}
                        className="text-xs bg-green-600 text-white px-2 py-1 rounded font-bold hover:bg-green-700">
-                      📞 Call
+                      {`📞 ${t('call')}`}
                     </a>
                   )}
                   {spot.website && (
                     <a href={spot.website} target="_blank" rel="noopener noreferrer"
                        className="text-xs bg-accent-blue-600 text-white px-2 py-1 rounded font-bold hover:bg-accent-blue-700">
-                      🌐 Web
+                      {`🌐 ${t('web')}`}
                     </a>
                   )}
                 </div>
@@ -476,7 +478,7 @@ export default function UnifiedMap({
                 <div className="mt-3 pt-3 border-t border-neutral-200">
                   {spot.validationCount !== undefined && spot.validationCount > 0 && (
                     <p className="text-xs text-neutral-600 mb-2 text-center">
-                      ✓ {spot.validationCount} {spot.validationCount === 1 ? 'validation' : 'validations'}
+                      {`✓ ${spot.validationCount} ${spot.validationCount === 1 ? t('validation') : t('validations')}`}
                       {spot.stage && (
                         <span className="ml-1 px-1 py-0.5 bg-accent-purple-100 text-accent-purple-700 rounded text-[10px] uppercase">
                           {spot.stage}
@@ -495,17 +497,17 @@ export default function UnifiedMap({
                         ? 'bg-accent-pink-600 border-accent-pink-400 text-white cursor-not-allowed opacity-75'
                         : 'bg-neutral-200 hover:bg-accent-pink-100 border-neutral-300 hover:border-accent-pink-400 text-neutral-700 hover:text-accent-pink-700 cursor-pointer'
                     } ${!session ? 'opacity-60 cursor-not-allowed' : ''}`}
-                    title={!session ? 'Sign in to validate' : validatedSpotIds.has(spot.id) ? '✅ Already validated this spot' : 'Validate spot (requires GPS)'}
+                    title={!session ? t('signInToValidate') : validatedSpotIds.has(spot.id) ? `✅ ${t('validatedSuccess')}` : t('validate')}
                   >
                     <Heart
                       className={`w-5 h-5 ${validatedSpotIds.has(spot.id) ? 'fill-white' : validatingSpotId === spot.id ? 'animate-pulse' : ''}`}
                     />
                     <span>
                       {validatingSpotId === spot.id
-                        ? 'Verifying location...'
+                        ? t('verifyingLocation')
                         : validatedSpotIds.has(spot.id)
-                        ? '✅ Validated!'
-                        : 'Validate'}
+                        ? `✅ ${t('validatedSuccess')}`
+                        : t('validate')}
                     </span>
                   </button>
 
@@ -517,7 +519,7 @@ export default function UnifiedMap({
 
                   {!session && (
                     <p className="text-[10px] text-neutral-500 text-center mt-1">
-                      🔒 Sign in to validate
+                      {`🔒 ${t('signInToValidate')}`}
                     </p>
                   )}
                 </div>
@@ -570,9 +572,9 @@ export default function UnifiedMap({
                     skater.role === 'judge' ? 'bg-accent-yellow-100 text-accent-yellow-700' :
                     'bg-accent-purple-100 text-accent-purple-700'
                   }`}>
-                    {skater.role === 'admin' && '👑 Admin'}
-                    {skater.role === 'judge' && '⚖️ Judge'}
-                    {skater.role === 'skater' && '🛹 Skater'}
+                    {skater.role === 'admin' && `👑 ${t('admin')}`}
+                    {skater.role === 'judge' && `⚖️ ${t('judge')}`}
+                    {skater.role === 'skater' && `🛹 ${t('skater')}`}
                   </span>
                 </div>
 
@@ -584,24 +586,24 @@ export default function UnifiedMap({
 
                 {skater.team && (
                   <p className="text-xs text-neutral-600 mb-2">
-                    👥 Team: {skater.team.name}
+                    {`👥 ${t('teamLabel')}: ${skater.team.name}`}
                   </p>
                 )}
 
                 <div className="grid grid-cols-2 gap-2 mb-3 text-center">
                   <div>
                     <p className="text-accent-purple-600 font-bold">{skater.stats.totalScore}</p>
-                    <p className="text-xs text-neutral-500">Score</p>
+                    <p className="text-xs text-neutral-500">{t('score')}</p>
                   </div>
                   <div>
                     <p className="text-green-600 font-bold">{skater.stats.approvedSubmissions}</p>
-                    <p className="text-xs text-neutral-500">Tricks</p>
+                    <p className="text-xs text-neutral-500">{t('tricks')}</p>
                   </div>
                 </div>
 
                 <Link href={`/profile/${skater.username}`}>
                   <button className="w-full bg-accent-purple-600 text-white px-3 py-2 rounded font-bold hover:bg-accent-purple-700 text-sm">
-                    View Profile
+                    {t('viewProfile')}
                   </button>
                 </Link>
               </div>

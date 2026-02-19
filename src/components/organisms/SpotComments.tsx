@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import CommentForm from '@/components/molecules/CommentForm';
 import CommentItem from '@/components/molecules/CommentItem';
 import { MessageSquare, TrendingUp, Clock } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 interface User {
   name: string | null;
@@ -31,6 +32,7 @@ interface SpotCommentsProps {
 }
 
 export default function SpotComments({ spotId, maxHeight = '400px', highlightCommentId }: SpotCommentsProps) {
+  const t = useTranslations('comments');
   const [comments, setComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -61,7 +63,7 @@ export default function SpotComments({ spotId, maxHeight = '400px', highlightCom
         // Error can be an object or a string
         const errorMessage = typeof data.error === 'string'
           ? data.error
-          : data.error?.message || data.data?.message || 'Error loading comments';
+          : data.error?.message || data.data?.message || t('loadingComments');
         throw new Error(errorMessage);
       }
 
@@ -85,7 +87,7 @@ export default function SpotComments({ spotId, maxHeight = '400px', highlightCom
 
     } catch (err: any) {
       console.error('Error loading comments:', err);
-      setError(err.message || 'Error loading comments');
+      setError(err.message || t('loadingComments'));
       // Ensure comments is always an array
       setComments([]);
     } finally {
@@ -188,7 +190,7 @@ export default function SpotComments({ spotId, maxHeight = '400px', highlightCom
         <div className="flex items-center gap-2">
           <MessageSquare className="w-4 h-4 text-accent-cyan-400" />
           <span className="font-bold text-accent-cyan-400">
-            {total} {total === 1 ? 'Comment' : 'Comments'}
+            {total === 1 ? t('commentCount', { count: total }) : t('commentsCount', { count: total })}
           </span>
         </div>
 
@@ -205,7 +207,7 @@ export default function SpotComments({ spotId, maxHeight = '400px', highlightCom
             `}
           >
             <Clock className="w-3 h-3" />
-            Recent
+            {t('recent')}
           </button>
           <button
             onClick={() => setSort('popular')}
@@ -218,7 +220,7 @@ export default function SpotComments({ spotId, maxHeight = '400px', highlightCom
             `}
           >
             <TrendingUp className="w-3 h-3" />
-            Popular
+            {t('popular')}
           </button>
         </div>
       </div>
@@ -237,7 +239,7 @@ export default function SpotComments({ spotId, maxHeight = '400px', highlightCom
       {loading && (
         <div className="bg-neutral-800 border-2 border-neutral-700 rounded-lg p-6 text-center">
           <div className="w-8 h-8 animate-spin border-4 border-accent-cyan-400 border-t-transparent rounded-full mx-auto mb-2" />
-          <p className="text-accent-cyan-400 font-bold text-sm">Loading comments...</p>
+          <p className="text-accent-cyan-400 font-bold text-sm">{t('loadingComments')}</p>
         </div>
       )}
 
@@ -271,7 +273,7 @@ export default function SpotComments({ spotId, maxHeight = '400px', highlightCom
               disabled={loadingMore}
               className="w-full py-2 px-4 bg-neutral-800 hover:bg-neutral-700 border-2 border-neutral-600 hover:border-accent-cyan-400 rounded-lg font-bold text-accent-cyan-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loadingMore ? 'Loading...' : `Load more comments (${total - comments.length} remaining)`}
+              {loadingMore ? t('loadingMore') : t('loadMore', { remaining: total - comments.length })}
             </button>
           )}
         </div>
@@ -282,10 +284,10 @@ export default function SpotComments({ spotId, maxHeight = '400px', highlightCom
         <div className="bg-neutral-800 border-2 border-neutral-700 rounded-lg p-6 text-center">
           <MessageSquare className="w-12 h-12 text-neutral-600 mx-auto mb-2" />
           <p className="text-neutral-400 font-bold mb-1">
-            No comments yet
+            {t('noCommentsYet')}
           </p>
           <p className="text-neutral-500 text-sm">
-            Be the first to share your experience!
+            {t('beFirstToShare')}
           </p>
         </div>
       )}

@@ -4,17 +4,23 @@ import { useState } from 'react';
 import { MapPin, Camera, X } from 'lucide-react';
 import PhotoUploader from './PhotoUploader';
 import dynamic from 'next/dynamic';
+import { useTranslations } from 'next-intl';
 
-const SpotLocationPicker = dynamic(() => import('./SpotLocationPicker'), {
-  ssr: false,
-  loading: () => (
+function SpotLocationPickerLoading() {
+  const t = useTranslations('spotRegistrationForm');
+  return (
     <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[9999]">
       <div className="bg-neutral-800 border-4 border-accent-cyan-400 rounded-xl p-8 text-center">
         <div className="animate-spin w-12 h-12 border-4 border-accent-cyan-400 border-t-transparent rounded-full mx-auto mb-4"></div>
-        <p className="text-accent-cyan-300 font-bold">Loading map...</p>
+        <p className="text-accent-cyan-300 font-bold">{t('loadingMap')}</p>
       </div>
     </div>
-  )
+  );
+}
+
+const SpotLocationPicker = dynamic(() => import('./SpotLocationPicker'), {
+  ssr: false,
+  loading: () => <SpotLocationPickerLoading />
 });
 
 interface SpotRegistrationFormProps {
@@ -28,6 +34,7 @@ interface SpotRegistrationFormProps {
 }
 
 export default function SpotRegistrationForm({ onSuccess }: SpotRegistrationFormProps) {
+  const t = useTranslations('spotRegistrationForm');
   const [formData, setFormData] = useState({
     name: '',
     type: 'SKATEPARK' as 'SKATEPARK' | 'SKATESHOP' | 'SPOT',
@@ -91,7 +98,7 @@ export default function SpotRegistrationForm({ onSuccess }: SpotRegistrationForm
 
   const handleGetLocation = () => {
     if (!navigator.geolocation) {
-      alert('Your browser does not support geolocation');
+      alert(t('noGeolocation'));
       return;
     }
 
@@ -107,7 +114,7 @@ export default function SpotRegistrationForm({ onSuccess }: SpotRegistrationForm
         setShowLocationPicker(true);
       },
       (error) => {
-        alert('Error getting location: ' + error.message);
+        alert(`${t('errorGettingLocation')}: ${error.message}`);
       },
       { enableHighAccuracy: true }
     );
@@ -115,7 +122,7 @@ export default function SpotRegistrationForm({ onSuccess }: SpotRegistrationForm
 
   const handleOpenMap = () => {
     if (!formData.latitude || !formData.longitude) {
-      alert('First get your GPS location');
+      alert(t('getGpsFirst'));
       return;
     }
     setShowLocationPicker(true);
@@ -142,14 +149,14 @@ export default function SpotRegistrationForm({ onSuccess }: SpotRegistrationForm
   return (
     <div className="bg-neutral-800 border-4 border-accent-purple-400 rounded-xl p-6 shadow-2xl shadow-accent-purple-500/30">
       <h2 className="text-3xl font-black uppercase text-accent-purple-300 mb-6">
-        ➕ Register New Spot
+        {`➕ ${t('title')}`}
       </h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Name */}
         <div>
           <label className="block text-accent-cyan-300 font-black uppercase text-sm mb-2">
-            📍 Spot Name
+            {`📍 ${t('spotName')}`}
           </label>
           <input
             type="text"
@@ -158,30 +165,30 @@ export default function SpotRegistrationForm({ onSuccess }: SpotRegistrationForm
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             className="w-full px-4 py-3 bg-neutral-900 border-2 border-accent-cyan-500 rounded-lg text-white font-bold focus:outline-none focus:border-accent-cyan-300"
-            placeholder="E.g.: Magdalena Skatepark"
+            placeholder={t('spotNamePlaceholder')}
           />
         </div>
 
         {/* Type */}
         <div>
           <label className="block text-accent-cyan-300 font-black uppercase text-sm mb-2">
-            🎯 Type
+            {`🎯 ${t('type')}`}
           </label>
           <select
             value={formData.type}
             onChange={(e) => setFormData({ ...formData, type: e.target.value as any })}
             className="w-full px-4 py-3 bg-neutral-900 border-2 border-accent-cyan-500 rounded-lg text-white font-bold focus:outline-none focus:border-accent-cyan-300"
           >
-            <option value="SKATEPARK">🛹 Skatepark</option>
-            <option value="SKATESHOP">🏪 Skateshop</option>
-            <option value="SPOT">🎯 Street Spot</option>
+            <option value="SKATEPARK">{`🛹 ${t('skatepark')}`}</option>
+            <option value="SKATESHOP">{`🏪 ${t('skateshop')}`}</option>
+            <option value="SPOT">{`🎯 ${t('streetSpot')}`}</option>
           </select>
         </div>
 
         {/* Location */}
         <div className="bg-neutral-900 border-2 border-accent-cyan-500 rounded-lg p-4">
           <label className="block text-accent-cyan-300 font-black uppercase text-sm mb-2">
-            📍 GPS Location
+            {`📍 ${t('gpsLocation')}`}
           </label>
           <div className="grid grid-cols-2 gap-2 mb-2">
             <button
@@ -190,7 +197,7 @@ export default function SpotRegistrationForm({ onSuccess }: SpotRegistrationForm
               className="bg-accent-cyan-600 hover:bg-accent-cyan-500 text-white font-bold py-2 px-4 rounded flex items-center justify-center gap-2"
             >
               <MapPin className="w-4 h-4" />
-              Use my location
+              {t('useMyLocation')}
             </button>
             <button
               type="button"
@@ -198,7 +205,7 @@ export default function SpotRegistrationForm({ onSuccess }: SpotRegistrationForm
               disabled={!formData.latitude || !formData.longitude}
               className="bg-accent-purple-600 hover:bg-accent-purple-500 disabled:bg-neutral-700 disabled:cursor-not-allowed text-white font-bold py-2 px-4 rounded flex items-center justify-center gap-2"
             >
-              🗺️ Adjust on map
+              {`🗺️ ${t('adjustOnMap')}`}
             </button>
           </div>
           <div className="grid grid-cols-2 gap-2">
@@ -209,7 +216,7 @@ export default function SpotRegistrationForm({ onSuccess }: SpotRegistrationForm
               value={formData.latitude || ''}
               onChange={(e) => setFormData({ ...formData, latitude: parseFloat(e.target.value) || 0 })}
               className="px-3 py-2 bg-neutral-800 border border-accent-cyan-600 rounded text-white text-sm"
-              placeholder="Latitude"
+              placeholder={t('latitude')}
             />
             <input
               type="number"
@@ -218,12 +225,12 @@ export default function SpotRegistrationForm({ onSuccess }: SpotRegistrationForm
               value={formData.longitude || ''}
               onChange={(e) => setFormData({ ...formData, longitude: parseFloat(e.target.value) || 0 })}
               className="px-3 py-2 bg-neutral-800 border border-accent-cyan-600 rounded text-white text-sm"
-              placeholder="Longitude"
+              placeholder={t('longitude')}
             />
           </div>
           {formData.latitude && formData.longitude && (
             <p className="text-accent-cyan-100 text-xs mt-2">
-              ✅ Location set: {formData.latitude.toFixed(6)}, {formData.longitude.toFixed(6)}
+              {`✅ ${t('locationSet')}:`} {formData.latitude.toFixed(6)}, {formData.longitude.toFixed(6)}
             </p>
           )}
         </div>
@@ -231,49 +238,49 @@ export default function SpotRegistrationForm({ onSuccess }: SpotRegistrationForm
         {/* Description */}
         <div>
           <label className="block text-accent-cyan-300 font-black uppercase text-sm mb-2">
-            📝 Description (optional)
+            {`📝 ${t('description')}`}
           </label>
           <textarea
             value={formData.description}
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
             className="w-full px-4 py-3 bg-neutral-900 border-2 border-accent-cyan-500 rounded-lg text-white font-bold focus:outline-none focus:border-accent-cyan-300"
             rows={3}
-            placeholder="Describe the spot: terrain type, obstacles, etc."
+            placeholder={t('descriptionPlaceholder')}
           />
         </div>
 
         {/* Address */}
         <div>
           <label className="block text-accent-cyan-300 font-black uppercase text-sm mb-2">
-            🏠 Address (optional)
+            {`🏠 ${t('address')}`}
           </label>
           <input
             type="text"
             value={formData.address}
             onChange={(e) => setFormData({ ...formData, address: e.target.value })}
             className="w-full px-4 py-3 bg-neutral-900 border-2 border-accent-cyan-500 rounded-lg text-white font-bold focus:outline-none focus:border-accent-cyan-300"
-            placeholder="Street, number, neighborhood"
+            placeholder={t('addressPlaceholder')}
           />
         </div>
 
         {/* City */}
         <div>
           <label className="block text-accent-cyan-300 font-black uppercase text-sm mb-2">
-            🏙️ City (optional)
+            {`🏙️ ${t('city')}`}
           </label>
           <input
             type="text"
             value={formData.city}
             onChange={(e) => setFormData({ ...formData, city: e.target.value })}
             className="w-full px-4 py-3 bg-neutral-900 border-2 border-accent-cyan-500 rounded-lg text-white font-bold focus:outline-none focus:border-accent-cyan-300"
-            placeholder="E.g.: Los Angeles"
+            placeholder={t('cityPlaceholder')}
           />
         </div>
 
         {/* Photos */}
         <div>
           <label className="block text-accent-cyan-300 font-black uppercase text-sm mb-2">
-            📸 Spot Photos
+            {`📸 ${t('spotPhotos')}`}
           </label>
           <PhotoUploader
             onUploadComplete={handlePhotoUpload}
@@ -304,7 +311,7 @@ export default function SpotRegistrationForm({ onSuccess }: SpotRegistrationForm
           )}
 
           <p className="text-accent-cyan-100 text-xs mt-2">
-            {uploadedPhotos.length} photo{uploadedPhotos.length !== 1 ? 's' : ''} added
+            {t('photosAdded', { count: uploadedPhotos.length })}
           </p>
         </div>
 
@@ -321,7 +328,7 @@ export default function SpotRegistrationForm({ onSuccess }: SpotRegistrationForm
           disabled={loading}
           className="w-full bg-accent-purple-600 hover:bg-accent-purple-700 disabled:bg-neutral-600 disabled:cursor-not-allowed text-white font-black uppercase tracking-wider text-lg px-8 py-4 rounded-xl border-4 border-white shadow-2xl shadow-accent-purple-500/50 transition-all transform hover:scale-105"
         >
-          {loading ? '⏳ Registering...' : '🚀 REGISTER SPOT'}
+          {loading ? `⏳ ${t('registering')}` : `🚀 ${t('registerSpot')}`}
         </button>
 
         {/* Info */}

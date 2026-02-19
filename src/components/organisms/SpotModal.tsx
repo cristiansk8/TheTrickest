@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { X, MapPin, Star } from 'lucide-react';
 import ModalPortal from '@/components/ModalPortal';
 import SpotComments from './SpotComments';
+import { useTranslations } from 'next-intl';
 
 interface SpotModalProps {
   isOpen: boolean;
@@ -25,6 +26,7 @@ interface Spot {
 }
 
 export default function SpotModal({ isOpen, spotId, commentId, onClose }: SpotModalProps) {
+  const t = useTranslations('spotModal');
   const [spot, setSpot] = useState<Spot | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -88,12 +90,12 @@ export default function SpotModal({ isOpen, spotId, commentId, onClose }: SpotMo
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-neutral-100 bg-white">
               <h2 className="text-lg font-bold text-neutral-900">
-                {spot?.name || `Spot #${spotId}`}
+                {spot?.name || t('spotFallback', { id: spotId })}
               </h2>
               <button
                 onClick={onClose}
                 className="p-2 hover:bg-neutral-100 rounded-full transition-colors"
-                aria-label="Close"
+                aria-label={t('close')}
               >
                 <X className="w-5 h-5 text-neutral-600" />
               </button>
@@ -129,7 +131,7 @@ export default function SpotModal({ isOpen, spotId, commentId, onClose }: SpotMo
                       <div className="flex items-center gap-2 mt-3">
                         <Star className="w-4 h-4 text-accent-yellow-500 fill-accent-yellow-500" />
                         <span className="text-sm font-medium">
-                          {spot.confidenceScore}% confidence
+                          {t('confidence', { score: spot.confidenceScore })}
                         </span>
                         <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
                           {spot.type}
@@ -138,14 +140,14 @@ export default function SpotModal({ isOpen, spotId, commentId, onClose }: SpotMo
                     </div>
                   </div>
                 ) : (
-                  <p className="text-neutral-500">Spot not found</p>
+                  <p className="text-neutral-500">{t('spotNotFound')}</p>
                 )}
               </div>
 
               {/* Comments */}
               <div className="p-6">
                 <div className="mb-4">
-                  <h3 className="text-lg font-bold text-neutral-900">Comments</h3>
+                  <h3 className="text-lg font-bold text-neutral-900">{t('commentsTitle')}</h3>
                 </div>
                 <SpotComments spotId={spotId} maxHeight="none" highlightCommentId={commentId} />
               </div>
@@ -156,7 +158,7 @@ export default function SpotModal({ isOpen, spotId, commentId, onClose }: SpotMo
               <div className="bg-neutral-50 border border-neutral-200 rounded-lg p-3">
                 <input
                   type="text"
-                  placeholder="Write a comment..."
+                  placeholder={t('writeComment')}
                   className="w-full outline-none text-neutral-900 placeholder-neutral-400"
                 />
               </div>

@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic';
 import SpotProximityModal from '@/components/SpotProximityModal';
 import SpotFloatingButton from '@/components/SpotFloatingButton';
 import { SpotComments } from '@/components/organisms';
+import { useTranslations } from 'next-intl';
 
 // Dynamic import of UnifiedMap to avoid SSR issues
 const UnifiedMap = dynamic(() => import('@/components/organisms/UnifiedMap'), {
@@ -36,6 +37,7 @@ interface Spot {
 }
 
 export default function SpotsPage() {
+  const t = useTranslations('spotsPage');
   const [spots, setSpots] = useState<Spot[]>([]);
   const [loading, setLoading] = useState(true);
   const [filterType, setFilterType] = useState<'all' | 'skatepark' | 'skateshop'>('all');
@@ -81,7 +83,7 @@ export default function SpotsPage() {
 
   const handleSpotValidated = () => {
     // Show toast message
-    setToastMessage('✅ Spot validated successfully +2 pts');
+    setToastMessage(`✅ ${t('spotValidated')}`);
     fetchSpots();
 
     // Hide toast after 3 seconds
@@ -113,11 +115,11 @@ export default function SpotsPage() {
         <div className="mb-8 text-center">
           <h1 className="text-4xl md:text-6xl font-black uppercase tracking-wider mb-4">
             <span className="bg-gradient-to-r from-accent-cyan-400 to-accent-purple-600 text-transparent bg-clip-text">
-              🗺️ EXPLORE SPOTS
+              {`🗺️ ${t('title')}`}
             </span>
           </h1>
           <p className="text-xl text-neutral-300 font-bold">
-            Find skateparks and skateshops near you
+            {t('subtitle')}
           </p>
         </div>
 
@@ -127,16 +129,16 @@ export default function SpotsPage() {
             {/* Type filter */}
             <div className="flex-1 min-w-[200px]">
               <label className="block text-accent-cyan-300 font-black uppercase text-sm mb-2">
-                🎯 SPOT TYPE
+                {`🎯 ${t('spotType')}`}
               </label>
               <select
                 value={filterType}
                 onChange={(e) => setFilterType(e.target.value as any)}
                 className="w-full px-4 py-3 bg-neutral-900 border-2 border-accent-cyan-500 rounded-lg text-white font-bold focus:outline-none focus:border-accent-cyan-300"
               >
-                <option value="all">All</option>
-                <option value="skatepark">🛹 Skateparks</option>
-                <option value="skateshop">🏪 Skateshops</option>
+                <option value="all">{t('all')}</option>
+                <option value="skatepark">{`🛹 ${t('skateparks')}`}</option>
+                <option value="skateshop">{`🏪 ${t('skateshops')}`}</option>
               </select>
             </div>
 
@@ -150,7 +152,7 @@ export default function SpotsPage() {
                   className="w-5 h-5 accent-green-500"
                 />
                 <span className="text-white font-bold">
-                  ✓ Verified Only
+                  {`✓ ${t('verifiedOnly')}`}
                 </span>
               </label>
             </div>
@@ -159,7 +161,7 @@ export default function SpotsPage() {
             <div className="ml-auto">
               <div className="bg-accent-purple-600 px-4 py-2 rounded-lg border-2 border-accent-purple-400">
                 <span className="text-white font-black">
-                  {spots.length} {spots.length === 1 ? 'SPOT' : 'SPOTS'}
+                  {spots.length} {spots.length === 1 ? t('spot') : t('spots')}
                 </span>
               </div>
             </div>
@@ -170,7 +172,7 @@ export default function SpotsPage() {
         {loading ? (
           <div className="w-full h-[600px] rounded-xl border-4 border-accent-cyan-400 bg-neutral-900 flex items-center justify-center">
             <div className="text-accent-cyan-400 font-black text-2xl animate-pulse">
-              ⏳ LOADING SPOTS...
+              {`⏳ ${t('loadingSpots')}`}
             </div>
           </div>
         ) : (
@@ -178,10 +180,10 @@ export default function SpotsPage() {
             {spots.length === 0 && (
               <div className="mb-4 bg-accent-yellow-900/30 border-2 border-accent-yellow-500 rounded-lg p-4">
                 <p className="text-accent-yellow-300 font-bold text-center">
-                  🤷‍♂️ No spots found {filterType !== 'all' && `of type ${filterType}`}
+                  {`🤷‍♂️ ${t('noSpotsFound')}`}{filterType !== 'all' && ` ${t('ofType', { type: filterType })}`}
                 </p>
                 <p className="text-neutral-400 text-sm text-center mt-1">
-                  Use the floating button to add the first one!
+                  {t('addFirstSpot')}
                 </p>
               </div>
             )}
@@ -203,16 +205,16 @@ export default function SpotsPage() {
             <div className="flex items-center justify-between mb-4">
               <div>
                 <h2 className="text-2xl font-black uppercase text-accent-cyan-400">
-                  💬 Comments
+                  {`💬 ${t('comments')}`}
                 </h2>
                 <p className="text-sm text-neutral-300 mt-1">
-                  {selectedSpot.name} ({selectedSpot.type === 'skatepark' ? '🛹 Skatepark' : '🏪 Skateshop'})
+                  {selectedSpot.name} ({selectedSpot.type === 'skatepark' ? `🛹 ${t('skatepark')}` : `🏪 ${t('skateshop')}`})
                 </p>
               </div>
               <button
                 onClick={() => setSelectedSpot(null)}
                 className="p-2 bg-neutral-700 hover:bg-neutral-600 border-2 border-neutral-500 rounded-lg transition-colors"
-                title="Close comments"
+                title={t('closeComments')}
               >
                 <X className="w-5 h-5 text-neutral-300" />
               </button>
@@ -225,24 +227,24 @@ export default function SpotsPage() {
         {/* Additional info */}
         <div className="mt-8 bg-neutral-800 border-4 border-accent-purple-400 rounded-xl p-6 shadow-2xl shadow-accent-purple-500/30">
           <h2 className="text-2xl font-black uppercase text-accent-purple-300 mb-4">
-            💡 HOW TO USE THE MAP?
+            {`💡 ${t('howToUseMap')}`}
           </h2>
           <div className="grid md:grid-cols-2 gap-4 text-neutral-300">
             <div>
-              <p className="font-bold mb-2">🛹 <span className="text-accent-cyan-400">Blue Icons</span> = Skateparks</p>
-              <p className="text-sm">Places to skate: ramps, bowls, street, etc.</p>
+              <p className="font-bold mb-2">🛹 <span className="text-accent-cyan-400">{t('blueIcons')}</span> = Skateparks</p>
+              <p className="text-sm">{t('blueIconsDesc')}</p>
             </div>
             <div>
-              <p className="font-bold mb-2">🏪 <span className="text-accent-pink-400">Pink Icons</span> = Skateshops</p>
-              <p className="text-sm">Stores where you can buy gear and accessories.</p>
+              <p className="font-bold mb-2">🏪 <span className="text-accent-pink-400">{t('pinkIcons')}</span> = Skateshops</p>
+              <p className="text-sm">{t('pinkIconsDesc')}</p>
             </div>
             <div>
-              <p className="font-bold mb-2">✓ <span className="text-green-400">Green Check</span> = Verified</p>
-              <p className="text-sm">The spot was verified by administrators.</p>
+              <p className="font-bold mb-2">✓ <span className="text-green-400">{t('greenCheck')}</span> = Verified</p>
+              <p className="text-sm">{t('greenCheckDesc')}</p>
             </div>
             <div>
-              <p className="font-bold mb-2">💬 <span className="text-accent-cyan-400">Click on marker</span> = View comments</p>
-              <p className="text-sm">Click on a spot to view and add comments.</p>
+              <p className="font-bold mb-2">💬 <span className="text-accent-cyan-400">{t('clickOnMarker')}</span> = View comments</p>
+              <p className="text-sm">{t('clickOnMarkerDesc')}</p>
             </div>
           </div>
         </div>
@@ -251,7 +253,7 @@ export default function SpotsPage() {
         <div className="mt-6 text-center">
           <p className="text-accent-cyan-400 font-bold text-sm flex items-center justify-center gap-2">
             <MapPin className="w-4 h-4 animate-bounce" />
-            Use the corner button to register spots or validate locations
+            {t('floatingButtonHint')}
           </p>
         </div>
       </div>

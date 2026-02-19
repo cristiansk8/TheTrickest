@@ -5,11 +5,13 @@ import { usePathname } from 'next/navigation';
 import { MdAdminPanelSettings } from 'react-icons/md';
 import { itemsNavbar } from '../../data';
 import MotionTransition from './transition-component';
+import { useTranslations } from 'next-intl';
 
 const Navbar = () => {
   const router = usePathname();
   const { data: session } = useSession();
   const isAdmin = session?.user?.role === 'admin';
+  const t = useTranslations('navbarComponent');
 
   return (
     <MotionTransition
@@ -38,7 +40,7 @@ const Navbar = () => {
                         hover:bg-red-500/50 ${
                           router === '/admin' && 'bg-red-500'
                         }`}
-              title="Panel Admin (Ctrl+Shift+A)"
+              title={t('adminPanel')}
             >
               <Link href="/admin">
                 <MdAdminPanelSettings className="w-4 h-4 text-red-400" />

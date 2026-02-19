@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { MessageSquare, ChevronDown, ChevronUp } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import CommentItem from './CommentItem';
 
 interface User {
@@ -30,6 +31,7 @@ interface CommentThreadProps {
 }
 
 export default function CommentThread({ spotId, commentId, replyCount, highlightReplyId }: CommentThreadProps) {
+  const t = useTranslations('comments');
   const [replies, setReplies] = useState<Reply[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -69,7 +71,7 @@ export default function CommentThread({ spotId, commentId, replyCount, highlight
         const data = await response.json();
         const errorMessage = typeof data.error === 'string'
           ? data.error
-          : data.error?.message || data.data?.message || 'Error loading replies';
+          : data.error?.message || data.data?.message || t('errorLoadingReplies');
         throw new Error(errorMessage);
       }
 
@@ -83,7 +85,7 @@ export default function CommentThread({ spotId, commentId, replyCount, highlight
 
     } catch (err: any) {
       console.error('Error loading replies:', err);
-      setError(err.message || 'Error loading replies');
+      setError(err.message || t('errorLoadingReplies'));
     } finally {
       setLoading(false);
     }
@@ -117,12 +119,12 @@ export default function CommentThread({ spotId, commentId, replyCount, highlight
         {isExpanded ? (
           <>
             <ChevronUp className="w-3 h-3" />
-            Hide {total} {total === 1 ? 'reply' : 'replies'}
+            {total === 1 ? t('hideReply', { count: total }) : t('hideReplies', { count: total })}
           </>
         ) : (
           <>
             <ChevronDown className="w-3 h-3" />
-            View {total} {total === 1 ? 'reply' : 'replies'}
+            {total === 1 ? t('viewReply', { count: total }) : t('viewReplies', { count: total })}
           </>
         )}
         {loading && (
@@ -166,7 +168,7 @@ export default function CommentThread({ spotId, commentId, replyCount, highlight
               onClick={() => fetchReplies()}
               className="w-full py-2 px-3 bg-neutral-800 hover:bg-neutral-700 border border-neutral-600 hover:border-accent-cyan-400 rounded-lg font-bold text-xs text-neutral-300 hover:text-accent-cyan-400 transition-all"
             >
-              Load more replies ({total - replies.length} remaining)
+              {t('loadMoreReplies', { remaining: total - replies.length })}
             </button>
           )}
         </div>
@@ -175,7 +177,7 @@ export default function CommentThread({ spotId, commentId, replyCount, highlight
       {/* No replies */}
       {isExpanded && !loading && replies.length === 0 && (
         <div className="mt-2 text-xs text-neutral-500">
-          No replies yet. Be the first!
+          {t('noRepliesYet')}
         </div>
       )}
     </div>

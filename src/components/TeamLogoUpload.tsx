@@ -3,6 +3,7 @@
 import { ImageIcon, Upload } from 'lucide-react';
 import Image from 'next/image';
 import { useRef, useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface TeamLogoUploadProps {
   currentLogo?: string;
@@ -15,6 +16,7 @@ export default function TeamLogoUpload({
   onLogoChange,
   teamName = 'Equipo',
 }: TeamLogoUploadProps) {
+  const t = useTranslations('teamLogoUpload');
   const [preview, setPreview] = useState<string | null>(currentLogo || null);
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -30,13 +32,13 @@ export default function TeamLogoUpload({
 
     // Validar tipo de archivo
     if (!file.type.startsWith('image/')) {
-      alert('Solo se permiten imágenes');
+      alert(t('onlyImagesAllowed'));
       return;
     }
 
     // Validar tamaño (máx 5MB)
     if (file.size > 5 * 1024 * 1024) {
-      alert('La imagen no debe superar 5MB');
+      alert(t('maxSize'));
       return;
     }
 
@@ -62,7 +64,7 @@ export default function TeamLogoUpload({
       onLogoChange(logoUrl);
     } catch (error) {
       console.error('Error al subir logo:', error);
-      alert('Error al subir el logo. Intenta de nuevo.');
+      alert(t('errorUploading'));
     } finally {
       setUploading(false);
     }
@@ -123,10 +125,10 @@ export default function TeamLogoUpload({
           }`}
         >
           <Upload className="w-4 h-4" />
-          {uploading ? 'Subiendo...' : 'Subir Logo'}
+          {uploading ? t('uploading') : t('uploadLogo')}
         </label>
         <p className="text-xs text-slate-400 text-center">
-          JPG, PNG o GIF (máx. 5MB)
+          {t('fileHint')}
         </p>
       </div>
     </div>

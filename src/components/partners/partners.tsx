@@ -1,6 +1,7 @@
 'use client';
 import Image from 'next/image';
 import styles from './Partners.module.css'; // Importa tus estilos CSS
+import { useTranslations } from 'next-intl';
 
 const partners = [
   {
@@ -24,6 +25,8 @@ const partners = [
 ];
 
 const Partners = () => {
+  const t = useTranslations('partnersComponent');
+
   return (
     <div>
       <div
@@ -35,7 +38,7 @@ const Partners = () => {
         >
           <header className="text-center mx-auto mb-12">
             <h2 className="text-2xl leading-normal mb-2 font-bold text-neutral-200">
-              <span className="font-light">Nuestros</span> Partners
+              <span className="font-light">{t('our')}</span> {t('partners')}
             </h2>
             <svg
               version="1.1"

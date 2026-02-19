@@ -1,12 +1,14 @@
 'use client';
 
 import { useSession } from 'next-auth/react';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import SkateSetupPage from './dream_setup';
 import GeneralInfoForm from './general_info_form';
 
 export default function ProfilePage() {
+  const t = useTranslations('profilePage');
   const [loading, setLoading] = useState(false);
   const { data: session, status } = useSession();
   const [isClient, setIsClient] = useState(false);
@@ -33,7 +35,7 @@ export default function ProfilePage() {
       try {
         await navigator.share({
           title: `${session.user.username}'s Profile - Thetrickest`,
-          text: 'Check out my profile on Thetrickest!',
+          text: t('shareText'),
           url: profileUrl,
         });
         return; // Share successful, exit
@@ -45,7 +47,7 @@ export default function ProfilePage() {
     // Fallback: copy to clipboard
     try {
       await navigator.clipboard.writeText(profileUrl);
-      setNotification('✅ Link copied to clipboard!');
+      setNotification(`✅ ${t('linkCopied')}`);
       setTimeout(() => setNotification(''), 3000);
     } catch (error) {
       // If clipboard fails, create a temporary input element
@@ -57,11 +59,11 @@ export default function ProfilePage() {
       input.select();
       try {
         document.execCommand('copy');
-        setNotification('✅ Link copied to clipboard!');
+        setNotification(`✅ ${t('linkCopied')}`);
         setTimeout(() => setNotification(''), 3000);
       } catch (err) {
         console.error('Failed to copy:', err);
-        setNotification('❌ Could not copy the link');
+        setNotification(`❌ ${t('copyFailed')}`);
         setTimeout(() => setNotification(''), 3000);
       }
       document.body.removeChild(input);
@@ -83,7 +85,7 @@ export default function ProfilePage() {
   const shareOnTwitter = () => {
     if (!session?.user?.username) return;
     const profileUrl = `${window.location.origin}/profile/${session.user.username}`;
-    const text = `Check out my profile on Thetrickest! 🛹`;
+    const text = `${t('shareText')} 🛹`;
     window.open(
       `https://twitter.com/intent/tweet?text=${encodeURIComponent(
         text
@@ -95,7 +97,7 @@ export default function ProfilePage() {
   const shareOnWhatsApp = () => {
     if (!session?.user?.username) return;
     const profileUrl = `${window.location.origin}/profile/${session.user.username}`;
-    const text = `Check out my profile on Thetrickest! 🛹 ${profileUrl}`;
+    const text = `${t('shareText')} 🛹 ${profileUrl}`;
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
   };
 
@@ -158,7 +160,7 @@ export default function ProfilePage() {
         });
       } catch (error) {
         console.error('Error fetching profile:', error);
-        setNotification('❌ Error loading profile data.');
+        setNotification(`❌ ${t('errorLoading')}`);
         // Auto-clear error notification after 5 seconds
         setTimeout(() => {
           setNotification('');
@@ -184,7 +186,7 @@ export default function ProfilePage() {
 
     if (!session?.user) {
       console.error('Not authenticated');
-      setNotification('❌ You are not authenticated.');
+      setNotification(`❌ ${t('notAuthenticated')}`);
       setLoading(false);
       return;
     }
@@ -219,7 +221,7 @@ export default function ProfilePage() {
 
       console.log('Registration successful:', data);
       setIsRegistered(true);
-      setNotification('✅ Settings updated successfully.'); // Success notification
+      setNotification(`✅ ${t('settingsUpdated')}`); // Success notification
 
       // Clear notification after 5 seconds
       setTimeout(() => {
@@ -227,7 +229,7 @@ export default function ProfilePage() {
       }, 5000);
     } catch (error) {
       console.error('Error registering:', error);
-      setNotification('❌ Error updating settings.'); // Error notification
+      setNotification(`❌ ${t('errorUpdating')}`); // Error notification
     } finally {
       setLoading(false);
     }
@@ -238,7 +240,7 @@ export default function ProfilePage() {
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-accent-purple-900 via-accent-blue-900 to-black">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-accent-cyan-400 mx-auto"></div>
-          <p className="mt-4 text-accent-cyan-400 font-bold text-xl">LOADING...</p>
+          <p className="mt-4 text-accent-cyan-400 font-bold text-xl">{t('loading')}</p>
         </div>
       </div>
     );
@@ -253,7 +255,7 @@ export default function ProfilePage() {
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div>
                 <h1 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-cyan-400 to-accent-purple-400 uppercase tracking-wider text-center md:text-left">
-                  🎮 Player Profile
+                  {`🎮 ${t('title')}`}
                 </h1>
                 <p className="text-accent-cyan-300 mt-2 text-sm md:text-base text-center md:text-left">
                   {session?.user?.email || 'Skater'}
@@ -267,7 +269,7 @@ export default function ProfilePage() {
                     rel="noopener noreferrer"
                     className="bg-accent-yellow-500 hover:bg-accent-yellow-600 text-white font-black py-3 px-6 rounded-lg border-4 border-white uppercase tracking-wider text-sm shadow-lg transform hover:scale-105 transition-all text-center whitespace-nowrap relative z-50"
                   >
-                    👁️ View Public Profile
+                    {`👁️ ${t('viewPublicProfile')}`}
                   </Link>
                   <div className="relative share-menu-container z-50">
                     <button
@@ -275,7 +277,7 @@ export default function ProfilePage() {
                       onClick={() => setShowShareMenu(!showShareMenu)}
                       className="w-full md:w-auto bg-accent-purple-600 hover:bg-accent-purple-700 text-white font-black py-3 px-6 rounded-lg border-4 border-white uppercase tracking-wider text-sm shadow-lg transform hover:scale-105 transition-all whitespace-nowrap relative z-50"
                     >
-                      🔗 Share
+                      {`🔗 ${t('share')}`}
                     </button>
                     {showShareMenu && (
                       <div className="absolute left-0 md:right-0 md:left-auto mt-2 w-56 bg-neutral-800 border-4 border-accent-purple-500 rounded-lg shadow-2xl z-[60] overflow-hidden">
@@ -317,7 +319,7 @@ export default function ProfilePage() {
                           }}
                           className="w-full text-left px-4 py-3 text-white hover:bg-accent-purple-600 transition-colors flex items-center gap-3 font-bold border-t-2 border-accent-purple-500"
                         >
-                          📋 Copy Link
+                          {`📋 ${t('copyLink')}`}
                         </button>
                       </div>
                     )}
@@ -340,7 +342,7 @@ export default function ProfilePage() {
                 : 'bg-neutral-800 text-neutral-400 border-4 border-neutral-700 hover:border-accent-cyan-500'
             } rounded-lg text-sm md:text-base`}
           >
-            👤 GENERAL INFO
+            {`👤 ${t('tabGeneral')}`}
           </button>
 
           <button
@@ -351,7 +353,7 @@ export default function ProfilePage() {
                 : 'bg-neutral-800 text-neutral-400 border-4 border-neutral-700 hover:border-accent-purple-500'
             } rounded-lg text-sm md:text-base`}
           >
-            🛹 DREAM SETUP
+            {`🛹 ${t('tabSetup')}`}
           </button>
 
           <button
@@ -362,7 +364,7 @@ export default function ProfilePage() {
                 : 'bg-neutral-800 text-neutral-400 border-4 border-neutral-700 hover:border-green-500'
             } rounded-lg text-sm md:text-base`}
           >
-            🌐 SOCIAL MEDIA
+            {`🌐 ${t('tabSocial')}`}
           </button>
         </div>
       </div>
@@ -402,7 +404,7 @@ export default function ProfilePage() {
             <div className="bg-gradient-to-r from-green-500 to-accent-teal-500 p-1 rounded-lg shadow-2xl">
               <div className="bg-neutral-900 rounded-lg p-6 md:p-8">
                 <h2 className="text-2xl md:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-accent-teal-400 uppercase mb-6 text-center md:text-left">
-                  🌐 Connect your social media
+                  {`🌐 ${t('connectSocial')}`}
                 </h2>
 
                 <form
@@ -420,7 +422,7 @@ export default function ProfilePage() {
                         type="text"
                         id="facebook"
                         name="facebook"
-                        placeholder="your.profile"
+                        placeholder={t('profilePlaceholder')}
                         value={formData.facebook}
                         onChange={handleChange}
                       />
@@ -436,7 +438,7 @@ export default function ProfilePage() {
                         type="text"
                         id="instagram"
                         name="instagram"
-                        placeholder="@tu_usuario"
+                        placeholder={t('userPlaceholder')}
                         value={formData.instagram}
                         onChange={handleChange}
                       />
@@ -452,7 +454,7 @@ export default function ProfilePage() {
                         type="text"
                         id="tiktok"
                         name="tiktok"
-                        placeholder="@tu_usuario"
+                        placeholder={t('userPlaceholder')}
                         value={formData.tiktok}
                         onChange={handleChange}
                       />
@@ -468,7 +470,7 @@ export default function ProfilePage() {
                         type="text"
                         id="twitter"
                         name="twitter"
-                        placeholder="@tu_usuario"
+                        placeholder={t('userPlaceholder')}
                         value={formData.twitter}
                         onChange={handleChange}
                       />
@@ -482,7 +484,7 @@ export default function ProfilePage() {
                       type="submit"
                       disabled={loading}
                     >
-                      {loading ? '⏳ SAVING...' : '💾 SAVE'}
+                      {loading ? `⏳ ${t('saving')}` : `💾 ${t('save')}`}
                     </button>
                   </div>
                 </form>

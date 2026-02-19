@@ -2,12 +2,14 @@
 
 import { MapPin } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface SpotFloatingButtonProps {
   onClick: () => void;
 }
 
 export default function SpotFloatingButton({ onClick }: SpotFloatingButtonProps) {
+  const t = useTranslations('spotFloatingButton');
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
 
   useEffect(() => {
@@ -27,7 +29,7 @@ export default function SpotFloatingButton({ onClick }: SpotFloatingButtonProps)
     <button
       onClick={onClick}
       className="fixed bottom-6 right-6 z-40 bg-accent-cyan-600 hover:bg-accent-cyan-500 text-white p-4 rounded-full shadow-2xl shadow-accent-cyan-500/50 border-4 border-white transition-all transform hover:scale-110 active:scale-95 group"
-      title="Registrar spot o validar ubicación"
+      title={t('tooltip')}
     >
       <MapPin className="w-8 h-8 group-hover:animate-pulse" />
 

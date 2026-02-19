@@ -1,9 +1,11 @@
 'use client';
 import { Check, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useSession } from 'next-auth/react';
+import { useTranslations } from 'next-intl';
 import { useEffect, useRef, useState } from 'react';
 
 export default function SkateSetupPage() {
+  const t = useTranslations('dreamSetup');
   const { data: session, status } = useSession();
   const [isClient, setIsClient] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -129,7 +131,7 @@ export default function SkateSetupPage() {
     fetchSkateSetup();
   }, [status, session?.user?.email]);
 
-  if (!isClient) return <p>Loading...</p>;
+  if (!isClient) return <p>{t('loading')}</p>;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -137,7 +139,7 @@ export default function SkateSetupPage() {
     setNotification('');
 
     if (!session?.user) {
-      setNotification('⚠️ Not authenticated.');
+      setNotification(`⚠️ ${t('notAuthenticated')}`);
       setLoading(false);
       return;
     }
@@ -159,13 +161,13 @@ export default function SkateSetupPage() {
       const data = await response.json();
       if (data.error) throw new Error(data.error);
 
-      setNotification('✅ Setup updated successfully.');
+      setNotification(`✅ ${t('setupUpdated')}`);
       setTimeout(() => {
         setNotification('');
       }, 5000);
     } catch (error) {
       setNotification(
-        '❌ Error updating setup. Please try again.'
+        `❌ ${t('errorUpdating')}`
       );
       console.error('Error:', error);
     } finally {
@@ -177,7 +179,7 @@ export default function SkateSetupPage() {
     <div className="bg-gradient-to-r from-accent-purple-500 to-accent-pink-500 p-1 rounded-lg shadow-2xl">
       <div className="bg-neutral-900 rounded-lg p-6 md:p-8">
         <h2 className="text-2xl md:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-purple-400 to-accent-pink-400 uppercase mb-6 text-center">
-          🛹 Dream Setup - Character Select Style
+          {`🛹 ${t('title')}`}
         </h2>
 
         {notification && (
@@ -193,7 +195,7 @@ export default function SkateSetupPage() {
         {loading && (
           <div className="text-center py-4">
             <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-4 border-b-4 border-accent-purple-400"></div>
-            <p className="text-accent-purple-400 mt-2 font-bold">Loading...</p>
+            <p className="text-accent-purple-400 mt-2 font-bold">{t('loading')}</p>
           </div>
         )}
 
@@ -201,7 +203,7 @@ export default function SkateSetupPage() {
           {/* Stance Selector - THPS Style */}
           <div className="bg-gradient-to-br from-accent-cyan-900/50 to-accent-purple-900/50 border-4 border-accent-cyan-500 rounded-xl p-6">
             <h3 className="text-xl font-black text-accent-cyan-400 uppercase mb-4 text-center">
-              ⚡ Select Your Stance
+              {`⚡ ${t('selectStance')}`}
             </h3>
             <div className="grid grid-cols-2 gap-4">
               <button
@@ -219,7 +221,7 @@ export default function SkateSetupPage() {
                     Regular
                   </div>
                   <div className="text-sm text-neutral-400 mt-1">
-                    Left Foot Forward
+                    {t('leftFootForward')}
                   </div>
                 </div>
                 {selectedStance === 'regular' && (
@@ -244,7 +246,7 @@ export default function SkateSetupPage() {
                     Goofy
                   </div>
                   <div className="text-sm text-neutral-400 mt-1">
-                    Right Foot Forward
+                    {t('rightFootForward')}
                   </div>
                 </div>
                 {selectedStance === 'goofy' && (
@@ -266,11 +268,11 @@ export default function SkateSetupPage() {
               tenis: '👟',
             };
             const labels = {
-              madero: 'Deck / Madero',
-              trucks: 'Trucks',
-              ruedas: 'Wheels',
-              rodamientos: 'Bearings',
-              tenis: 'Shoes',
+              madero: t('deck'),
+              trucks: t('trucks'),
+              ruedas: t('wheels'),
+              rodamientos: t('bearings'),
+              tenis: t('shoes'),
             };
 
             return (
@@ -334,9 +336,7 @@ export default function SkateSetupPage() {
                       type="button"
                       onClick={() => {
                         const custom = prompt(
-                          `Enter your custom ${
-                            labels[key as keyof typeof labels]
-                          }:`
+                          t('enterCustom', { category: labels[key as keyof typeof labels] })
                         );
                         if (custom) {
                           setFormData({ ...formData, [key]: custom });
@@ -344,7 +344,7 @@ export default function SkateSetupPage() {
                       }}
                       className="flex-shrink-0 px-6 py-4 rounded-xl border-4 border-dashed border-neutral-600 bg-neutral-800/50 text-neutral-400 font-bold uppercase text-sm hover:border-accent-yellow-500 hover:text-accent-yellow-500 transition-all transform hover:scale-105"
                     >
-                      ✨ Custom
+                      {`✨ ${t('custom')}`}
                     </button>
                   </div>
 
@@ -367,7 +367,7 @@ export default function SkateSetupPage() {
                 {formData[key as keyof typeof formData] && (
                   <div className="bg-neutral-800/50 border-2 border-accent-purple-500/30 rounded-lg p-3">
                     <p className="text-sm text-neutral-400">
-                      Selected:{' '}
+                      {`${t('selected')} `}
                       <span className="text-white font-bold">
                         {formData[key as keyof typeof formData]}
                       </span>
@@ -385,7 +385,7 @@ export default function SkateSetupPage() {
               type="submit"
               disabled={loading}
             >
-              {loading ? '⏳ SAVING...' : '💾 SAVE SETUP'}
+              {loading ? `⏳ ${t('saving')}` : `💾 ${t('saveSetup')}`}
             </button>
           </div>
         </form>
@@ -398,11 +398,11 @@ export default function SkateSetupPage() {
           formData.tenis) && (
           <div className="mt-8 bg-gradient-to-br from-neutral-800 to-neutral-900 border-4 border-accent-cyan-500 rounded-xl p-6">
             <h3 className="text-2xl font-black text-accent-cyan-400 uppercase mb-4 text-center">
-              📋 Your Complete Setup
+              {`📋 ${t('yourCompleteSetup')}`}
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="bg-neutral-900/50 rounded-lg p-4 border-2 border-neutral-700">
-                <div className="text-sm text-neutral-400 uppercase">Stance</div>
+                <div className="text-sm text-neutral-400 uppercase">{t('stance')}</div>
                 <div className="text-lg font-bold text-white capitalize">
                   {selectedStance}
                 </div>

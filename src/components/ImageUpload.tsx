@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { Camera, Upload, X } from 'lucide-react';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
@@ -13,6 +14,7 @@ export default function ImageUpload({
   currentImage,
   onImageChange,
 }: ImageUploadProps) {
+  const t = useTranslations('imageUpload');
   const [preview, setPreview] = useState<string | null>(currentImage || null);
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -23,13 +25,13 @@ export default function ImageUpload({
 
     // Validate file type
     if (!file.type.startsWith('image/')) {
-      alert('Only images are allowed');
+      alert(t('onlyImagesAllowed'));
       return;
     }
 
     // Validate size (max 5MB)
     if (file.size > 5 * 1024 * 1024) {
-      alert('Image must not exceed 5MB');
+      alert(t('maxSize'));
       return;
     }
 
@@ -55,7 +57,7 @@ export default function ImageUpload({
       onImageChange(imageUrl);
     } catch (error) {
       console.error('Error uploading image:', error);
-      alert('Error uploading image. Please try again.');
+      alert(t('errorUploading'));
     } finally {
       setUploading(false);
     }
@@ -123,10 +125,10 @@ export default function ImageUpload({
           }`}
         >
           <Upload className="w-4 h-4" />
-          {uploading ? 'Uploading...' : 'Change Photo'}
+          {uploading ? t('uploading') : t('changePhoto')}
         </label>
         <p className="text-xs text-neutral-400 text-center">
-          JPG, PNG or GIF (max. 5MB)
+          {t('fileHint')}
         </p>
       </div>
     </div>

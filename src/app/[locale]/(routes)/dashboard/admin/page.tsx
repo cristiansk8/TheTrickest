@@ -2,6 +2,7 @@ import { authOptions } from '@/lib/auth';
 import { isAdmin } from '@/lib/auth-helpers';
 import { Card, CardBody, CardHeader } from '@nextui-org/react';
 import { getServerSession } from 'next-auth/next';
+import { getTranslations } from 'next-intl/server';
 import { redirect } from 'next/navigation';
 import {
   MdAdminPanelSettings,
@@ -37,16 +38,17 @@ export default async function AdminDashboard() {
   }
 
   const stats = await getAdminStats();
+  const t = await getTranslations('adminDashboard');
 
   return (
     <div className="p-6 space-y-6">
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-cyan-400 to-accent-purple-400 uppercase tracking-wider mb-2">
-          🎮 ADMIN PANEL
+          {`🎮 ${t('title')}`}
         </h1>
         <p className="text-neutral-600 text-lg">
-          Complete management of the Trickest platform
+          {t('subtitle')}
         </p>
       </div>
 
@@ -58,7 +60,7 @@ export default async function AdminDashboard() {
               <MdPeople size={32} className="text-white" />
               <div>
                 <p className="text-white text-sm font-bold uppercase tracking-wider">
-                  Total Users
+                  {t('totalUsers')}
                 </p>
               </div>
             </div>
@@ -76,7 +78,7 @@ export default async function AdminDashboard() {
               <MdVideoLibrary size={32} className="text-white" />
               <div>
                 <p className="text-white text-sm font-bold uppercase tracking-wider">
-                  Submissions
+                  {t('submissions')}
                 </p>
               </div>
             </div>
@@ -94,7 +96,7 @@ export default async function AdminDashboard() {
               <MdSportsKabaddi size={32} className="text-white" />
               <div>
                 <p className="text-white text-sm font-bold uppercase tracking-wider">
-                  Challenges
+                  {t('challenges')}
                 </p>
               </div>
             </div>
@@ -112,7 +114,7 @@ export default async function AdminDashboard() {
               <MdAdminPanelSettings size={32} className="text-white" />
               <div>
                 <p className="text-white text-sm font-bold uppercase tracking-wider">
-                  Active Judges
+                  {t('activeJudges')}
                 </p>
               </div>
             </div>
@@ -130,13 +132,13 @@ export default async function AdminDashboard() {
         <Card className="bg-neutral-900 border-4 border-neutral-700">
           <CardHeader>
             <h3 className="text-xl font-black text-white uppercase tracking-wider">
-              📊 Submissions by Status
+              {`📊 ${t('submissionsByStatus')}`}
             </h3>
           </CardHeader>
           <CardBody className="space-y-4">
             <div className="flex justify-between items-center p-3 bg-accent-yellow-500/10 rounded-lg border border-accent-yellow-500/20">
               <span className="text-accent-yellow-400 font-bold uppercase tracking-wider">
-                Pending
+                {t('pending')}
               </span>
               <span className="text-2xl font-black text-accent-yellow-400">
                 {stats?.pendingSubmissions || 0}
@@ -144,7 +146,7 @@ export default async function AdminDashboard() {
             </div>
             <div className="flex justify-between items-center p-3 bg-green-500/10 rounded-lg border border-green-500/20">
               <span className="text-green-400 font-bold uppercase tracking-wider">
-                Approved
+                {t('approved')}
               </span>
               <span className="text-2xl font-black text-green-400">
                 {stats?.approvedSubmissions || 0}
@@ -152,7 +154,7 @@ export default async function AdminDashboard() {
             </div>
             <div className="flex justify-between items-center p-3 bg-red-500/10 rounded-lg border border-red-500/20">
               <span className="text-red-400 font-bold uppercase tracking-wider">
-                Rejected
+                {t('rejected')}
               </span>
               <span className="text-2xl font-black text-red-400">
                 {stats?.rejectedSubmissions || 0}
@@ -164,13 +166,13 @@ export default async function AdminDashboard() {
         <Card className="bg-neutral-900 border-4 border-neutral-700">
           <CardHeader>
             <h3 className="text-xl font-black text-white uppercase tracking-wider">
-              👥 Role Distribution
+              {`👥 ${t('roleDistribution')}`}
             </h3>
           </CardHeader>
           <CardBody className="space-y-4">
             <div className="flex justify-between items-center p-3 bg-accent-cyan-500/10 rounded-lg border border-accent-cyan-500/20">
               <span className="text-accent-cyan-400 font-bold uppercase tracking-wider">
-                Skaters
+                {t('skaters')}
               </span>
               <span className="text-2xl font-black text-accent-cyan-400">
                 {stats?.skaterCount || 0}
@@ -178,7 +180,7 @@ export default async function AdminDashboard() {
             </div>
             <div className="flex justify-between items-center p-3 bg-accent-yellow-500/10 rounded-lg border border-accent-yellow-500/20">
               <span className="text-accent-yellow-400 font-bold uppercase tracking-wider">
-                Judges
+                {t('judges')}
               </span>
               <span className="text-2xl font-black text-accent-yellow-400">
                 {stats?.judgeCount || 0}
@@ -186,7 +188,7 @@ export default async function AdminDashboard() {
             </div>
             <div className="flex justify-between items-center p-3 bg-red-500/10 rounded-lg border border-red-500/20">
               <span className="text-red-400 font-bold uppercase tracking-wider">
-                Admins
+                {t('admins')}
               </span>
               <span className="text-2xl font-black text-red-400">
                 {stats?.adminCount || 0}

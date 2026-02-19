@@ -28,12 +28,12 @@ export default function ContactForm() {
 
     // Crear mensaje de WhatsApp con todos los datos
     const interestLabels: Record<string, string> = {
-      skater: 'Soy Skater - Quiero unirme',
-      sponsor: 'Soy Marca - Quiero patrocinar',
-      investor: 'Inversor - Quiero invertir',
-      partner: 'Partner - Colaboración estratégica',
-      press: 'Prensa/Media',
-      other: 'Otro',
+      skater: t('optionSkater'),
+      sponsor: t('optionSponsor'),
+      investor: t('optionInvestor'),
+      partner: t('optionPartner'),
+      press: t('optionPress'),
+      other: t('optionOther'),
     };
 
     const message = `🛹 *NUEVA COLABORACIÓN TRICKEST*

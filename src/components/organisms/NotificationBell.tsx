@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
-import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/routing';
 import { Bell, X, Check, Trash2 } from 'lucide-react';
 import { useRealtime } from '@/providers/SupabaseRealtimeProvider';
 
@@ -18,6 +19,7 @@ interface Notification {
 }
 
 export default function NotificationBell() {
+  const t = useTranslations('notificationBell');
   const { data: session } = useSession();
   const { unreadCount, refreshUnreadCount } = useRealtime();
   const [isOpen, setIsOpen] = useState(false);
@@ -111,7 +113,7 @@ export default function NotificationBell() {
 
   // Eliminar notificación
   const deleteNotification = async (id: number) => {
-    if (!confirm('¿Eliminar esta notificación permanentemente?')) return;
+    if (!confirm(t('deleteConfirm'))) return;
 
     try {
       // Nota: Necesitaríamos crear endpoint DELETE
@@ -135,10 +137,10 @@ export default function NotificationBell() {
     const diffHours = Math.floor(diffMs / 3600000);
     const diffDays = Math.floor(diffMs / 86400000);
 
-    if (diffMins < 1) return 'ahora mismo';
-    if (diffMins < 60) return `hace ${diffMins} min`;
-    if (diffHours < 24) return `hace ${diffHours}h`;
-    if (diffDays < 7) return `hace ${diffDays}d`;
+    if (diffMins < 1) return t('justNow');
+    if (diffMins < 60) return t('minutesAgo', { min: diffMins });
+    if (diffHours < 24) return t('hoursAgo', { hours: diffHours });
+    if (diffDays < 7) return t('daysAgo', { days: diffDays });
     return date.toLocaleDateString('es-ES');
   };
 
@@ -168,7 +170,7 @@ export default function NotificationBell() {
         onClick={handleOpen}
         disabled={!userEmail}
         className="relative p-2 rounded-full hover:bg-slate-700 transition-colors disabled:opacity-50"
-        title={userEmail ? 'Notificaciones' : 'Inicia sesión para ver notificaciones'}
+        title={userEmail ? t('title') : t('signInToSee')}
       >
         <Bell className="w-6 h-6 text-slate-300" />
 
@@ -188,9 +190,9 @@ export default function NotificationBell() {
             <div className="flex items-center gap-2">
               <Bell className="w-5 h-5 text-cyan-400" />
               <h3 className="font-bold text-white">
-                Notificaciones
+                {t('title')}
                 {unreadCount > 0 && (
-                  <span className="text-cyan-400">({unreadCount} nueva{unreadCount > 1 ? 's' : ''})</span>
+                  <span className="text-cyan-400">({unreadCount} {unreadCount > 1 ? t('news') : t('new')})</span>
                 )}
               </h3>
             </div>
@@ -201,7 +203,7 @@ export default function NotificationBell() {
                 onClick={handleCloseAndMarkAll}
                 disabled={loading || unreadCount === 0}
                 className="p-1 hover:bg-slate-700 rounded text-slate-400 hover:text-white transition-colors disabled:opacity-50"
-                title="Marcar todas como leídas"
+                title={t('markAllRead')}
               >
                 <Check className="w-4 h-4" />
               </button>
@@ -210,7 +212,7 @@ export default function NotificationBell() {
               <button
                 onClick={handleClose}
                 className="p-1 hover:bg-slate-700 rounded text-slate-400 hover:text-white transition-colors"
-                title="Cerrar"
+                title={t('close')}
               >
                 <X className="w-4 h-4" />
               </button>
@@ -226,7 +228,7 @@ export default function NotificationBell() {
             ) : notifications.length === 0 ? (
               <div className="text-center py-8">
                 <Bell className="w-12 h-12 text-slate-600 mx-auto mb-2" />
-                <p className="text-slate-500 text-sm">No tienes notificaciones</p>
+                <p className="text-slate-500 text-sm">{t('empty')}</p>
               </div>
             ) : (
               notifications.map((notification) => (
@@ -297,7 +299,7 @@ export default function NotificationBell() {
                 className="block text-center text-xs font-bold text-cyan-400 hover:text-cyan-300"
                 onClick={handleClose}
               >
-                Ver todas las notificaciones →
+                {t('viewAll')} →
               </Link>
             </div>
           )}

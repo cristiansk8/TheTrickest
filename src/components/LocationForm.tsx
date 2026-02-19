@@ -2,9 +2,11 @@
 
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 export default function LocationForm() {
   const { data: session } = useSession();
+  const t = useTranslations('locationForm');
   const [loading, setLoading] = useState(false);
   const [notification, setNotification] = useState('');
   const [locationData, setLocationData] = useState<{
@@ -46,7 +48,7 @@ export default function LocationForm() {
   // Activate GPS location
   const handleActivateLocation = () => {
     if (!navigator.geolocation) {
-      setNotification('❌ Your browser does not support geolocation.');
+      setNotification(`❌ ${t('noGeolocation')}`);
       setTimeout(() => setNotification(''), 3000);
       return;
     }
@@ -59,13 +61,13 @@ export default function LocationForm() {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
         });
-        setNotification('✅ Location obtained successfully!');
+        setNotification(`✅ ${t('locationObtained')}`);
         setTimeout(() => setNotification(''), 3000);
         setLoading(false);
       },
       (error) => {
         console.error('Error getting location:', error);
-        setNotification('❌ Could not get your location. Check browser permissions.');
+        setNotification(`❌ ${t('errorGettingLocation')}`);
         setTimeout(() => setNotification(''), 5000);
         setLoading(false);
       }
@@ -78,13 +80,13 @@ export default function LocationForm() {
     setNotification('');
 
     if (!session?.user?.email) {
-      setNotification('❌ You are not authenticated.');
+      setNotification(`❌ ${t('notAuthenticated')}`);
       setLoading(false);
       return;
     }
 
     if (locationData.showOnMap && (!locationData.latitude || !locationData.longitude)) {
-      setNotification('❌ You must activate your location first.');
+      setNotification(`❌ ${t('mustActivateLocation')}`);
       setLoading(false);
       return;
     }
@@ -110,11 +112,11 @@ export default function LocationForm() {
         throw new Error(data.error || 'Error updating location');
       }
 
-      setNotification('✅ Configuration saved successfully!');
+      setNotification(`✅ ${t('configSaved')}`);
       setTimeout(() => setNotification(''), 5000);
     } catch (error) {
       console.error('Error:', error);
-      setNotification('❌ Error saving configuration.');
+      setNotification(`❌ ${t('errorSaving')}`);
     } finally {
       setLoading(false);
     }
@@ -126,10 +128,10 @@ export default function LocationForm() {
         {/* Header */}
         <div className="text-center mb-8">
           <h2 className="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-yellow-400 to-accent-orange-400 uppercase mb-4">
-            📍 Share Your Location
+            {`📍 ${t('title')}`}
           </h2>
           <p className="text-neutral-300 text-lg max-w-2xl mx-auto">
-            Let other skaters find you on the community map
+            {t('subtitle')}
           </p>
         </div>
 
@@ -154,11 +156,11 @@ export default function LocationForm() {
             className="w-full bg-accent-yellow-500 hover:bg-accent-yellow-600 text-white font-black py-6 px-8 rounded-xl border-4 border-white uppercase tracking-wider text-xl shadow-2xl transform hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
           >
             {loading ? (
-              <>⏳ GETTING LOCATION...</>
+              <>{`⏳ ${t('gettingLocation')}`}</>
             ) : locationData.latitude && locationData.longitude ? (
-              <>✅ LOCATION ACTIVATED</>
+              <>{`✅ ${t('locationActivated')}`}</>
             ) : (
-              <>🌍 ACTIVATE MY LOCATION</>
+              <>{`🌍 ${t('activateMyLocation')}`}</>
             )}
           </button>
         </div>
@@ -169,15 +171,15 @@ export default function LocationForm() {
             <div className="text-center">
               <div className="text-green-400 text-6xl mb-4">✅</div>
               <h3 className="text-white font-black text-xl uppercase mb-3">
-                Location Detected
+                {t('locationDetected')}
               </h3>
               <div className="text-neutral-300 space-y-2">
                 <p className="font-bold">
-                  📍 Coordinates: {locationData.latitude.toFixed(4)}, {locationData.longitude.toFixed(4)}
+                  {`📍 ${t('coordinates')}:`} {locationData.latitude.toFixed(4)}, {locationData.longitude.toFixed(4)}
                 </p>
                 {locationData.ciudad && (
                   <p className="font-bold">
-                    🏙️ City: {locationData.ciudad}
+                    {`🏙️ ${t('cityLabel')}:`} {locationData.ciudad}
                   </p>
                 )}
               </div>
@@ -196,10 +198,10 @@ export default function LocationForm() {
             />
             <div className="flex-1">
               <p className="text-white font-black text-lg uppercase tracking-wide">
-                🗺️ Appear on public map
+                {`🗺️ ${t('appearOnMap')}`}
               </p>
               <p className="text-neutral-400 text-sm mt-1">
-                Other skaters will be able to see you on the community map
+                {t('appearOnMapDesc')}
               </p>
             </div>
           </label>
@@ -212,14 +214,14 @@ export default function LocationForm() {
             disabled={loading}
             className="bg-accent-purple-600 hover:bg-accent-purple-700 text-white font-black py-5 px-16 rounded-xl border-4 border-white uppercase tracking-wider text-xl shadow-2xl transform hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? '⏳ SAVING...' : '💾 SAVE'}
+            {loading ? `⏳ ${t('saving')}` : `💾 ${t('save')}`}
           </button>
         </div>
 
         {/* Additional info */}
         <div className="mt-8 text-center">
           <p className="text-neutral-400 text-sm">
-            💡 <strong>Tip:</strong> Your exact location is not shared. Only your approximate city will appear on the map.
+            💡 <strong>Tip:</strong> {t('tip')}
           </p>
         </div>
       </div>
