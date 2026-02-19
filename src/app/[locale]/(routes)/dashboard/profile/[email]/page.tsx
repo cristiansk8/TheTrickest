@@ -4,11 +4,12 @@ import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { FaInstagram, FaTiktok, FaTwitter, FaFacebook } from 'react-icons/fa';
 import { MdOutlineSkateboarding, MdLocationOn, MdGroups, MdPersonAdd, MdPersonRemove } from 'react-icons/md';
 import { GiSkateboard, GiTrophy } from 'react-icons/gi';
 import { Button } from '@nextui-org/react';
+import { useTranslations } from 'next-intl';
 
 interface PublicProfile {
   email: string;
@@ -94,6 +95,7 @@ export default function PublicProfilePage() {
   const [error, setError] = useState('');
   const [following, setFollowing] = useState(false);
   const [followLoading, setFollowLoading] = useState(false);
+  const t = useTranslations('publicProfilePage');
 
   const email = params.email as string;
   const isOwnProfile = session?.user?.email === decodeURIComponent(email);
@@ -138,9 +140,9 @@ export default function PublicProfilePage() {
 
         if (!response.ok) {
           if (response.status === 404) {
-            setError('User not found');
+            setError(t('userNotFound'));
           } else {
-            setError('Error loading profile');
+            setError(t('errorLoadingProfile'));
           }
           return;
         }
@@ -162,7 +164,7 @@ export default function PublicProfilePage() {
         }
       } catch (err) {
         console.error('Error:', err);
-        setError('Error loading profile');
+        setError(t('errorLoadingProfile'));
       } finally {
         setLoading(false);
       }
@@ -178,19 +180,19 @@ export default function PublicProfilePage() {
       case 'admin':
         return (
           <span className="text-xs bg-gradient-to-r from-red-500 to-accent-orange-500 text-white px-3 py-1 rounded-full font-black uppercase tracking-wider shadow-lg shadow-red-500/50">
-            ADMIN
+            {t('admin')}
           </span>
         );
       case 'judge':
         return (
           <span className="text-xs bg-gradient-to-r from-accent-yellow-500 to-accent-amber-500 text-black px-3 py-1 rounded-full font-black uppercase tracking-wider shadow-lg shadow-accent-yellow-500/50">
-            JUDGE
+            {t('judge')}
           </span>
         );
       default:
         return (
           <span className="text-xs bg-gradient-to-r from-accent-cyan-500 to-accent-blue-500 text-white px-3 py-1 rounded-full font-black uppercase tracking-wider shadow-lg shadow-accent-cyan-500/50">
-            SKATER
+            {t('skater')}
           </span>
         );
     }
@@ -206,7 +208,7 @@ export default function PublicProfilePage() {
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-accent-purple-900 via-accent-blue-900 to-black">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-accent-cyan-400 mx-auto"></div>
-          <p className="mt-4 text-accent-cyan-400 font-bold text-xl">LOADING PROFILE...</p>
+          <p className="mt-4 text-accent-cyan-400 font-bold text-xl">{t('loadingProfile')}</p>
         </div>
       </div>
     );
@@ -217,12 +219,12 @@ export default function PublicProfilePage() {
       <div className="min-h-screen bg-gradient-to-br from-neutral-900 via-accent-purple-900 to-neutral-900 p-4 md:p-8 flex items-center justify-center">
         <div className="bg-gradient-to-r from-red-500 to-accent-orange-500 p-1 rounded-lg shadow-2xl">
           <div className="bg-neutral-900 rounded-lg p-8 text-center">
-            <p className="text-red-400 font-bold text-xl">{error || 'Profile not available'}</p>
+            <p className="text-red-400 font-bold text-xl">{error || t('profileNotAvailable')}</p>
             <Link
               href="/dashboard/leaderboard"
               className="inline-block mt-4 text-accent-cyan-400 hover:text-accent-cyan-300 font-bold uppercase"
             >
-              Back to Leaderboard
+              {t('backToLeaderboard')}
             </Link>
           </div>
         </div>
@@ -283,18 +285,18 @@ export default function PublicProfilePage() {
                 </div>
 
                 <p className="text-neutral-500 text-xs mt-2">
-                  Member since {new Date(profile.memberSince).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}
+                  {`${t('memberSince')} ${new Date(profile.memberSince).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}`}
                 </p>
 
                 {/* Follow Stats */}
                 <div className="flex items-center gap-6 mt-3 justify-center md:justify-start">
                   <div className="text-center">
                     <p className="text-accent-cyan-400 font-bold text-lg">{profile.socialStats?.followerCount || 0}</p>
-                    <p className="text-neutral-400 text-xs">Followers</p>
+                    <p className="text-neutral-400 text-xs">{t('followers')}</p>
                   </div>
                   <div className="text-center">
                     <p className="text-accent-cyan-400 font-bold text-lg">{profile.socialStats?.followingCount || 0}</p>
-                    <p className="text-neutral-400 text-xs">Following</p>
+                    <p className="text-neutral-400 text-xs">{t('following')}</p>
                   </div>
                 </div>
               </div>
@@ -302,7 +304,7 @@ export default function PublicProfilePage() {
               {/* Main Score */}
               <div className="bg-gradient-to-r from-accent-yellow-500 to-accent-orange-500 p-[3px] rounded-lg">
                 <div className="bg-neutral-900 rounded-lg p-4 text-center">
-                  <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider">Score Total</p>
+                  <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider">{t('scoreTotal')}</p>
                   <p className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-yellow-400 to-accent-orange-400">
                     {profile.stats.totalScore}
                   </p>
@@ -323,7 +325,7 @@ export default function PublicProfilePage() {
                   }`}
                   startContent={following ? <MdPersonRemove size={20} /> : <MdPersonAdd size={20} />}
                 >
-                  {following ? 'Unfollow' : 'Follow'}
+                  {following ? t('unfollow') : t('follow')}
                 </Button>
               </div>
             )}
@@ -336,28 +338,28 @@ export default function PublicProfilePage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
           <div className="bg-gradient-to-r from-green-500 to-emerald-600 p-[3px] rounded-lg">
             <div className="bg-neutral-900 rounded-lg p-4 text-center h-full">
-              <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider">Challenges</p>
+              <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider">{t('challenges')}</p>
               <p className="text-3xl font-black text-green-400">{profile.stats.challengesCompleted}</p>
             </div>
           </div>
 
           <div className="bg-gradient-to-r from-accent-blue-500 to-accent-cyan-600 p-[3px] rounded-lg">
             <div className="bg-neutral-900 rounded-lg p-4 text-center h-full">
-              <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider">Success Rate</p>
+              <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider">{t('successRate')}</p>
               <p className="text-3xl font-black text-accent-cyan-400">{profile.stats.successRate}%</p>
             </div>
           </div>
 
           <div className="bg-gradient-to-r from-accent-purple-500 to-accent-pink-600 p-[3px] rounded-lg">
             <div className="bg-neutral-900 rounded-lg p-4 text-center h-full">
-              <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider">Current Streak</p>
+              <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider">{t('currentStreak')}</p>
               <p className="text-3xl font-black text-accent-purple-400">{profile.stats.currentStreak}</p>
             </div>
           </div>
 
           <div className="bg-gradient-to-r from-accent-rose-500 to-red-600 p-[3px] rounded-lg">
             <div className="bg-neutral-900 rounded-lg p-4 text-center h-full">
-              <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider">Best Streak</p>
+              <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider">{t('bestStreak')}</p>
               <p className="text-3xl font-black text-accent-rose-400">{profile.stats.bestStreak}</p>
             </div>
           </div>
@@ -368,7 +370,7 @@ export default function PublicProfilePage() {
           <div className="bg-gradient-to-r from-accent-yellow-500 to-accent-orange-600 p-[3px] rounded-lg">
             <div className="bg-neutral-900 rounded-lg p-4">
               <div className="flex justify-between items-center mb-2">
-                <span className="text-neutral-400 text-xs uppercase font-bold tracking-wider">XP Total</span>
+                <span className="text-neutral-400 text-xs uppercase font-bold tracking-wider">{t('xpTotal')}</span>
                 <span className="text-accent-yellow-400 font-black">{profile.stats.totalXP.toLocaleString()}</span>
               </div>
               <div className="w-full bg-neutral-800 rounded-full h-3 border-2 border-neutral-700">
@@ -378,29 +380,29 @@ export default function PublicProfilePage() {
                 />
               </div>
               <p className="text-center text-white font-bold text-sm mt-2">
-                {profile.stats.achievementsUnlocked}/{profile.stats.totalAchievements} Achievements
+                {profile.stats.achievementsUnlocked}/{profile.stats.totalAchievements} {t('achievements')}
               </p>
             </div>
           </div>
 
           <div className="bg-gradient-to-r from-accent-cyan-500 to-accent-blue-600 p-[3px] rounded-lg">
             <div className="bg-neutral-900 rounded-lg p-4">
-              <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider mb-2">Recent Activity</p>
+              <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider mb-2">{t('recentActivity')}</p>
               <div className="space-y-1 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-neutral-300">This week:</span>
+                  <span className="text-neutral-300">{t('thisWeek')}</span>
                   <span className="text-accent-cyan-400 font-bold">{profile.activitySummary.thisWeek}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-neutral-300">This month:</span>
+                  <span className="text-neutral-300">{t('thisMonth')}</span>
                   <span className="text-accent-cyan-400 font-bold">{profile.activitySummary.thisMonth}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-neutral-300">Last submission:</span>
+                  <span className="text-neutral-300">{t('lastSubmission')}</span>
                   <span className="text-accent-cyan-400 font-bold text-xs">
                     {profile.activitySummary.lastSubmission
                       ? new Date(profile.activitySummary.lastSubmission).toLocaleDateString('en-US')
-                      : 'Never'}
+                      : t('never')}
                   </span>
                 </div>
               </div>
@@ -411,19 +413,19 @@ export default function PublicProfilePage() {
         {/* Difficulty Stats */}
         <div className="bg-gradient-to-r from-neutral-700 to-neutral-800 p-[3px] rounded-lg">
           <div className="bg-neutral-900 rounded-lg p-4">
-            <h3 className="text-white font-bold text-lg mb-4 text-center uppercase tracking-wider">Statistics by Difficulty</h3>
+            <h3 className="text-white font-bold text-lg mb-4 text-center uppercase tracking-wider">{t('statisticsByDifficulty')}</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {Object.entries(profile.stats.difficultyStats).map(([difficulty, stats]) => (
                 <div key={difficulty} className="text-center">
                   <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider mb-1">
-                    {difficulty === 'easy' ? 'Easy' :
-                     difficulty === 'medium' ? 'Medium' :
-                     difficulty === 'hard' ? 'Hard' : 'Expert'}
+                    {difficulty === 'easy' ? t('easy') :
+                     difficulty === 'medium' ? t('medium') :
+                     difficulty === 'hard' ? t('hard') : t('expert')}
                   </p>
                   <p className="text-2xl font-black text-accent-cyan-400">{stats.completed}</p>
-                  <p className="text-neutral-500 text-xs">completed</p>
+                  <p className="text-neutral-500 text-xs">{t('completed')}</p>
                   {stats.avgScore > 0 && (
-                    <p className="text-accent-yellow-400 text-sm font-bold">{stats.avgScore} avg</p>
+                    <p className="text-accent-yellow-400 text-sm font-bold">{stats.avgScore} {t('avg')}</p>
                   )}
                 </div>
               ))}
@@ -438,7 +440,7 @@ export default function PublicProfilePage() {
         <div className="bg-gradient-to-r from-accent-yellow-500 to-accent-orange-500 p-[3px] rounded-lg">
           <div className="bg-neutral-900 rounded-lg p-6 h-full">
             <h2 className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-yellow-400 to-accent-orange-400 uppercase mb-4 flex items-center gap-2">
-              <GiTrophy className="text-accent-yellow-400" /> ACHIEVEMENTS UNLOCKED
+              <GiTrophy className="text-accent-yellow-400" /> {t('achievementsUnlocked')}
             </h2>
 
             {profile.achievements.length > 0 ? (
@@ -487,8 +489,8 @@ export default function PublicProfilePage() {
             ) : (
               <div className="text-center py-8">
                 <GiTrophy className="text-neutral-600 text-4xl mx-auto mb-4" />
-                <p className="text-neutral-500">No achievements unlocked yet</p>
-                <p className="text-neutral-600 text-sm mt-2">Submit your first submission to get started!</p>
+                <p className="text-neutral-500">{t('noAchievementsYet')}</p>
+                <p className="text-neutral-600 text-sm mt-2">{t('submitFirstToStart')}</p>
               </div>
             )}
           </div>
@@ -498,7 +500,7 @@ export default function PublicProfilePage() {
         <div className="bg-gradient-to-r from-accent-purple-500 to-accent-pink-500 p-[3px] rounded-lg">
           <div className="bg-neutral-900 rounded-lg p-6 h-full">
             <h2 className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-purple-400 to-accent-pink-400 uppercase mb-4 flex items-center gap-2">
-              <MdOutlineSkateboarding className="text-accent-purple-400" /> RECENT ACTIVITY
+              <MdOutlineSkateboarding className="text-accent-purple-400" /> {t('recentActivityTitle')}
             </h2>
 
             {profile.recentActivity.length > 0 ? (
@@ -544,7 +546,7 @@ export default function PublicProfilePage() {
                         {activity.score && (
                           <div className="text-right">
                             <p className="text-2xl font-black text-accent-yellow-400">{activity.score}</p>
-                            <p className="text-neutral-500 text-xs">points</p>
+                            <p className="text-neutral-500 text-xs">{t('points')}</p>
                           </div>
                         )}
                       </div>
@@ -555,8 +557,8 @@ export default function PublicProfilePage() {
             ) : (
               <div className="text-center py-8">
                 <MdOutlineSkateboarding className="text-neutral-600 text-4xl mx-auto mb-4" />
-                <p className="text-neutral-500">No recent activity</p>
-                <p className="text-neutral-600 text-sm mt-2">Submit your first submission!</p>
+                <p className="text-neutral-500">{t('noRecentActivity')}</p>
+                <p className="text-neutral-600 text-sm mt-2">{t('submitFirst')}</p>
               </div>
             )}
           </div>
@@ -566,38 +568,38 @@ export default function PublicProfilePage() {
         <div className="bg-gradient-to-r from-green-500 to-accent-teal-500 p-[3px] rounded-lg">
           <div className="bg-neutral-900 rounded-lg p-6 h-full">
             <h2 className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-accent-teal-400 uppercase mb-4 flex items-center gap-2">
-              <GiSkateboard className="text-green-400" /> 🛼 DREAM SETUP
+              <GiSkateboard className="text-green-400" /> 🛼 {t('dreamSetup')}
             </h2>
 
             {profile.skateSetup ? (
               <div className="space-y-3">
                 {profile.skateSetup.madero && (
                   <div className="bg-neutral-800 border-2 border-neutral-700 rounded-lg p-3">
-                    <p className="text-neutral-500 text-xs uppercase">Deck</p>
+                    <p className="text-neutral-500 text-xs uppercase">{t('deck')}</p>
                     <p className="text-white font-bold">{profile.skateSetup.madero}</p>
                   </div>
                 )}
                 {profile.skateSetup.trucks && (
                   <div className="bg-neutral-800 border-2 border-neutral-700 rounded-lg p-3">
-                    <p className="text-neutral-500 text-xs uppercase">Trucks</p>
+                    <p className="text-neutral-500 text-xs uppercase">{t('trucks')}</p>
                     <p className="text-white font-bold">{profile.skateSetup.trucks}</p>
                   </div>
                 )}
                 {profile.skateSetup.ruedas && (
                   <div className="bg-neutral-800 border-2 border-neutral-700 rounded-lg p-3">
-                    <p className="text-neutral-500 text-xs uppercase">Wheels</p>
+                    <p className="text-neutral-500 text-xs uppercase">{t('wheels')}</p>
                     <p className="text-white font-bold">{profile.skateSetup.ruedas}</p>
                   </div>
                 )}
                 {profile.skateSetup.rodamientos && (
                   <div className="bg-neutral-800 border-2 border-neutral-700 rounded-lg p-3">
-                    <p className="text-neutral-500 text-xs uppercase">Bearings</p>
+                    <p className="text-neutral-500 text-xs uppercase">{t('bearings')}</p>
                     <p className="text-white font-bold">{profile.skateSetup.rodamientos}</p>
                   </div>
                 )}
                 {profile.skateSetup.tenis && (
                   <div className="bg-neutral-800 border-2 border-neutral-700 rounded-lg p-3">
-                    <p className="text-neutral-500 text-xs uppercase">Shoes</p>
+                    <p className="text-neutral-500 text-xs uppercase">{t('shoes')}</p>
                     <p className="text-white font-bold">{profile.skateSetup.tenis}</p>
                   </div>
                 )}
@@ -605,8 +607,8 @@ export default function PublicProfilePage() {
             ) : (
               <div className="text-center py-8">
                 <GiSkateboard className="text-neutral-600 text-4xl mx-auto mb-4" />
-                <p className="text-neutral-500">Setup not configured</p>
-                <p className="text-neutral-600 text-sm mt-2">Configure your dream setup in your profile</p>
+                <p className="text-neutral-500">{t('setupNotConfigured')}</p>
+                <p className="text-neutral-600 text-sm mt-2">{t('configureSetupHint')}</p>
               </div>
             )}
           </div>
@@ -620,7 +622,7 @@ export default function PublicProfilePage() {
           <div className="bg-gradient-to-r from-green-500 to-accent-teal-500 p-[3px] rounded-lg">
             <div className="bg-neutral-900 rounded-lg p-6">
               <h2 className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-accent-teal-400 uppercase mb-4 text-center">
-                Social Media
+                {t('socialMedia')}
               </h2>
 
               <div className="flex flex-wrap justify-center gap-4">
@@ -681,7 +683,7 @@ export default function PublicProfilePage() {
             href="/dashboard/skaters/profile"
             className="inline-block bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 hover:from-accent-cyan-400 hover:to-accent-purple-500 text-white font-black py-3 px-8 rounded-lg border-4 border-white uppercase tracking-wider shadow-lg shadow-accent-cyan-500/30 transform hover:scale-105 transition-all"
           >
-            Edit My Profile
+            {t('editMyProfile')}
           </Link>
         </div>
       )}
@@ -692,7 +694,7 @@ export default function PublicProfilePage() {
           href="/dashboard/leaderboard"
           className="text-accent-cyan-400 hover:text-accent-cyan-300 font-bold uppercase text-sm"
         >
-          Back to Leaderboard
+          {t('backToLeaderboard')}
         </Link>
       </div>
     </div>

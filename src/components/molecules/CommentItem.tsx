@@ -3,7 +3,8 @@
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { ThumbsUp, ThumbsDown, Trash2, Edit2, MessageCircle } from 'lucide-react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
+import { useTranslations } from 'next-intl';
 import CommentThread from './CommentThread';
 import ReplyForm from './ReplyForm';
 
@@ -51,6 +52,7 @@ export default function CommentItem({
   onVoteChange,
 }: CommentItemProps) {
   const { data: session } = useSession();
+  const t = useTranslations('comments');
   const [isDeleting, setIsDeleting] = useState(false);
   const [currentLikes, setCurrentLikes] = useState(likes);
   const [currentDislikes, setCurrentDislikes] = useState(dislikes);
@@ -69,10 +71,10 @@ export default function CommentItem({
     const diffHours = Math.floor(diffMs / 3600000);
     const diffDays = Math.floor(diffMs / 86400000);
 
-    if (diffMins < 1) return 'just now';
-    if (diffMins < 60) return `${diffMins} min ago`;
-    if (diffHours < 24) return `${diffHours}h ago`;
-    if (diffDays < 7) return `${diffDays}d ago`;
+    if (diffMins < 1) return t('justNow');
+    if (diffMins < 60) return t('minAgo', { count: diffMins });
+    if (diffHours < 24) return t('hoursAgo', { count: diffHours });
+    if (diffDays < 7) return t('daysAgo', { count: diffDays });
     return date.toLocaleDateString('en-US');
   };
 
@@ -92,7 +94,7 @@ export default function CommentItem({
       if (!response.ok) {
         const errorMessage = typeof data.error === 'string'
           ? data.error
-          : data.error?.message || data.data?.message || 'Error voting';
+          : data.error?.message || data.data?.message || t('errorVoting');
         alert(errorMessage);
         return;
       }
@@ -123,7 +125,7 @@ export default function CommentItem({
       onVoteChange?.(); // Refresh comment list
     } catch (error) {
       console.error('Error voting:', error);
-      alert('Error voting');
+      alert(t('errorVoting'));
     } finally {
       setIsVoting(false);
     }
@@ -143,7 +145,7 @@ export default function CommentItem({
       if (!response.ok) {
         const errorMessage = typeof data.error === 'string'
           ? data.error
-          : data.error?.message || data.data?.message || 'Error removing vote';
+          : data.error?.message || data.data?.message || t('errorRemovingVote');
         alert(errorMessage);
         return;
       }
@@ -159,14 +161,14 @@ export default function CommentItem({
       onVoteChange?.();
     } catch (error) {
       console.error('Error removing vote:', error);
-      alert('Error removing vote');
+      alert(t('errorRemovingVote'));
     } finally {
       setIsVoting(false);
     }
   };
 
   const handleDelete = async () => {
-    if (!confirm('Are you sure you want to delete this comment?')) return;
+    if (!confirm(t('confirmDelete'))) return;
 
     setIsDeleting(true);
     try {
@@ -179,7 +181,7 @@ export default function CommentItem({
         // Error can be an object or a string
         const errorMessage = typeof data.error === 'string'
           ? data.error
-          : data.error?.message || data.data?.message || 'Error deleting comment';
+          : data.error?.message || data.data?.message || t('errorDeletingComment');
         alert(errorMessage);
         return;
       }
@@ -187,7 +189,7 @@ export default function CommentItem({
       onDelete?.();
     } catch (error) {
       console.error('Error deleting comment:', error);
-      alert('Error deleting comment');
+      alert(t('errorDeletingComment'));
     } finally {
       setIsDeleting(false);
     }
@@ -236,7 +238,7 @@ export default function CommentItem({
           <div className="flex items-center gap-1">
             {isPinned && (
               <span className="text-[10px] bg-accent-purple-600 text-white px-2 py-0.5 rounded font-bold">
-                PINNED
+                {t('pinned')}
               </span>
             )}
             {isOwner && onEdit && (
@@ -244,7 +246,7 @@ export default function CommentItem({
                 onClick={onEdit}
                 disabled={isDeleting}
                 className="p-1 hover:bg-neutral-700 rounded text-neutral-400 hover:text-accent-cyan-400 transition-colors"
-                title="Edit comment"
+                title={t('editComment')}
               >
                 <Edit2 className="w-3 h-3" />
               </button>
@@ -253,7 +255,7 @@ export default function CommentItem({
               onClick={handleDelete}
               disabled={isDeleting}
               className="p-1 hover:bg-neutral-700 rounded text-neutral-400 hover:text-red-400 transition-colors"
-              title="Delete comment"
+              title={t('deleteComment')}
             >
               {isDeleting ? (
                 <div className="w-3 h-3 animate-spin border-2 border-red-400 border-t-transparent rounded-full" />
@@ -285,7 +287,7 @@ export default function CommentItem({
             ${!session ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
             ${isVoting ? 'opacity-50' : ''}
           `}
-          title={session ? (currentUserVote === 'like' ? 'Remove like' : 'Like') : 'Sign in to vote'}
+          title={session ? (currentUserVote === 'like' ? t('removeLike') : t('like')) : t('signInToVote')}
         >
           <ThumbsUp className="w-3 h-3" />
           <span className="font-bold">{currentLikes}</span>
@@ -304,7 +306,7 @@ export default function CommentItem({
             ${!session ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
             ${isVoting ? 'opacity-50' : ''}
           `}
-          title={session ? (currentUserVote === 'dislike' ? 'Remove dislike' : 'Dislike') : 'Sign in to vote'}
+          title={session ? (currentUserVote === 'dislike' ? t('removeDislike') : t('dislike')) : t('signInToVote')}
         >
           <ThumbsDown className="w-3 h-3" />
           <span className="font-bold">{currentDislikes}</span>
@@ -312,7 +314,7 @@ export default function CommentItem({
 
         {/* Total votes */}
         <span className="text-neutral-500">
-          {currentLikes + currentDislikes} {currentLikes + currentDislikes === 1 ? 'vote' : 'votes'}
+          {currentLikes + currentDislikes} {currentLikes + currentDislikes === 1 ? t('vote') : t('votes')}
         </span>
 
         {/* Reply button - only on main comments */}
@@ -325,7 +327,7 @@ export default function CommentItem({
               bg-neutral-700 text-neutral-300 hover:bg-accent-cyan-600 hover:text-white
               ${!session ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
             `}
-            title={session ? 'Reply to comment' : 'Sign in to reply'}
+            title={session ? t('replyToComment') : t('signInToReply')}
           >
             <MessageCircle className="w-3 h-3" />
             {replyCount > 0 && <span className="font-bold">{replyCount}</span>}

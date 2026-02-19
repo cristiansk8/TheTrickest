@@ -3,8 +3,9 @@
 import { fadeIn } from '@/utils/motion-transitions';
 import { motion } from 'framer-motion';
 import { ArrowRight, TrendingUp, Users, Zap } from 'lucide-react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface VotingStats {
   pending: number;
@@ -15,6 +16,7 @@ interface VotingStats {
 export function VotingCallToAction() {
   const [stats, setStats] = useState<VotingStats | null>(null);
   const [loading, setLoading] = useState(true);
+  const t = useTranslations('votingCTA');
 
   useEffect(() => {
     async function fetchStats() {
@@ -62,19 +64,18 @@ export function VotingCallToAction() {
                 <div className="absolute inset-0 w-2 h-2 bg-green-500 rounded-full animate-ping" />
               </div>
               <span className="text-sm font-medium text-neutral-300">
-                System Active • Live Voting
+                {t('systemActive')} • {t('liveVoting')}
               </span>
             </div>
           </div>
 
           {/* Heading */}
           <h2 className="text-4xl md:text-5xl font-bold text-center mb-6 bg-gradient-to-r from-accent-purple-400 via-accent-pink-400 to-accent-blue-400 bg-clip-text text-transparent">
-            Community in Action
+            {t('title')}
           </h2>
 
           <p className="text-xl text-center text-neutral-400 mb-12 max-w-2xl mx-auto">
-            The community decides who wins. Participate by voting for the best
-            submissions.
+            {t('description')}
           </p>
 
           {/* Stats Grid */}
@@ -109,7 +110,7 @@ export function VotingCallToAction() {
                   {stats?.pending || 0}
                 </div>
                 <div className="text-sm text-neutral-400">
-                  Pending Submissions
+                  {t('pendingSubmissions')}
                 </div>
               </motion.div>
 
@@ -129,7 +130,7 @@ export function VotingCallToAction() {
                   {stats?.communityApproved || 0}
                 </div>
                 <div className="text-sm text-neutral-400">
-                  Community Approved
+                  {t('communityApproved')}
                 </div>
               </motion.div>
 
@@ -148,7 +149,7 @@ export function VotingCallToAction() {
                 <div className="text-3xl font-bold text-white mb-2">
                   {stats?.needingVotes || 0}
                 </div>
-                <div className="text-sm text-neutral-400">Need Your Vote</div>
+                <div className="text-sm text-neutral-400">{t('needYourVote')}</div>
               </motion.div>
             </div>
           )}
@@ -163,10 +164,10 @@ export function VotingCallToAction() {
               >
                 <span className="flex items-center gap-2">
                   {loading
-                    ? 'Loading...'
+                    ? t('loading')
                     : stats?.pending
-                    ? `View ${stats.pending} Submissions`
-                    : 'Go Vote'}
+                    ? t('viewSubmissions', { count: stats.pending })
+                    : t('goVote')}
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </span>
               </motion.button>

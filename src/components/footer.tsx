@@ -2,7 +2,8 @@
 
 import { useSession } from 'next-auth/react';
 import localFont from 'next/font/local';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
+import { useTranslations } from 'next-intl';
 
 const myFont = localFont({
   src: './fonts/blox.woff',
@@ -12,6 +13,7 @@ const myFont = localFont({
 const Footer = () => {
   const { data: session } = useSession();
   const isAdmin = session?.user?.role === 'admin';
+  const t = useTranslations('footer');
 
   return (
     <footer className="bg-indigo-600 rounded-lg shadow dark:bg-neutral-900 m-4">
@@ -23,23 +25,23 @@ const Footer = () => {
           >
             <img src="/logo.png" className="h-16" alt="Thetrickest Logo" />
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-              Patina, graba y postea
+              {t('tagline')}
             </span>
           </a>
           <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-neutral-500 sm:mb-0 dark:text-neutral-400">
             <li>
               <a href="#" className="hover:underline me-4 md:me-6">
-                Nosotros
+                {t('aboutUs')}
               </a>
             </li>
             <li>
               <a href="#" className="hover:underline me-4 md:me-6">
-                Privacy Policy
+                {t('privacyPolicy')}
               </a>
             </li>
             <li>
               <a href="#" className="hover:underline me-4 md:me-6">
-                Contactanos
+                {t('contactUs')}
               </a>
             </li>
             {isAdmin && (
@@ -48,7 +50,7 @@ const Footer = () => {
                   href="/admin"
                   className="hover:underline text-red-400 hover:text-red-300"
                 >
-                  Admin
+                  {t('admin')}
                 </Link>
               </li>
             )}
@@ -60,7 +62,7 @@ const Footer = () => {
           <a href="https://thetrickest.com" className="hover:underline">
             Thetrickest
           </a>
-          . All Rights Reserved.
+          . {t('allRightsReserved')}.
         </span>
       </div>
     </footer>

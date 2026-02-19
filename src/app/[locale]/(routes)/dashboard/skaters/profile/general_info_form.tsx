@@ -4,8 +4,10 @@ import ImageUpload from '@/components/ImageUpload';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 export default function ProfilePage() {
+  const t = useTranslations('generalInfoForm');
   const { data: session, status } = useSession();
   const [isClient, setIsClient] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -76,7 +78,7 @@ export default function ProfilePage() {
     setFormData({ ...formData, [field]: value });
   };
 
-  if (!isClient) return <p>Loading...</p>; // Avoid SSR render
+  if (!isClient) return <p>{t('loading')}</p>; // Avoid SSR render
 
   const handleSubmitUpdateProfile = async (
     e: React.FormEvent<HTMLFormElement>
@@ -91,7 +93,7 @@ export default function ProfilePage() {
 
     if (!session?.user?.email) {
       console.error('❌ No email in session:', session?.user);
-      setNotification('⚠️ Not authenticated or missing email.');
+      setNotification(`⚠️ ${t('notAuthenticated')}`);
       setLoading(false);
       return;
     }
@@ -123,7 +125,7 @@ export default function ProfilePage() {
 
       if (data.error) throw new Error(data.error);
 
-      setNotification('✅ Profile updated successfully.');
+      setNotification(`✅ ${t('profileUpdated')}`);
       setTimeout(() => {
         setNotification('');
       }, 5000);
@@ -140,7 +142,7 @@ export default function ProfilePage() {
     <div className="bg-gradient-to-r from-accent-cyan-500 to-accent-blue-500 p-1 rounded-lg shadow-2xl">
       <div className="bg-neutral-900 rounded-lg p-6 md:p-8">
         <h2 className="text-2xl md:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-cyan-400 to-accent-blue-400 uppercase mb-6 text-center md:text-left">
-          👤 Personal Info
+          {`👤 ${t('title')}`}
         </h2>
 
         {/* Success or error notification */}
@@ -157,7 +159,7 @@ export default function ProfilePage() {
         {loading && (
           <div className="text-center py-4">
             <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-4 border-b-4 border-accent-cyan-400"></div>
-            <p className="text-accent-cyan-400 mt-2 font-bold">Loading...</p>
+            <p className="text-accent-cyan-400 mt-2 font-bold">{t('loading')}</p>
           </div>
         )}
 
@@ -181,14 +183,14 @@ export default function ProfilePage() {
               htmlFor="name"
               className="block text-accent-cyan-400 font-bold mb-2 uppercase tracking-wide text-sm md:text-base"
             >
-              ✏️ Name
+              {`✏️ ${t('name')}`}
             </label>
             <input
               className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-400 focus:border-accent-cyan-500 focus:outline-none transition-all group-hover:border-accent-cyan-400"
               type="text"
               id="name"
               name="name"
-              placeholder="Your full name"
+              placeholder={t('namePlaceholder')}
               value={formData.name}
               onChange={handleChange}
             />
@@ -200,14 +202,14 @@ export default function ProfilePage() {
               htmlFor="phone"
               className="block text-accent-cyan-400 font-bold mb-2 uppercase tracking-wide text-sm md:text-base"
             >
-              📱 Phone
+              {`📱 ${t('phone')}`}
             </label>
             <input
               className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-400 focus:border-accent-cyan-500 focus:outline-none transition-all group-hover:border-accent-cyan-400"
               type="text"
               id="phone"
               name="phone"
-              placeholder="+1 555 123 4567"
+              placeholder={t('phonePlaceholder')}
               value={formData.phone}
               onChange={handleChange}
             />
@@ -219,7 +221,7 @@ export default function ProfilePage() {
               htmlFor="birthdate"
               className="block text-accent-cyan-400 font-bold mb-2 uppercase tracking-wide text-sm md:text-base"
             >
-              🎂 Birth Date
+              {`🎂 ${t('birthDate')}`}
             </label>
             <input
               className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-400 focus:border-accent-cyan-500 focus:outline-none transition-all group-hover:border-accent-cyan-400"
@@ -237,7 +239,7 @@ export default function ProfilePage() {
               htmlFor="birthskate"
               className="block text-accent-cyan-400 font-bold mb-2 uppercase tracking-wide text-sm md:text-base"
             >
-              🛹 First Time Skating
+              {`🛹 ${t('firstTimeSkating')}`}
             </label>
             <input
               className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-400 focus:border-accent-cyan-500 focus:outline-none transition-all group-hover:border-accent-cyan-400"
@@ -252,7 +254,7 @@ export default function ProfilePage() {
           {/* Location */}
           <div className="col-span-1 md:col-span-2">
             <label className="block text-accent-cyan-400 font-bold mb-4 uppercase tracking-wide text-sm md:text-base">
-              📍 Location
+              {`📍 ${t('location')}`}
             </label>
             <LocationSelector
               selectedDepartment={formData.departamento}
@@ -270,14 +272,14 @@ export default function ProfilePage() {
               htmlFor="estado"
               className="block text-accent-cyan-400 font-bold mb-2 uppercase tracking-wide text-sm md:text-base"
             >
-              🏴 State
+              {`🏴 ${t('state')}`}
             </label>
             <input
               className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-400 focus:border-accent-cyan-500 focus:outline-none transition-all group-hover:border-accent-cyan-400"
               type="text"
               id="estado"
               name="estado"
-              placeholder="State (optional)"
+              placeholder={t('statePlaceholder')}
               value={formData.estado}
               onChange={handleChange}
             />
@@ -290,7 +292,7 @@ export default function ProfilePage() {
               type="submit"
               disabled={loading}
             >
-              {loading ? '⏳ SAVING...' : '💾 SAVE'}
+              {loading ? `⏳ ${t('saving')}` : `💾 ${t('save')}`}
             </button>
           </div>
         </form>

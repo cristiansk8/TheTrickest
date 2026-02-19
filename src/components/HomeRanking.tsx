@@ -1,8 +1,9 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface RankingUser {
   rank: number;
@@ -44,6 +45,7 @@ export default function HomeRanking() {
   const [usersLeaderboard, setUsersLeaderboard] = useState<RankingUser[]>([]);
   const [teamsLeaderboard, setTeamsLeaderboard] = useState<RankingTeam[]>([]);
   const [loading, setLoading] = useState(true);
+  const t = useTranslations('homeRanking');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -119,7 +121,7 @@ export default function HomeRanking() {
           <div className="text-center">
             <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-cyan-400 mx-auto"></div>
             <p className="mt-4 text-cyan-400 font-bold text-xl">
-              CARGANDO RANKING...
+              {t('loadingRanking')}
             </p>
           </div>
         </div>
@@ -144,12 +146,12 @@ export default function HomeRanking() {
             <div className="bg-gradient-to-r from-yellow-500 to-orange-600 p-1 rounded-lg shadow-2xl">
               <div className="bg-slate-900 rounded-lg px-6 py-4">
                 <h2 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400 uppercase tracking-wider">
-                  🏆 LEADERBOARD
+                  {t('title')}
                 </h2>
                 <p className="text-yellow-300 mt-2 text-xs md:text-sm uppercase tracking-wider">
                   {activeTab === 'users'
-                    ? 'Los mejores skaters de la plataforma'
-                    : 'Los mejores equipos de la plataforma'}
+                    ? t('bestSkatersSubtitle')
+                    : t('bestTeamsSubtitle')}
                 </p>
               </div>
             </div>
@@ -167,7 +169,7 @@ export default function HomeRanking() {
                   : 'bg-slate-800 text-slate-400 border-4 border-slate-700 hover:bg-slate-700'
               }`}
             >
-              👤 SKATERS
+              {t('skatersTab')}
             </button>
             <button
               onClick={() => setActiveTab('teams')}
@@ -177,7 +179,7 @@ export default function HomeRanking() {
                   : 'bg-slate-800 text-slate-400 border-4 border-slate-700 hover:bg-slate-700'
               }`}
             >
-              👥 EQUIPOS
+              {t('teamsTab')}
             </button>
           </div>
         </div>
@@ -351,7 +353,7 @@ export default function HomeRanking() {
                     </h3>
                     <div className="flex flex-wrap gap-2 text-xs mt-0.5">
                       <span className="text-purple-400">
-                        👑 {team.owner.name || 'Capitán'}
+                        {team.owner.name || t('captain')}
                       </span>
                       <span className="text-slate-400">
                         {team.memberCount}/{team.maxMembers}
@@ -388,7 +390,7 @@ export default function HomeRanking() {
             href="/dashboard/leaderboard"
             className="inline-block bg-purple-600 hover:bg-purple-700 text-white font-black uppercase tracking-wider px-6 py-3 rounded-lg border-4 border-purple-400 shadow-lg hover:shadow-purple-500/50 transition-all duration-200 text-sm"
           >
-            Ver Leaderboard Completo 🏆
+            {t('viewFullLeaderboard')}
           </Link>
         </div>
 
@@ -397,8 +399,8 @@ export default function HomeRanking() {
           <div className="bg-slate-800/50 rounded-lg p-3 text-center">
             <p className="text-slate-400 text-xs">
               {activeTab === 'users'
-                ? 'Los puntos se calculan sumando los scores de todas las submissions aprobadas.'
-                : 'Los puntos del equipo son la suma de los puntos de todos sus miembros.'}
+                ? t('skatersLegend')
+                : t('teamsLegend')}
             </p>
           </div>
         </div>

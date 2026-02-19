@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
+import { useTranslations } from 'next-intl';
 import {
   GiTrophy,
   GiLaurelsTrophy,
@@ -28,231 +29,6 @@ import {
 } from "react-icons/fa";
 import { MdOutlineSkateboarding } from "react-icons/md";
 import { IoTrophy } from "react-icons/io5";
-
-// Achievement definitions with categories
-const achievements = [
-  // BEGINNER
-  {
-    id: 'first_blood',
-    name: 'FIRST BLOOD',
-    description: 'Submit your first submission',
-    icon: <MdOutlineSkateboarding size={40} />,
-    category: 'beginner',
-    rarity: 'common',
-    xp: 50,
-    unlocked: true,
-    unlockedDate: '2024-01-15',
-  },
-  {
-    id: 'approved',
-    name: 'APPROVED!',
-    description: 'First submission approved',
-    icon: <FaStar size={40} />,
-    category: 'beginner',
-    rarity: 'common',
-    xp: 100,
-    unlocked: true,
-    unlockedDate: '2024-01-20',
-  },
-  {
-    id: 'ollie_master',
-    name: 'OLLIE MASTER',
-    description: 'Complete level 1 - Ollie',
-    icon: <GiStarMedal size={40} />,
-    category: 'beginner',
-    rarity: 'common',
-    xp: 150,
-    unlocked: true,
-    unlockedDate: '2024-02-01',
-  },
-  // INTERMEDIATE
-  {
-    id: 'kickflip_king',
-    name: 'KICKFLIP KING',
-    description: 'Master the Kickflip (Level 2)',
-    icon: <FaCrown size={40} />,
-    category: 'intermediate',
-    rarity: 'uncommon',
-    xp: 200,
-    unlocked: true,
-    unlockedDate: '2024-02-15',
-  },
-  {
-    id: 'combo_starter',
-    name: 'COMBO STARTER',
-    description: '3 approved submissions in a row',
-    icon: <FaFire size={40} />,
-    category: 'intermediate',
-    rarity: 'uncommon',
-    xp: 250,
-    unlocked: false,
-  },
-  {
-    id: 'grind_time',
-    name: 'GRIND TIME',
-    description: 'Complete the 50-50 Grind (Level 4)',
-    icon: <GiRibbonMedal size={40} />,
-    category: 'intermediate',
-    rarity: 'uncommon',
-    xp: 300,
-    unlocked: false,
-  },
-  {
-    id: 'slide_master',
-    name: 'SLIDE MASTER',
-    description: 'Master the Boardslide (Level 5)',
-    icon: <FaBolt size={40} />,
-    category: 'intermediate',
-    rarity: 'uncommon',
-    xp: 350,
-    unlocked: false,
-  },
-  // ADVANCED
-  {
-    id: 'tre_flip_legend',
-    name: 'TRE FLIP LEGEND',
-    description: 'Master the 360 Flip (Level 7)',
-    icon: <GiTrophy size={40} />,
-    category: 'advanced',
-    rarity: 'rare',
-    xp: 500,
-    unlocked: false,
-  },
-  {
-    id: 'score_500',
-    name: 'HIGH SCORER',
-    description: 'Reach 500 total points',
-    icon: <GiAchievement size={40} />,
-    category: 'advanced',
-    rarity: 'rare',
-    xp: 500,
-    unlocked: false,
-  },
-  {
-    id: 'halfway_hero',
-    name: 'HALFWAY HERO',
-    description: 'Complete 5 levels',
-    icon: <FaMedal size={40} />,
-    category: 'advanced',
-    rarity: 'rare',
-    xp: 600,
-    unlocked: false,
-  },
-  // EXPERT
-  {
-    id: 'hardflip_demon',
-    name: 'HARDFLIP DEMON',
-    description: 'Master the Hardflip (Level 8)',
-    icon: <FaSkull size={40} />,
-    category: 'expert',
-    rarity: 'epic',
-    xp: 800,
-    unlocked: false,
-  },
-  {
-    id: 'switch_wizard',
-    name: 'SWITCH WIZARD',
-    description: 'Master Switch Kickflip (Level 10)',
-    icon: <FaUserNinja size={40} />,
-    category: 'expert',
-    rarity: 'epic',
-    xp: 1000,
-    unlocked: false,
-  },
-  {
-    id: 'score_1000',
-    name: 'POINT CRUSHER',
-    description: 'Reach 1000 total points',
-    icon: <GiFireGem size={40} />,
-    category: 'expert',
-    rarity: 'epic',
-    xp: 1000,
-    unlocked: false,
-  },
-  // LEGENDARY
-  {
-    id: 'impossible_dream',
-    name: 'IMPOSSIBLE DREAM',
-    description: 'Complete the Bonus level - Impossible',
-    icon: <GiDiamondTrophy size={40} />,
-    category: 'legendary',
-    rarity: 'legendary',
-    xp: 2000,
-    unlocked: false,
-  },
-  {
-    id: 'perfect_run',
-    name: 'PERFECT RUN',
-    description: 'Complete all levels',
-    icon: <GiLaurelsTrophy size={40} />,
-    category: 'legendary',
-    rarity: 'legendary',
-    xp: 3000,
-    unlocked: false,
-  },
-  {
-    id: 'goat',
-    name: 'G.O.A.T.',
-    description: 'Perfect score on all levels',
-    icon: <GiCrownedSkull size={40} />,
-    category: 'legendary',
-    rarity: 'legendary',
-    xp: 5000,
-    unlocked: false,
-  },
-  // SOCIAL
-  {
-    id: 'team_player',
-    name: 'TEAM PLAYER',
-    description: 'Join a team',
-    icon: <FaRocket size={40} />,
-    category: 'social',
-    rarity: 'common',
-    xp: 100,
-    unlocked: false,
-  },
-  {
-    id: 'captain',
-    name: 'CAPTAIN',
-    description: 'Create your own team',
-    icon: <GiPodiumWinner size={40} />,
-    category: 'social',
-    rarity: 'uncommon',
-    xp: 200,
-    unlocked: false,
-  },
-  {
-    id: 'top_10',
-    name: 'TOP 10',
-    description: 'Enter the Top 10 leaderboard',
-    icon: <IoTrophy size={40} />,
-    category: 'social',
-    rarity: 'epic',
-    xp: 1000,
-    unlocked: false,
-  },
-  // SECRET
-  {
-    id: 'night_owl',
-    name: 'NIGHT OWL',
-    description: '???',
-    icon: <GiSkeletonKey size={40} />,
-    category: 'secret',
-    rarity: 'secret',
-    xp: 500,
-    unlocked: false,
-  },
-  {
-    id: 'easter_egg',
-    name: 'EASTER EGG',
-    description: '???',
-    icon: <FaGem size={40} />,
-    category: 'secret',
-    rarity: 'secret',
-    xp: 1000,
-    unlocked: false,
-  },
-];
 
 const rarityColors: Record<string, { bg: string; border: string; text: string; glow: string }> = {
   common: {
@@ -293,19 +69,244 @@ const rarityColors: Record<string, { bg: string; border: string; text: string; g
   },
 };
 
-const categoryNames: Record<string, string> = {
-  beginner: '🌱 BEGINNER',
-  intermediate: '⚡ INTERMEDIATE',
-  advanced: '🔥 ADVANCED',
-  expert: '💀 EXPERT',
-  legendary: '👑 LEGENDARY',
-  social: '🤝 SOCIAL',
-  secret: '🔮 SECRET',
-};
-
 export default function LogrosPage() {
   const { data: session } = useSession();
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const t = useTranslations('logrosPage');
+
+  const achievements = [
+    // BEGINNER
+    {
+      id: 'first_blood',
+      name: t('firstBlood'),
+      description: t('firstBloodDesc'),
+      icon: <MdOutlineSkateboarding size={40} />,
+      category: 'beginner',
+      rarity: 'common',
+      xp: 50,
+      unlocked: true,
+      unlockedDate: '2024-01-15',
+    },
+    {
+      id: 'approved',
+      name: t('approvedAchievement'),
+      description: t('approvedAchievementDesc'),
+      icon: <FaStar size={40} />,
+      category: 'beginner',
+      rarity: 'common',
+      xp: 100,
+      unlocked: true,
+      unlockedDate: '2024-01-20',
+    },
+    {
+      id: 'ollie_master',
+      name: t('ollieMaster'),
+      description: t('ollieMasterDesc'),
+      icon: <GiStarMedal size={40} />,
+      category: 'beginner',
+      rarity: 'common',
+      xp: 150,
+      unlocked: true,
+      unlockedDate: '2024-02-01',
+    },
+    // INTERMEDIATE
+    {
+      id: 'kickflip_king',
+      name: t('kickflipKing'),
+      description: t('kickflipKingDesc'),
+      icon: <FaCrown size={40} />,
+      category: 'intermediate',
+      rarity: 'uncommon',
+      xp: 200,
+      unlocked: true,
+      unlockedDate: '2024-02-15',
+    },
+    {
+      id: 'combo_starter',
+      name: t('comboStarter'),
+      description: t('comboStarterDesc'),
+      icon: <FaFire size={40} />,
+      category: 'intermediate',
+      rarity: 'uncommon',
+      xp: 250,
+      unlocked: false,
+    },
+    {
+      id: 'grind_time',
+      name: t('grindTime'),
+      description: t('grindTimeDesc'),
+      icon: <GiRibbonMedal size={40} />,
+      category: 'intermediate',
+      rarity: 'uncommon',
+      xp: 300,
+      unlocked: false,
+    },
+    {
+      id: 'slide_master',
+      name: t('slideMaster'),
+      description: t('slideMasterDesc'),
+      icon: <FaBolt size={40} />,
+      category: 'intermediate',
+      rarity: 'uncommon',
+      xp: 350,
+      unlocked: false,
+    },
+    // ADVANCED
+    {
+      id: 'tre_flip_legend',
+      name: t('treFlipLegend'),
+      description: t('treFlipLegendDesc'),
+      icon: <GiTrophy size={40} />,
+      category: 'advanced',
+      rarity: 'rare',
+      xp: 500,
+      unlocked: false,
+    },
+    {
+      id: 'score_500',
+      name: t('highScorer'),
+      description: t('highScorerDesc'),
+      icon: <GiAchievement size={40} />,
+      category: 'advanced',
+      rarity: 'rare',
+      xp: 500,
+      unlocked: false,
+    },
+    {
+      id: 'halfway_hero',
+      name: t('halfwayHero'),
+      description: t('halfwayHeroDesc'),
+      icon: <FaMedal size={40} />,
+      category: 'advanced',
+      rarity: 'rare',
+      xp: 600,
+      unlocked: false,
+    },
+    // EXPERT
+    {
+      id: 'hardflip_demon',
+      name: t('hardflipDemon'),
+      description: t('hardflipDemonDesc'),
+      icon: <FaSkull size={40} />,
+      category: 'expert',
+      rarity: 'epic',
+      xp: 800,
+      unlocked: false,
+    },
+    {
+      id: 'switch_wizard',
+      name: t('switchWizard'),
+      description: t('switchWizardDesc'),
+      icon: <FaUserNinja size={40} />,
+      category: 'expert',
+      rarity: 'epic',
+      xp: 1000,
+      unlocked: false,
+    },
+    {
+      id: 'score_1000',
+      name: t('pointCrusher'),
+      description: t('pointCrusherDesc'),
+      icon: <GiFireGem size={40} />,
+      category: 'expert',
+      rarity: 'epic',
+      xp: 1000,
+      unlocked: false,
+    },
+    // LEGENDARY
+    {
+      id: 'impossible_dream',
+      name: t('impossibleDream'),
+      description: t('impossibleDreamDesc'),
+      icon: <GiDiamondTrophy size={40} />,
+      category: 'legendary',
+      rarity: 'legendary',
+      xp: 2000,
+      unlocked: false,
+    },
+    {
+      id: 'perfect_run',
+      name: t('perfectRun'),
+      description: t('perfectRunDesc'),
+      icon: <GiLaurelsTrophy size={40} />,
+      category: 'legendary',
+      rarity: 'legendary',
+      xp: 3000,
+      unlocked: false,
+    },
+    {
+      id: 'goat',
+      name: t('goat'),
+      description: t('goatDesc'),
+      icon: <GiCrownedSkull size={40} />,
+      category: 'legendary',
+      rarity: 'legendary',
+      xp: 5000,
+      unlocked: false,
+    },
+    // SOCIAL
+    {
+      id: 'team_player',
+      name: t('teamPlayer'),
+      description: t('teamPlayerDesc'),
+      icon: <FaRocket size={40} />,
+      category: 'social',
+      rarity: 'common',
+      xp: 100,
+      unlocked: false,
+    },
+    {
+      id: 'captain',
+      name: t('captainAchievement'),
+      description: t('captainAchievementDesc'),
+      icon: <GiPodiumWinner size={40} />,
+      category: 'social',
+      rarity: 'uncommon',
+      xp: 200,
+      unlocked: false,
+    },
+    {
+      id: 'top_10',
+      name: t('top10'),
+      description: t('top10Desc'),
+      icon: <IoTrophy size={40} />,
+      category: 'social',
+      rarity: 'epic',
+      xp: 1000,
+      unlocked: false,
+    },
+    // SECRET
+    {
+      id: 'night_owl',
+      name: t('nightOwl'),
+      description: t('nightOwlDesc'),
+      icon: <GiSkeletonKey size={40} />,
+      category: 'secret',
+      rarity: 'secret',
+      xp: 500,
+      unlocked: false,
+    },
+    {
+      id: 'easter_egg',
+      name: t('easterEgg'),
+      description: t('easterEggDesc'),
+      icon: <FaGem size={40} />,
+      category: 'secret',
+      rarity: 'secret',
+      xp: 1000,
+      unlocked: false,
+    },
+  ];
+
+  const categoryNames: Record<string, string> = {
+    beginner: '🌱 ' + t('beginner'),
+    intermediate: '⚡ ' + t('intermediate'),
+    advanced: '🔥 ' + t('advanced'),
+    expert: '💀 ' + t('expertCategory'),
+    legendary: '👑 ' + t('legendaryCategory'),
+    social: '🤝 ' + t('social'),
+    secret: '🔮 ' + t('secret'),
+  };
 
   // Calcular estadísticas
   const totalAchievements = achievements.length;
@@ -327,10 +328,10 @@ export default function LogrosPage() {
         <div className="bg-gradient-to-r from-accent-yellow-500 to-accent-orange-600 p-1 rounded-lg shadow-2xl shadow-accent-yellow-500/30">
           <div className="bg-neutral-900 rounded-lg p-6">
             <h1 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-yellow-400 to-accent-orange-400 uppercase tracking-wider text-center">
-              🏆 ACHIEVEMENTS
+              {`🏆 ${t('title')}`}
             </h1>
             <p className="text-accent-yellow-300 mt-2 text-sm md:text-base text-center">
-              Unlock achievements by completing tricks and challenges
+              {t('subtitle')}
             </p>
           </div>
         </div>
@@ -343,7 +344,7 @@ export default function LogrosPage() {
           <div className="md:col-span-2 bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 p-[3px] rounded-lg">
             <div className="bg-neutral-900 rounded-lg p-4">
               <div className="flex justify-between items-center mb-2">
-                <span className="text-neutral-400 text-xs uppercase font-bold tracking-wider">Total Progress</span>
+                <span className="text-neutral-400 text-xs uppercase font-bold tracking-wider">{t('totalProgress')}</span>
                 <span className="text-accent-cyan-400 font-black">{unlockedAchievements}/{totalAchievements}</span>
               </div>
               <div className="w-full bg-neutral-800 rounded-full h-4 border-2 border-neutral-700">
@@ -359,7 +360,7 @@ export default function LogrosPage() {
           {/* XP Total */}
           <div className="bg-gradient-to-r from-accent-yellow-500 to-accent-orange-500 p-[3px] rounded-lg">
             <div className="bg-neutral-900 rounded-lg p-4 text-center">
-              <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider">XP Total</p>
+              <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider">{t('xpTotal')}</p>
               <p className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-yellow-400 to-accent-orange-400">
                 {totalXP.toLocaleString()}
               </p>
@@ -369,7 +370,7 @@ export default function LogrosPage() {
           {/* Raros */}
           <div className="bg-gradient-to-r from-accent-purple-500 to-accent-pink-500 p-[3px] rounded-lg">
             <div className="bg-neutral-900 rounded-lg p-4 text-center">
-              <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider">Legendary</p>
+              <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider">{t('legendary')}</p>
               <p className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-purple-400 to-accent-pink-400">
                 {achievements.filter(a => a.rarity === 'legendary' && a.unlocked).length}/{achievements.filter(a => a.rarity === 'legendary').length}
               </p>
@@ -391,7 +392,7 @@ export default function LogrosPage() {
                   : 'bg-neutral-800 text-neutral-400 hover:bg-neutral-700 border-2 border-neutral-700'
               }`}
             >
-              {cat === 'all' ? '🎮 ALL' : categoryNames[cat]}
+              {cat === 'all' ? '🎮 ' + t('all') : categoryNames[cat]}
             </button>
           ))}
         </div>
@@ -454,12 +455,12 @@ export default function LogrosPage() {
                     <div className="mt-4 text-center">
                       {achievement.unlocked ? (
                         <div className="flex flex-col items-center">
-                          <span className="text-green-400 font-bold text-sm uppercase">✓ Unlocked</span>
+                          <span className="text-green-400 font-bold text-sm uppercase">{`✓ ${t('unlocked')}`}</span>
                           <span className="text-neutral-500 text-xs">{achievement.unlockedDate}</span>
                         </div>
                       ) : (
                         <span className="text-neutral-600 font-bold text-sm uppercase flex items-center justify-center gap-1">
-                          🔒 Locked
+                          {`🔒 ${t('locked')}`}
                         </span>
                       )}
                     </div>
@@ -479,14 +480,14 @@ export default function LogrosPage() {
       {/* Legend */}
       <div className="max-w-7xl mx-auto mt-8">
         <div className="bg-neutral-800/50 rounded-lg p-4">
-          <p className="text-neutral-500 text-center text-xs uppercase font-bold tracking-wider mb-3">Achievement Rarity</p>
+          <p className="text-neutral-500 text-center text-xs uppercase font-bold tracking-wider mb-3">{t('achievementRarity')}</p>
           <div className="flex flex-wrap justify-center gap-4">
-            <span className="text-neutral-400 text-sm">⬜ Common</span>
-            <span className="text-green-400 text-sm">🟩 Uncommon</span>
-            <span className="text-accent-cyan-400 text-sm">🟦 Rare</span>
-            <span className="text-accent-purple-400 text-sm">🟪 Epic</span>
-            <span className="text-accent-yellow-400 text-sm">🟨 Legendary</span>
-            <span className="text-accent-rose-400 text-sm">🔮 Secret</span>
+            <span className="text-neutral-400 text-sm">{`⬜ ${t('common')}`}</span>
+            <span className="text-green-400 text-sm">{`🟩 ${t('uncommon')}`}</span>
+            <span className="text-accent-cyan-400 text-sm">{`🟦 ${t('rare')}`}</span>
+            <span className="text-accent-purple-400 text-sm">{`🟪 ${t('epic')}`}</span>
+            <span className="text-accent-yellow-400 text-sm">{`🟨 ${t('legendaryRarity')}`}</span>
+            <span className="text-accent-rose-400 text-sm">{`🔮 ${t('secretRarity')}`}</span>
           </div>
         </div>
       </div>

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { getEmbedUrl } from '@/lib/youtube';
+import { useTranslations } from 'next-intl';
 
 interface UserSubmission {
   id: number;
@@ -31,6 +32,7 @@ interface ChallengeCardProps {
 
 export default function ChallengeCard({ challenge, onSubmitClick }: ChallengeCardProps) {
   const [showDescription, setShowDescription] = useState(false);
+  const t = useTranslations('challengeCard');
 
   // Determine gradient color based on difficulty
   const getBorderGradient = () => {
@@ -74,7 +76,7 @@ export default function ChallengeCard({ challenge, onSubmitClick }: ChallengeCar
           onClick={onSubmitClick}
           className="w-full bg-accent-yellow-500 hover:bg-accent-yellow-600 text-white font-black py-3 px-6 rounded-lg border-4 border-white uppercase tracking-wider shadow-2xl transform hover:scale-105 transition-all"
         >
-          📹 Submit Your Video
+          {t('submitYourVideo')}
         </button>
       );
     }
@@ -85,7 +87,7 @@ export default function ChallengeCard({ challenge, onSubmitClick }: ChallengeCar
         <div className="w-full bg-gradient-to-r from-accent-yellow-500 to-accent-orange-500 p-1 rounded-lg animate-pulse">
           <div className="bg-neutral-900 rounded-lg py-3 px-6 text-center">
             <p className="text-accent-yellow-300 font-black uppercase tracking-wider">
-              ⏳ Pending Evaluation...
+              {t('pendingEvaluation')}
             </p>
           </div>
         </div>
@@ -98,7 +100,7 @@ export default function ChallengeCard({ challenge, onSubmitClick }: ChallengeCar
         <div className="w-full bg-gradient-to-r from-green-500 to-accent-teal-500 p-1 rounded-lg">
           <div className="bg-neutral-900 rounded-lg py-3 px-6 text-center">
             <p className="text-green-300 font-black uppercase tracking-wider">
-              ✅ Approved! Score: {submission.score || 0}
+              {t('approvedScore', { score: submission.score || 0 })}
             </p>
           </div>
         </div>
@@ -112,7 +114,7 @@ export default function ChallengeCard({ challenge, onSubmitClick }: ChallengeCar
           <div className="w-full bg-gradient-to-r from-red-500 to-accent-pink-500 p-1 rounded-lg">
             <div className="bg-neutral-900 rounded-lg py-2 px-4 text-center">
               <p className="text-red-300 font-bold uppercase text-sm">
-                ❌ Rejected
+                {t('rejected')}
               </p>
             </div>
           </div>
@@ -120,7 +122,7 @@ export default function ChallengeCard({ challenge, onSubmitClick }: ChallengeCar
             onClick={onSubmitClick}
             className="w-full bg-gradient-to-r from-accent-cyan-500 to-accent-blue-500 hover:from-accent-cyan-400 hover:to-accent-blue-400 text-white font-black py-3 px-6 rounded-lg border-4 border-white uppercase tracking-wider shadow-2xl transform hover:scale-105 transition-all"
           >
-            🔄 Try Again
+            {t('tryAgain')}
           </button>
         </div>
       );
@@ -136,7 +138,7 @@ export default function ChallengeCard({ challenge, onSubmitClick }: ChallengeCar
         <div className="relative">
           <div className="absolute top-2 left-2 z-10 bg-black bg-opacity-80 px-3 py-1 rounded-full">
             <p className="text-white font-black text-sm uppercase">
-              {challenge.isBonus ? '🌟 BONUS' : `Level ${challenge.level}`}
+              {challenge.isBonus ? t('bonus') : t('level', { level: challenge.level })}
             </p>
           </div>
 
@@ -145,17 +147,17 @@ export default function ChallengeCard({ challenge, onSubmitClick }: ChallengeCar
             <div className="absolute top-2 right-2 z-10">
               {challenge.userSubmission.status === 'pending' && (
                 <span className="bg-accent-yellow-500 text-black px-3 py-1 rounded-full text-xs font-bold uppercase animate-pulse">
-                  ⏳ Pending
+                  {t('pending')}
                 </span>
               )}
               {challenge.userSubmission.status === 'approved' && (
                 <span className="bg-green-500 text-white px-3 py-1 rounded-full text-xs font-bold uppercase">
-                  ✅ Approved
+                  {t('approved')}
                 </span>
               )}
               {challenge.userSubmission.status === 'rejected' && (
                 <span className="bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold uppercase">
-                  ❌ Rejected
+                  {t('rejected')}
                 </span>
               )}
             </div>
@@ -200,7 +202,7 @@ export default function ChallengeCard({ challenge, onSubmitClick }: ChallengeCar
                 onClick={() => setShowDescription(!showDescription)}
                 className="text-accent-cyan-400 text-xs font-bold mt-1 hover:text-accent-cyan-300"
               >
-                {showDescription ? '▲ Show less' : '▼ Show more'}
+                {showDescription ? `▲ ${t('showLess')}` : `▼ ${t('showMore')}`}
               </button>
             )}
           </div>

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
+import { useTranslations } from 'next-intl';
 import ChallengeCard from '@/components/ChallengeCard';
 import SubmitTrickModal from '@/components/SubmitTrickModal';
 
@@ -28,6 +29,7 @@ interface Challenge {
 
 export default function TricksPage() {
   const { data: session } = useSession();
+  const t = useTranslations('tricksPage');
   const [challenges, setChallenges] = useState<Challenge[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -82,7 +84,7 @@ export default function TricksPage() {
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-accent-purple-900 via-accent-blue-900 to-black">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-accent-cyan-400 mx-auto"></div>
-          <p className="mt-4 text-accent-cyan-400 font-bold text-xl">LOADING CHALLENGES...</p>
+          <p className="mt-4 text-accent-cyan-400 font-bold text-xl">{t('loadingChallenges')}</p>
         </div>
       </div>
     );
@@ -95,10 +97,10 @@ export default function TricksPage() {
         <div className="bg-gradient-to-r from-accent-cyan-500 to-accent-blue-600 p-1 rounded-lg shadow-2xl">
           <div className="bg-neutral-900 rounded-lg p-6">
             <h1 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-cyan-400 to-accent-blue-400 uppercase tracking-wider text-center md:text-left">
-              🎯 CHALLENGES
+              {`🎯 ${t('title')}`}
             </h1>
             <p className="text-accent-cyan-300 mt-2 text-sm md:text-base text-center md:text-left">
-              Complete tricks to earn points and climb the ranking
+              {t('subtitle')}
             </p>
           </div>
         </div>
@@ -109,13 +111,13 @@ export default function TricksPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-gradient-to-r from-accent-purple-500 to-accent-pink-500 p-1 rounded-lg">
             <div className="bg-neutral-900 rounded-lg p-4 text-center">
-              <p className="text-neutral-400 text-xs uppercase">Available Points</p>
+              <p className="text-neutral-400 text-xs uppercase">{t('availablePoints')}</p>
               <p className="text-white text-2xl font-black">{totalPoints}</p>
             </div>
           </div>
           <div className="bg-gradient-to-r from-green-500 to-accent-teal-500 p-1 rounded-lg">
             <div className="bg-neutral-900 rounded-lg p-4 text-center">
-              <p className="text-neutral-400 text-xs uppercase">Completed</p>
+              <p className="text-neutral-400 text-xs uppercase">{t('completed')}</p>
               <p className="text-white text-2xl font-black">
                 {completedChallenges} / {challenges.length}
               </p>
@@ -123,7 +125,7 @@ export default function TricksPage() {
           </div>
           <div className="bg-gradient-to-r from-accent-yellow-500 to-accent-orange-500 p-1 rounded-lg">
             <div className="bg-neutral-900 rounded-lg p-4 text-center">
-              <p className="text-neutral-400 text-xs uppercase">Points Earned</p>
+              <p className="text-neutral-400 text-xs uppercase">{t('pointsEarned')}</p>
               <p className="text-white text-2xl font-black">{earnedPoints}</p>
             </div>
           </div>
@@ -142,7 +144,7 @@ export default function TricksPage() {
       {/* Regular Challenges Grid */}
       <div className="max-w-7xl mx-auto mb-8">
         <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-wider mb-6">
-          📋 Levels 1-10
+          {`📋 ${t('levels')}`}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {regularChallenges.map((challenge) => (
@@ -159,7 +161,7 @@ export default function TricksPage() {
       {bonusChallenge && (
         <div className="max-w-7xl mx-auto mb-8">
           <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-wider mb-6">
-            🌟 BONUS LEVEL
+            {`🌟 ${t('bonusLevel')}`}
           </h2>
           <div className="max-w-2xl mx-auto">
             <ChallengeCard

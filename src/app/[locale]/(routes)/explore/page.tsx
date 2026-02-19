@@ -2,7 +2,8 @@
 
 import { Button, Card, CardBody, Select, SelectItem } from '@nextui-org/react';
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
+import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { GiTrophy } from 'react-icons/gi';
 import {
@@ -49,6 +50,7 @@ interface SkatersResponse {
 }
 
 export default function ExplorePage() {
+  const t = useTranslations('explorePage');
   const [skaters, setSkaters] = useState<Skater[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -154,11 +156,10 @@ export default function ExplorePage() {
         <div className="bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 p-1 rounded-lg shadow-2xl shadow-accent-cyan-500/30">
           <div className="bg-neutral-900 rounded-lg p-6">
             <h1 className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-cyan-400 to-accent-purple-400 uppercase tracking-wider text-center">
-              🛹 EXPLORE SKATERS
+              {`🛹 ${t('title')}`}
             </h1>
             <p className="text-accent-cyan-300 mt-2 text-sm md:text-base text-center">
-              Discover the Trickest community - find skaters to follow and
-              connect
+              {t('subtitle')}
             </p>
           </div>
         </div>
@@ -169,7 +170,7 @@ export default function ExplorePage() {
         <div className="bg-neutral-800/50 rounded-lg p-4">
           <div className="flex flex-wrap gap-4 justify-center">
             <Select
-              label="Sort by"
+              label={t('sortBy')}
               selectedKeys={[filters.sortBy]}
               onSelectionChange={(keys) =>
                 handleFilterChange('sortBy', Array.from(keys)[0] as string)
@@ -177,18 +178,18 @@ export default function ExplorePage() {
               className="w-48"
             >
               <SelectItem key="score" value="score">
-                Score
+                {t('score')}
               </SelectItem>
               <SelectItem key="followers" value="followers">
-                Followers
+                {t('followers')}
               </SelectItem>
               <SelectItem key="recent" value="recent">
-                Most Recent
+                {t('mostRecent')}
               </SelectItem>
             </Select>
 
             <Select
-              label="Role"
+              label={t('role')}
               selectedKeys={[filters.role]}
               onSelectionChange={(keys) =>
                 handleFilterChange('role', Array.from(keys)[0] as string)
@@ -196,16 +197,16 @@ export default function ExplorePage() {
               className="w-48"
             >
               <SelectItem key="all" value="all">
-                All
+                {t('all')}
               </SelectItem>
               <SelectItem key="skater" value="skater">
-                Skaters
+                {t('skaters')}
               </SelectItem>
               <SelectItem key="judge" value="judge">
-                Judges
+                {t('judges')}
               </SelectItem>
               <SelectItem key="admin" value="admin">
-                Admins
+                {t('admins')}
               </SelectItem>
             </Select>
           </div>
@@ -279,13 +280,13 @@ export default function ExplorePage() {
                       <p className="text-accent-cyan-400 font-bold text-lg">
                         {skater.stats.totalScore}
                       </p>
-                      <p className="text-neutral-400 text-xs uppercase">Score</p>
+                      <p className="text-neutral-400 text-xs uppercase">{t('score')}</p>
                     </div>
                     <div className="text-center">
                       <p className="text-green-400 font-bold text-lg">
                         {skater.stats.approvedSubmissions}
                       </p>
-                      <p className="text-neutral-400 text-xs uppercase">Tricks</p>
+                      <p className="text-neutral-400 text-xs uppercase">{t('tricks')}</p>
                     </div>
                   </div>
 
@@ -295,13 +296,13 @@ export default function ExplorePage() {
                       <p className="text-accent-purple-400 font-bold">
                         {skater.stats.followerCount}
                       </p>
-                      <p className="text-neutral-500">Followers</p>
+                      <p className="text-neutral-500">{t('followers')}</p>
                     </div>
                     <div className="text-center">
                       <p className="text-accent-purple-400 font-bold">
                         {skater.stats.followingCount}
                       </p>
-                      <p className="text-neutral-500">Following</p>
+                      <p className="text-neutral-500">{t('following')}</p>
                     </div>
                   </div>
 
@@ -315,7 +316,7 @@ export default function ExplorePage() {
                         className="w-full bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 text-white font-bold uppercase text-sm"
                         size="sm"
                       >
-                        View Profile
+                        {t('viewProfile')}
                       </Button>
                     </Link>
                     <Button
@@ -340,7 +341,7 @@ export default function ExplorePage() {
                 className="bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 text-white font-bold uppercase tracking-wider px-8 py-3"
                 startContent={!loadingMore && <MdRefresh size={20} />}
               >
-                {loadingMore ? 'Loading...' : 'Load More Skaters'}
+                {loadingMore ? t('loadingMore') : t('loadMore')}
               </Button>
             </div>
           )}
@@ -349,10 +350,10 @@ export default function ExplorePage() {
             <div className="text-center py-12">
               <MdOutlineSkateboarding className="text-neutral-600 text-6xl mx-auto mb-4" />
               <p className="text-neutral-500 text-xl">
-                No skaters found
+                {t('noSkatersFound')}
               </p>
               <p className="text-neutral-600 mt-2">
-                Be the first to sign up!
+                {t('beFirstToSignUp')}
               </p>
             </div>
           )}
@@ -365,15 +366,14 @@ export default function ExplorePage() {
           <div className="bg-neutral-900 rounded-lg p-6">
             <GiTrophy className="text-accent-yellow-400 text-4xl mx-auto mb-4" />
             <h2 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-yellow-400 to-accent-orange-400 uppercase tracking-wider mb-2">
-              Join the Community!
+              {t('joinCommunity')}
             </h2>
             <p className="text-neutral-300 mb-4">
-              Sign up and start your journey on Trickest. Complete challenges,
-              earn points and connect with other skaters.
+              {t('joinCommunityDesc')}
             </p>
             <Link href="/dashboard">
               <Button className="bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 text-white font-black uppercase tracking-wider px-8 py-3">
-                🚀 Start Now
+                {`🚀 ${t('startNow')}`}
               </Button>
             </Link>
           </div>

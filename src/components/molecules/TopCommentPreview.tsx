@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { MessageSquare, TrendingUp, ChevronDown } from 'lucide-react';
 import { useSession } from 'next-auth/react';
+import { useTranslations } from 'next-intl';
 
 interface User {
   name: string | null;
@@ -32,6 +33,7 @@ export default function TopCommentPreview({
   onViewAllComments,
 }: TopCommentPreviewProps) {
   const { data: session } = useSession();
+  const t = useTranslations('comments');
   const [topComment, setTopComment] = useState<Comment | null>(null);
   const [totalComments, setTotalComments] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -65,10 +67,10 @@ export default function TopCommentPreview({
     const diffHours = Math.floor(diffMs / 3600000);
     const diffDays = Math.floor(diffMs / 86400000);
 
-    if (diffMins < 1) return 'just now';
-    if (diffMins < 60) return `${diffMins} min ago`;
-    if (diffHours < 24) return `${diffHours}h ago`;
-    if (diffDays < 7) return `${diffDays}d ago`;
+    if (diffMins < 1) return t('justNow');
+    if (diffMins < 60) return t('minAgo', { count: diffMins });
+    if (diffHours < 24) return t('hoursAgo', { count: diffHours });
+    if (diffDays < 7) return t('daysAgo', { count: diffDays });
     return date.toLocaleDateString('en-US');
   };
 
@@ -91,7 +93,7 @@ export default function TopCommentPreview({
           className="w-full py-2 px-3 bg-accent-cyan-600 hover:bg-accent-cyan-700 border-2 border-accent-cyan-400 rounded-lg text-white font-bold transition-all flex items-center justify-center gap-2"
         >
           <MessageSquare className="w-4 h-4" />
-          Be the first to comment
+          {t('beFirstToCommentBtn')}
         </button>
       </div>
     );
@@ -105,11 +107,11 @@ export default function TopCommentPreview({
         <div className="flex items-center gap-1 text-sm">
           <TrendingUp className="w-4 h-4 text-green-500" />
           <span className="font-bold text-green-600">
-            Top comment
+            {t('topComment')}
           </span>
         </div>
         <span className="text-xs text-neutral-500">
-          {totalComments} {totalComments === 1 ? 'comment' : 'comments'}
+          {totalComments === 1 ? t('commentCount', { count: totalComments }) : t('commentsCount', { count: totalComments })}
         </span>
       </div>
 
@@ -159,7 +161,7 @@ export default function TopCommentPreview({
             onClick={onViewAllComments}
             className="text-xs font-bold text-accent-cyan-600 hover:text-accent-cyan-700 flex items-center gap-1"
           >
-            View all
+            {t('viewAllLabel')}
             <ChevronDown className="w-3 h-3" />
           </button>
         </div>
@@ -171,12 +173,12 @@ export default function TopCommentPreview({
         className="w-full mt-2 py-2 px-3 bg-neutral-100 hover:bg-accent-cyan-50 border-2 border-neutral-300 hover:border-accent-cyan-400 rounded-lg font-bold text-neutral-700 hover:text-accent-cyan-700 transition-all text-sm flex items-center justify-center gap-2"
       >
         <MessageSquare className="w-4 h-4" />
-        View all comments ({totalComments})
+        {t('viewAllCommentsCount', { count: totalComments })}
       </button>
 
       {!session && (
         <p className="text-[10px] text-neutral-500 text-center mt-1">
-          🔒 Sign in to comment
+          🔒 {t('signInToCommentMsg')}
         </p>
       )}
     </div>

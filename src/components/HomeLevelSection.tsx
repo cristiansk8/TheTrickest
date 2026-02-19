@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { MdVideoLibrary, MdEmojiEvents, MdLock, MdPlayArrow, MdStars } from 'react-icons/md';
+import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/routing';
 
 interface Challenge {
   id: number;
@@ -31,6 +33,7 @@ export default function HomeLevelSection() {
   const [loading, setLoading] = useState(true);
   const [activeLevel, setActiveLevel] = useState(1);
   const [totalLevels, setTotalLevels] = useState(8); // Default 8
+  const t = useTranslations('homeLevelSection');
 
   useEffect(() => {
     const fetchChallenges = async () => {
@@ -107,8 +110,8 @@ export default function HomeLevelSection() {
             } else {
               // Nivel bloqueado (aún no creado)
               levelSlots.push({
-                name: `Level ${i + 1}`,
-                description: 'This level is not yet available. Stay tuned!',
+                name: `__LOCKED_LEVEL__${i + 1}`,
+                description: '__LOCKED_DESC__',
                 isLocked: true,
                 isBonus: false,
                 displayLevel: i + 1,
@@ -158,10 +161,10 @@ export default function HomeLevelSection() {
         {/* Header */}
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-yellow-400 via-accent-pink-500 to-accent-cyan-400 uppercase tracking-wider mb-4">
-            🎮 CHALLENGES
+            {t('title')}
           </h2>
           <p className="text-accent-cyan-300 text-lg md:text-xl max-w-3xl mx-auto">
-            Complete the challenges, upload your videos and prove you're the best skater
+            {t('subtitle')}
           </p>
         </div>
 
@@ -208,7 +211,7 @@ export default function HomeLevelSection() {
           {/* Level indicator */}
           <div className="text-center">
             <p className="text-accent-cyan-400 font-black text-sm md:text-base uppercase tracking-wider">
-              {currentLevel?.isBonus ? '⭐ BONUS CHALLENGE' : `LEVEL ${activeLevel}`}
+              {currentLevel?.isBonus ? t('bonusChallenge') : t('level', { level: activeLevel })}
             </p>
           </div>
         </div>
@@ -233,7 +236,10 @@ export default function HomeLevelSection() {
                       ? 'bg-gradient-to-r from-accent-yellow-400 via-accent-pink-500 to-accent-purple-500'
                       : 'bg-gradient-to-r from-accent-yellow-400 to-accent-orange-500'
                   }`}>
-                    {currentLevel.isBonus && '🌟 '}{currentLevel.name}
+                    {currentLevel.isBonus && ''}
+                    {currentLevel.name.startsWith('__LOCKED_LEVEL__')
+                      ? t('levelLocked', { level: currentLevel.name.replace('__LOCKED_LEVEL__', '') })
+                      : currentLevel.name}
                   </h2>
 
                   {/* Difficulty Badge - Solo si no está bloqueado */}
@@ -247,22 +253,24 @@ export default function HomeLevelSection() {
 
                   {/* Description */}
                   <p className="text-neutral-300 text-lg md:text-xl max-w-2xl mx-auto">
-                    {currentLevel.description}
+                    {currentLevel.description === '__LOCKED_DESC__'
+                      ? t('levelLockedDesc')
+                      : currentLevel.description}
                   </p>
 
                   {/* Main action button */}
                   {!currentLevel.isLocked ? (
                     <>
                       <div className="flex justify-center pt-4">
-                        <a
+                        <Link
                           href="/dashboard/skaters/tricks"
                           className="bg-accent-purple-600 hover:bg-accent-purple-700 text-white font-black text-xl md:text-2xl py-4 px-12 md:px-16 rounded-xl border-4 border-white uppercase tracking-wider shadow-2xl transform hover:scale-105 transition-all inline-block"
                         >
                           <div className="flex items-center gap-3">
                             <MdPlayArrow size={32} />
-                            {activeLevel === 1 ? 'START CHALLENGE' : 'VIEW CHALLENGE'}
+                            {activeLevel === 1 ? t('startChallenge') : t('viewChallenge')}
                           </div>
-                        </a>
+                        </Link>
                       </div>
 
                       {/* Secondary buttons */}
@@ -274,7 +282,7 @@ export default function HomeLevelSection() {
                           >
                             <div className="flex items-center gap-2">
                               <MdVideoLibrary size={20} />
-                              Watch Demo
+                              {t('watchDemo')}
                             </div>
                           </button>
                         </div>
@@ -284,7 +292,7 @@ export default function HomeLevelSection() {
                     <div className="flex justify-center pt-4">
                       <div className="text-neutral-500 text-xl font-black uppercase tracking-wider flex items-center gap-3">
                         <MdLock size={32} />
-                        Coming Soon
+                        {t('comingSoon')}
                       </div>
                     </div>
                   )}
@@ -304,15 +312,15 @@ export default function HomeLevelSection() {
 
         {/* Call to Action */}
         <div className="text-center">
-          <a
+          <Link
             href="/dashboard/skaters/tricks"
             className="inline-block bg-accent-purple-600 hover:bg-accent-purple-700 text-white font-black text-lg md:text-xl py-4 px-10 rounded-xl border-4 border-white uppercase tracking-wider shadow-2xl transform hover:scale-105 transition-all"
           >
             <div className="flex items-center gap-3">
               <MdEmojiEvents size={28} />
-              View All Challenges
+              {t('viewAllChallenges')}
             </div>
-          </a>
+          </Link>
         </div>
       </div>
 

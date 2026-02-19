@@ -3,6 +3,7 @@
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import LoginEmailForm from './LoginEmailForm';
 import RegisterEmailForm from './RegisterEmailForm';
 import SetPasswordModal from './SetPasswordModal';
@@ -24,6 +25,7 @@ const SigninButton = () => {
   const [openMenu, setOpenMenu] = useState(false);
   const [openSetPasswordModal, setOpenSetPasswordModal] = useState(false);
   const [selectedOption, setSelectedOption] = useState(0);
+  const t = useTranslations('signinMenu');
 
   const handleModal = () => setModal(!openModal);
   const handleVideoModal = () => setOpenVideoModal(!openVideoModal);
@@ -61,7 +63,7 @@ const SigninButton = () => {
   const menuOptions: MenuOption[] = session?.user
     ? [
         {
-          label: isProfileComplete ? '🎮 CONTINUE' : '⚠️ COMPLETE PROFILE',
+          label: isProfileComplete ? t('continue') : t('completeProfile'),
           action: () => {
             handleMenu();
             isProfileComplete
@@ -69,9 +71,9 @@ const SigninButton = () => {
               : handleModal();
           },
         },
-        { label: '🤝 PARTNERS', action: scrollToPartners },
+        { label: t('partners'), action: scrollToPartners },
         {
-          label: '❓ HOW TO PLAY',
+          label: t('howToPlay'),
           action: () => {
             handleMenu();
             handleVideoModal();
@@ -83,7 +85,7 @@ const SigninButton = () => {
           isHeader: true,
         },
         {
-          label: '🚪 LOGOUT',
+          label: t('logout'),
           action: () => {
             handleMenu();
             signOut();
@@ -92,7 +94,7 @@ const SigninButton = () => {
       ]
     : [
         {
-          label: '🔐 LOGIN WITH GOOGLE',
+          label: t('loginGoogle'),
           action: () => {
             handleMenu();
             signIn('google');
@@ -100,22 +102,22 @@ const SigninButton = () => {
           isPrimary: true,
         },
         {
-          label: '📧 LOGIN WITH EMAIL',
+          label: t('loginEmail'),
           action: () => {
             handleMenu();
             setShowLoginForm(true);
           },
         },
         {
-          label: '✍️ CREATE ACCOUNT',
+          label: t('createAccount'),
           action: () => {
             handleMenu();
             setShowRegisterForm(true);
           },
         },
-        { label: '🤝 PARTNERS', action: scrollToPartners },
+        { label: t('partners'), action: scrollToPartners },
         {
-          label: '❓ HOW TO PLAY',
+          label: t('howToPlay'),
           action: () => {
             handleMenu();
             handleVideoModal();
@@ -176,14 +178,14 @@ const SigninButton = () => {
             {/* Menu header */}
             <div className="bg-gradient-to-r from-accent-cyan-600 to-accent-blue-600 p-4 md:p-6 rounded-t-lg border-b-4 border-accent-cyan-300 flex-shrink-0">
               <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-widest text-center animate-pulse">
-                {session?.user ? 'ACTIVE PLAYER' : 'MAIN MENU'}
+                {session?.user ? t('activePlayer') : t('mainMenu')}
               </h2>
               {session?.user && (
                 <p className="text-accent-cyan-200 text-xs md:text-sm mt-2 text-center">
                   ⚡{' '}
                   {profileStatus === 'complete'
-                    ? 'COMPLETE PROFILE'
-                    : 'BASIC PROFILE'}
+                    ? t('profileComplete')
+                    : t('profileBasic')}
                 </p>
               )}
             </div>
@@ -246,8 +248,7 @@ const SigninButton = () => {
             {/* Footer with controls */}
             <div className="p-4 border-t-4 border-neutral-700 bg-neutral-900/50 rounded-b-lg text-center flex-shrink-0">
               <p className="text-accent-cyan-300 text-[10px] md:text-xs uppercase tracking-wide">
-                ⌨️ Use ↑↓ to navigate　|　Enter to select　|　ESC to
-                close
+                {t('controls')}
               </p>
             </div>
           </div>
@@ -263,7 +264,7 @@ const SigninButton = () => {
             {/* Modal header */}
             <div className="bg-gradient-to-r from-accent-purple-600 to-accent-pink-600 p-4 rounded-t-lg border-b-4 border-accent-purple-300">
               <h2 className="text-xl md:text-2xl font-black text-white uppercase tracking-wider text-center">
-                ⚡ COMPLETE PROFILE
+                ⚡ {t('completeProfileTitle')}
               </h2>
             </div>
 
@@ -295,7 +296,7 @@ const SigninButton = () => {
             {/* Modal header */}
             <div className="bg-gradient-to-r from-accent-cyan-600 to-accent-blue-600 p-4 rounded-t-lg border-b-4 border-accent-cyan-300">
               <h2 className="text-xl md:text-2xl font-black text-white uppercase tracking-wider text-center">
-                📺 HOW TO PLAY
+                📺 {t('howToPlayTitle')}
               </h2>
             </div>
 
@@ -323,7 +324,7 @@ const SigninButton = () => {
               </div>
               <div className="mt-4 text-center">
                 <p className="text-accent-cyan-300 text-sm uppercase tracking-wide">
-                  ⌨️ Press ESC to close
+                  {t('pressEscToClose')}
                 </p>
               </div>
             </div>

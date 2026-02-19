@@ -2,9 +2,11 @@
 
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 export default function LocationToggle() {
   const { data: session } = useSession();
+  const t = useTranslations('locationToggle');
   const [loading, setLoading] = useState(false);
   const [showOnMap, setShowOnMap] = useState(false);
   const [hasLocation, setHasLocation] = useState(false);
@@ -42,7 +44,7 @@ export default function LocationToggle() {
     if (!hasLocation && !showOnMap) {
       console.log('[LocationToggle] No location, requesting GPS...');
       if (!navigator.geolocation) {
-        alert('❌ Your browser does not support geolocation.');
+        alert('❌ ' + t('noGeolocation'));
         return;
       }
 
@@ -78,14 +80,14 @@ export default function LocationToggle() {
             }
           } catch (error) {
             console.error('Error saving location:', error);
-            alert('❌ Error saving location');
+            alert('❌ ' + t('errorSavingLocation'));
           } finally {
             setLoading(false);
           }
         },
         (error) => {
           console.error('Error getting location:', error);
-          alert('❌ Could not get your location. Check browser permissions.');
+          alert('❌ ' + t('couldNotGetLocation'));
           setLoading(false);
         }
       );
@@ -133,7 +135,7 @@ export default function LocationToggle() {
     <button
       onClick={handleToggle}
       disabled={loading}
-      title={showOnMap ? 'Visible on map - Click to hide' : 'Appear on map - Click to show'}
+      title={showOnMap ? t('visibleOnMap') : t('appearOnMap')}
       className="group relative flex items-center justify-center w-10 h-10 md:w-12 md:h-12 text-white font-bold rounded-lg shadow-lg transition-all transform hover:scale-105 border-2 disabled:opacity-50 disabled:cursor-not-allowed bg-green-600/80 hover:bg-green-500/90 border-green-300 hover:shadow-green-500/50"
     >
       <span className="text-lg md:text-xl transition-transform duration-300">

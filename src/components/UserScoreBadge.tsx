@@ -2,10 +2,12 @@
 
 import { useSession } from 'next-auth/react';
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/routing';
 
 export default function UserScoreBadge() {
   const { data: session } = useSession();
+  const t = useTranslations('userScoreBadge');
   const [totalScore, setTotalScore] = useState<number>(0);
   const [userPhoto, setUserPhoto] = useState<string | null>(null);
   const [userName, setUserName] = useState<string | null>(null);
@@ -63,12 +65,12 @@ export default function UserScoreBadge() {
             {/* User Info */}
             <div className="flex flex-col">
               <p className="text-white font-black text-sm uppercase tracking-wider leading-tight">
-                {userName || session.user.name || 'Skater'}
+                {userName || session.user.name || t('skater')}
               </p>
               <div className="flex items-center gap-2 mt-1">
                 <span className="text-accent-yellow-400 text-xs font-black">⭐</span>
                 <span className="text-accent-yellow-400 font-black text-xs">
-                  {isLoading ? '...' : totalScore.toLocaleString()} PTS
+                  {isLoading ? '...' : totalScore.toLocaleString()} {t('pts')}
                 </span>
               </div>
             </div>

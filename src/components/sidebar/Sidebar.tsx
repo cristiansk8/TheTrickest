@@ -7,124 +7,126 @@ import { GiSkateboard } from "react-icons/gi";
 import { GiTrophy } from "react-icons/gi";
 import { FaVideo } from "react-icons/fa";
 import { useSession, signOut } from 'next-auth/react';
-import Link from 'next/link';
-
-
-const skaterMenuItems = [
-  {
-    path: '/dashboard/skaters/profile',
-    icon: <MdOutlineSkateboarding size={28} />,
-    title: 'Profile',
-    subTitle: 'edit profile'
-  },
-  {
-    path: '/dashboard/skaters/tricks',
-    icon: <GiSkateboard size={28} />,
-    title: 'Tricks',
-    subTitle: 'in progress'
-  },
-  {
-    path: '/dashboard/skaters/submissions',
-    icon: <FaVideo size={28} />,
-    title: 'Submissions',
-    subTitle: 'history'
-  },
-  {
-    path: '/dashboard/leaderboard',
-    icon: <MdLeaderboard size={28} />,
-    title: 'Ranking',
-    subTitle: 'top skaters'
-  },
-  {
-    path: '/dashboard/teams',
-    icon: <MdGroups size={28} />,
-    title: 'Teams',
-    subTitle: 'my team'
-  },
-  {
-    path: '/dashboard/skaters/logros',
-    icon: <GiTrophy size={28} />,
-    title: 'Achievements',
-    subTitle: 'badges'
-  }
-]
-
-const judgeMenuItems = [
-  {
-    path: '/dashboard/judges/evaluate',
-    icon: <MdGavel size={28} />,
-    title: 'Evaluate',
-    subTitle: 'pending & history'
-  },
-  {
-    path: '/dashboard/skaters/profile',
-    icon: <MdOutlineSkateboarding size={28} />,
-    title: 'Profile',
-    subTitle: 'edit profile'
-  },
-  {
-    path: '/dashboard/skaters/tricks',
-    icon: <GiSkateboard size={28} />,
-    title: 'Tricks',
-    subTitle: 'as skater'
-  },
-  {
-    path: '/dashboard/leaderboard',
-    icon: <MdLeaderboard size={28} />,
-    title: 'Ranking',
-    subTitle: 'top skaters'
-  },
-  {
-    path: '/dashboard/teams',
-    icon: <MdGroups size={28} />,
-    title: 'Teams',
-    subTitle: 'my team'
-  }
-]
-
-const adminMenuItems = [
-  {
-    path: '/dashboard/admin/users',
-    icon: <MdAdminPanelSettings size={28} />,
-    title: 'Users',
-    subTitle: 'manage'
-  },
-  {
-    path: '/dashboard/admin/challenges',
-    icon: <GiSkateboard size={28} />,
-    title: 'Challenges',
-    subTitle: 'manage'
-  },
-  {
-    path: '/dashboard/admin/settings',
-    icon: <MdSettings size={28} />,
-    title: 'Settings',
-    subTitle: 'system'
-  },
-  {
-    path: '/dashboard/judges/evaluate',
-    icon: <MdGavel size={28} />,
-    title: 'Evaluate',
-    subTitle: 'score'
-  },
-  {
-    path: '/dashboard/leaderboard',
-    icon: <MdLeaderboard size={28} />,
-    title: 'Ranking',
-    subTitle: 'top skaters'
-  },
-  {
-    path: '/dashboard/teams',
-    icon: <MdGroups size={28} />,
-    title: 'Teams',
-    subTitle: 'manage'
-  }
-]
+import { Link } from '@/i18n/routing';
+import { useTranslations } from 'next-intl';
 
 
 export const Sidebar = () => {
   const { data: session, status } = useSession();
   const [totalScore, setTotalScore] = useState(0);
+  const t = useTranslations();
+
+  // Menu items with translation keys
+  const skaterMenuItems = useMemo(() => [
+    {
+      path: '/dashboard/skaters/profile',
+      icon: <MdOutlineSkateboarding size={28} />,
+      title: t('menu.profile'),
+      subTitle: t('menu.editProfile')
+    },
+    {
+      path: '/dashboard/skaters/tricks',
+      icon: <GiSkateboard size={28} />,
+      title: t('menu.tricks'),
+      subTitle: t('menu.inProgress')
+    },
+    {
+      path: '/dashboard/skaters/submissions',
+      icon: <FaVideo size={28} />,
+      title: t('menu.submissions'),
+      subTitle: t('menu.history')
+    },
+    {
+      path: '/dashboard/leaderboard',
+      icon: <MdLeaderboard size={28} />,
+      title: t('menu.ranking'),
+      subTitle: t('menu.topSkaters')
+    },
+    {
+      path: '/dashboard/teams',
+      icon: <MdGroups size={28} />,
+      title: t('menu.teams'),
+      subTitle: t('menu.myTeam')
+    },
+    {
+      path: '/dashboard/skaters/logros',
+      icon: <GiTrophy size={28} />,
+      title: t('menu.achievements'),
+      subTitle: t('menu.badges')
+    }
+  ], [t]);
+
+  const judgeMenuItems = useMemo(() => [
+    {
+      path: '/dashboard/judges/evaluate',
+      icon: <MdGavel size={28} />,
+      title: t('menu.evaluate'),
+      subTitle: t('menu.pendingHistory')
+    },
+    {
+      path: '/dashboard/skaters/profile',
+      icon: <MdOutlineSkateboarding size={28} />,
+      title: t('menu.profile'),
+      subTitle: t('menu.editProfile')
+    },
+    {
+      path: '/dashboard/skaters/tricks',
+      icon: <GiSkateboard size={28} />,
+      title: t('menu.tricks'),
+      subTitle: t('menu.asSkater')
+    },
+    {
+      path: '/dashboard/leaderboard',
+      icon: <MdLeaderboard size={28} />,
+      title: t('menu.ranking'),
+      subTitle: t('menu.topSkaters')
+    },
+    {
+      path: '/dashboard/teams',
+      icon: <MdGroups size={28} />,
+      title: t('menu.teams'),
+      subTitle: t('menu.myTeam')
+    }
+  ], [t]);
+
+  const adminMenuItems = useMemo(() => [
+    {
+      path: '/dashboard/admin/users',
+      icon: <MdAdminPanelSettings size={28} />,
+      title: t('menu.users'),
+      subTitle: t('menu.manage')
+    },
+    {
+      path: '/dashboard/admin/challenges',
+      icon: <GiSkateboard size={28} />,
+      title: t('menu.challenges'),
+      subTitle: t('menu.manage')
+    },
+    {
+      path: '/dashboard/admin/settings',
+      icon: <MdSettings size={28} />,
+      title: t('menu.settings'),
+      subTitle: t('menu.system')
+    },
+    {
+      path: '/dashboard/judges/evaluate',
+      icon: <MdGavel size={28} />,
+      title: t('menu.evaluate'),
+      subTitle: t('menu.score')
+    },
+    {
+      path: '/dashboard/leaderboard',
+      icon: <MdLeaderboard size={28} />,
+      title: t('menu.ranking'),
+      subTitle: t('menu.topSkaters')
+    },
+    {
+      path: '/dashboard/teams',
+      icon: <MdGroups size={28} />,
+      title: t('menu.teams'),
+      subTitle: t('menu.manage')
+    }
+  ], [t]);
 
   // Determine which menu to show based on role
   const menuItems = useMemo(() => {
@@ -137,7 +139,7 @@ export const Sidebar = () => {
     } else {
       return skaterMenuItems;
     }
-  }, [session?.user?.role]);
+  }, [session?.user?.role, adminMenuItems, judgeMenuItems, skaterMenuItems]);
 
   // Get user's total score
   useEffect(() => {
@@ -164,19 +166,19 @@ export const Sidebar = () => {
     if (userRole === 'admin') {
       return (
         <span className="text-xs bg-gradient-to-r from-red-500 to-accent-orange-500 text-white px-3 py-1 rounded-full font-black uppercase tracking-wider shadow-lg shadow-red-500/50">
-          ADMIN
+          {t('sidebar.admin')}
         </span>
       );
     } else if (userRole === 'judge') {
       return (
         <span className="text-xs bg-gradient-to-r from-accent-yellow-500 to-accent-amber-500 text-black px-3 py-1 rounded-full font-black uppercase tracking-wider shadow-lg shadow-accent-yellow-500/50">
-          JUDGE
+          {t('sidebar.judge')}
         </span>
       );
     }
     return (
       <span className="text-xs bg-gradient-to-r from-accent-cyan-500 to-accent-blue-500 text-white px-3 py-1 rounded-full font-black uppercase tracking-wider shadow-lg shadow-accent-cyan-500/50">
-        SKATER
+        {t('sidebar.skater')}
       </span>
     );
   };
@@ -206,7 +208,7 @@ export const Sidebar = () => {
       <div className="px-4 mb-4">
         <div className="bg-gradient-to-r from-accent-yellow-500 to-accent-orange-500 p-[3px] rounded-lg">
           <div className="bg-neutral-900 rounded-lg p-3 text-center">
-            <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider">Your Score</p>
+            <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider">{t('sidebar.yourScore')}</p>
             <p className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-yellow-400 to-accent-orange-400">
               {totalScore}
             </p>
@@ -219,7 +221,7 @@ export const Sidebar = () => {
         <div className="bg-gradient-to-r from-accent-purple-500 to-accent-pink-500 p-[3px] rounded-lg">
           <div className="bg-neutral-900 rounded-lg p-4">
             <p className="text-neutral-500 text-xs uppercase font-bold tracking-wider mb-2">
-              Welcome
+              {t('sidebar.welcome')}
             </p>
             {status === "loading" ? (
               <div className="flex items-center justify-center py-2">
@@ -252,7 +254,7 @@ export const Sidebar = () => {
       {/* Navigation menu */}
       <div className="px-4 pb-4">
         <p className="text-neutral-500 text-xs uppercase font-bold tracking-wider mb-3 px-2">
-          Navigation
+          {t('sidebar.navigation')}
         </p>
         <div className="space-y-2">
           {menuItems.map(item => (
@@ -271,10 +273,10 @@ export const Sidebar = () => {
             <MdLogout size={24} className="text-red-400" />
             <div className="flex flex-col items-start">
               <span className="text-sm font-black text-white uppercase tracking-wide">
-                Sign Out
+                {t('auth.signOut')}
               </span>
               <span className="text-xs text-neutral-400 uppercase tracking-wider">
-                Logout
+                {t('auth.logout')}
               </span>
             </div>
           </div>

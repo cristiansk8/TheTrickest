@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import SubmissionHistoryCard from '@/components/SubmissionHistoryCard';
 
 interface Submission {
@@ -38,6 +39,7 @@ type FilterType = 'all' | 'pending' | 'approved' | 'rejected';
 export default function SubmissionsPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const t = useTranslations('submissionsPage');
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [stats, setStats] = useState<Stats | null>(null);
   const [filter, setFilter] = useState<FilterType>('all');
@@ -84,7 +86,7 @@ export default function SubmissionsPage() {
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-accent-purple-900 via-accent-blue-900 to-black">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-accent-cyan-400 mx-auto"></div>
-          <p className="mt-4 text-accent-cyan-400 font-bold text-xl">LOADING HISTORY...</p>
+          <p className="mt-4 text-accent-cyan-400 font-bold text-xl">{t('loadingHistory')}</p>
         </div>
       </div>
     );
@@ -97,10 +99,10 @@ export default function SubmissionsPage() {
         <div className="bg-gradient-to-r from-accent-purple-500 to-accent-pink-600 p-1 rounded-lg shadow-2xl">
           <div className="bg-neutral-900 rounded-lg p-6">
             <h1 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-purple-400 to-accent-pink-400 uppercase tracking-wider text-center md:text-left">
-              📹 MY SUBMISSIONS
+              {`📹 ${t('title')}`}
             </h1>
             <p className="text-accent-purple-300 mt-2 text-sm md:text-base text-center md:text-left">
-              Complete history of your submissions and evaluations
+              {t('subtitle')}
             </p>
           </div>
         </div>
@@ -112,31 +114,31 @@ export default function SubmissionsPage() {
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
             <div className="bg-gradient-to-r from-accent-blue-500 to-accent-cyan-500 p-1 rounded-lg">
               <div className="bg-neutral-900 rounded-lg p-4 text-center">
-                <p className="text-neutral-400 text-xs uppercase">Total</p>
+                <p className="text-neutral-400 text-xs uppercase">{t('total')}</p>
                 <p className="text-white text-2xl font-black">{stats.total}</p>
               </div>
             </div>
             <div className="bg-gradient-to-r from-accent-yellow-500 to-accent-orange-500 p-1 rounded-lg">
               <div className="bg-neutral-900 rounded-lg p-4 text-center">
-                <p className="text-neutral-400 text-xs uppercase">Pending</p>
+                <p className="text-neutral-400 text-xs uppercase">{t('pending')}</p>
                 <p className="text-white text-2xl font-black">{stats.pending}</p>
               </div>
             </div>
             <div className="bg-gradient-to-r from-green-500 to-accent-teal-500 p-1 rounded-lg">
               <div className="bg-neutral-900 rounded-lg p-4 text-center">
-                <p className="text-neutral-400 text-xs uppercase">Approved</p>
+                <p className="text-neutral-400 text-xs uppercase">{t('approved')}</p>
                 <p className="text-white text-2xl font-black">{stats.approved}</p>
               </div>
             </div>
             <div className="bg-gradient-to-r from-red-500 to-accent-pink-500 p-1 rounded-lg">
               <div className="bg-neutral-900 rounded-lg p-4 text-center">
-                <p className="text-neutral-400 text-xs uppercase">Rejected</p>
+                <p className="text-neutral-400 text-xs uppercase">{t('rejected')}</p>
                 <p className="text-white text-2xl font-black">{stats.rejected}</p>
               </div>
             </div>
             <div className="bg-gradient-to-r from-accent-purple-500 to-accent-pink-500 p-1 rounded-lg">
               <div className="bg-neutral-900 rounded-lg p-4 text-center">
-                <p className="text-neutral-400 text-xs uppercase">Score Total</p>
+                <p className="text-neutral-400 text-xs uppercase">{t('scoreTotal')}</p>
                 <p className="text-white text-2xl font-black">{stats.totalScore}</p>
               </div>
             </div>
@@ -155,7 +157,7 @@ export default function SubmissionsPage() {
                 : 'bg-neutral-800 text-neutral-400 border-2 border-neutral-700 hover:border-neutral-500'
             }`}
           >
-            All ({submissions.length})
+            {`${t('all')} (${submissions.length})`}
           </button>
           <button
             onClick={() => setFilter('pending')}
@@ -165,7 +167,7 @@ export default function SubmissionsPage() {
                 : 'bg-neutral-800 text-neutral-400 border-2 border-neutral-700 hover:border-neutral-500'
             }`}
           >
-            ⏳ Pending ({stats?.pending || 0})
+            {`⏳ ${t('pending')} (${stats?.pending || 0})`}
           </button>
           <button
             onClick={() => setFilter('approved')}
@@ -175,7 +177,7 @@ export default function SubmissionsPage() {
                 : 'bg-neutral-800 text-neutral-400 border-2 border-neutral-700 hover:border-neutral-500'
             }`}
           >
-            ✅ Approved ({stats?.approved || 0})
+            {`✅ ${t('approved')} (${stats?.approved || 0})`}
           </button>
           <button
             onClick={() => setFilter('rejected')}
@@ -185,7 +187,7 @@ export default function SubmissionsPage() {
                 : 'bg-neutral-800 text-neutral-400 border-2 border-neutral-700 hover:border-neutral-500'
             }`}
           >
-            ❌ Rejected ({stats?.rejected || 0})
+            {`❌ ${t('rejected')} (${stats?.rejected || 0})`}
           </button>
         </div>
       </div>
@@ -205,20 +207,20 @@ export default function SubmissionsPage() {
           <div className="bg-gradient-to-r from-neutral-700 to-neutral-800 border-4 border-neutral-600 rounded-lg p-8 text-center">
             <p className="text-neutral-300 text-xl font-bold mb-2">
               {filter === 'all'
-                ? 'No submissions yet'
-                : `No ${filter === 'pending' ? 'pending' : filter === 'approved' ? 'approved' : 'rejected'} submissions`}
+                ? t('noSubmissions')
+                : t('noSubmissionsFiltered', { filter: t(filter) })}
             </p>
             <p className="text-neutral-400 text-sm mb-4">
               {filter === 'all'
-                ? 'Start submitting your videos for the challenges!'
-                : 'Change the filter to see other submissions'}
+                ? t('startSubmitting')
+                : t('changeFilter')}
             </p>
             {filter === 'all' && (
               <button
                 onClick={() => router.push('/dashboard/skaters/tricks')}
                 className="bg-gradient-to-r from-accent-cyan-500 to-accent-blue-500 hover:from-accent-cyan-400 hover:to-accent-blue-400 text-white font-black py-3 px-6 rounded-lg border-4 border-white uppercase tracking-wider shadow-2xl transform hover:scale-105 transition-all"
               >
-                View Challenges
+                {t('viewChallenges')}
               </button>
             )}
           </div>

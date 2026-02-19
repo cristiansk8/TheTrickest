@@ -9,6 +9,7 @@ import {
   TrendingUp,
 } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface VotingCardProps {
   submission: {
@@ -51,6 +52,7 @@ export default function VotingCard({
 }: VotingCardProps) {
   const [isVoting, setIsVoting] = useState(false);
   const [localVote, setLocalVote] = useState(userVote);
+  const t = useTranslations('votingCard');
 
   const handleVote = async (voteType: 'upvote' | 'downvote') => {
     if (isVoting) return;
@@ -114,7 +116,7 @@ export default function VotingCard({
           />
         ) : (
           <div className="flex items-center justify-center h-full">
-            <p className="text-neutral-400">Video not available</p>
+            <p className="text-neutral-400">{t('videoNotAvailable')}</p>
           </div>
         )}
 
@@ -122,7 +124,7 @@ export default function VotingCard({
         {isCloseToApproval && (
           <div className="absolute top-2 right-2 bg-green-500/90 text-white px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">
             <TrendingUp className="w-3 h-3" />
-            Close to approval!
+            {t('closeToApproval')}
           </div>
         )}
       </div>
@@ -147,7 +149,7 @@ export default function VotingCard({
 
           <div className="flex items-center gap-2 flex-wrap">
             <span className="px-2 py-1 bg-accent-cyan-500/20 text-accent-cyan-400 rounded text-xs font-medium">
-              Level {submission.challenge.level}
+              {t('level', { level: submission.challenge.level })}
             </span>
             <span
               className={`px-2 py-1 rounded text-xs font-medium ${getDifficultyColor(
@@ -164,7 +166,7 @@ export default function VotingCard({
           {submission.user.photo ? (
             <img
               src={submission.user.photo}
-              alt={submission.user.name || 'User'}
+              alt={submission.user.name || t('user')}
               className="w-8 h-8 rounded-full"
             />
           ) : (
@@ -178,7 +180,7 @@ export default function VotingCard({
           )}
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium text-white truncate">
-              {submission.user.name || 'User'}
+              {submission.user.name || t('user')}
             </p>
             <div className="flex items-center gap-1 text-xs text-neutral-400">
               <Clock className="w-3 h-3" />
@@ -216,19 +218,19 @@ export default function VotingCard({
               <p className="text-2xl font-bold text-green-400">
                 {submission.upvotes}
               </p>
-              <p className="text-xs text-neutral-400">👍 Upvotes</p>
+              <p className="text-xs text-neutral-400">{t('upvotes')}</p>
             </div>
             <div className="bg-red-500/10 rounded p-2">
               <p className="text-2xl font-bold text-red-400">
                 {submission.downvotes}
               </p>
-              <p className="text-xs text-neutral-400">👎 Downvotes</p>
+              <p className="text-xs text-neutral-400">{t('downvotes')}</p>
             </div>
             <div className="bg-accent-cyan-500/10 rounded p-2">
               <p className="text-2xl font-bold text-accent-cyan-400">
                 {positivePercentage}%
               </p>
-              <p className="text-xs text-neutral-400">Approval</p>
+              <p className="text-xs text-neutral-400">{t('approval')}</p>
             </div>
           </div>
 
@@ -236,8 +238,9 @@ export default function VotingCard({
           {needsVotes > 0 && (
             <div className="bg-accent-yellow-500/10 border border-accent-yellow-500/30 rounded p-2 text-center">
               <p className="text-sm text-accent-yellow-400">
-                Needs <span className="font-bold">{needsVotes}</span> more vote
-                {needsVotes !== 1 ? 's' : ''} for automatic evaluation
+                {needsVotes === 1
+                  ? t('needsVotes', { count: needsVotes })
+                  : t('needsVotesPlural', { count: needsVotes })}
               </p>
             </div>
           )}
@@ -261,7 +264,7 @@ export default function VotingCard({
                 localVote === 'upvote' ? 'fill-white' : ''
               }`}
             />
-            Approve
+            {t('approve')}
           </motion.button>
 
           <motion.button
@@ -280,14 +283,14 @@ export default function VotingCard({
                 localVote === 'downvote' ? 'fill-white' : ''
               }`}
             />
-            Reject
+            {t('reject')}
           </motion.button>
         </div>
 
         {/* Already Voted Message */}
         {localVote && (
           <p className="text-center text-sm text-neutral-400">
-            You already voted on this submission
+            {t('alreadyVoted')}
           </p>
         )}
       </div>

@@ -2,7 +2,8 @@
 import Image from "next/image";
 import { TypeAnimation } from 'react-type-animation';
 import localFont from 'next/font/local';
-import Link from "next/link";
+import { Link } from '@/i18n/routing';
+import { useTranslations } from 'next-intl';
 
 const myFont = localFont({
     src: './fonts/blox.woff',
@@ -10,6 +11,7 @@ const myFont = localFont({
 });
 
 const Introduction = () => {
+    const t = useTranslations('introduction');
     return (
         <div className="relative z-0 w-full grid items-center p-6 py-20 md:py-0 md:grid-cols-3 justify-center bg-surface-deep bg-[url('/png-big-city.png')] bg-cover bg-repeat bg-top">
             <div className="flex flex-col w-full justify-center mx-auto">
@@ -21,10 +23,10 @@ const Introduction = () => {
                 <p className={`mx-auto mb-2 text-4xl
                 text-center md:text-6xl md:mx-0 md:mb-8 ${myFont.className}`}>
                     <span className="block md:flex">
-                        patina graba postea
+                        {t('tagline1')}
                     </span>
                     <span className="text-brand-pink md:text-9xl">
-                        gana
+                        {t('tagline2')}
                     </span>
                 </p>               
 
@@ -33,8 +35,8 @@ const Introduction = () => {
                 <Image src="/arcade.png" priority width="200" height="500" alt="Avatar" className=" w-full" />
             </div>
             <div className="flex flex-col justify-center md:max-w-md  mx-auto text-center">
-                <h1 className="text-6xl text-center text-brand-pink font-bold mb-5">Gana un cupo para la gran final</h1>
-                <Image src="/trick-est.webp" priority width="250" height="380" alt="Avatar" className="mx-auto" />               
+                <h1 className="text-6xl text-center text-brand-pink font-bold mb-5">{t('finalSpot')}</h1>
+                <Image src="/trick-est.webp" priority width="250" height="380" alt="Avatar" className="mx-auto" />
 
             </div>
 

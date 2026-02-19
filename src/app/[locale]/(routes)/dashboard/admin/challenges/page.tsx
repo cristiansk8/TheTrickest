@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { Card, CardBody, CardHeader } from '@nextui-org/react';
 import { Input } from '@nextui-org/react';
 import { Textarea } from '@nextui-org/react';
@@ -26,6 +27,7 @@ interface Challenge {
 }
 
 export default function AdminChallengesPage() {
+  const t = useTranslations('adminChallengesPage');
   const [challenges, setChallenges] = useState<Challenge[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -105,22 +107,22 @@ export default function AdminChallengesPage() {
       console.log('Response:', data);
 
       if (response.ok) {
-        alert(editingChallenge ? 'Challenge updated successfully' : 'Challenge created successfully');
+        alert(editingChallenge ? t('challengeUpdated') : t('challengeCreated'));
         fetchChallenges();
         onClose();
       } else {
-        alert(data.error || 'Error saving challenge');
+        alert(data.error || t('errorSaving'));
         console.error('Error saving challenge:', data);
       }
     } catch (error) {
       console.error('Error saving challenge:', error);
-      alert('Error saving challenge');
+      alert(t('errorSaving'));
     }
     setSaving(false);
   };
 
   const handleDelete = async (challengeId: number) => {
-    if (!confirm('Are you sure you want to delete this challenge? This action cannot be undone.')) {
+    if (!confirm(t('confirmDelete'))) {
       return;
     }
 
@@ -167,10 +169,10 @@ export default function AdminChallengesPage() {
       <div className="mb-16 pb-8">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-cyan-400 to-accent-purple-400 uppercase tracking-wider mb-2">
-            🛹 CHALLENGE MANAGEMENT
+            {`🛹 ${t('title')}`}
           </h1>
           <p className="text-neutral-600 text-lg mb-10">
-            Create and manage the platform's challenges
+            {t('subtitle')}
           </p>
         </div>
         <div className="flex justify-center relative z-10 pb-4">
@@ -180,7 +182,7 @@ export default function AdminChallengesPage() {
             size="lg"
             leftIcon={<MdAdd size={20} />}
           >
-            New Challenge
+            {t('newChallenge')}
           </Button>
         </div>
       </div>
@@ -235,15 +237,15 @@ export default function AdminChallengesPage() {
 
                 <div className="flex justify-between items-center">
                   <div className="text-center">
-                    <p className="text-neutral-400 text-xs uppercase tracking-wider">Points</p>
+                    <p className="text-neutral-400 text-xs uppercase tracking-wider">{t('points')}</p>
                     <p className="text-2xl font-black text-accent-yellow-400">{challenge.points}</p>
                   </div>
                   <div className="text-center">
-                    <p className="text-neutral-400 text-xs uppercase tracking-wider">Submissions</p>
+                    <p className="text-neutral-400 text-xs uppercase tracking-wider">{t('submissions')}</p>
                     <p className="text-2xl font-black text-accent-cyan-400">{challenge.totalSubmissions}</p>
                   </div>
                   <div className="text-center">
-                    <p className="text-neutral-400 text-xs uppercase tracking-wider">Avg Score</p>
+                    <p className="text-neutral-400 text-xs uppercase tracking-wider">{t('avgScore')}</p>
                     <p className="text-2xl font-black text-green-400">
                       {challenge.averageScore > 0 ? challenge.averageScore.toFixed(1) : '-'}
                     </p>
@@ -252,15 +254,15 @@ export default function AdminChallengesPage() {
 
                 <div className="flex gap-2">
                   <div className="flex-1 bg-green-500/20 p-2 rounded text-center">
-                    <p className="text-green-400 text-xs font-bold uppercase tracking-wider">Approved</p>
+                    <p className="text-green-400 text-xs font-bold uppercase tracking-wider">{t('approved')}</p>
                     <p className="text-green-400 font-black">{challenge.approvedSubmissions}</p>
                   </div>
                   <div className="flex-1 bg-accent-yellow-500/20 p-2 rounded text-center">
-                    <p className="text-accent-yellow-400 text-xs font-bold uppercase tracking-wider">Pending</p>
+                    <p className="text-accent-yellow-400 text-xs font-bold uppercase tracking-wider">{t('pending')}</p>
                     <p className="text-accent-yellow-400 font-black">{challenge.pendingSubmissions}</p>
                   </div>
                   <div className="flex-1 bg-red-500/20 p-2 rounded text-center">
-                    <p className="text-red-400 text-xs font-bold uppercase tracking-wider">Rejected</p>
+                    <p className="text-red-400 text-xs font-bold uppercase tracking-wider">{t('rejected')}</p>
                     <p className="text-red-400 font-black">{challenge.rejectedSubmissions}</p>
                   </div>
                 </div>
@@ -278,7 +280,7 @@ export default function AdminChallengesPage() {
                       leftIcon={<MdPlayArrow size={16} />}
                       className="w-full"
                     >
-                      View Demo
+                      {t('viewDemo')}
                     </Button>
                   </a>
                 )}
@@ -298,7 +300,7 @@ export default function AdminChallengesPage() {
       >
         <ModalContent>
           <ModalHeader className="text-white font-black uppercase tracking-wider text-center pb-4 pt-8 border-b-2 border-neutral-700">
-            {editingChallenge ? '✏️ EDIT CHALLENGE' : '➕ CREATE NEW CHALLENGE'}
+            {editingChallenge ? `✏️ ${t('editChallenge')}` : `➕ ${t('createNewChallenge')}`}
           </ModalHeader>
 
           <ModalBody className="px-8 py-8">
@@ -306,10 +308,10 @@ export default function AdminChallengesPage() {
               {/* Challenge Name */}
               <div>
                 <label className="block text-neutral-300 font-bold uppercase tracking-wider text-sm mb-3">
-                  Challenge Name
+                  {t('challengeName')}
                 </label>
                 <Input
-                  placeholder="E.g.: Perfect Ollie"
+                  placeholder={t('challengeNamePlaceholder')}
                   value={formData.name}
                   onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                   className="text-white"
@@ -324,10 +326,10 @@ export default function AdminChallengesPage() {
               {/* Description */}
               <div>
                 <label className="block text-neutral-300 font-bold uppercase tracking-wider text-sm mb-3">
-                  Description
+                  {t('description')}
                 </label>
                 <Textarea
-                  placeholder="Describe the challenge in detail..."
+                  placeholder={t('descriptionPlaceholder')}
                   value={formData.description}
                   onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
                   className="text-white"
@@ -344,7 +346,7 @@ export default function AdminChallengesPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
                   <label className="block text-neutral-300 font-bold uppercase tracking-wider text-sm mb-3">
-                    Difficulty
+                    {t('difficulty')}
                   </label>
                   <Select
                     selectedKeys={[formData.difficulty]}
@@ -357,16 +359,16 @@ export default function AdminChallengesPage() {
                       trigger: "bg-neutral-800 border-2 border-neutral-600 hover:border-accent-cyan-500"
                     }}
                   >
-                    <SelectItem key="easy" value="easy">Easy</SelectItem>
-                    <SelectItem key="medium" value="medium">Medium</SelectItem>
-                    <SelectItem key="hard" value="hard">Hard</SelectItem>
-                    <SelectItem key="expert" value="expert">Expert</SelectItem>
+                    <SelectItem key="easy" value="easy">{t('easy')}</SelectItem>
+                    <SelectItem key="medium" value="medium">{t('medium')}</SelectItem>
+                    <SelectItem key="hard" value="hard">{t('hard')}</SelectItem>
+                    <SelectItem key="expert" value="expert">{t('expert')}</SelectItem>
                   </Select>
                 </div>
 
                 <div>
                   <label className="block text-neutral-300 font-bold uppercase tracking-wider text-sm mb-3">
-                    Points
+                    {t('pointsLabel')}
                   </label>
                   <Input
                     type="number"
@@ -385,10 +387,10 @@ export default function AdminChallengesPage() {
               {/* Video URL */}
               <div>
                 <label className="block text-neutral-300 font-bold uppercase tracking-wider text-sm mb-3">
-                  Demo Video URL (YouTube)
+                  {t('demoVideoUrl')}
                 </label>
                 <Input
-                  placeholder="https://youtube.com/watch?v=..."
+                  placeholder={t('demoVideoUrlPlaceholder')}
                   value={formData.demoVideoUrl}
                   onChange={(e) => setFormData(prev => ({ ...prev, demoVideoUrl: e.target.value }))}
                   size="lg"
@@ -409,8 +411,8 @@ export default function AdminChallengesPage() {
                     className="w-6 h-6 mt-1 rounded border-2 border-neutral-600 bg-neutral-900 checked:bg-accent-yellow-500 checked:border-accent-yellow-500 cursor-pointer flex-shrink-0"
                   />
                   <div className="flex-1">
-                    <p className="text-white font-bold uppercase tracking-wider mb-1">🌟 Challenge Bonus</p>
-                    <p className="text-neutral-400 text-sm leading-relaxed">This challenge will grant extra points and appear featured on the platform</p>
+                    <p className="text-white font-bold uppercase tracking-wider mb-1">{`🌟 ${t('challengeBonus')}`}</p>
+                    <p className="text-neutral-400 text-sm leading-relaxed">{t('challengeBonusDesc')}</p>
                   </div>
                 </label>
               </div>
@@ -423,7 +425,7 @@ export default function AdminChallengesPage() {
               variant="secondary"
               size="lg"
             >
-              Cancel
+              {t('cancel')}
             </Button>
             <Button
               onClick={handleSubmit}
@@ -431,7 +433,7 @@ export default function AdminChallengesPage() {
               variant="primary"
               size="lg"
             >
-              {editingChallenge ? 'Update' : 'Create'} Challenge
+              {editingChallenge ? t('updateChallenge') : t('createChallenge')}
             </Button>
           </ModalFooter>
         </ModalContent>

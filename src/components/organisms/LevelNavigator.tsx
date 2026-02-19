@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { MdPlayArrow, MdReplay, MdVideoLibrary, MdHelpOutline, MdShare, MdLock } from 'react-icons/md';
+import { useTranslations } from 'next-intl';
 
 export type LevelStatus = 'completed' | 'active' | 'locked';
 export type LevelType = 'normal' | 'bonus';
@@ -41,6 +42,7 @@ export const LevelNavigator: React.FC<LevelNavigatorProps> = ({
   onHowToPlay,
   onShare,
 }) => {
+  const t = useTranslations('levelNavigator');
   const [activeLevel, setActiveLevel] = useState<number>(
     levels.find(l => l.status === 'active')?.id || levels[0]?.id || 1
   );
@@ -111,9 +113,9 @@ export const LevelNavigator: React.FC<LevelNavigatorProps> = ({
         {/* Level indicator */}
         <div className="text-center">
           <p className="text-accent-cyan-400 font-black text-sm md:text-base uppercase tracking-wider">
-            LEVEL {activeLevel}
+            {t('level')} {activeLevel}
             {currentLevel?.type === 'bonus' && (
-              <span className="ml-2 text-accent-pink-500">🌟 BONUS</span>
+              <span className="ml-2 text-accent-pink-500">{`🌟 ${t('bonus')}`}</span>
             )}
           </p>
         </div>
@@ -187,7 +189,7 @@ export const LevelNavigator: React.FC<LevelNavigatorProps> = ({
               className="bg-accent-purple-600 hover:bg-accent-purple-700 text-white font-black py-3 px-6 rounded-lg border-2 border-accent-purple-400 uppercase tracking-wider text-sm shadow-lg transform hover:scale-105 transition-all flex items-center gap-2"
             >
               <MdReplay size={20} />
-              Replay Intro
+              {t('replayIntro')}
             </button>
           )}
 
@@ -197,7 +199,7 @@ export const LevelNavigator: React.FC<LevelNavigatorProps> = ({
               className="bg-accent-pink-600 hover:bg-accent-pink-700 text-white font-black py-3 px-6 rounded-lg border-2 border-accent-pink-400 uppercase tracking-wider text-sm shadow-lg transform hover:scale-105 transition-all flex items-center gap-2"
             >
               <MdVideoLibrary size={20} />
-              Watch Videos
+              {t('watchVideos')}
             </button>
           )}
 
@@ -207,7 +209,7 @@ export const LevelNavigator: React.FC<LevelNavigatorProps> = ({
               className="bg-accent-cyan-600 hover:bg-accent-cyan-700 text-white font-black py-3 px-6 rounded-lg border-2 border-accent-cyan-400 uppercase tracking-wider text-sm shadow-lg transform hover:scale-105 transition-all flex items-center gap-2"
             >
               <MdHelpOutline size={20} />
-              How to Play
+              {t('howToPlay')}
             </button>
           )}
 
@@ -217,7 +219,7 @@ export const LevelNavigator: React.FC<LevelNavigatorProps> = ({
               className="bg-accent-yellow-500 hover:bg-accent-yellow-600 text-black font-black py-3 px-6 rounded-lg border-2 border-accent-yellow-300 uppercase tracking-wider text-sm shadow-lg transform hover:scale-105 transition-all flex items-center gap-2"
             >
               <MdShare size={20} />
-              Share
+              {t('share')}
             </button>
           )}
         </div>

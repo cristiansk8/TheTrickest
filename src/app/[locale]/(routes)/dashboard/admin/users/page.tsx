@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
 import { Card, CardBody, CardHeader } from '@nextui-org/react';
 import { Button } from '@nextui-org/react';
 import { Select, SelectItem } from '@nextui-org/react';
@@ -31,6 +32,7 @@ interface UsersResponse {
 }
 
 export default function AdminUsersPage() {
+  const t = useTranslations('adminUsers');
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState<number | null>(null);
@@ -118,10 +120,10 @@ export default function AdminUsersPage() {
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-cyan-400 to-accent-purple-400 uppercase tracking-wider mb-2">
-          👥 USER MANAGEMENT
+          {`👥 ${t('title')}`}
         </h1>
         <p className="text-neutral-600 text-lg">
-          Manage user roles and permissions
+          {t('subtitle')}
         </p>
       </div>
 
@@ -129,14 +131,14 @@ export default function AdminUsersPage() {
       <Card className="bg-neutral-900 border-4 border-neutral-700">
         <CardHeader>
           <h3 className="text-xl font-black text-white uppercase tracking-wider">
-            🔍 Filters
+            {`🔍 ${t('filters')}`}
           </h3>
         </CardHeader>
         <CardBody>
           <div className="flex gap-4 flex-wrap">
             <Select
-              label="Role"
-              placeholder="All roles"
+              label={t('role')}
+              placeholder={t('allRoles')}
               selectedKeys={[filters.role]}
               onSelectionChange={(keys) => setFilters(prev => ({
                 ...prev,
@@ -145,10 +147,10 @@ export default function AdminUsersPage() {
               }))}
               className="w-48"
             >
-              <SelectItem key="all" value="all">All</SelectItem>
-              <SelectItem key="skater" value="skater">Skater</SelectItem>
-              <SelectItem key="judge" value="judge">Judge</SelectItem>
-              <SelectItem key="admin" value="admin">Admin</SelectItem>
+              <SelectItem key="all" value="all">{t('all')}</SelectItem>
+              <SelectItem key="skater" value="skater">{t('skater')}</SelectItem>
+              <SelectItem key="judge" value="judge">{t('judge')}</SelectItem>
+              <SelectItem key="admin" value="admin">{t('admin')}</SelectItem>
             </Select>
           </div>
         </CardBody>
@@ -158,7 +160,7 @@ export default function AdminUsersPage() {
       <Card className="bg-neutral-900 border-4 border-neutral-700">
         <CardHeader>
           <h3 className="text-xl font-black text-white uppercase tracking-wider">
-            👤 Users ({pagination.total})
+            {`👤 ${t('users')} (${pagination.total})`}
           </h3>
         </CardHeader>
         <CardBody>
@@ -183,7 +185,7 @@ export default function AdminUsersPage() {
                         />
                       </div>
                       <div>
-                        <h4 className="text-white font-bold text-lg">{user.name || 'No name'}</h4>
+                        <h4 className="text-white font-bold text-lg">{user.name || t('noName')}</h4>
                         <p className="text-neutral-400 text-sm">{user.email}</p>
                         <div className="flex items-center gap-2 mt-1">
                           {getRoleIcon(user.role)}
@@ -194,18 +196,18 @@ export default function AdminUsersPage() {
 
                     <div className="flex items-center gap-6">
                       <div className="text-center">
-                        <p className="text-neutral-400 text-xs uppercase tracking-wider">Submissions</p>
+                        <p className="text-neutral-400 text-xs uppercase tracking-wider">{t('submissions')}</p>
                         <p className="text-2xl font-black text-accent-cyan-400">{user.totalSubmissions}</p>
                       </div>
                       <div className="text-center">
-                        <p className="text-neutral-400 text-xs uppercase tracking-wider">Score Total</p>
+                        <p className="text-neutral-400 text-xs uppercase tracking-wider">{t('scoreTotal')}</p>
                         <p className="text-2xl font-black text-accent-yellow-400">{user.totalScore}</p>
                       </div>
 
                       <div className="flex flex-col gap-2">
                         <Select
                           size="sm"
-                          placeholder="Change role"
+                          placeholder={t('changeRole')}
                           selectedKeys={[user.role]}
                           onSelectionChange={(keys) => {
                             const newRole = Array.from(keys)[0] as string;
@@ -216,9 +218,9 @@ export default function AdminUsersPage() {
                           disabled={updating === user.id}
                           className="w-40"
                         >
-                          <SelectItem key="skater" value="skater">Skater</SelectItem>
-                          <SelectItem key="judge" value="judge">Judge</SelectItem>
-                          <SelectItem key="admin" value="admin">Admin</SelectItem>
+                          <SelectItem key="skater" value="skater">{t('skater')}</SelectItem>
+                          <SelectItem key="judge" value="judge">{t('judge')}</SelectItem>
+                          <SelectItem key="admin" value="admin">{t('admin')}</SelectItem>
                         </Select>
                         {updating === user.id && (
                           <div className="flex justify-center">
@@ -233,7 +235,7 @@ export default function AdminUsersPage() {
 
               {users.length === 0 && (
                 <div className="text-center py-8">
-                  <p className="text-neutral-400 text-lg">No users found</p>
+                  <p className="text-neutral-400 text-lg">{t('noUsersFound')}</p>
                 </div>
               )}
             </div>
@@ -249,11 +251,11 @@ export default function AdminUsersPage() {
             onClick={() => setFilters(prev => ({ ...prev, page: prev.page - 1 }))}
             className="bg-gradient-to-r from-accent-cyan-500 to-accent-blue-600 text-white font-bold"
           >
-            Previous
+            {t('previous')}
           </Button>
 
           <span className="flex items-center px-4 py-2 bg-neutral-800 text-white rounded-lg">
-            Page {pagination.page} of {pagination.pages}
+            {t('page', { page: pagination.page, pages: pagination.pages })}
           </span>
 
           <Button
@@ -261,7 +263,7 @@ export default function AdminUsersPage() {
             onClick={() => setFilters(prev => ({ ...prev, page: prev.page + 1 }))}
             className="bg-gradient-to-r from-accent-cyan-500 to-accent-blue-600 text-white font-bold"
           >
-            Next
+            {t('next')}
           </Button>
         </div>
       )}

@@ -1,7 +1,10 @@
+'use client';
+
 import React from 'react'
 import { howToWin } from "../../data";
 import localFont from 'next/font/local';
 import {Button} from "@nextui-org/react";
+import { useTranslations } from 'next-intl';
 
 const myFont = localFont({
     src: './fonts/blox.woff',
@@ -9,7 +12,8 @@ const myFont = localFont({
 });
 
 const HowWin = () => {
-    return ( 
+    const t = useTranslations('howToWin');
+    return (
         <div>
             <div className="flex w-full flex-wrap content-center justify-center px-7">
                 <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
@@ -29,7 +33,7 @@ const HowWin = () => {
                     }
                 </div>
                 <div className='flex justify-center items-center'>
-                    <Button color="primary" variant="light">Participar</Button>
+                    <Button color="primary" variant="light">{t('participate')}</Button>
                 </div>
             </div>
         </div>

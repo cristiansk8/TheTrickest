@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { MapPin, X, Check } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 const THEME_COLORS = {
   brandPink: "#F35588",
@@ -30,6 +31,7 @@ export default function SpotLocationPicker({
   onConfirm,
   onCancel
 }: SpotLocationPickerProps) {
+  const t = useTranslations('spotLocationPicker');
   const [lat, setLat] = useState(initialLat);
   const [lng, setLng] = useState(initialLng);
   const [components, setComponents] = useState<LeafletComponents | null>(null);
@@ -55,7 +57,7 @@ export default function SpotLocationPicker({
       <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[9999]">
         <div className="bg-neutral-800 border-4 border-accent-cyan-400 rounded-xl p-8 text-center">
           <div className="animate-spin w-12 h-12 border-4 border-accent-cyan-400 border-t-transparent rounded-full mx-auto mb-4"></div>
-          <p className="text-accent-cyan-300 font-bold">Loading map...</p>
+          <p className="text-accent-cyan-300 font-bold">{t('loadingMap')}</p>
         </div>
       </div>
     );
@@ -118,10 +120,10 @@ export default function SpotLocationPicker({
           <div>
             <h3 className="text-2xl font-black text-white uppercase flex items-center gap-2">
               <MapPin className="w-6 h-6" />
-              Confirm Spot Location
+              {t('title')}
             </h3>
             <p className="text-accent-cyan-100 text-sm mt-1">
-              Click on the map to adjust the exact position
+              {t('subtitle')}
             </p>
           </div>
           <button
@@ -155,13 +157,13 @@ export default function SpotLocationPicker({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
             <div className="bg-neutral-800 border border-accent-cyan-500 rounded-lg p-3">
               <label className="block text-accent-cyan-400 text-xs font-bold uppercase mb-1">
-                Latitude
+                {t('latitude')}
               </label>
               <p className="text-white font-mono text-lg">{lat.toFixed(6)}</p>
             </div>
             <div className="bg-neutral-800 border border-accent-cyan-500 rounded-lg p-3">
               <label className="block text-accent-cyan-400 text-xs font-bold uppercase mb-1">
-                Longitude
+                {t('longitude')}
               </label>
               <p className="text-white font-mono text-lg">{lng.toFixed(6)}</p>
             </div>
@@ -172,14 +174,14 @@ export default function SpotLocationPicker({
               onClick={onCancel}
               className="flex-1 bg-neutral-700 hover:bg-neutral-600 text-white font-bold py-3 px-6 rounded-lg border-2 border-neutral-500 transition-colors"
             >
-              Cancel
+              {t('cancel')}
             </button>
             <button
               onClick={() => onConfirm(lat, lng)}
               className="flex-1 bg-gradient-to-r from-accent-cyan-600 to-accent-purple-600 hover:from-accent-cyan-500 hover:to-accent-purple-500 text-white font-bold py-3 px-6 rounded-lg border-2 border-white flex items-center justify-center gap-2 transition-all"
             >
               <Check className="w-5 h-5" />
-              Confirm Location
+              {t('confirmLocation')}
             </button>
           </div>
         </div>
