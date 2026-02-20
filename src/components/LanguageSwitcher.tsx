@@ -24,24 +24,25 @@ export default function LanguageSwitcher() {
   };
 
   return (
-    <div className="flex items-center gap-1 bg-neutral-800/50 rounded-full p-1">
+    <div className="flex items-center gap-2">
       {locales.map((loc) => (
         <button
           key={loc.code}
           onClick={() => handleLocaleChange(loc.code)}
           disabled={isPending}
           className={`
-            flex items-center gap-1 px-3 py-1.5 rounded-full text-sm font-bold uppercase tracking-wider
-            transition-all duration-200
+            relative flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold uppercase tracking-wider
+            transition-all duration-200 transform hover:scale-105
+            border-2
             ${locale === loc.code
-              ? 'bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 text-white shadow-lg shadow-accent-cyan-500/30'
-              : 'text-neutral-400 hover:text-white hover:bg-neutral-700/50'
+              ? 'bg-accent-cyan-500 border-accent-cyan-500 text-white shadow-lg shadow-accent-cyan-500/50 hover:bg-accent-cyan-600 hover:border-accent-cyan-600'
+              : 'bg-transparent border-neutral-600 text-neutral-400 hover:border-accent-cyan-500 hover:text-accent-cyan-400'
             }
             ${isPending ? 'opacity-50 cursor-wait' : 'cursor-pointer'}
           `}
           title={loc.code === 'en' ? 'English' : 'Español'}
         >
-          <span>{loc.flag}</span>
+          <span className="text-base">{loc.flag}</span>
           <span>{loc.label}</span>
         </button>
       ))}
