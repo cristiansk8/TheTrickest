@@ -118,6 +118,85 @@ node scripts/check_db_user.js # Debug database connection and verify user
 - Green: `bg-green-500 hover:bg-green-600` (Success/Confirm)
 - Red: `bg-red-500 hover:bg-red-600` (Danger/Cancel)
 
+### 🎮 CRITICAL: Arcade Floating Buttons - ALWAYS VISIBLE
+
+**IMPORTANT:** The arcade-style floating buttons are a CORE part of the homepage user experience and branding. They MUST always be visible and functional.
+
+**Location & Appearance:**
+- **Bottom-left corner:** "⌨️ Press [SPACE]" indicator
+- **Bottom-right corner:** "▶️ [PRESS START]" button
+- Both have cyan/neon arcade styling with pulsing animations
+- Fixed positioning with `z-[100]` (always on top)
+
+**Files Involved:**
+- **[src/components/ArcadeButtons.tsx](src/components/ArcadeButtons.tsx)** - Main component with both buttons
+- **[src/components/ArcadeButtonsWrapper.tsx](src/components/ArcadeButtonsWrapper.tsx)** - Logic wrapper (handles visibility)
+- **[src/app/[locale]/layout.tsx](src/app/[locale]/layout.tsx)** - Renders wrapper in layout
+
+**Visibility Logic:**
+```typescript
+// ArcadeButtonsWrapper.tsx - CURRENT WORKING CODE
+const pathSegments = pathname.split('/').filter(Boolean);
+const isHomepage = pathSegments.length <= 1; // Shows on '/', '/es', '/en', etc.
+if (!isHomepage) return null;
+```
+
+**Where Buttons SHOULD Appear:**
+- ✅ Homepage root: `/`
+- ✅ Homepage with locale: `/es`, `/en`, `/pt`, etc.
+- ✅ Any single-segment path (homepage variations)
+
+**Where Buttons Should NOT Appear:**
+- ❌ `/dashboard`, `/profile`, `/spots` (internal pages)
+- ❌ Any multi-segment path
+- ❌ API routes
+
+**Functionality:**
+- **"PRESS START" button** → Opens authentication menu (dispatches `arcade-press-start` event)
+- **SPACE key** → Same as pressing "PRESS START" (keyboard shortcut)
+- Both trigger the SigninButton menu
+
+**⚠️ IF BUTTONS ARE NOT VISIBLE:**
+1. **CRITICAL:** This is a HIGH priority bug that affects user acquisition
+2. **Check immediately:**
+   - Is `ArcadeButtonsWrapper` returning `null`? → Fix the pathname logic
+   - Is the component rendered? → Check `[locale]/layout.tsx`
+   - Are translations missing? → Check `messages/en.json` and `messages/es.json`
+3. **Never remove without explicit user request**
+4. **Test on homepage:** Visit `/` and `/es` to verify buttons appear
+5. **Mobile responsive:** Buttons should be visible on mobile (adjusted spacing: `bottom-4` vs `md:bottom-6`)
+
+**Styling (DO NOT CHANGE without good reason):**
+```typescript
+// Bottom-left - Keyboard indicator
+<div className="fixed bottom-4 left-4 md:bottom-6 md:left-6 z-[100] bg-neutral-800/95 backdrop-blur-sm px-4 py-3 rounded-lg border-4 border-accent-cyan-500 shadow-2xl shadow-accent-cyan-500/50">
+
+// Bottom-right - Start button
+<div className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-[100] bg-neutral-800/95 backdrop-blur-sm px-4 py-3 rounded-lg border-4 border-accent-cyan-500 shadow-2xl shadow-accent-cyan-500/50">
+```
+
+**Translations Required (in messages/en.json and messages/es.json):**
+```json
+{
+  "arcadeButtons": {
+    "pressKey": "Press",  // or "Presiona" (ES)
+    "pressStart": "PRESS START"  // or "PRESIONA START" (ES)
+  }
+}
+```
+
+**Common Issues & Fixes:**
+
+| Issue | Cause | Fix |
+|-------|-------|-----|
+| Buttons not showing on `/es` or `/en` | Pathname check too strict | Change to `pathSegments.length <= 1` |
+| Buttons showing on internal pages | Logic too permissive | Add path blacklist or improve segment check |
+| Translation missing | Missing key in messages | Add to both `en.json` and `es.json` |
+- Buttons overlap with other content | Z-index too low | Ensure `z-[100]` or higher |
+- Event not firing | CustomEvent not dispatched | Check `window.dispatchEvent(new CustomEvent('arcade-press-start'))` |
+
+**⚠️ REMEMBER:** These buttons are the PRIMARY way users access authentication on the homepage. If they're broken, users cannot sign up easily. This is CRITICAL for user acquisition.
+
 ### Design System - Atomic Design
 
 Follow **Atomic Design methodology** for component organization:
@@ -537,3 +616,27 @@ Current namespaces in use:
 - **Maintain arcade/retro-futurista aesthetic** - thick borders, uppercase text, gradients, glow effects
 - Video content is the core feature - optimize heavily for video performance and UX
 - Emojis are part of the visual identity - use them purposefully for hierarchy and context
+
+### 🎮 CRITICAL: Arcade Floating Buttons
+
+**⚠️ NEVER REMOVE OR BREAK THE ARCADE FLOATING BUTTONS ON HOMEPAGE**
+
+The arcade floating buttons (bottom-left: "⌨️ Press [SPACE]" and bottom-right: "▶️ [PRESS START]") are a **CRITICAL** part of the homepage user experience:
+
+- **Primary authentication entry point** - Users use these to access login/signup
+- **Core branding element** - Defines the arcade aesthetic of the platform
+- **ALWAYS visible on homepage** - Must work on `/`, `/es`, `/en`, and any locale variant
+- **NOT visible on internal pages** - Dashboard, profile, etc. (intentional design)
+
+**Files:**
+- `src/components/ArcadeButtons.tsx` - Button components
+- `src/components/ArcadeButtonsWrapper.tsx` - Visibility logic (shows on homepage only)
+- `src/app/[locale]/layout.tsx` - Renders the buttons
+
+**⚠️ IF BUTTONS STOP WORKING:**
+- This is a **PRIORITY 1 BUG** - affects user acquisition
+- Check `ArcadeButtonsWrapper` pathname logic
+- Verify translations in `messages/en.json` and `messages/es.json`
+- Test on homepage: `/`, `/es`, `/en`
+
+**See section "Development Principles → 🎮 CRITICAL: Arcade Floating Buttons" above for complete details.**
