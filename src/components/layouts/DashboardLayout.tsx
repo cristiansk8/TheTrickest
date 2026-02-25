@@ -1,16 +1,14 @@
-export const dynamic = 'force-dynamic';
-
 import Providers from "@/components/Providers";
 import { Sidebar } from "@/components/sidebar/Sidebar";
 import Appbar from "@/components/Appbar";
 
-export default function JudgesLayout({
-  children,
-}: {
+interface DashboardLayoutProps {
   children: React.ReactNode;
-}) {
+}
+
+export function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
-    <div className="bg-neutral-100 overflow-y-auto min-h-screen antialiased text-neutral-300 selection:bg-accent-blue-600 selection:text-white">
+    <div className="bg-neutral-100 min-h-screen antialiased text-neutral-300">
       <Providers>
         {/* Navbar sticky en la parte superior */}
         <Appbar />

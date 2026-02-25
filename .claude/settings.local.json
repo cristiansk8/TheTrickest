@@ -64,7 +64,9 @@
       "Bash(npx vitest:*)",
       "Bash(npx vitest@latest run:*)",
       "Bash(npm run lint)",
-      "Bash(npx next lint:*)"
+      "Bash(npx next lint:*)",
+      "Bash(git diff:*)",
+      "Bash(head:*)"
     ],
     "deny": [],
     "ask": []
