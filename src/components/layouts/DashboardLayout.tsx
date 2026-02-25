@@ -13,7 +13,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         {/* Navbar sticky en la parte superior */}
         <Appbar />
 
-        <div className="flex flex-col lg:flex-row min-h-screen">
+        <div className="flex flex-col lg:flex-row min-h-screen" style={{ marginTop: '80px' }}>
           {/* Sidebar */}
           <Sidebar />
 
