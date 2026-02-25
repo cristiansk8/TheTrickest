@@ -1,6 +1,7 @@
 import Providers from "@/components/Providers";
 import { Sidebar } from "@/components/sidebar/Sidebar";
 import Appbar from "@/components/Appbar";
+import { MobileGameMenu } from "@/components/sidebar/MobileGameMenu";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -14,14 +15,19 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         <Appbar />
 
         <div className="flex flex-col lg:flex-row min-h-screen" style={{ marginTop: '80px' }}>
-          {/* Sidebar */}
-          <Sidebar />
+          {/* Sidebar - solo visible en desktop */}
+          <div className="hidden lg:block">
+            <Sidebar />
+          </div>
 
-          {/* Contenido principal */}
-          <div className="flex-1 w-full text-neutral-900 overflow-y-auto">
+          {/* Contenido principal con padding bottom para el menu mobile */}
+          <div className="flex-1 w-full text-neutral-900 overflow-y-auto pb-20 lg:pb-0">
             {children}
           </div>
         </div>
+
+        {/* Menu flotante estilo videojuego - solo visible en mobile */}
+        <MobileGameMenu />
       </Providers>
     </div>
   );

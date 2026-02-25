@@ -1,6 +1,5 @@
 'use client'
-import React, { useMemo, useEffect, useState } from 'react'
-import Image from 'next/image'
+import React, { useMemo } from 'react'
 import { SidebarMenuItem } from './SidebarMenuItem';
 import { MdOutlineSkateboarding, MdGavel, MdAdminPanelSettings, MdLeaderboard, MdGroups, MdLogout, MdSettings } from "react-icons/md";
 import { GiSkateboard } from "react-icons/gi";
@@ -12,8 +11,7 @@ import { useTranslations } from 'next-intl';
 
 
 export const Sidebar = () => {
-  const { data: session, status } = useSession();
-  const [totalScore, setTotalScore] = useState(0);
+  const { data: session } = useSession();
   const t = useTranslations();
 
   // Menu items with translation keys
@@ -141,48 +139,6 @@ export const Sidebar = () => {
     }
   }, [session?.user?.role, adminMenuItems, judgeMenuItems, skaterMenuItems]);
 
-  // Get user's total score
-  useEffect(() => {
-    if (status === 'authenticated' && session?.user?.email) {
-      const fetchScore = async () => {
-        try {
-          const response = await fetch(`/api/users/score?email=${session.user?.email}`);
-          if (response.ok) {
-            const data = await response.json();
-            setTotalScore(data.totalScore || 0);
-          }
-        } catch (error) {
-          console.error('Error fetching score:', error);
-        }
-      };
-      fetchScore();
-    }
-  }, [status, session?.user?.email]);
-
-  // Get role badge
-  const getRoleBadge = () => {
-    const userRole = session?.user?.role || 'skater';
-
-    if (userRole === 'admin') {
-      return (
-        <span className="text-xs bg-gradient-to-r from-red-500 to-accent-orange-500 text-white px-3 py-1 rounded-full font-black uppercase tracking-wider shadow-lg shadow-red-500/50">
-          {t('sidebar.admin')}
-        </span>
-      );
-    } else if (userRole === 'judge') {
-      return (
-        <span className="text-xs bg-gradient-to-r from-accent-yellow-500 to-accent-amber-500 text-black px-3 py-1 rounded-full font-black uppercase tracking-wider shadow-lg shadow-accent-yellow-500/50">
-          {t('sidebar.judge')}
-        </span>
-      );
-    }
-    return (
-      <span className="text-xs bg-gradient-to-r from-accent-cyan-500 to-accent-blue-500 text-white px-3 py-1 rounded-full font-black uppercase tracking-wider shadow-lg shadow-accent-cyan-500/50">
-        {t('sidebar.skater')}
-      </span>
-    );
-  };
-
   return (
     <div
       id="menu"
@@ -202,53 +158,6 @@ export const Sidebar = () => {
             </div>
           </div>
         </Link>
-      </div>
-
-      {/* Score Card */}
-      <div className="px-4 mb-4">
-        <div className="bg-gradient-to-r from-accent-yellow-500 to-accent-orange-500 p-[3px] rounded-lg">
-          <div className="bg-neutral-900 rounded-lg p-3 text-center">
-            <p className="text-neutral-400 text-xs uppercase font-bold tracking-wider">{t('sidebar.yourScore')}</p>
-            <p className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-yellow-400 to-accent-orange-400">
-              {totalScore}
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* User profile */}
-      <div className="px-4 mb-6">
-        <div className="bg-gradient-to-r from-accent-purple-500 to-accent-pink-500 p-[3px] rounded-lg">
-          <div className="bg-neutral-900 rounded-lg p-4">
-            <p className="text-neutral-500 text-xs uppercase font-bold tracking-wider mb-2">
-              {t('sidebar.welcome')}
-            </p>
-            {status === "loading" ? (
-              <div className="flex items-center justify-center py-2">
-                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-accent-purple-400"></div>
-              </div>
-            ) : (
-              <div className="flex items-center gap-3">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 rounded-full blur-sm"></div>
-                  <Image
-                    className="relative rounded-full w-12 h-12 border-2 border-white"
-                    src={session?.user?.image || "/logo.png"}
-                    alt="User avatar"
-                    width={48}
-                    height={48}
-                  />
-                </div>
-                <div className="flex flex-col gap-1">
-                  <span className="text-sm font-black text-white uppercase tracking-wide truncate max-w-[140px]">
-                    {session?.user?.name || 'Skater'}
-                  </span>
-                  {getRoleBadge()}
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
       </div>
 
       {/* Navigation menu */}
