@@ -18,7 +18,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           <Sidebar />
 
           {/* Contenido principal */}
-          <div className="flex-1 w-full text-neutral-900 overflow-y-auto p-6">
+          <div className="flex-1 w-full text-neutral-900 overflow-y-auto">
             {children}
           </div>
         </div>
