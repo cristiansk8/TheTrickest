@@ -14,9 +14,9 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         {/* Navbar sticky en la parte superior */}
         <Appbar />
 
-        <div className="flex flex-col lg:flex-row min-h-screen" style={{ marginTop: '80px' }}>
+        <div className="flex flex-col lg:flex-row" style={{ marginTop: '80px', minHeight: 'calc(100vh - 80px)' }}>
           {/* Sidebar - solo visible en desktop */}
-          <div className="hidden lg:block">
+          <div className="hidden lg:block h-full">
             <Sidebar />
           </div>
 

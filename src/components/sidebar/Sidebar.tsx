@@ -142,38 +142,40 @@ export const Sidebar = () => {
   return (
     <div
       id="menu"
-      className="bg-neutral-900 min-h-auto lg:min-h-screen z-10 text-neutral-300 w-full lg:w-72 left-0 overflow-y-auto border-r-4 border-neutral-800"
+      className="bg-neutral-900 h-full z-10 text-neutral-300 w-full lg:w-72 left-0 border-r-4 border-neutral-800 flex flex-col overflow-hidden"
     >
-      {/* Logo Header with arcade style */}
-      <div className="p-4">
-        <Link href="/">
-          <div className="bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 p-[3px] rounded-lg shadow-lg shadow-accent-cyan-500/30 hover:shadow-accent-cyan-500/50 transition-all cursor-pointer">
-            <div className="bg-neutral-900 rounded-lg p-4">
-              <h1 className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-cyan-400 to-accent-purple-400 uppercase tracking-wider text-center">
-                🛹 TRICKEST
-              </h1>
-              <p className="text-accent-cyan-400 text-xs text-center font-bold uppercase tracking-wider mt-1">
-                2025 Skaters
-              </p>
+      <div className="overflow-y-auto flex-1">
+        {/* Logo Header with arcade style */}
+        <div className="p-4">
+          <Link href="/">
+            <div className="bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 p-[3px] rounded-lg shadow-lg shadow-accent-cyan-500/30 hover:shadow-accent-cyan-500/50 transition-all cursor-pointer">
+              <div className="bg-neutral-900 rounded-lg p-4">
+                <h1 className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-accent-cyan-400 to-accent-purple-400 uppercase tracking-wider text-center">
+                  🛹 TRICKEST
+                </h1>
+                <p className="text-accent-cyan-400 text-xs text-center font-bold uppercase tracking-wider mt-1">
+                  2025 Skaters
+                </p>
+              </div>
             </div>
-          </div>
-        </Link>
-      </div>
+          </Link>
+        </div>
 
-      {/* Navigation menu */}
-      <div className="px-4 pb-4">
-        <p className="text-neutral-500 text-xs uppercase font-bold tracking-wider mb-3 px-2">
-          {t('sidebar.navigation')}
-        </p>
-        <div className="space-y-2">
-          {menuItems.map(item => (
-            <SidebarMenuItem key={item.path} {...item} />
-          ))}
+        {/* Navigation menu */}
+        <div className="px-4 pb-4">
+          <p className="text-neutral-500 text-xs uppercase font-bold tracking-wider mb-3 px-2">
+            {t('sidebar.navigation')}
+          </p>
+          <div className="space-y-2">
+            {menuItems.map(item => (
+              <SidebarMenuItem key={item.path} {...item} />
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* Logout button */}
-      <div className="px-4 pb-6 mt-auto">
+      {/* Logout button - sticky at bottom */}
+      <div className="px-4 pb-6 pt-4 border-t-4 border-neutral-800 bg-neutral-900 shrink-0">
         <button
           onClick={() => signOut({ callbackUrl: '/' })}
           className="w-full bg-gradient-to-r from-red-500 to-accent-pink-500 hover:from-red-400 hover:to-accent-pink-400 p-[3px] rounded-lg shadow-lg shadow-red-500/30 hover:shadow-red-500/50 transition-all"
