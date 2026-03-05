@@ -137,11 +137,11 @@ export default function AdminChallengesPage() {
         fetchChallenges();
       } else {
         const data = await response.json();
-        alert(data.error || 'Error deleting challenge');
+        alert(data.error || t('errorDeleting'));
       }
     } catch (error) {
       console.error('Error deleting challenge:', error);
-      alert('Error deleting challenge');
+      alert(t('errorDeleting'));
     }
   };
 

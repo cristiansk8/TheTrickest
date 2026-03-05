@@ -143,28 +143,13 @@ export default function TeamsPage() {
     e.preventDefault();
     if (!newTeamName.trim()) return;
 
-    // Debug: log para verificar que los espacios están presentes
-    console.log('===== DEBUG FRONTEND =====');
-    console.log('newTeamName RAW:', newTeamName);
-    console.log('Con comillas:', `"${newTeamName}"`);
-    console.log('Longitud:', newTeamName.length);
-    console.log('Después de trim:', `"${newTeamName.trim()}"`);
-    console.log('Longitud trim:', newTeamName.trim().length);
-    console.log('Array de caracteres:', newTeamName.split(''));
-    console.log('=========================');
-
     setCreating(true);
     try {
       const teamData = {
-        name: newTeamName,  // SIN TRIM - vamos a dejar que el backend haga el trim
+        name: newTeamName,
         description: newTeamDescription || undefined,
         logo: newTeamLogo || undefined,
       };
-
-      console.log('===== DATOS A ENVIAR =====');
-      console.log('teamData:', teamData);
-      console.log('JSON:', JSON.stringify(teamData));
-      console.log('=========================');
 
       const res = await fetch('/api/teams', {
         method: 'POST',
@@ -274,9 +259,6 @@ export default function TeamsPage() {
     setInviteError('');
     setInviteSuccess(false);
     try {
-      console.log('===== DEBUG FRONTEND INVITACION =====');
-      console.log('Invitando a:', inviteEmail.trim());
-
       const res = await fetch('/api/teams/invitations', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -284,8 +266,6 @@ export default function TeamsPage() {
       });
 
       const data = await res.json();
-
-      console.log('Respuesta del servidor:', { status: res.status, data });
 
       if (!res.ok) {
         setInviteError(data.error || t('errorSending'));

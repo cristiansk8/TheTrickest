@@ -1,9 +1,16 @@
 import ContactForm from '@/components/ContactForm';
+import { Metadata } from 'next';
+import { getTranslations } from 'next-intl/server';
 
-export const metadata = {
-  title: 'Contacto - Trickest',
-  description: 'Únete al movimiento. Colabora con nosotros, patrocina o sé parte de la revolución del skate en Latinoamérica.',
-};
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'contact' });
+
+  return {
+    title: t('metaTitle'),
+    description: t('metaDescription'),
+  };
+}
 
 export default function ContactoPage() {
   return <ContactForm />;

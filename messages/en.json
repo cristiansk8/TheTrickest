@@ -455,7 +455,16 @@
     "viewAll": "View all"
   },
   "howToWin": {
-    "participate": "Participate"
+    "participate": "Participate",
+    "step1Title": "skate",
+    "step1Caption": "Get ready to slide and dominate the streets! Find the best lines, pull off amazing tricks and feel the freedom on your board.",
+    "step1Image": "/trick-est.webp",
+    "step2Title": "record",
+    "step2Caption": "Capture your best moments on the board and share your unique style with the world. Record your craziest tricks and show your passion for skateboarding!",
+    "step2Image": "/graba.png",
+    "step3Title": "post",
+    "step3Caption": "Make your friends feel part of the action by sharing your most epic skate sessions online. Post your clips and photos to inspire other skaters and strengthen the community!",
+    "step3Image": "/postea.png"
   },
   "introduction": {
     "tagline1": "skate record post",
@@ -864,7 +873,9 @@
     "noGeolocation": "Your browser does not support geolocation",
     "errorGettingLocation": "Error getting location",
     "getGpsFirst": "First get your GPS location",
-    "loadingMap": "Loading map..."
+    "loadingMap": "Loading map...",
+    "successAlert": "Initial Score: {score}\nStage: {stage}",
+    "errorRegistering": "Error registering spot"
   },
   "arcadeButtons": {
     "pressKey": "Press",
@@ -1074,7 +1085,8 @@
     "challengeUpdated": "Challenge updated successfully",
     "challengeCreated": "Challenge created successfully",
     "errorSaving": "Error saving challenge",
-    "confirmDelete": "Are you sure you want to delete this challenge? This action cannot be undone."
+    "confirmDelete": "Are you sure you want to delete this challenge? This action cannot be undone.",
+    "errorDeleting": "Error deleting challenge"
   },
   "adminSubmissionsPage": {
     "title": "SUBMISSIONS MANAGEMENT",
@@ -1382,7 +1394,10 @@
   },
   "partnersComponent": {
     "our": "Our",
-    "partners": "Partners"
+    "partners": "Partners",
+    "deepfcRole": "Automations",
+    "toryRole": "Skateboarding Store",
+    "nandarkRole": "Custom Development & AI SaaS"
   },
   "portfolio": {
     "latest": "Latest",
@@ -1425,5 +1440,46 @@
     "watchVideos": "Watch Videos",
     "howToPlay": "How to Play",
     "share": "Share"
+  },
+  "about": {
+    "metaTitle": "About - TheTrickest | Skateboarding Challenge Platform",
+    "metaDescription": "Learn about TheTrickest, the ultimate skateboarding challenge platform. Submit tricks, compete with skaters worldwide, and climb the leaderboard.",
+    "metaKeywords": "TheTrickest, skateboarding challenges, skate tricks, competition, leaderboard"
+  },
+  "contact": {
+    "metaTitle": "Contact - TheTrickest",
+    "metaDescription": "Get in touch with TheTrickest. Join the movement, collaborate with us, or become part of the skateboarding revolution."
+  },
+  "comingSoon": {
+    "metaTitle": "Coming Soon - TheTrickest",
+    "metaDescription": "TheTrickest launches on Go Skateboarding Day 2026. Join the waitlist and become a Founding Member.",
+    "heroTitle": "THE TRICKEST",
+    "heroSubtitle": "IS COMING",
+    "heroTagline": "The ultimate skateboarding challenge platform. 10 levels of progressive difficulty. Real judges scoring your tricks. Global leaderboards.",
+    "countdownTitle": "COUNTDOWN TO LAUNCH",
+    "days": "DAYS",
+    "hours": "HRS",
+    "minutes": "MIN",
+    "seconds": "SEC",
+    "emailPlaceholder": "your@email.com",
+    "joinWaitlist": "JOIN WAITLIST",
+    "joining": "JOINING...",
+    "foundingMember": "First 500 signups get the Founding Member badge",
+    "successTitle": "YOU'RE IN!",
+    "successMessage": "Welcome to the crew. We'll notify you on launch day.",
+    "alreadyRegistered": "You're already on the list! See you on launch day.",
+    "errorInvalidEmail": "Please enter a valid email address.",
+    "errorGeneric": "Something went wrong. Try again.",
+    "feature1Title": "10 CHALLENGE LEVELS",
+    "feature1Desc": "From basic ollies to legendary combos. Submit video evidence and get scored by real judges.",
+    "feature2Title": "GLOBAL SPOT MAP",
+    "feature2Desc": "Discover skateparks, street spots, and shops worldwide. Check in, validate, and share with the community.",
+    "feature3Title": "LIVE LEADERBOARDS",
+    "feature3Desc": "Compete globally. Climb the ranks. Prove you're the best with scores from real judges.",
+    "launchDate": "JUNE 21, 2026",
+    "goSkateDay": "GO SKATEBOARDING DAY",
+    "socialProof": "Join {count}+ skaters on the waitlist",
+    "madeWith": "Made with",
+    "forSkaters": "for skaters worldwide"
   }
 }

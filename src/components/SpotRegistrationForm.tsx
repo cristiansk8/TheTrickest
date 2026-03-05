@@ -70,10 +70,10 @@ export default function SpotRegistrationForm({ onSuccess }: SpotRegistrationForm
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || 'Error registering spot');
+        throw new Error(data.message || t('errorRegistering'));
       }
 
-      alert(`✅ ${data.message}\n\nScore inicial: ${data.spot.confidenceScore}\nStage: ${data.spot.stage}`);
+      alert(`✅ ${data.message}\n\n${t('successAlert', { score: data.spot.confidenceScore, stage: data.spot.stage })}`);
 
       // Reset form
       setFormData({

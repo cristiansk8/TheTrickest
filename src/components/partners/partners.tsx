@@ -1,31 +1,31 @@
 'use client';
 import Image from 'next/image';
-import styles from './Partners.module.css'; // Importa tus estilos CSS
+import styles from './Partners.module.css';
 import { useTranslations } from 'next-intl';
-
-const partners = [
-  {
-    name: 'DeepFC',
-    role: 'Automatizaciones',
-    imageSrc: '/logo-deep-fc.gif',
-    website: 'https://deepfc.com/',
-  },
-  {
-    name: 'Tory Skateshop',
-    role: 'Tienda de Skateboarding',
-    imageSrc: '/logo-tory.jpg',
-    website: 'https://toryskateshop.com/',
-  },
-  {
-    name: 'Nandark',
-    role: 'Desarrollo a Medida & SaaS con IA',
-    imageSrc: '/nandark-isotipo.png',
-    website: 'https://nandark.com/',
-  },
-];
 
 const Partners = () => {
   const t = useTranslations('partnersComponent');
+
+  const partners = [
+    {
+      name: 'DeepFC',
+      roleKey: 'deepfcRole',
+      imageSrc: '/logo-deep-fc.gif',
+      website: 'https://deepfc.com/',
+    },
+    {
+      name: 'Tory Skateshop',
+      roleKey: 'toryRole',
+      imageSrc: '/logo-tory.jpg',
+      website: 'https://toryskateshop.com/',
+    },
+    {
+      name: 'Nandark',
+      roleKey: 'nandarkRole',
+      imageSrc: '/nandark-isotipo.png',
+      website: 'https://nandark.com/',
+    },
+  ];
 
   return (
     <div>
@@ -102,7 +102,7 @@ const Partners = () => {
                           {partner.name}
                         </p>
                         <p className="text-neutral-400 leading-relaxed font-light">
-                          {partner.role}
+                          {t(partner.roleKey)}
                         </p>
                       </a>
                     </div>

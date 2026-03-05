@@ -455,7 +455,16 @@
     "viewAll": "Ver todos"
   },
   "howToWin": {
-    "participate": "Participar"
+    "participate": "Participar",
+    "step1Title": "patina",
+    "step1Caption": "¡Prepárate para deslizarte y dominar las calles! Encuentra las mejores líneas, realiza trucos asombrosos y siente la libertad sobre tu tabla.",
+    "step1Image": "/trick-est.webp",
+    "step2Title": "graba",
+    "step2Caption": "Captura tus mejores momentos sobre la tabla y comparte tu estilo único con el mundo. ¡Graba tus trucos más locos y muestra tu pasión por el skateboarding!",
+    "step2Image": "/graba.png",
+    "step3Title": "postea",
+    "step3Caption": "Haz que tus amigos se sientan parte de la acción compartiendo tus sesiones de skate más épicas en línea. ¡Postea tus clips y fotos para inspirar a otros skaters y fortalecer la comunidad!",
+    "step3Image": "/postea.png"
   },
   "introduction": {
     "tagline1": "patina graba postea",
@@ -864,7 +873,9 @@
     "noGeolocation": "Tu navegador no soporta geolocalización",
     "errorGettingLocation": "Error al obtener ubicación",
     "getGpsFirst": "Primero obtén tu ubicación GPS",
-    "loadingMap": "Cargando mapa..."
+    "loadingMap": "Cargando mapa...",
+    "successAlert": "Score inicial: {score}\nEtapa: {stage}",
+    "errorRegistering": "Error al registrar spot"
   },
   "arcadeButtons": {
     "pressKey": "Presiona",
@@ -1074,7 +1085,8 @@
     "challengeUpdated": "Desafío actualizado exitosamente",
     "challengeCreated": "Desafío creado exitosamente",
     "errorSaving": "Error al guardar desafío",
-    "confirmDelete": "¿Estás seguro de que quieres eliminar este desafío? Esta acción no se puede deshacer."
+    "confirmDelete": "¿Estás seguro de que quieres eliminar este desafío? Esta acción no se puede deshacer.",
+    "errorDeleting": "Error al eliminar desafío"
   },
   "adminSubmissionsPage": {
     "title": "GESTIÓN DE ENTREGAS",
@@ -1382,7 +1394,10 @@
   },
   "partnersComponent": {
     "our": "Nuestros",
-    "partners": "Partners"
+    "partners": "Partners",
+    "deepfcRole": "Automatizaciones",
+    "toryRole": "Tienda de Skateboarding",
+    "nandarkRole": "Desarrollo a Medida & SaaS con IA"
   },
   "portfolio": {
     "latest": "Últimos",
@@ -1425,5 +1440,46 @@
     "watchVideos": "Ver Videos",
     "howToPlay": "Cómo Jugar",
     "share": "Compartir"
+  },
+  "about": {
+    "metaTitle": "Acerca de - TheTrickest | Plataforma de Desafíos de Skateboarding",
+    "metaDescription": "Conoce TheTrickest, la plataforma definitiva de desafíos de skateboarding. Envía trucos, compite con skaters de todo el mundo y escala en el leaderboard.",
+    "metaKeywords": "TheTrickest, desafíos de skateboarding, trucos de skate, competencia, leaderboard"
+  },
+  "contact": {
+    "metaTitle": "Contacto - TheTrickest",
+    "metaDescription": "Ponte en contacto con TheTrickest. Únete al movimiento, colabora con nosotros o sé parte de la revolución del skateboarding."
+  },
+  "comingSoon": {
+    "metaTitle": "Muy Pronto - TheTrickest",
+    "metaDescription": "TheTrickest se lanza el Dia del Skateboarding 2026. Unite a la lista de espera y se un Miembro Fundador.",
+    "heroTitle": "THE TRICKEST",
+    "heroSubtitle": "SE ACERCA",
+    "heroTagline": "La plataforma definitiva de desafios de skateboarding. 10 niveles de dificultad progresiva. Jueces reales puntuando tus trucos. Leaderboards globales.",
+    "countdownTitle": "CUENTA REGRESIVA",
+    "days": "DIAS",
+    "hours": "HRS",
+    "minutes": "MIN",
+    "seconds": "SEG",
+    "emailPlaceholder": "tu@email.com",
+    "joinWaitlist": "UNIRME",
+    "joining": "ENVIANDO...",
+    "foundingMember": "Los primeros 500 obtienen la insignia de Miembro Fundador",
+    "successTitle": "ESTAS DENTRO!",
+    "successMessage": "Bienvenido al crew. Te notificaremos el dia del lanzamiento.",
+    "alreadyRegistered": "Ya estas en la lista! Nos vemos el dia del lanzamiento.",
+    "errorInvalidEmail": "Por favor ingresa un email valido.",
+    "errorGeneric": "Algo salio mal. Intenta de nuevo.",
+    "feature1Title": "10 NIVELES DE DESAFIO",
+    "feature1Desc": "Desde ollies basicos hasta combos legendarios. Envia video evidencia y recibe puntuacion de jueces reales.",
+    "feature2Title": "MAPA GLOBAL DE SPOTS",
+    "feature2Desc": "Descubre skateparks, spots callejeros y tiendas en todo el mundo. Haz check-in, valida y comparte con la comunidad.",
+    "feature3Title": "LEADERBOARDS EN VIVO",
+    "feature3Desc": "Compite globalmente. Escala posiciones. Demuestra que eres el mejor con puntuaciones de jueces reales.",
+    "launchDate": "21 DE JUNIO, 2026",
+    "goSkateDay": "DIA DEL SKATEBOARDING",
+    "socialProof": "Unite a {count}+ skaters en la lista de espera",
+    "madeWith": "Hecho con",
+    "forSkaters": "para skaters de todo el mundo"
   }
 }
