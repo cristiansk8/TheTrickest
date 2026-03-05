@@ -1,5 +1,6 @@
 import { authOptions } from '@/lib/auth';
 import { isAdmin } from '@/lib/auth-helpers';
+import prisma from '@/app/lib/prisma';
 import { Card, CardBody, CardHeader } from '@nextui-org/react';
 import { getServerSession } from 'next-auth/next';
 import { getTranslations } from 'next-intl/server';
@@ -13,23 +14,6 @@ import {
 
 export const dynamic = 'force-dynamic';
 
-async function getAdminStats() {
-  try {
-    const response = await fetch(
-      `${process.env.NEXTAUTH_URL}/api/admin/stats`,
-      {
-        cache: 'no-store',
-      }
-    );
-    if (response.ok) {
-      return await response.json();
-    }
-  } catch (error) {
-    console.error('Error fetching admin stats:', error);
-  }
-  return null;
-}
-
 export default async function AdminDashboard() {
   const session = await getServerSession(authOptions);
 
@@ -37,7 +21,40 @@ export default async function AdminDashboard() {
     redirect('/dashboard');
   }
 
-  const stats = await getAdminStats();
+  const [
+    totalUsers,
+    totalSubmissions,
+    totalChallenges,
+    pendingSubmissions,
+    approvedSubmissions,
+    rejectedSubmissions,
+    roleCounts,
+  ] = await Promise.all([
+    prisma.user.count(),
+    prisma.submission.count(),
+    prisma.challenge.count(),
+    prisma.submission.count({ where: { status: 'pending' } }),
+    prisma.submission.count({ where: { status: 'approved' } }),
+    prisma.submission.count({ where: { status: 'rejected' } }),
+    prisma.user.groupBy({ by: ['role'], _count: { role: true } }),
+  ]);
+
+  const skaterCount = roleCounts.find(r => r.role === 'skater')?._count.role || 0;
+  const judgeCount = roleCounts.find(r => r.role === 'judge')?._count.role || 0;
+  const adminCount = roleCounts.find(r => r.role === 'admin')?._count.role || 0;
+
+  const stats = {
+    totalUsers,
+    totalSubmissions,
+    totalChallenges,
+    activeJudges: judgeCount + adminCount,
+    pendingSubmissions,
+    approvedSubmissions,
+    rejectedSubmissions,
+    skaterCount,
+    judgeCount,
+    adminCount,
+  };
   const t = await getTranslations('adminDashboard');
 
   return (
