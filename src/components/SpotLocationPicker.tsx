@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { MapPin, X, Check } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { Button } from '@/components/atoms';
 
 const THEME_COLORS = {
   brandPink: "#F35588",
@@ -176,13 +177,16 @@ export default function SpotLocationPicker({
             >
               {t('cancel')}
             </button>
-            <button
+            <Button
               onClick={() => onConfirm(lat, lng)}
-              className="flex-1 bg-gradient-to-r from-accent-cyan-600 to-accent-purple-600 hover:from-accent-cyan-500 hover:to-accent-purple-500 text-white font-bold py-3 px-6 rounded-lg border-2 border-white flex items-center justify-center gap-2 transition-all"
+              variant="purple"
+              size="lg"
+              arcadeBorder={false}
+              leftIcon={<Check className="w-5 h-5" />}
+              className="flex-1"
             >
-              <Check className="w-5 h-5" />
               {t('confirmLocation')}
-            </button>
+            </Button>
           </div>
         </div>
       </div>

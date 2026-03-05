@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useTranslations } from 'next-intl';
 import ModalPortal from './ModalPortal';
+import { Button } from '@/components/atoms';
 
 interface RegisterEmailFormProps {
   isOpen: boolean;
@@ -174,13 +175,15 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
           </div>
 
           {/* Submit Button */}
-          <button
+          <Button
             type="submit"
             disabled={isLoading}
-            className="w-full py-4 bg-gradient-to-r from-accent-pink-500 to-accent-purple-500 hover:from-accent-pink-400 hover:to-accent-purple-400 text-white font-black uppercase tracking-wider text-lg rounded-lg border-4 border-accent-pink-300 shadow-lg shadow-accent-pink-500/50 hover:shadow-accent-pink-400/70 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            variant="pink"
+            size="lg"
+            fullWidth
           >
             {isLoading ? t('creating') : t('createAccount')}
-          </button>
+          </Button>
 
           {/* Divider */}
           <div className="relative my-6">
@@ -193,14 +196,16 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
           </div>
 
           {/* Google Login Button */}
-          <button
+          <Button
             type="button"
             onClick={() => signIn('google')}
             disabled={isLoading}
-            className="w-full py-4 bg-gradient-to-r from-accent-purple-600 to-accent-cyan-600 hover:from-accent-purple-500 hover:to-accent-cyan-500 text-white font-black uppercase tracking-wider text-lg rounded-lg border-4 border-accent-purple-400 shadow-lg shadow-accent-purple-500/50 hover:shadow-accent-purple-400/70 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+            variant="purple"
+            size="lg"
+            fullWidth
           >
             {t('signUpWithGoogle')}
-          </button>
+          </Button>
 
           {/* Link to Login */}
           {onSwitchToLogin && (
@@ -208,14 +213,17 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
               <p className="text-neutral-400 text-sm mb-3 font-bold">
                 {t('alreadyHaveAccount')}
               </p>
-              <button
+              <Button
                 type="button"
                 onClick={onSwitchToLogin}
                 disabled={isLoading}
-                className="w-full py-3 bg-gradient-to-r from-accent-cyan-600/20 to-accent-blue-600/20 hover:from-accent-cyan-600/40 hover:to-accent-blue-600/40 text-accent-cyan-300 hover:text-accent-cyan-200 font-black uppercase tracking-wider text-sm rounded-lg border-2 border-accent-cyan-500 hover:border-accent-cyan-400 shadow-lg shadow-accent-cyan-500/30 hover:shadow-accent-cyan-400/50 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                variant="primary"
+                size="md"
+                fullWidth
+                arcadeBorder={false}
               >
                 {t('signIn')}
-              </button>
+              </Button>
             </div>
           )}
         </form>

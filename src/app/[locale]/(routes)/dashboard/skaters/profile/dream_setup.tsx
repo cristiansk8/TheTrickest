@@ -3,6 +3,7 @@ import { Check, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { useTranslations } from 'next-intl';
 import { useEffect, useRef, useState } from 'react';
+import { Button } from '@/components/atoms';
 
 export default function SkateSetupPage() {
   const t = useTranslations('dreamSetup');
@@ -380,13 +381,15 @@ export default function SkateSetupPage() {
 
           {/* Save button - THPS Style */}
           <div className="flex justify-center mt-8 pt-6 border-t-4 border-accent-purple-500/30">
-            <button
-              className="bg-gradient-to-r from-accent-purple-500 via-accent-pink-500 to-accent-blue-500 hover:from-accent-purple-400 hover:via-accent-pink-400 hover:to-accent-blue-400 text-white font-black py-5 px-16 rounded-xl border-4 border-white uppercase tracking-wider text-xl shadow-2xl transform hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed animate-pulse"
+            <Button
+              variant="purple"
+              size="xl"
               type="submit"
               disabled={loading}
+              isLoading={loading}
             >
               {loading ? `⏳ ${t('saving')}` : `💾 ${t('saveSetup')}`}
-            </button>
+            </Button>
           </div>
         </form>
 

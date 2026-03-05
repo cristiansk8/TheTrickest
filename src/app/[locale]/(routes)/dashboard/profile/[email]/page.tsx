@@ -9,6 +9,7 @@ import { FaInstagram, FaTiktok, FaTwitter, FaFacebook } from 'react-icons/fa';
 import { MdOutlineSkateboarding, MdLocationOn, MdGroups, MdPersonAdd, MdPersonRemove } from 'react-icons/md';
 import { GiSkateboard, GiTrophy } from 'react-icons/gi';
 import { Button } from '@nextui-org/react';
+import { Button as ArcadeButton } from '@/components/atoms';
 import { useTranslations } from 'next-intl';
 
 interface PublicProfile {
@@ -315,18 +316,14 @@ export default function PublicProfilePage() {
             {/* Follow Button */}
             {!isOwnProfile && session?.user?.email && (
               <div className="mt-4 text-center md:text-right">
-                <Button
+                <ArcadeButton
                   onClick={handleFollowToggle}
                   isLoading={followLoading}
-                  className={`font-bold uppercase tracking-wider ${
-                    following
-                      ? 'bg-gradient-to-r from-red-500 to-accent-pink-600 hover:from-red-400 hover:to-accent-pink-500 text-white'
-                      : 'bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 hover:from-accent-cyan-400 hover:to-accent-purple-500 text-white'
-                  }`}
-                  startContent={following ? <MdPersonRemove size={20} /> : <MdPersonAdd size={20} />}
+                  variant={following ? 'danger' : 'primary'}
+                  leftIcon={following ? <MdPersonRemove size={20} /> : <MdPersonAdd size={20} />}
                 >
                   {following ? t('unfollow') : t('follow')}
-                </Button>
+                </ArcadeButton>
               </div>
             )}
           </div>
@@ -681,7 +678,7 @@ export default function PublicProfilePage() {
         <div className="max-w-4xl mx-auto mt-8 text-center">
           <Link
             href="/dashboard/skaters/profile"
-            className="inline-block bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 hover:from-accent-cyan-400 hover:to-accent-purple-500 text-white font-black py-3 px-8 rounded-lg border-4 border-white uppercase tracking-wider shadow-lg shadow-accent-cyan-500/30 transform hover:scale-105 transition-all"
+            className="inline-block bg-accent-purple-600 hover:bg-accent-purple-700 text-white font-black py-3 px-8 rounded-lg border-4 border-white uppercase tracking-wider shadow-lg shadow-accent-purple-500/30 transform hover:scale-105 transition-all"
           >
             {t('editMyProfile')}
           </Link>

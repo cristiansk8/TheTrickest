@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import SubmissionHistoryCard from '@/components/SubmissionHistoryCard';
+import { Button } from '@/components/atoms';
 
 interface Submission {
   id: number;
@@ -216,12 +217,12 @@ export default function SubmissionsPage() {
                 : t('changeFilter')}
             </p>
             {filter === 'all' && (
-              <button
+              <Button
                 onClick={() => router.push('/dashboard/skaters/tricks')}
-                className="bg-gradient-to-r from-accent-cyan-500 to-accent-blue-500 hover:from-accent-cyan-400 hover:to-accent-blue-400 text-white font-black py-3 px-6 rounded-lg border-4 border-white uppercase tracking-wider shadow-2xl transform hover:scale-105 transition-all"
+                variant="primary"
               >
                 {t('viewChallenges')}
-              </button>
+              </Button>
             )}
           </div>
         ) : (

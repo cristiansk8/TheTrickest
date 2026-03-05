@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { Button } from '@/components/atoms';
 
 export default function ProfilePage() {
   const t = useTranslations('generalInfoForm');
@@ -287,13 +288,15 @@ export default function ProfilePage() {
 
           {/* Save button */}
           <div className="col-span-1 md:col-span-2 flex justify-center mt-6">
-            <button
-              className="bg-gradient-to-r from-accent-cyan-500 to-accent-blue-500 hover:from-accent-cyan-400 hover:to-accent-blue-400 text-white font-black py-4 px-12 rounded-lg border-4 border-white uppercase tracking-wider text-lg shadow-2xl transform hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            <Button
+              variant="primary"
+              size="lg"
               type="submit"
               disabled={loading}
+              isLoading={loading}
             >
               {loading ? `⏳ ${t('saving')}` : `💾 ${t('save')}`}
-            </button>
+            </Button>
           </div>
         </form>
       </div>

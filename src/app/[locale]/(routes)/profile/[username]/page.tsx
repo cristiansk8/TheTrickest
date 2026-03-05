@@ -772,7 +772,7 @@ export default function PublicProfilePage() {
         <div className="max-w-4xl mx-auto mt-8 text-center">
           <Link
             href="/dashboard/skaters/profile"
-            className="inline-block bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 hover:from-accent-cyan-400 hover:to-accent-purple-500 text-white font-black py-3 px-8 rounded-lg border-4 border-white uppercase tracking-wider shadow-lg shadow-accent-cyan-500/30 transform hover:scale-105 transition-all"
+            className="inline-block bg-accent-purple-600 hover:bg-accent-purple-700 text-white font-black py-3 px-8 rounded-lg border-4 border-white uppercase tracking-wider shadow-lg shadow-accent-purple-500/30 transform hover:scale-105 transition-all"
           >
             {t('editMyProfile')}
           </Link>

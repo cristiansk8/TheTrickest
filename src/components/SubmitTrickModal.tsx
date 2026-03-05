@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { validateYouTubeUrl } from '@/lib/youtube';
 import { useTranslations } from 'next-intl';
+import { Button } from '@/components/atoms';
 
 interface Challenge {
   id: number;
@@ -193,17 +194,15 @@ export default function SubmitTrickModal({
                 >
                   {t('cancel')}
                 </button>
-                <button
+                <Button
                   type="submit"
                   disabled={!isValidUrl || loading}
-                  className={`flex-1 font-black py-3 px-6 rounded-lg border-4 border-white uppercase tracking-wider text-lg shadow-2xl transform transition-all ${
-                    !isValidUrl || loading
-                      ? 'bg-neutral-600 text-neutral-400 cursor-not-allowed'
-                      : 'bg-gradient-to-r from-accent-yellow-500 to-accent-orange-500 hover:from-accent-yellow-400 hover:to-accent-orange-400 text-white hover:scale-105'
-                  }`}
+                  variant="warning"
+                  size="lg"
+                  className="flex-1"
                 >
                   {loading ? t('submitting') : t('submitVideo')}
-                </button>
+                </Button>
               </div>
             </form>
           </div>

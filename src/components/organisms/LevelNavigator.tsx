@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { MdPlayArrow, MdReplay, MdVideoLibrary, MdHelpOutline, MdShare, MdLock } from 'react-icons/md';
 import { useTranslations } from 'next-intl';
+import { Button } from '@/components/atoms';
 
 export type LevelStatus = 'completed' | 'active' | 'locked';
 export type LevelType = 'normal' | 'bonus';
@@ -142,15 +143,15 @@ export const LevelNavigator: React.FC<LevelNavigatorProps> = ({
 
                 {/* Main action button */}
                 <div className="flex justify-center pt-4">
-                  <button
+                  <Button
                     onClick={currentLevel.content.mainButtonAction}
-                    className="bg-gradient-to-r from-accent-pink-500 to-accent-purple-600 hover:from-accent-pink-400 hover:to-accent-purple-500 text-white font-black text-xl md:text-2xl py-4 px-12 md:px-16 rounded-xl border-4 border-white uppercase tracking-wider shadow-2xl transform hover:scale-105 transition-all"
+                    variant="purple"
+                    size="xl"
+                    leftIcon={<MdPlayArrow size={32} />}
+                    className="rounded-xl"
                   >
-                    <div className="flex items-center gap-3">
-                      <MdPlayArrow size={32} />
-                      {currentLevel.content.mainButton}
-                    </div>
-                  </button>
+                    {currentLevel.content.mainButton}
+                  </Button>
                 </div>
 
                 {/* Secondary buttons */}

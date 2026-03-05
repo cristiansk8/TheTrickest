@@ -8,6 +8,7 @@ import { FaVideo } from "react-icons/fa";
 import { useSession, signOut } from 'next-auth/react';
 import { Link } from '@/i18n/routing';
 import { useTranslations } from 'next-intl';
+import { Button } from '@/components/atoms';
 
 
 export const Sidebar = () => {
@@ -176,22 +177,15 @@ export const Sidebar = () => {
 
       {/* Logout button - sticky at bottom */}
       <div className="px-4 pb-6 pt-4 border-t-4 border-neutral-800 bg-neutral-900 shrink-0">
-        <button
+        <Button
           onClick={() => signOut({ callbackUrl: '/' })}
-          className="w-full bg-gradient-to-r from-red-500 to-accent-pink-500 hover:from-red-400 hover:to-accent-pink-400 p-[3px] rounded-lg shadow-lg shadow-red-500/30 hover:shadow-red-500/50 transition-all"
+          variant="danger"
+          size="md"
+          fullWidth
+          leftIcon={<MdLogout size={24} />}
         >
-          <div className="bg-neutral-900 rounded-lg px-4 py-3 flex items-center gap-3 hover:bg-neutral-800 transition-all">
-            <MdLogout size={24} className="text-red-400" />
-            <div className="flex flex-col items-start">
-              <span className="text-sm font-black text-white uppercase tracking-wide">
-                {t('auth.signOut')}
-              </span>
-              <span className="text-xs text-neutral-400 uppercase tracking-wider">
-                {t('auth.logout')}
-              </span>
-            </div>
-          </div>
-        </button>
+          {t('auth.signOut')}
+        </Button>
       </div>
     </div>
   )

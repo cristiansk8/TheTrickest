@@ -1,6 +1,7 @@
 'use client';
 
 import { Button, Card, CardBody, Select, SelectItem } from '@nextui-org/react';
+import { Button as ArcadeButton } from '@/components/atoms';
 import Image from 'next/image';
 import { Link } from '@/i18n/routing';
 import { useTranslations } from 'next-intl';
@@ -312,20 +313,20 @@ export default function ExplorePage() {
                       href={`/profile/${encodeURIComponent(skater.username)}`}
                       className="flex-1"
                     >
-                      <Button
-                        className="w-full bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 text-white font-bold uppercase text-sm"
+                      <ArcadeButton
+                        variant="purple"
                         size="sm"
+                        fullWidth
                       >
                         {t('viewProfile')}
-                      </Button>
+                      </ArcadeButton>
                     </Link>
-                    <Button
-                      isIconOnly
+                    <ArcadeButton
+                      variant="success"
                       size="sm"
-                      className="bg-gradient-to-r from-green-500 to-accent-teal-600 text-white"
                     >
                       <MdPersonAdd size={16} />
-                    </Button>
+                    </ArcadeButton>
                   </div>
                 </CardBody>
               </Card>
@@ -335,14 +336,15 @@ export default function ExplorePage() {
           {/* Load More */}
           {hasMore && (
             <div className="max-w-7xl mx-auto mt-8 text-center">
-              <Button
+              <ArcadeButton
                 onClick={loadMore}
                 isLoading={loadingMore}
-                className="bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 text-white font-bold uppercase tracking-wider px-8 py-3"
-                startContent={!loadingMore && <MdRefresh size={20} />}
+                variant="purple"
+                size="lg"
+                leftIcon={!loadingMore ? <MdRefresh size={20} /> : undefined}
               >
                 {loadingMore ? t('loadingMore') : t('loadMore')}
-              </Button>
+              </ArcadeButton>
             </div>
           )}
 
@@ -372,9 +374,9 @@ export default function ExplorePage() {
               {t('joinCommunityDesc')}
             </p>
             <Link href="/dashboard">
-              <Button className="bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 text-white font-black uppercase tracking-wider px-8 py-3">
+              <ArcadeButton variant="primary" size="lg">
                 {`🚀 ${t('startNow')}`}
-              </Button>
+              </ArcadeButton>
             </Link>
           </div>
         </div>

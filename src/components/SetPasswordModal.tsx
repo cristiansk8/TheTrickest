@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useTranslations } from 'next-intl';
+import { Button } from '@/components/atoms';
 
 interface SetPasswordModalProps {
   isOpen: boolean;
@@ -147,13 +148,15 @@ export default function SetPasswordModal({ isOpen, onClose, onSuccess }: SetPass
 
           {/* Buttons */}
           <div className="flex flex-col gap-3 mt-6">
-            <button
+            <Button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-accent-yellow-500 to-accent-orange-500 hover:from-accent-yellow-400 hover:to-accent-orange-400 text-white font-black py-4 px-12 rounded-lg border-4 border-white uppercase tracking-wider text-lg shadow-2xl transform hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              variant="warning"
+              size="lg"
+              fullWidth
             >
               {loading ? t('saving') : t('setPassword')}
-            </button>
+            </Button>
 
             <button
               type="button"

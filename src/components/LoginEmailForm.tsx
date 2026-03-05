@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useTranslations } from 'next-intl';
 import ModalPortal from './ModalPortal';
+import { Button } from '@/components/atoms';
 
 interface LoginEmailFormProps {
   isOpen: boolean;
@@ -107,13 +108,15 @@ export default function LoginEmailForm({ isOpen, onClose, onSuccess, onSwitchToR
           </div>
 
           {/* Submit Button */}
-          <button
+          <Button
             type="submit"
             disabled={isLoading}
-            className="w-full py-4 bg-gradient-to-r from-accent-cyan-500 to-accent-blue-500 hover:from-accent-cyan-400 hover:to-accent-blue-400 text-white font-black uppercase tracking-wider text-lg rounded-lg border-4 border-accent-cyan-300 shadow-lg shadow-accent-cyan-500/50 hover:shadow-accent-cyan-400/70 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            variant="primary"
+            size="lg"
+            fullWidth
           >
             {isLoading ? t('loading') : t('signIn')}
-          </button>
+          </Button>
 
           {/* Divider */}
           <div className="relative my-6">
@@ -126,14 +129,16 @@ export default function LoginEmailForm({ isOpen, onClose, onSuccess, onSwitchToR
           </div>
 
           {/* Google Login Button */}
-          <button
+          <Button
             type="button"
             onClick={() => signIn('google')}
             disabled={isLoading}
-            className="w-full py-4 bg-gradient-to-r from-accent-purple-600 to-accent-pink-600 hover:from-accent-purple-500 hover:to-accent-pink-500 text-white font-black uppercase tracking-wider text-lg rounded-lg border-4 border-accent-purple-400 shadow-lg shadow-accent-purple-500/50 hover:shadow-accent-purple-400/70 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+            variant="pink"
+            size="lg"
+            fullWidth
           >
             {t('continueWithGoogle')}
-          </button>
+          </Button>
 
           {/* Link to Register */}
           {onSwitchToRegister && (
@@ -141,14 +146,17 @@ export default function LoginEmailForm({ isOpen, onClose, onSuccess, onSwitchToR
               <p className="text-neutral-400 text-sm mb-3 font-bold">
                 {t('noAccount')}
               </p>
-              <button
+              <Button
                 type="button"
                 onClick={onSwitchToRegister}
                 disabled={isLoading}
-                className="w-full py-3 bg-gradient-to-r from-accent-pink-600/20 to-accent-purple-600/20 hover:from-accent-pink-600/40 hover:to-accent-purple-600/40 text-accent-pink-300 hover:text-accent-pink-200 font-black uppercase tracking-wider text-sm rounded-lg border-2 border-accent-pink-500 hover:border-accent-pink-400 shadow-lg shadow-accent-pink-500/30 hover:shadow-accent-pink-400/50 transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                variant="secondary"
+                size="md"
+                fullWidth
+                arcadeBorder={false}
               >
                 {t('createAccount')}
-              </button>
+              </Button>
             </div>
           )}
         </form>

@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Sidebar } from '@/components/sidebar/Sidebar';
+import { Button } from '@/components/atoms';
 
 interface Submission {
   id: number;
@@ -302,18 +303,22 @@ export default function JudgeEvaluatePage() {
                           />
                         </div>
                         <div className="flex gap-4">
-                          <button
+                          <Button
                             onClick={() => handleEvaluate(submission.id, true)}
-                            className="flex-1 bg-gradient-to-r from-green-500 to-accent-teal-500 hover:from-green-400 hover:to-accent-teal-400 text-white font-black py-3 px-6 rounded-lg border-4 border-white uppercase tracking-wider shadow-2xl transform hover:scale-105 transition-all"
+                            variant="success"
+                            size="lg"
+                            fullWidth
                           >
                             {`✅ ${t('approve')}`}
-                          </button>
-                          <button
+                          </Button>
+                          <Button
                             onClick={() => handleEvaluate(submission.id, false)}
-                            className="flex-1 bg-gradient-to-r from-red-500 to-accent-pink-500 hover:from-red-400 hover:to-accent-pink-400 text-white font-black py-3 px-6 rounded-lg border-4 border-white uppercase tracking-wider shadow-2xl transform hover:scale-105 transition-all"
+                            variant="danger"
+                            size="lg"
+                            fullWidth
                           >
                             {`❌ ${t('reject')}`}
-                          </button>
+                          </Button>
                         </div>
                         <button
                           onClick={() => setEvaluating(null)}

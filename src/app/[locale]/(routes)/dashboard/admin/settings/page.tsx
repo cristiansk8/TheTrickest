@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { Button } from '@/components/atoms';
 
 export default function AdminSettingsPage() {
   const { data: session, status } = useSession();
@@ -152,13 +153,15 @@ export default function AdminSettingsPage() {
 
             {/* Save Button */}
             <div className="flex justify-end pt-4">
-              <button
+              <Button
                 onClick={handleSave}
                 disabled={saving}
-                className="bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 hover:from-accent-cyan-400 hover:to-accent-purple-500 text-white font-black text-lg py-4 px-10 rounded-xl border-4 border-white uppercase tracking-wider shadow-2xl transform hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                variant="purple"
+                size="lg"
+                isLoading={saving}
               >
                 {saving ? `💾 ${t('saving')}` : `💾 ${t('saveSettings')}`}
-              </button>
+              </Button>
             </div>
           </div>
         </div>

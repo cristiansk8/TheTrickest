@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { Button } from '@/components/atoms';
 
 interface WelcomeModalProps {
   isOpen: boolean;
@@ -94,12 +95,14 @@ export default function WelcomeModal({ isOpen, userName, onClose }: WelcomeModal
           </div>
 
           {/* Skip Button */}
-          <button
+          <Button
             onClick={onClose}
-            className="w-full md:w-auto px-8 py-3 bg-gradient-to-r from-accent-cyan-600 to-accent-blue-600 hover:from-accent-cyan-500 hover:to-accent-blue-500 text-white font-black uppercase tracking-wider text-sm rounded-lg border-2 border-accent-cyan-300 shadow-lg shadow-accent-cyan-500/50 hover:shadow-accent-cyan-400/70 transition-all transform hover:scale-105"
+            variant="primary"
+            size="md"
+            arcadeBorder={false}
           >
             {t('skip')}
-          </button>
+          </Button>
         </div>
 
         {/* Arcade Border Effect */}
