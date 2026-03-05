@@ -52,29 +52,53 @@ className="bg-purple-600 hover:bg-purple-700 text-white"
 
 ## 📋 Componentes de Botones Disponibles
 
-### 1. Button.tsx (Atómico)
+### 1. Button.tsx (Atómico) - PREFERRED
 Ubicación: `src/components/atoms/Button.tsx`
 
 ```tsx
-import { Button } from '@/components/atoms/Button';
+import { Button } from '@/components/atoms';
 
-// Uso básico
+// Uso basico
 <Button variant="primary" size="md" onClick={handleClick}>
   Click Me
 </Button>
 
-// Variantes disponibles
-variant: 'primary' | 'secondary' | 'danger' | 'success' | 'warning' | 'purple'
-size: 'sm' | 'md' | 'lg'
+// Con iconos y loading
+<Button variant="success" size="lg" leftIcon={<Check />} isLoading={saving}>
+  Save
+</Button>
+
+// Full width
+<Button variant="warning" size="xl" fullWidth>
+  SUBMIT TRICK
+</Button>
+
+// Sin arcade border (subtle)
+<Button variant="primary" arcadeBorder={false}>
+  Cancel
+</Button>
 ```
 
+**Variantes disponibles:**
+```
+variant: 'primary' | 'secondary' | 'danger' | 'success' | 'warning' | 'purple' | 'pink'
+size: 'sm' | 'md' | 'lg' | 'xl'
+```
+
+**Props adicionales:**
+- `fullWidth`: boolean - Makes button w-full
+- `arcadeBorder`: boolean (default: true) - border-4 + shadow-2xl vs border-2 + shadow-lg
+- `isLoading`: boolean - Shows spinner, disables button
+- `leftIcon` / `rightIcon`: ReactNode - Icon slots
+
 **Variantes y sus colores:**
-- `primary`: cyan-500 → cyan-600
-- `secondary`: slate-700 → slate-600
-- `danger`: red-500 → red-600
-- `success`: green-500 → green-600
-- `warning`: yellow-500 → yellow-600
-- `purple`: purple-600 → purple-700
+- `primary`: accent-cyan-500 hover accent-cyan-600
+- `secondary`: neutral-700 hover neutral-600
+- `danger`: red-500 hover red-600
+- `success`: green-500 hover green-600
+- `warning`: accent-yellow-500 hover accent-yellow-600
+- `purple`: accent-purple-600 hover accent-purple-700
+- `pink`: accent-pink-500 hover accent-pink-600
 
 ### 2. IconButton.tsx
 Para botones con solo íconos.
@@ -305,17 +329,11 @@ Antes de hacer commit, verifica:
 npm run validate:buttons
 ```
 
-**Archivos Pendientes de Migración:**
-- Formularios de autenticación (Login, Register, SetPassword)
-- Perfiles de usuarios
-- Modales (WelcomeModal, etc.)
-- Componentes de navegación (Sidebar)
-- Páginas administrativas
+**Migration Status: COMPLETE**
 
-**Archivos Ya Migrados:** ✅
-- HomeLevelSection.tsx
-- ChallengeCard.tsx (botón Submit)
-- Judges evaluate page (botón Evaluar y tabs)
+All interactive buttons now use the Button atom component (21 buttons migrated across 17 files).
+
+**Last migration:** March 2026 - commit 2cba117
 
 ### Comando de Validación
 ```bash

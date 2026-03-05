@@ -1,176 +1,60 @@
-# 📚 Índice de Documentación - Trickest Platform
+# Documentation Index - Trickest Platform
 
-## 📖 **Guías Principales**
+> Last updated: March 5, 2026
 
-### **Para Desarrollo**
-- **[../CLAUDE.md](../CLAUDE.md)** - Guía completa de desarrollo (START HERE)
-  - Arquitectura del proyecto
-  - Principios de desarrollo
-  - Comandos útiles
-  - Best practices
+## Getting Started
 
-### **Para Empezar**
-- **[../README.md](../README.md)** - Overview del proyecto
-  - Características principales
-  - Tech stack
-  - Quick start
-  - Estructura del proyecto
+- **[../CLAUDE.md](../CLAUDE.md)** - Development guide, architecture, conventions (START HERE)
+- **[../README.md](../README.md)** - Project overview, tech stack, quick start
 
 ---
 
-## 🎨 **Diseño & UI**
+## Active Documentation
 
-### **Sistema de Diseño**
-- **[DESIGN_SYSTEM.md](DESIGN_SYSTEM.md)** - Sistema de diseño visual completo
-  - Paleta de colores
-  - Tipografía
-  - Componentes (modals, buttons, cards)
-  - Animaciones y efectos
-  - Responsive design
+### Design & UI
+- **[DESIGN_SYSTEM.md](DESIGN_SYSTEM.md)** - Visual design system (colors, typography, components, effects)
+- **[BUTTON_GUIDELINES.md](BUTTON_GUIDELINES.md)** - Button styling rules + Button atom component reference
 
-### **Componentes Específicos**
-- **[BUTTON_STYLES.md](BUTTON_STYLES.md)** - Guía de estilos de botones
-  - Colores aprobados
-  - Estados interactivos
-  - Ejemplos de código
+### Planning & Roadmap
+- **[ROADMAP.md](ROADMAP.md)** - Project roadmap, completed features, next phases
+- **[SKATEWORLD-IMPLEMENTACION-V2.md](SKATEWORLD-IMPLEMENTACION-V2.md)** - Fantasy economy system (SkateCoins, market, teams)
+- **[PLAN_PROFILE_REDESIGN.md](PLAN_PROFILE_REDESIGN.md)** - Profile pages redesign plan
 
----
+### Checklists
+- **[MVP_CHECKLIST.md](MVP_CHECKLIST.md)** - MVP feature checklist (95% complete)
+- **[USER_FEATURES_CHECKLIST.md](USER_FEATURES_CHECKLIST.md)** - User-facing features by role
 
-## 🗺️ **Roadmap & Planificación**
+### Technical Guides
+- **[QUICK_FIX_401.md](QUICK_FIX_401.md)** - Fix 401 auth errors in production (3 min fix)
+- **[VERCEL_ENV_SETUP.md](VERCEL_ENV_SETUP.md)** - Environment variables for Vercel
+- **[FASE_2_VOTACION_COMUNIDAD.md](FASE_2_VOTACION_COMUNIDAD.md)** - Community voting system implementation
 
-### **Planes Futuros**
-- **[ROADMAP.md](ROADMAP.md)** - Roadmap completo del proyecto
-  - Features completadas
-  - Próximos pasos (SkateWorld)
-  - Features futuras (3-6 meses)
-  - Métricas de éxito
+### Audits
+- **[CODE_QUALITY_AUDIT.md](CODE_QUALITY_AUDIT.md)** - Code quality audit (Feb 2026)
+- **[SECURITY_AUDIT.md](SECURITY_AUDIT.md)** - Security audit (Jan 2026)
+- **[AUDIT_2026-02-20.md](AUDIT_2026-02-20.md)** - General audit (Feb 2026)
 
-### **Economía Fantasy**
-- **[SKATEWORLD-IMPLEMENTACION-V2.md](SKATEWORLD-IMPLEMENTACION-V2.md)** - Sistema de economía fantasy
-  - Wallet & SkateCoins
-  - Mercado de skaters
-  - Fantasy teams
-  - Leaderboards
-  - AI Scouting
+### Other
+- **[README.md](README.md)** - Docs folder overview
 
 ---
 
-## 🤖 **Inteligencia Artificial**
+## Archived Documentation
 
-### **Juez Virtual AI**
-- **[JUDGE_AI_COMPARISON.md](JUDGE_AI_COMPARISON.md)** - Sistema de juez AI vs humanos
-  - Análisis de videos con GLM-4V
-  - Comparación con jueces humanos
-  - Optimización continua
-  - Scripts y reportes
+Historical docs moved to `docs/archive/`. Reference only, may be outdated.
 
----
-
-## 🔧 **Guías Técnicas**
-
-### **Autenticación**
-- **[PRODUCTION_AUTH_DEBUG.md](PRODUCTION_AUTH_DEBUG.md)** - Debug de auth en producción
-- **[README_AUTH_PRODUCCION.md](README_AUTH_PRODUCCION.md)** - Auth en producción
-
-### **Base de Datos**
-- **[MIGRATION-GUIDE.md](MIGRATION-GUIDE.md)** - Guía de migraciones
-- **[FASE_2_COMPLETADO.md](FASE_2_COMPLETADO.md)** - Registro de fase 2 completada
-
-### **Troubleshooting**
-- **[QUICK_FIX_401.md](QUICK_FIX_401.md)** - Fix rápido para error 401
-- **[TEST_HYPOTHESIS.md](TEST_HYPOTHESIS.md)** - Pruebas de hipótesis
-- **[VERCEL_ENV_SETUP.md](VERCEL_ENV_SETUP.md)** - Setup de entorno en Vercel
-
----
-
-## 📁 **Por Tema**
-
-### **Comentarios & Spots**
-1. **Comments System** - Ver [../README.md](../README.md)
-   - Hilos de comentarios
-   - Notificaciones
-   - Votos en comentarios
-
-### **Challenges & Submissions**
-1. **Submission Flow** - Ver [../README.md](../README.md)
-   - Upload de videos
-   - Evaluación por jueces
-   - Sistema de scores
-
-### **Spots System**
-1. **Validación Social** - Ver [../README.md](../README.md)
-   - Confidence score
-   - Check-ins GPS
-   - Reportes
-
-### **Teams**
-1. **Team System** - Ver [../README.md](../README.md)
-   - Invitaciones
-   - Gestión de miembros
-   - Rankings
-
----
-
-## 🚀 **Flujos de Trabajo**
-
-### **Para Nuevos Desarrolladores**
-1. Leer [../README.md](../README.md) - Overview
-2. Leer [../CLAUDE.md](../CLAUDE.md) - Guía de desarrollo
-3. Configurar entorno (ver README.md)
-4. Revisar [ROADMAP.md](ROADMAP.md) - Planeamiento
-
-### **Para Implementar Features**
-1. **Comments** - Ya completado ✅
-2. **SkateWorld** - Ver [SKATEWORLD-IMPLEMENTACION-V2.md](SKATEWORLD-IMPLEMENTACION-V2.md)
-3. **AI Judge** - Ver [JUDGE_AI_COMPARISON.md](JUDGE_AI_COMPARISON.md)
-
-### **Para UI/UX**
-1. Revisar [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md) - Sistema de diseño
-2. Seguir principios de CLAUDE.md - Best practices
-3. Usar colores/tipografía del design system
-
----
-
-## 📊 **Estado del Proyecto**
-
-### **Completado** ✅
-- Sistema de autenticación
-- Challenges & submissions
-- Evaluación por jueces
-- Spots con validación social
-- Comentarios & respuestas
-- Notificaciones
-- Teams básicos
-
-### **En Progreso** 🔄
-- Comentarios (notifications tuning)
-- Documentación
-
-### **Próximo** 🎯
-- **SkateWorld V2** (economía fantasy) - 2-3 semanas
-- AI Judge system (opcional) - 1-2 semanas
-
----
-
-## 🛠️ **Scripts Útiles**
-
-Ver carpeta `../scripts/`:
-- `check-tables.js` - Verificar tablas BD
-- `analyze-existing-submissions.js` - Analizador AI
-- `judge-comparison-report.js` - Reporte visual
-- `test/` - Scripts de prueba
-
----
-
-## 📞 **Soporte**
-
-Para dudas o sugerencias:
-- Revisar documentación relevante
-- Verificar [ROADMAP.md](ROADMAP.md) para planes futuros
-- Consultar [CLAUDE.md](../CLAUDE.md) para desarrollo
-
----
-
-**Última actualización:** Enero 27, 2026
-
-📚 **Documentación organizada y lista para usar!**
+| File | Reason |
+|------|--------|
+| ANALISIS_ESTRATEGICO.md | Completed strategic analysis (Dec 2024) |
+| BUTTON_STYLES.md | Superseded by BUTTON_GUIDELINES.md |
+| FASE_2_COMPLETADO.md | Completed phase 2 milestone |
+| JUDGE_AI_COMPARISON.md | AI judge research (future feature) |
+| MIGRATION-GUIDE.md | Completed username-to-email migration |
+| PRODUCTION_AUTH_DEBUG.md | Superseded by QUICK_FIX_401.md |
+| README_AUTH_PRODUCCION.md | Superseded by QUICK_FIX_401.md |
+| ROADMAP_COMENTARIOS.md | Comments system implemented, merged into ROADMAP |
+| SKATEWORLD-IMPLEMENTACION.md | Superseded by V2 |
+| SPOT_VALIDATION_SYSTEM.md | Design doc, not yet implemented |
+| SUPABASE-REALTIME-SETUP.md | Simple setup reference |
+| SUPABASE_IMAGE_FORMATS.md | Image config reference |
+| TEST_HYPOTHESIS.md | Resolved debugging artifact |
