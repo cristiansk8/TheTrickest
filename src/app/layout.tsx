@@ -11,14 +11,14 @@ export const metadata: Metadata = {
   manifest: '/manifest.json',
   icons: {
     icon: [
-      { url: '/logo.png', sizes: 'any', type: 'image/png' },
-      { url: '/logo.png', sizes: '32x32', type: 'image/png' },
-      { url: '/logo.png', sizes: '16x16', type: 'image/png' },
+      { url: '/logo-main.png', sizes: 'any', type: 'image/png' },
+      { url: '/logo-main.png', sizes: '32x32', type: 'image/png' },
+      { url: '/logo-main.png', sizes: '16x16', type: 'image/png' },
     ],
     apple: [
-      { url: '/logo.png', sizes: '180x180', type: 'image/png' },
+      { url: '/logo-main.png', sizes: '180x180', type: 'image/png' },
     ],
-    shortcut: '/logo.png',
+    shortcut: '/logo-main.png',
   },
   openGraph: {
     title: 'Trickest - Skateboarding Challenge Platform',
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/logo.png',
+        url: '/logo-main.png',
         width: 512,
         height: 512,
         alt: 'Trickest Logo',
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Trickest - Skateboarding Challenge Platform',
     description: 'Skate, record and post your best tricks',
-    images: ['/logo.png'],
+    images: ['/logo-main.png'],
   },
 };
 

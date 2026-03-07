@@ -14,6 +14,20 @@ type Props = {
   params: Promise<{ locale: string }>;
 };
 
+export async function generateMetadata({ params }: Props) {
+  const { locale } = await params;
+
+  return {
+    title: 'TRICKEST - Skateboarding Challenge Platform',
+    description: 'Join the ultimate skateboarding challenge platform. Submit tricks, compete with skaters worldwide, and climb the leaderboard.',
+    icons: {
+      icon: '/logo-main.png',
+      shortcut: '/logo-main.png',
+      apple: '/logo-main.png',
+    },
+  };
+}
+
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
