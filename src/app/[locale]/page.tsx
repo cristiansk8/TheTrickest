@@ -28,14 +28,8 @@ export default async function Home() {
       {/* Ranking Section */}
       <HomeRanking />
 
-      <div className="pt-28 text-center" data-section="how-to-win">
-      <div className="flex flex-col h-full py-5 md:pt-28 text-center bg-surface-deep">
-          <h1 className="text-neutral-200 my-16 text-2xl md:text-4xl font-bold">
-            {t('followSteps')}
-          </h1>
-          <HowWin />
-        </div>
-      </div>
+      {/* How to Win Section */}
+      <HowWin />
 
       {/* Skaters Showcase Section - Hidden for now */}
       {/* <div className="pt-28 pb-16">

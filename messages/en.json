@@ -287,18 +287,17 @@
     "refresh": "Refresh",
     "noDataYet": "No data on the map yet",
     "beFirstToAdd": "Be the first to add spots or enable your location!",
-    "viewFullMap": "VIEW FULL MAP",
-    "exploreAllSpots": "Explore all skateparks and skateshops on the interactive map",
+    "viewFullMap": "LET'S FEED THE MAP TOGETHER",
+    "exploreAllSpots": "Add spots, enable your location and help grow the community",
     "skateparksTitle": "SKATEPARKS",
     "skateparksDesc": "Find the best places to skate in your city: ramps, bowls, street plazas and more.",
     "gpsLocation": "Exact GPS location",
     "features": "Features (bowl, street, vert)",
     "ratingsReviews": "Ratings and reviews",
-    "skateshopsTitle": "SKATESHOPS",
-    "skateshopsDesc": "Find stores where you can buy decks, trucks, wheels and all the gear you need.",
-    "verifiedStores": "Verified stores",
-    "directContact": "Direct contact (phone, web)",
-    "socialMedia": "Social media"
+    "skatersTitle": "SKATERS",
+    "skatersDesc": "Discover skaters in your area, see their level and connect with the community.",
+    "teamInfo": "Team information",
+    "skillLevel": "Level and score"
   },
   "homeRanking": {
     "title": "LEADERBOARD",
@@ -455,6 +454,8 @@
     "viewAll": "View all"
   },
   "howToWin": {
+    "title": "Follow the steps",
+    "subtitle": "Master tricks, record your progress and win prizes",
     "participate": "Participate",
     "step1Title": "skate",
     "step1Caption": "Get ready to slide and dominate the streets! Find the best lines, pull off amazing tricks and feel the freedom on your board.",
@@ -834,6 +835,7 @@
     "news": "new"
   },
   "spotFloatingButton": {
+    "buttonText": "ADD SPOT",
     "tooltip": "Register spot or validate location"
   },
   "spotLocationPicker": {
@@ -1481,5 +1483,10 @@
     "socialProof": "Join {count}+ skaters on the waitlist",
     "madeWith": "Made with",
     "forSkaters": "for skaters worldwide"
+  },
+  "teamPage": {
+    "loading": "Loading team...",
+    "error": "Team not found",
+    "goBack": "Go Back"
   }
 }

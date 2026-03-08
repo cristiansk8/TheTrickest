@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { Link } from '@/i18n/routing';
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { createSlug } from '@/lib/utils/slug';
 
 interface RankingUser {
   rank: number;
@@ -143,17 +144,15 @@ export default function HomeRanking() {
         {/* Header - Más compacto */}
         <div className="text-center mb-6">
           <div className="inline-block">
-            <div className="bg-gradient-to-r from-yellow-500 to-orange-600 p-1 rounded-lg shadow-2xl">
-              <div className="bg-slate-900 rounded-lg px-6 py-4">
-                <h2 className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-400 uppercase tracking-wider">
-                  {t('title')}
-                </h2>
-                <p className="text-yellow-300 mt-2 text-xs md:text-sm uppercase tracking-wider">
-                  {activeTab === 'users'
-                    ? t('bestSkatersSubtitle')
-                    : t('bestTeamsSubtitle')}
-                </p>
-              </div>
+            <div className="bg-neutral-800 border-4 border-cyan-500 rounded-lg px-6 py-4 shadow-lg shadow-cyan-500/20">
+              <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-wider">
+                {t('title')}
+              </h2>
+              <p className="text-cyan-400 mt-2 text-xs md:text-sm uppercase tracking-wider">
+                {activeTab === 'users'
+                  ? t('bestSkatersSubtitle')
+                  : t('bestTeamsSubtitle')}
+              </p>
             </div>
           </div>
         </div>
@@ -289,13 +288,14 @@ export default function HomeRanking() {
           <div className="grid grid-cols-2 gap-3">
             {/* Todas las cards con el mismo diseño compacto */}
             {teamsLeaderboard.map((team) => (
-              <div
+              <Link
                 key={team.id}
+                href={`/teams/${createSlug(team.name)}`}
                 className={`${
                   team.rank <= 3
                     ? `border-4 ${getRankBorderClass(team.rank)}`
                     : 'border-2 border-slate-700 bg-slate-800'
-                } rounded-lg hover:scale-[1.02] transition-transform duration-200`}
+                } rounded-lg hover:scale-[1.02] transition-transform duration-200 block`}
               >
                 <div
                   className={`${
@@ -379,7 +379,7 @@ export default function HomeRanking() {
                     </p>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         )}

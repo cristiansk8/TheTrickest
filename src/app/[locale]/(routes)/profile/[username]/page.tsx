@@ -19,9 +19,8 @@ import {
   MdGroups,
   MdLocationOn,
   MdOutlineSkateboarding,
-  MdPersonAdd,
-  MdPersonRemove,
 } from 'react-icons/md';
+import { createSlug } from '@/lib/utils/slug';
 
 interface PublicProfile {
   email: string;
@@ -106,46 +105,10 @@ export default function PublicProfilePage() {
   const [profile, setProfile] = useState<PublicProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [following, setFollowing] = useState(false);
-  const [followLoading, setFollowLoading] = useState(false);
 
   const username = params.username as string;
   const decodedUsername = decodeURIComponent(username);
   const isOwnProfile = session?.user?.username === decodedUsername;
-
-  const handleFollowToggle = async () => {
-    if (!session?.user?.email || isOwnProfile) return;
-
-    setFollowLoading(true);
-    try {
-      const response = await fetch('/api/follow', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ targetUsername: decodedUsername }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setFollowing(data.action === 'follow');
-        // Update follower count in profile
-        if (profile) {
-          setProfile({
-            ...profile,
-            socialStats: {
-              ...profile.socialStats,
-              followerCount:
-                profile.socialStats.followerCount +
-                (data.action === 'follow' ? 1 : -1),
-              isFollowing: data.action === 'follow',
-            },
-          });
-        }
-      }
-    } catch (error) {
-      console.error('Error toggling follow:', error);
-    }
-    setFollowLoading(false);
-  };
 
   const handleShare = async () => {
     const profileUrl = window.location.href;
@@ -206,21 +169,6 @@ export default function PublicProfilePage() {
 
         const data = await response.json();
         setProfile(data);
-
-        // Check if current user is following this profile
-        if (session?.user?.email && session.user.email !== data.email) {
-          try {
-            const followResponse = await fetch(
-              `/api/follow?user=${encodeURIComponent(username)}`
-            );
-            if (followResponse.ok) {
-              const followData = await followResponse.json();
-              setFollowing(followData.isFollowing);
-            }
-          } catch (error) {
-            console.error('Error checking follow status:', error);
-          }
-        }
       } catch (err) {
         console.error('Error:', err);
         setError(t('errorLoadingProfile'));
@@ -351,39 +299,12 @@ export default function PublicProfilePage() {
 
                   {profile.team && (
                     <Link
-                      href="/dashboard/teams"
+                      href={`/teams/${createSlug(profile.team.name)}`}
                       className="text-accent-purple-400 text-sm flex items-center gap-1 hover:text-accent-purple-300"
                     >
                       <MdGroups />
                       {profile.team.name}
                     </Link>
-                  )}
-
-                  {/* Follow Button (if not own profile) */}
-                  {!isOwnProfile && session?.user?.email && (
-                    <Button
-                      onClick={handleFollowToggle}
-                      disabled={followLoading}
-                      className={`font-black uppercase tracking-wider border-4 border-white shadow-lg transform hover:scale-105 transition-all ${
-                        following
-                          ? 'bg-red-600 hover:bg-red-700 text-white'
-                          : 'bg-success-500 hover:bg-success-700 text-white'
-                      }`}
-                    >
-                      {followLoading ? (
-                        <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white"></div>
-                      ) : following ? (
-                        <>
-                          <MdPersonRemove className="mr-2" />
-                          {t('unfollow')}
-                        </>
-                      ) : (
-                        <>
-                          <MdPersonAdd className="mr-2" />
-                          {t('follow')}
-                        </>
-                      )}
-                    </Button>
                   )}
 
                   {/* Share Button */}

@@ -292,29 +292,29 @@ export default function HomeMapSection() {
             </ul>
           </div>
 
-          {/* Skateshops Card */}
+          {/* Skaters Card */}
           <div className="bg-neutral-800 border-4 border-accent-pink-400 rounded-xl p-6 shadow-2xl shadow-accent-pink-500/20">
             <div className="flex items-center gap-3 mb-4">
-              <div className="text-4xl"></div>
+              <div className="text-4xl">🛹</div>
               <h3 className="text-2xl font-black uppercase text-accent-pink-400">
-                {t('skateshopsTitle')}
+                {t('skatersTitle')}
               </h3>
             </div>
             <p className="text-neutral-300 mb-4">
-              {t('skateshopsDesc')}
+              {t('skatersDesc')}
             </p>
             <ul className="space-y-2 text-neutral-400">
               <li className="flex items-center gap-2">
                 <span className="text-accent-pink-400">✓</span>
-                {t('verifiedStores')}
+                {t('gpsLocation')}
               </li>
               <li className="flex items-center gap-2">
                 <span className="text-accent-pink-400">✓</span>
-                {t('directContact')}
+                {t('teamInfo')}
               </li>
               <li className="flex items-center gap-2">
                 <span className="text-accent-pink-400">✓</span>
-                {t('socialMedia')}
+                {t('skillLevel')}
               </li>
             </ul>
           </div>

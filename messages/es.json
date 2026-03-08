@@ -287,18 +287,17 @@
     "refresh": "Actualizar",
     "noDataYet": "Aún no hay datos en el mapa",
     "beFirstToAdd": "¡Sé el primero en agregar spots o activar tu ubicación!",
-    "viewFullMap": "VER MAPA COMPLETO",
-    "exploreAllSpots": "Explora todos los skateparks y tiendas en el mapa interactivo",
+    "viewFullMap": "ALIMENTEMOS EL MAPA JUNTOS",
+    "exploreAllSpots": "Agrega spots, activa tu ubicación y ayuda a crecer la comunidad",
     "skateparksTitle": "SKATEPARKS",
     "skateparksDesc": "Encuentra los mejores lugares para patinar en tu ciudad: rampas, bowls, plazas street y más.",
     "gpsLocation": "Ubicación GPS exacta",
     "features": "Características (bowl, street, vert)",
     "ratingsReviews": "Calificaciones y reseñas",
-    "skateshopsTitle": "TIENDAS DE SKATE",
-    "skateshopsDesc": "Encuentra tiendas donde comprar tablas, trucks, ruedas y todo el equipo que necesitas.",
-    "verifiedStores": "Tiendas verificadas",
-    "directContact": "Contacto directo (teléfono, web)",
-    "socialMedia": "Redes sociales"
+    "skatersTitle": "SKATERS",
+    "skatersDesc": "Descubre skaters en tu área, mira su nivel y conecta con la comunidad.",
+    "teamInfo": "Información de equipos",
+    "skillLevel": "Nivel y puntuación"
   },
   "homeRanking": {
     "title": "CLASIFICACIÓN",
@@ -455,6 +454,8 @@
     "viewAll": "Ver todos"
   },
   "howToWin": {
+    "title": "Sigue los pasos",
+    "subtitle": "Domina los trucos, graba tu progreso y gana premios",
     "participate": "Participar",
     "step1Title": "patina",
     "step1Caption": "¡Prepárate para deslizarte y dominar las calles! Encuentra las mejores líneas, realiza trucos asombrosos y siente la libertad sobre tu tabla.",
@@ -834,6 +835,7 @@
     "news": "nuevas"
   },
   "spotFloatingButton": {
+    "buttonText": "AGREGAR SPOT",
     "tooltip": "Registrar spot o validar ubicación"
   },
   "spotLocationPicker": {
@@ -1481,5 +1483,10 @@
     "socialProof": "Unite a {count}+ skaters en la lista de espera",
     "madeWith": "Hecho con",
     "forSkaters": "para skaters de todo el mundo"
+  },
+  "teamPage": {
+    "loading": "Cargando equipo...",
+    "error": "Equipo no encontrado",
+    "goBack": "Volver"
   }
 }
