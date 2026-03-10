@@ -1488,5 +1488,16 @@
     "loading": "Loading team...",
     "error": "Team not found",
     "goBack": "Go Back"
+  },
+  "activityTicker": {
+    "justJoined": "just joined",
+    "completedTrick": "completed a trick",
+    "leveledUp": "leveled up",
+    "top1Individual": "🥇 Top 1 Individual",
+    "top2Individual": "🥈 Top 2 Individual",
+    "top3Individual": "🥉 Top 3 Individual",
+    "top1Team": "🏆 Top 1 Teams",
+    "top2Team": "🥈 Top 2 Teams",
+    "top3Team": "🥉 Top 3 Teams"
   }
 }

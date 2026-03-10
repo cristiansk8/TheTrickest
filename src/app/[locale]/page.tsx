@@ -6,6 +6,7 @@ import HomeLevelSection from '@/components/HomeLevelSection';
 import HomeMapSection from '@/components/HomeMapSection';
 import HomeRanking from '@/components/HomeRanking';
 import ContactCTAButton from '@/components/ContactCTAButton';
+import ActivityTicker from '@/components/ActivityTicker';
 import { getTranslations } from 'next-intl/server';
 
 export default async function Home() {
@@ -16,6 +17,9 @@ export default async function Home() {
         <TransitionPage />
         <Introduction />
       </div>
+
+      {/* Activity Ticker - Shows recent user activity */}
+      <ActivityTicker />
 
       {/* Challenges Section */}
       <HomeLevelSection />

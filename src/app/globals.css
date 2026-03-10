@@ -89,3 +89,45 @@ main {
   --tw-bg-opacity: 1;
   background-color: rgb(var(--color-info-300) / 30%);
 }
+
+/* City scroll animation for introduction banner - seamless infinite loop */
+@keyframes city-scroll {
+  0% {
+    background-position: 0 15px;
+  }
+  100% {
+    background-position: -1920px 15px;
+  }
+}
+
+.animate-city-scroll {
+  animation: city-scroll 40s linear infinite;
+}
+
+/* Faster animation on desktop */
+@media (min-width: 768px) {
+  .animate-city-scroll {
+    animation: city-scroll 20s linear infinite;
+  }
+}
+
+/* Activity ticker animation - moves LEFT (opposite to city) */
+@keyframes tick-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.33%);
+  }
+}
+
+.animate-tick-scroll {
+  animation: tick-scroll 30s linear infinite;
+}
+
+/* Faster ticker on desktop */
+@media (min-width: 768px) {
+  .animate-tick-scroll {
+    animation: tick-scroll 20s linear infinite;
+  }
+}

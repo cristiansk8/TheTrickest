@@ -102,10 +102,20 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'ibb.co',
       },
+      // Avatar services
+      {
+        protocol: 'https',
+        hostname: 'i.pravatar.cc',
+      },
       // Supabase Storage - para logos de equipos y avatares
       {
         protocol: 'https',
         hostname: '*.supabase.co',
+      },
+      // Backend URL - para imágenes de perfil en /uploads/
+      {
+        protocol: 'https',
+        hostname: 'skaters.toryskateshop.com',
       },
     ],
   },

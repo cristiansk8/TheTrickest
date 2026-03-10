@@ -1488,5 +1488,16 @@
     "loading": "Cargando equipo...",
     "error": "Equipo no encontrado",
     "goBack": "Volver"
+  },
+  "activityTicker": {
+    "justJoined": "acaba de unirse",
+    "completedTrick": "completó un truco",
+    "leveledUp": "subió de nivel",
+    "top1Individual": "🥇 Top 1 Individual",
+    "top2Individual": "🥈 Top 2 Individual",
+    "top3Individual": "🥉 Top 3 Individual",
+    "top1Team": "🏆 Top 1 Equipos",
+    "top2Team": "🥈 Top 2 Equipos",
+    "top3Team": "🥉 Top 3 Equipos"
   }
 }
