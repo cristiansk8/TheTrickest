@@ -87,10 +87,6 @@ const ActivityTicker = () => {
           display: flex;
           width: max-content;
           animation: ticker 30s linear infinite;
-          /* Pausar al hover es opcional pero mejora UX */
-        }
-        .ticker-track:hover {
-          animation-play-state: paused;
         }
       `}</style>
 
