@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import Image from 'next/image';
 
 interface RecentUser {
   id: string;
@@ -13,123 +12,116 @@ interface RecentUser {
   photo?: string | null;
 }
 
+// ─── KEY INSIGHT ───────────────────────────────────────────────────────────────
+// El truco del ticker infinito:
+// 1. Duplicar el array UNA SOLA VEZ → [A, B, C, A, B, C]
+// 2. Animar translateX de 0% → -50% (exactamente la mitad)
+// 3. Cuando llega a -50%, el contenido visual es idéntico → loop perfecto
+// 4. NO usar whitespace-nowrap en el wrapper, sino en cada item
+// ──────────────────────────────────────────────────────────────────────────────
+
+const FALLBACK_USERS: RecentUser[] = [
+  { id: '1', username: 'skater_pro', name: 'Carlos M.', action: 'new_user', time: '2m', photo: 'https://i.pravatar.cc/150?u=carlos' },
+  { id: '2', username: 'ollie_king', name: 'María L.', action: 'new_user', time: '5m', photo: 'https://i.pravatar.cc/150?u=maria' },
+  { id: '3', username: 'kickflip_master', name: 'Juan P.', action: 'new_user', time: '10m', photo: 'https://i.pravatar.cc/150?u=juan' },
+  { id: '4', username: 'grind_queen', name: 'Sofía R.', action: 'team', time: '15m', photo: 'https://i.pravatar.cc/150?u=sofia' },
+  { id: '5', username: 'halfpipe_hero', name: 'Diego F.', action: 'new_user', time: '22m', photo: 'https://i.pravatar.cc/150?u=diego' },
+];
+
 const ActivityTicker = () => {
   const t = useTranslations('activityTicker');
-  const [recentUsers, setRecentUsers] = useState<RecentUser[]>([]);
+  const [users, setUsers] = useState<RecentUser[]>(FALLBACK_USERS);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Fetch real activity from API
   useEffect(() => {
     const fetchActivity = async () => {
       try {
-        const response = await fetch('/api/activity/recent', {
-          cache: 'no-store' // Always get fresh data
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          setRecentUsers(data);
-          setIsLoading(false);
-        } else {
-          setIsLoading(false);
+        const res = await fetch('/api/activity/recent', { cache: 'no-store' });
+        if (res.ok) {
+          const data = await res.json();
+          if (data?.length > 0) setUsers(data);
         }
-      } catch (error) {
-        // Fallback to mock data if API fails
-        const fallbackData: RecentUser[] = [
-          { id: '1', username: 'skater_pro', name: 'Carlos M.', action: 'new_user', time: '2m', photo: 'https://i.pravatar.cc/150?u=carlos' },
-          { id: '2', username: 'ollie_king', name: 'María L.', action: 'new_user', time: '5m', photo: 'https://i.pravatar.cc/150?u=maria' },
-          { id: '3', username: 'kickflip_master', name: 'Juan P.', action: 'new_user', time: '10m', photo: 'https://i.pravatar.cc/150?u=juan' },
-        ];
-        setRecentUsers(fallbackData);
+      } catch {
+        // silently use fallback
+      } finally {
         setIsLoading(false);
       }
     };
 
     fetchActivity();
-
-    // Refresh every 30 minutes (less intensive)
-    const interval = setInterval(fetchActivity, 1800000); // 30 minutes
-
+    const interval = setInterval(fetchActivity, 1_800_000);
     return () => clearInterval(interval);
   }, []);
 
   const getActionText = (action: string) => {
     switch (action) {
-      case 'new_user':
-        return t('justJoined');
-      case 'team':
-        return t('team');
-      default:
-        return action;
+      case 'new_user': return t('justJoined');
+      case 'team':     return t('team');
+      default:         return action;
     }
   };
 
-  const getActionEmoji = (action: string) => {
-    if (action === 'team') {
-      return '🏆';
-    }
-    return '🎉';
-  };
+  const getEmoji = (action: string) => action === 'team' ? '🏆' : '🎉';
 
-  // Show loading placeholder
   if (isLoading) {
     return (
-      <div className="w-full bg-gradient-to-r from-purple-900 via-purple-800 to-purple-900 border-y-4 border-accent-cyan-500 overflow-hidden">
-        <div className="flex items-center justify-center py-3">
-          <div className="flex items-center gap-3 text-white animate-pulse">
-            <span className="text-2xl">🛹</span>
-            <span className="text-neutral-300">Cargando actividad...</span>
-          </div>
-        </div>
+      <div className="w-full bg-gradient-to-r from-purple-900 via-purple-800 to-purple-900 border-y-4 border-cyan-500 py-3 flex justify-center">
+        <span className="text-neutral-300 animate-pulse">🛹 Cargando actividad...</span>
       </div>
     );
   }
 
-  // If no data, show fallback
-  const displayUsers = recentUsers.length === 0 ? [
-    { id: '1', username: 'skater_pro', name: 'Carlos M.', action: 'new_user' as const, time: '2m', photo: 'https://i.pravatar.cc/150?u=carlos' },
-    { id: '2', username: 'ollie_king', name: 'María L.', action: 'new_user' as const, time: '5m', photo: 'https://i.pravatar.cc/150?u=maria' },
-    { id: '3', username: 'kickflip_master', name: 'Juan P.', action: 'new_user' as const, time: '10m', photo: 'https://i.pravatar.cc/150?u=juan' },
-  ] : recentUsers;
-
-  // Create 4 copies for smoother infinite loop
-  // More copies = less likely to see the restart point
-  const duplicatedContent = [
-    ...displayUsers,
-    ...displayUsers,
-    ...displayUsers,
-    ...displayUsers,
-  ];
+  // Duplicar UNA vez → la animación va de 0 a -50%
+  const items = [...users, ...users];
 
   return (
-    <div className="w-full bg-gradient-to-r from-purple-900 via-purple-800 to-purple-900 border-y-4 border-accent-cyan-500 overflow-hidden">
-      <div className="flex animate-tick-scroll whitespace-nowrap py-3">
-        {duplicatedContent.map((user, index) => (
-          <div
-            key={`${user.id}-${index}`}
-            className="flex items-center gap-3 mx-8 text-white"
-          >
-            {/* Profile photo or team emoji */}
-            {user.photo ? (
-              <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-accent-cyan-400 flex-shrink-0">
-                <img
-                  src={user.photo}
-                  alt={user.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            ) : (
-              <span className="text-2xl">{getActionEmoji(user.action)}</span>
-            )}
+    <>
+      {/* ── Inyectar keyframe via <style> para no depender de tailwind config ── */}
+      <style>{`
+        @keyframes ticker {
+          0%   { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .ticker-track {
+          /* width: max-content garantiza que el track sea tan ancho como su contenido */
+          display: flex;
+          width: max-content;
+          animation: ticker 30s linear infinite;
+          /* Pausar al hover es opcional pero mejora UX */
+        }
+        .ticker-track:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
 
-            <span className="font-bold text-accent-cyan-400">{user.name}</span>
-            <span className="text-neutral-300">{getActionText(user.action)}</span>
-            <span className="text-accent-pink-400 font-black">{user.time}</span>
-            <span className="text-neutral-500">•</span>
-          </div>
-        ))}
+      <div
+        className="w-full bg-gradient-to-r from-purple-900 via-purple-800 to-purple-900 border-y-4 border-cyan-500 overflow-hidden"
+        /* overflow-hidden es CRÍTICO — sin esto el track desborda visualmente */
+      >
+        <div className="ticker-track py-3">
+          {items.map((user, idx) => (
+            <div
+              key={`${user.id}-${idx}`}
+              className="flex items-center gap-3 mx-8 text-white flex-shrink-0"
+              /* flex-shrink-0 evita que los items se compriman */
+            >
+              {user.photo ? (
+                <div className="w-9 h-9 rounded-full overflow-hidden border-2 border-cyan-400 flex-shrink-0">
+                  <img src={user.photo} alt={user.name} className="w-full h-full object-cover" />
+                </div>
+              ) : (
+                <span className="text-2xl">{getEmoji(user.action)}</span>
+              )}
+
+              <span className="font-bold text-cyan-400 whitespace-nowrap">{user.name}</span>
+              <span className="text-neutral-300 whitespace-nowrap">{getActionText(user.action)}</span>
+              <span className="text-pink-400 font-black whitespace-nowrap">{user.time}</span>
+              <span className="text-neutral-600 mx-2">◆</span>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

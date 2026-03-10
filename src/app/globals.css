@@ -111,48 +111,6 @@ main {
   }
 }
 
-/* Activity ticker animation - seamless loop with 4x duplication */
-/* When content is duplicated 4x, -25% creates perfect loop (100% / 4) */
-@keyframes tick-scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-25%);
-  }
-}
-
-.animate-tick-scroll {
-  animation: tick-scroll 12s linear infinite;
-}
-
-/* Desktop same speed */
-@media (min-width: 768px) {
-  .animate-tick-scroll {
-    animation: tick-scroll 12s linear infinite;
-  }
-}
-
-/* Alternative animation for dual container technique */
-@keyframes tick-scroll-alt {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-25%);
-  }
-}
-
-.animate-tick-scroll-alt {
-  animation: tick-scroll-alt 1s linear infinite;
-}
-
-@media (min-width: 768px) {
-  .animate-tick-scroll-alt {
-    animation: tick-scroll-alt 3s linear infinite;
-  }
-}
-
 /* ========================================
    DISABLE NEXTUI INPUT HOVER EFFECTS
    ======================================== */
