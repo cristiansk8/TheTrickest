@@ -25,7 +25,7 @@
     "@types/leaflet": "^1.9.21",
     "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.3",
-    "framer-motion": "^11.0.5",
+    "framer-motion": "^11.18.2",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.335.0",
     "nanoid": "3.3.8",

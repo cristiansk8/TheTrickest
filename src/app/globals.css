@@ -111,23 +111,44 @@ main {
   }
 }
 
-/* Activity ticker animation - moves LEFT (opposite to city) */
+/* Activity ticker animation - seamless loop with 2x duplication */
+/* When content is duplicated 2x, -50% creates perfect loop */
 @keyframes tick-scroll {
   0% {
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-33.33%);
+    transform: translateX(-50%);
   }
 }
 
 .animate-tick-scroll {
-  animation: tick-scroll 30s linear infinite;
+  animation: tick-scroll 6s linear infinite;
 }
 
-/* Faster ticker on desktop */
+/* Desktop same speed */
 @media (min-width: 768px) {
   .animate-tick-scroll {
-    animation: tick-scroll 20s linear infinite;
+    animation: tick-scroll 6s linear infinite;
+  }
+}
+
+/* Alternative animation for dual container technique */
+@keyframes tick-scroll-alt {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-25%);
+  }
+}
+
+.animate-tick-scroll-alt {
+  animation: tick-scroll-alt 1s linear infinite;
+}
+
+@media (min-width: 768px) {
+  .animate-tick-scroll-alt {
+    animation: tick-scroll-alt 3s linear infinite;
   }
 }

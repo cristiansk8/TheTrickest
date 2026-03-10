@@ -13,7 +13,7 @@ const myFont = localFont({
 const Introduction = () => {
     const t = useTranslations('introduction');
     return (
-        <div className="relative z-0 w-full grid items-center p-6 py-20 md:py-0 md:grid-cols-3 justify-center bg-surface-deep bg-[url('/png-big-city.png')] bg-cover bg-repeat bg-top">
+        <div className="relative z-0 w-full grid items-center p-6 py-20 md:py-0 md:grid-cols-3 justify-center bg-surface-deep bg-[url('/png-big-city.png')] bg-repeat-x animate-city-scroll" style={{ backgroundSize: '1920px 100%', backgroundPosition: '0 15px' }}>
             <div className="flex flex-col w-full justify-center mx-auto">
             <div className="justify-between">
                     <Link href='/' className="text-center">

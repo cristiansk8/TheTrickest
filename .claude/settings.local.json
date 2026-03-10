@@ -66,7 +66,17 @@
       "Bash(npm run lint)",
       "Bash(npx next lint:*)",
       "Bash(git diff:*)",
-      "Bash(head:*)"
+      "Bash(head:*)",
+      "Bash(ls -la /c/Users/Usuario/trickest-next/src/app/[locale]/\\\\\\(routes\\\\\\)/teams/)",
+      "Bash(ls -la /c/Users/Usuario/trickest-next/src/app/[locale]/\\\\\\(routes\\\\\\)/teams/[id]/)",
+      "Bash(ls -la \"c:\\\\Users\\\\Usuario\\\\trickest-next\\\\src\\\\app\\\\[locale]\\\\\\(routes\\)\\\\profile\\\\[username]\")",
+      "Bash(powershell -Command \"Remove-Item -Path .next -Recurse -Force -ErrorAction SilentlyContinue; npm run dev\")",
+      "Bash(powershell -Command \"Stop-Process -Id 38296 -Force\")",
+      "Bash(powershell -Command \"Get-Process | Where-Object {$_ProcessName -eq ''node''} | Stop-Process -Force\")",
+      "Bash(powershell -Command \"if \\(Test-Path ''.next''\\) { Remove-Item -Path ''.next'' -Recurse -Force; Write-Host ''✅ .next deleted'' } else { Write-Host ''⚠️ .next does not exist'' }\")",
+      "Bash(powershell -Command \"Stop-Process -Id 22288 -Force\")",
+      "Bash(powershell -Command \"Get-Content c:/Users/Usuario/trickest-next/src/app/api/activity/recent/route.ts -Head 10\")",
+      "WebSearch"
     ],
     "deny": [],
     "ask": []

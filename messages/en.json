@@ -1491,6 +1491,7 @@
   },
   "activityTicker": {
     "justJoined": "just joined",
+    "team": "team",
     "completedTrick": "completed a trick",
     "leveledUp": "leveled up",
     "top1Individual": "🥇 Top 1 Individual",

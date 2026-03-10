@@ -1491,6 +1491,7 @@
   },
   "activityTicker": {
     "justJoined": "acaba de unirse",
+    "team": "equipo",
     "completedTrick": "completó un truco",
     "leveledUp": "subió de nivel",
     "top1Individual": "🥇 Top 1 Individual",

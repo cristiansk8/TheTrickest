@@ -65,17 +65,23 @@ const ActivityTicker = () => {
     switch (action) {
       case 'new_user':
         return t('justJoined');
+      case 'team':
+        return t('team');
       default:
         return action;
     }
   };
 
-  const getActionEmoji = () => {
+  const getActionEmoji = (action: string) => {
+    if (action === 'team') {
+      return '🏆';
+    }
     return '🎉';
   };
 
   // Show loading placeholder
   if (isLoading) {
+    console.log('⏳ Still loading...');
     return (
       <div className="w-full bg-gradient-to-r from-purple-900 via-purple-800 to-purple-900 border-y-4 border-accent-cyan-500 overflow-hidden">
         <div className="flex items-center justify-center py-3">
@@ -102,39 +108,40 @@ const ActivityTicker = () => {
     { id: '3', username: 'kickflip_master', name: 'Juan P.', action: 'new_user' as const, time: '10m', photo: 'https://i.pravatar.cc/150?u=juan' },
   ] : recentUsers;
 
+  console.log('✅ Loading complete, rendering ticker with', displayUsers.length, 'items');
   console.log('displayUsers:', displayUsers);
+  console.log('📱 Screen width:', typeof window !== 'undefined' ? window.innerWidth : 'server');
+
+  // Create duplicated content for seamless loop
+  const duplicatedContent = [...displayUsers, ...displayUsers];
 
   return (
     <div className="w-full bg-gradient-to-r from-purple-900 via-purple-800 to-purple-900 border-y-4 border-accent-cyan-500 overflow-hidden">
-      <div className="relative">
-        {/* Ticker container - moves LEFT (opposite to city) */}
-        <div className="flex animate-tick-scroll whitespace-nowrap py-3">
-          {/* Duplicate items for seamless loop - use at least 3 for smooth scrolling */}
-          {[...displayUsers, ...displayUsers, ...displayUsers].map((user, index) => (
-            <div
-              key={`${user.id}-${index}`}
-              className="flex items-center gap-3 mx-8 text-white"
-            >
-              {/* Profile photo */}
-              {user.photo ? (
-                <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-accent-cyan-400 flex-shrink-0">
-                  <img
-                    src={user.photo}
-                    alt={user.name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              ) : (
-                <span className="text-2xl">{getActionEmoji()}</span>
-              )}
+      <div className="flex animate-tick-scroll whitespace-nowrap py-3">
+        {duplicatedContent.map((user, index) => (
+          <div
+            key={`${user.id}-${index}`}
+            className="flex items-center gap-3 mx-8 text-white"
+          >
+            {/* Profile photo or team emoji */}
+            {user.photo ? (
+              <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-accent-cyan-400 flex-shrink-0">
+                <img
+                  src={user.photo}
+                  alt={user.name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            ) : (
+              <span className="text-2xl">{getActionEmoji(user.action)}</span>
+            )}
 
-              <span className="font-bold text-accent-cyan-400">{user.name}</span>
-              <span className="text-neutral-300">{getActionText(user.action)}</span>
-              <span className="text-accent-pink-400 font-black">{user.time}</span>
-              <span className="text-neutral-500">•</span>
-            </div>
-          ))}
-        </div>
+            <span className="font-bold text-accent-cyan-400">{user.name}</span>
+            <span className="text-neutral-300">{getActionText(user.action)}</span>
+            <span className="text-accent-pink-400 font-black">{user.time}</span>
+            <span className="text-neutral-500">•</span>
+          </div>
+        ))}
       </div>
     </div>
   );
