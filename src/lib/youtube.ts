@@ -53,12 +53,34 @@ export function normalizeYouTubeUrl(url: string): string {
 }
 
 /**
+ * Opciones para el embed de YouTube
+ */
+interface EmbedOptions {
+  autoplay?: boolean;
+  mute?: boolean;
+  controls?: boolean;
+  loop?: boolean;
+  playlist?: string;
+}
+
+/**
  * Convierte una URL de YouTube al formato embed para iframes
  */
-export function getEmbedUrl(url: string): string {
+export function getEmbedUrl(url: string, options: EmbedOptions = {}): string {
   const videoId = extractVideoId(url);
 
   if (!videoId) return url;
 
-  return `https://www.youtube.com/embed/${videoId}`;
+  const params = new URLSearchParams();
+
+  if (options.autoplay) params.append('autoplay', '1');
+  if (options.mute) params.append('mute', '1');
+  if (options.controls === false) params.append('controls', '0');
+  if (options.loop) params.append('loop', '1');
+  if (options.playlist) params.append('playlist', options.playlist);
+
+  const queryString = params.toString();
+  const baseUrl = `https://www.youtube.com/embed/${videoId}`;
+
+  return queryString ? `${baseUrl}?${queryString}` : baseUrl;
 }

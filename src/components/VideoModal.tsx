@@ -59,7 +59,7 @@ export default function VideoModal({ isOpen, onClose, videoUrl, title }: VideoMo
           <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
             <iframe
               className="absolute top-0 left-0 w-full h-full rounded-lg border-4 border-neutral-700"
-              src={getEmbedUrl(videoUrl)}
+              src={getEmbedUrl(videoUrl, { autoplay: true, mute: false })}
               title={title || t('defaultTitle')}
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
