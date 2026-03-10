@@ -205,6 +205,11 @@
     "howToPlayTitle": "HOW TO PLAY",
     "pressEscToClose": "Press ESC to close"
   },
+  "videoModal": {
+    "defaultTitle": "Demo Video",
+    "close": "Close",
+    "pressEscToClose": "Press ESC to close"
+  },
   "loginForm": {
     "title": "LOGIN WITH EMAIL",
     "email": "Email",

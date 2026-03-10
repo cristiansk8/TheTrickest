@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { MdVideoLibrary, MdEmojiEvents, MdLock, MdPlayArrow, MdStars } from 'react-icons/md';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
+import VideoModal from './VideoModal';
 
 interface Challenge {
   id: number;
@@ -33,6 +34,9 @@ export default function HomeLevelSection() {
   const [loading, setLoading] = useState(true);
   const [activeLevel, setActiveLevel] = useState(1);
   const [totalLevels, setTotalLevels] = useState(8);
+  const [videoModalOpen, setVideoModalOpen] = useState(false);
+  const [selectedVideoUrl, setSelectedVideoUrl] = useState('');
+  const [selectedVideoTitle, setSelectedVideoTitle] = useState('');
   const t = useTranslations('homeLevelSection');
 
   useEffect(() => {
@@ -50,8 +54,6 @@ export default function HomeLevelSection() {
         const response = await fetch('/api/challenges');
         if (response.ok) {
           const data = await response.json();
-          console.log('📊 Challenges recibidos de la API:', data.challenges);
-          console.log('📐 Total de niveles configurados:', maxLevels);
 
           // Separar challenges regulares y bonus
           const regularChallenges = (data.challenges || [])
@@ -113,7 +115,6 @@ export default function HomeLevelSection() {
             }
           }
 
-          console.log('✅ Levels slots creados (con bonus integrados):', levelSlots);
           setAllLevels(levelSlots);
         }
       } catch (error) {
@@ -127,6 +128,14 @@ export default function HomeLevelSection() {
   }, []);
 
   const currentLevel = allLevels.find((l) => l.displayLevel === activeLevel);
+
+  const handleOpenVideoModal = () => {
+    if (currentLevel?.demoVideoUrl) {
+      setSelectedVideoUrl(currentLevel.demoVideoUrl);
+      setSelectedVideoTitle(currentLevel.name);
+      setVideoModalOpen(true);
+    }
+  };
 
   const getDifficultyColor = (difficulty: string) => {
     const colors = {
@@ -190,8 +199,6 @@ export default function HomeLevelSection() {
     );
   }
 
-  console.log('🎯 Renderizando tabs con', allLevels.length, 'levels');
-
   return (
     <div className="py-20 bg-gradient-to-br from-neutral-900 via-purple-900 to-neutral-900">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
@@ -209,7 +216,6 @@ export default function HomeLevelSection() {
         <div className="bg-neutral-900 border-4 border-neutral-700 rounded-2xl p-6 shadow-2xl mb-6">
           <div className="flex items-center justify-center gap-2 md:gap-3 mb-4 overflow-x-auto pb-4">
             {allLevels.map((level) => {
-              console.log('🔵 Renderizando tab nivel:', level.displayLevel, level.name, 'Locked:', level.isLocked, 'Bonus:', level.isBonus);
               return (
               <button
                 key={level.displayLevel}
@@ -286,7 +292,7 @@ export default function HomeLevelSection() {
                       {currentLevel.demoVideoUrl && (
                         <div className="flex justify-center pt-4">
                           <button
-                            onClick={() => window.open(currentLevel.demoVideoUrl!, '_blank')}
+                            onClick={handleOpenVideoModal}
                             className="bg-cyan-500 hover:bg-cyan-600 text-white font-black py-3 px-8 rounded-lg border-4 border-white uppercase tracking-wider text-sm shadow-lg transform hover:scale-105 transition-all"
                           >
                             <div className="flex items-center gap-2">
@@ -332,6 +338,14 @@ export default function HomeLevelSection() {
           </Link>
         </div>
       </div>
+
+      {/* Video Modal */}
+      <VideoModal
+        isOpen={videoModalOpen}
+        onClose={() => setVideoModalOpen(false)}
+        videoUrl={selectedVideoUrl}
+        title={selectedVideoTitle}
+      />
 
       {/* Animation styles */}
       <style jsx>{`

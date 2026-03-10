@@ -205,6 +205,11 @@
     "howToPlayTitle": "CÓMO JUGAR",
     "pressEscToClose": "Presiona ESC para cerrar"
   },
+  "videoModal": {
+    "defaultTitle": "Video de Demo",
+    "close": "Cerrar",
+    "pressEscToClose": "Presiona ESC para cerrar"
+  },
   "loginForm": {
     "title": "ENTRAR CON EMAIL",
     "email": "Correo electrónico",
