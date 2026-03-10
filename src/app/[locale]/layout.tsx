@@ -17,16 +17,40 @@ type Props = {
 export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
 
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL
+    ? new URL(process.env.NEXT_PUBLIC_APP_URL)
+    : new URL('http://localhost:3000');
+
   return {
-    metadataBase: process.env.NEXT_PUBLIC_APP_URL
-      ? new URL(process.env.NEXT_PUBLIC_APP_URL)
-      : new URL('http://localhost:3000'),
+    metadataBase: appUrl,
     title: 'TRICKEST - Skateboarding Challenge Platform',
-    description: 'Join the ultimate skateboarding challenge platform. Submit tricks, compete with skaters worldwide, and climb the leaderboard.',
+    description: 'patina, graba, postea y gana',
     icons: {
       icon: '/logo-main.png',
       shortcut: '/logo-main.png',
       apple: '/logo-main.png',
+    },
+    openGraph: {
+      title: 'TRICKEST - Skateboarding Challenge Platform',
+      description: 'patina, graba, postea y gana',
+      url: appUrl.toString(),
+      siteName: 'TRICKEST',
+      images: [
+        {
+          url: '/trick-est.webp',
+          width: 1200,
+          height: 630,
+          alt: 'TRICKEST - Skateboarding Challenge Platform',
+        },
+      ],
+      locale: locale,
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: 'TRICKEST - Skateboarding Challenge Platform',
+      description: 'patina, graba, postea y gana',
+      images: ['/trick-est.webp'],
     },
   };
 }
