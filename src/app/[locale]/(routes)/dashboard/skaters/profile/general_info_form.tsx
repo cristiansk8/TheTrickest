@@ -21,6 +21,7 @@ export default function ProfilePage() {
     photo: '',
     birthdate: '',
     birthskate: '',
+    gender: '',
     ciudad: '',
     departamento: '',
     estado: '',
@@ -48,6 +49,7 @@ export default function ProfilePage() {
           name: data.user?.name || '',
           phone: data.user?.phone || '',
           photo: data.user?.photo || '',
+          gender: data.user?.gender || '',
           estado: data.user?.estado || '',
           departamento: data.user?.departamento || '',
           ciudad: data.user?.ciudad || '',
@@ -68,7 +70,7 @@ export default function ProfilePage() {
     fetchProfile();
   }, [status, session?.user?.email]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -105,6 +107,7 @@ export default function ProfilePage() {
         name: formData.name,
         phone: formData.phone,
         photo: formData.photo,
+        gender: formData.gender,
         ciudad: formData.ciudad,
         departamento: formData.departamento,
         estado: formData.estado,
@@ -267,23 +270,62 @@ export default function ProfilePage() {
             />
           </div>
 
-          {/* State */}
+          {/* Gender */}
+          <div className="group">
+            <label
+              htmlFor="gender"
+              className="block text-accent-cyan-400 font-bold mb-2 uppercase tracking-wide text-sm md:text-base"
+            >
+              {`⚧️ ${t('gender')}`}
+            </label>
+            <select
+              className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-400 focus:border-accent-cyan-500 focus:outline-none transition-all group-hover:border-accent-cyan-400 cursor-pointer"
+              id="gender"
+              name="gender"
+              value={formData.gender}
+              onChange={handleChange}
+            >
+              <option value="" className="bg-neutral-800 text-neutral-400">
+                {t('genderPlaceholder')}
+              </option>
+              <option value="male" className="bg-neutral-800 text-white">
+                {t('male')}
+              </option>
+              <option value="female" className="bg-neutral-800 text-white">
+                {t('female')}
+              </option>
+              <option value="prefer_not_to_say" className="bg-neutral-800 text-white">
+                {t('preferNotToSay')}
+              </option>
+            </select>
+          </div>
+
+          {/* Estado - Modernized status field */}
           <div className="group col-span-1 md:col-span-2">
             <label
               htmlFor="estado"
               className="block text-accent-cyan-400 font-bold mb-2 uppercase tracking-wide text-sm md:text-base"
             >
-              {`🏴 ${t('state')}`}
+              {`💭 ${t('state')}`}
             </label>
-            <input
-              className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-400 focus:border-accent-cyan-500 focus:outline-none transition-all group-hover:border-accent-cyan-400"
-              type="text"
-              id="estado"
-              name="estado"
-              placeholder={t('statePlaceholder')}
-              value={formData.estado}
-              onChange={handleChange}
-            />
+            <div className="relative">
+              <input
+                className="w-full bg-neutral-800 border-4 border-neutral-600 rounded-lg py-3 px-4 text-white placeholder-neutral-400 focus:border-accent-cyan-500 focus:outline-none transition-all group-hover:border-accent-cyan-400"
+                type="text"
+                id="estado"
+                name="estado"
+                placeholder={t('statePlaceholder')}
+                value={formData.estado}
+                onChange={handleChange}
+                maxLength={140}
+              />
+              <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-neutral-500 text-xs font-bold">
+                {formData.estado.length}/140
+              </div>
+            </div>
+            <p className="text-neutral-400 text-xs mt-1 italic">
+              💡 {t('stateHint')}
+            </p>
           </div>
 
           {/* Save button */}

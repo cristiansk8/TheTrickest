@@ -133,7 +133,7 @@ export default function LoginEmailForm({ isOpen, onClose, onSuccess, onSwitchToR
             type="button"
             onClick={() => signIn('google')}
             disabled={isLoading}
-            variant="pink"
+            variant="purple"
             size="lg"
             fullWidth
           >

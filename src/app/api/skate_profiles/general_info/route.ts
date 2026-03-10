@@ -3,10 +3,8 @@ import { NextResponse } from 'next/server';
 
 export async function GET(req: Request) {
   try {
-    const url = new URL(req.url);
+    const url = new URL(req.url || '', 'http://localhost');
     const email = url.searchParams.get('email');
-
-    console.log('🔍 Email recibido en la API:', email);
 
     if (!email) {
       return NextResponse.json(
@@ -19,8 +17,6 @@ export async function GET(req: Request) {
       where: { email },
     });
 
-    console.log('👤 Datos del usuario encontrado:', user);
-
     if (!user) {
       return NextResponse.json(
         { registered: false, message: 'User not found' },
@@ -31,7 +27,6 @@ export async function GET(req: Request) {
     // ✅ Devuelve los datos completos
     return NextResponse.json({ registered: true, user }, { status: 200 });
   } catch (error) {
-    console.error('❌ Error en la API:', error);
     return NextResponse.json(
       { error: 'Error en el servidor' },
       { status: 500 }
@@ -41,16 +36,14 @@ export async function GET(req: Request) {
 
 // Actualización de Usuario (sin modificar email ni foto)
 export async function PUT(req: Request) {
-  console.log('🔧 Actualizando usuario...');
-
   try {
     const data = await req.json();
-    console.log('📦 Datos recibidos:', data);
     const {
       email,
       name,
       phone,
       photo,
+      gender,
       estado,
       departamento,
       ciudad,
@@ -86,6 +79,7 @@ export async function PUT(req: Request) {
         name,
         phone,
         ...(photo && { photo }), // Solo actualiza photo si se proporciona
+        gender,
         departamento,
         ciudad,
         estado,
@@ -100,7 +94,6 @@ export async function PUT(req: Request) {
       { status: 200 }
     );
   } catch (error) {
-    console.error('Error al actualizar el usuario:', error);
     return NextResponse.json(
       { error: 'There was an error updating' },
       { status: 500 }

@@ -22,32 +22,24 @@ const ActivityTicker = () => {
   useEffect(() => {
     const fetchActivity = async () => {
       try {
-        console.log('Fetching activity from API...');
         const response = await fetch('/api/activity/recent', {
           cache: 'no-store' // Always get fresh data
         });
 
-        console.log('API Response status:', response.status);
-
         if (response.ok) {
           const data = await response.json();
-          console.log('Activity data received:', data);
-          console.log('Data length:', data.length);
           setRecentUsers(data);
           setIsLoading(false);
         } else {
-          console.error('API response not OK, status:', response.status);
           setIsLoading(false);
         }
       } catch (error) {
-        console.error('Error fetching activity:', error);
         // Fallback to mock data if API fails
         const fallbackData: RecentUser[] = [
           { id: '1', username: 'skater_pro', name: 'Carlos M.', action: 'new_user', time: '2m', photo: 'https://i.pravatar.cc/150?u=carlos' },
           { id: '2', username: 'ollie_king', name: 'María L.', action: 'new_user', time: '5m', photo: 'https://i.pravatar.cc/150?u=maria' },
           { id: '3', username: 'kickflip_master', name: 'Juan P.', action: 'new_user', time: '10m', photo: 'https://i.pravatar.cc/150?u=juan' },
         ];
-        console.log('Using fallback data:', fallbackData);
         setRecentUsers(fallbackData);
         setIsLoading(false);
       }
@@ -81,7 +73,6 @@ const ActivityTicker = () => {
 
   // Show loading placeholder
   if (isLoading) {
-    console.log('⏳ Still loading...');
     return (
       <div className="w-full bg-gradient-to-r from-purple-900 via-purple-800 to-purple-900 border-y-4 border-accent-cyan-500 overflow-hidden">
         <div className="flex items-center justify-center py-3">
@@ -94,23 +85,12 @@ const ActivityTicker = () => {
     );
   }
 
-  // Always render, even with few items
-  console.log('=== TICKER DEBUG ===');
-  console.log('isLoading:', isLoading);
-  console.log('recentUsers:', recentUsers);
-  console.log('recentUsers.length:', recentUsers.length);
-  console.log('==================');
-
   // If no data, show fallback
   const displayUsers = recentUsers.length === 0 ? [
     { id: '1', username: 'skater_pro', name: 'Carlos M.', action: 'new_user' as const, time: '2m', photo: 'https://i.pravatar.cc/150?u=carlos' },
     { id: '2', username: 'ollie_king', name: 'María L.', action: 'new_user' as const, time: '5m', photo: 'https://i.pravatar.cc/150?u=maria' },
     { id: '3', username: 'kickflip_master', name: 'Juan P.', action: 'new_user' as const, time: '10m', photo: 'https://i.pravatar.cc/150?u=juan' },
   ] : recentUsers;
-
-  console.log('✅ Loading complete, rendering ticker with', displayUsers.length, 'items');
-  console.log('displayUsers:', displayUsers);
-  console.log('📱 Screen width:', typeof window !== 'undefined' ? window.innerWidth : 'server');
 
   // Create duplicated content for seamless loop
   const duplicatedContent = [...displayUsers, ...displayUsers];

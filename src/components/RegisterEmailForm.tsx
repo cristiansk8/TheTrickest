@@ -79,16 +79,16 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
   return (
     <ModalPortal>
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm overflow-y-auto">
-      <div className="relative w-full max-w-md my-auto bg-gradient-to-br from-neutral-900 via-accent-pink-900 to-neutral-900 border-4 border-accent-pink-400 rounded-xl shadow-2xl shadow-accent-pink-500/50 overflow-hidden">
+      <div className="relative w-full max-w-md my-auto bg-gradient-to-br from-neutral-900 via-purple-900 to-neutral-900 border-4 border-accent-cyan-400 rounded-xl shadow-2xl shadow-accent-cyan-500/50 overflow-hidden">
         {/* Header */}
-        <div className="bg-gradient-to-r from-accent-pink-500 to-accent-purple-500 p-4 border-b-4 border-accent-pink-300">
+        <div className="bg-gradient-to-r from-accent-cyan-500 to-accent-purple-600 p-4 border-b-4 border-accent-cyan-300">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-black uppercase tracking-wider text-white drop-shadow-lg">
               {t('title')}
             </h2>
             <button
               onClick={onClose}
-              className="text-white hover:text-accent-pink-200 font-black text-2xl transition-colors"
+              className="text-white hover:text-accent-cyan-200 font-black text-2xl transition-colors"
             >
               ✕
             </button>
@@ -105,7 +105,7 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
 
           {/* Name Input */}
           <div>
-            <label htmlFor="name" className="block text-accent-pink-300 font-black uppercase text-sm mb-2 tracking-wider">
+            <label htmlFor="name" className="block text-accent-cyan-400 font-black uppercase text-sm mb-2 tracking-wider">
               {t('name')}
             </label>
             <input
@@ -114,7 +114,7 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              className="w-full px-4 py-3 bg-neutral-800 border-2 border-accent-pink-500 rounded-lg text-white font-bold focus:outline-none focus:border-accent-pink-300 focus:shadow-lg focus:shadow-accent-pink-500/50 transition-all"
+              className="w-full px-4 py-3 bg-neutral-800 border-2 border-neutral-600 rounded-lg text-white font-bold focus:outline-none focus:border-accent-cyan-500 focus:shadow-lg focus:shadow-accent-cyan-500/50 transition-all"
               placeholder={t('namePlaceholder')}
               disabled={isLoading}
             />
@@ -122,7 +122,7 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
 
           {/* Email Input */}
           <div>
-            <label htmlFor="register-email" className="block text-accent-pink-300 font-black uppercase text-sm mb-2 tracking-wider">
+            <label htmlFor="register-email" className="block text-accent-cyan-400 font-black uppercase text-sm mb-2 tracking-wider">
               {t('email')}
             </label>
             <input
@@ -131,7 +131,7 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full px-4 py-3 bg-neutral-800 border-2 border-accent-pink-500 rounded-lg text-white font-bold focus:outline-none focus:border-accent-pink-300 focus:shadow-lg focus:shadow-accent-pink-500/50 transition-all"
+              className="w-full px-4 py-3 bg-neutral-800 border-2 border-neutral-600 rounded-lg text-white font-bold focus:outline-none focus:border-accent-cyan-500 focus:shadow-lg focus:shadow-accent-cyan-500/50 transition-all"
               placeholder="tu@email.com"
               disabled={isLoading}
             />
@@ -139,7 +139,7 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
 
           {/* Password Input */}
           <div>
-            <label htmlFor="register-password" className="block text-accent-pink-300 font-black uppercase text-sm mb-2 tracking-wider">
+            <label htmlFor="register-password" className="block text-accent-cyan-400 font-black uppercase text-sm mb-2 tracking-wider">
               {t('password')}
             </label>
             <input
@@ -149,7 +149,7 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
               onChange={(e) => setPassword(e.target.value)}
               required
               minLength={6}
-              className="w-full px-4 py-3 bg-neutral-800 border-2 border-accent-pink-500 rounded-lg text-white font-bold focus:outline-none focus:border-accent-pink-300 focus:shadow-lg focus:shadow-accent-pink-500/50 transition-all"
+              className="w-full px-4 py-3 bg-neutral-800 border-2 border-neutral-600 rounded-lg text-white font-bold focus:outline-none focus:border-accent-cyan-500 focus:shadow-lg focus:shadow-accent-cyan-500/50 transition-all"
               placeholder="••••••••"
               disabled={isLoading}
             />
@@ -158,7 +158,7 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
 
           {/* Confirm Password Input */}
           <div>
-            <label htmlFor="confirm-password" className="block text-accent-pink-300 font-black uppercase text-sm mb-2 tracking-wider">
+            <label htmlFor="confirm-password" className="block text-accent-cyan-400 font-black uppercase text-sm mb-2 tracking-wider">
               {t('confirmPassword')}
             </label>
             <input
@@ -168,7 +168,7 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
               minLength={6}
-              className="w-full px-4 py-3 bg-neutral-800 border-2 border-accent-pink-500 rounded-lg text-white font-bold focus:outline-none focus:border-accent-pink-300 focus:shadow-lg focus:shadow-accent-pink-500/50 transition-all"
+              className="w-full px-4 py-3 bg-neutral-800 border-2 border-neutral-600 rounded-lg text-white font-bold focus:outline-none focus:border-accent-cyan-500 focus:shadow-lg focus:shadow-accent-cyan-500/50 transition-all"
               placeholder="••••••••"
               disabled={isLoading}
             />
@@ -178,7 +178,7 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
           <Button
             type="submit"
             disabled={isLoading}
-            variant="pink"
+            variant="primary"
             size="lg"
             fullWidth
           >
@@ -217,7 +217,7 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
                 type="button"
                 onClick={onSwitchToLogin}
                 disabled={isLoading}
-                variant="primary"
+                variant="secondary"
                 size="md"
                 fullWidth
                 arcadeBorder={false}
@@ -230,10 +230,10 @@ export default function RegisterEmailForm({ isOpen, onClose, onSuccess, onSwitch
 
         {/* Arcade Border Effect */}
         <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-          <div className="absolute top-0 left-0 w-4 h-4 border-t-4 border-l-4 border-accent-pink-400"></div>
-          <div className="absolute top-0 right-0 w-4 h-4 border-t-4 border-r-4 border-accent-pink-400"></div>
-          <div className="absolute bottom-0 left-0 w-4 h-4 border-b-4 border-l-4 border-accent-pink-400"></div>
-          <div className="absolute bottom-0 right-0 w-4 h-4 border-b-4 border-r-4 border-accent-pink-400"></div>
+          <div className="absolute top-0 left-0 w-4 h-4 border-t-4 border-l-4 border-accent-cyan-400"></div>
+          <div className="absolute top-0 right-0 w-4 h-4 border-t-4 border-r-4 border-accent-cyan-400"></div>
+          <div className="absolute bottom-0 left-0 w-4 h-4 border-b-4 border-l-4 border-accent-cyan-400"></div>
+          <div className="absolute bottom-0 right-0 w-4 h-4 border-b-4 border-r-4 border-accent-cyan-400"></div>
         </div>
       </div>
     </div>

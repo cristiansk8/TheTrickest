@@ -90,6 +90,12 @@ export const Sidebar = () => {
 
   const adminMenuItems = useMemo(() => [
     {
+      path: '/dashboard/skaters/profile',
+      icon: <MdOutlineSkateboarding size={28} />,
+      title: t('menu.profile'),
+      subTitle: t('menu.editProfile')
+    },
+    {
       path: '/dashboard/admin/users',
       icon: <MdAdminPanelSettings size={28} />,
       title: t('menu.users'),

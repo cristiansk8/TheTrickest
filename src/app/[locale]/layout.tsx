@@ -18,6 +18,9 @@ export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
 
   return {
+    metadataBase: process.env.NEXT_PUBLIC_APP_URL
+      ? new URL(process.env.NEXT_PUBLIC_APP_URL)
+      : new URL('http://localhost:3000'),
     title: 'TRICKEST - Skateboarding Challenge Platform',
     description: 'Join the ultimate skateboarding challenge platform. Submit tricks, compete with skaters worldwide, and climb the leaderboard.',
     icons: {

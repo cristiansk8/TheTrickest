@@ -4,10 +4,8 @@ import prisma from '@/app/lib/prisma';
 // 📌 Obtener WishSkate por email de usuario
 export async function GET(req: Request) {
   try {
-    const url = new URL(req.url);
+    const url = new URL(req.url || '', 'http://localhost');
     const email = url.searchParams.get("email");
-
-    console.log("🔍 Email recibido en la API:", email);
 
     if (!email) {
       return NextResponse.json({ error: "Email is required" }, { status: 400 });
@@ -16,8 +14,6 @@ export async function GET(req: Request) {
     const wishSkate = await prisma.wishSkate.findUnique({
       where: { userId: email },
     });
-
-    console.log("🛹 WishSkate encontrado:", wishSkate);
 
     if (!wishSkate) {
       return NextResponse.json(
@@ -28,7 +24,6 @@ export async function GET(req: Request) {
 
     return NextResponse.json({ exists: true, wishSkate }, { status: 200 });
   } catch (error) {
-    console.error("❌ Error en la API:", error);
     return NextResponse.json(
       { error: "Error en el servidor" },
       { status: 500 }
@@ -38,12 +33,8 @@ export async function GET(req: Request) {
 
 // 📌 Actualizar WishSkate por email de usuario
 export async function PUT(req: Request) {
-  console.log("🔧 Actualizando WishSkate...");
-
   try {
     const data = await req.json();
-    console.log("📦 Datos recibidos:", data);
-
     const { email, madero, trucks, ruedas, rodamientos, tenis } = data;
 
     if (!email) {
@@ -75,7 +66,6 @@ export async function PUT(req: Request) {
       { status: 200 }
     );
   } catch (error) {
-    console.error("❌ Error al actualizar el WishSkate:", error);
     return NextResponse.json(
       { error: "Hubo un error en la actualización" },
       { status: 500 }

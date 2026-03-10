@@ -152,3 +152,70 @@ main {
     animation: tick-scroll-alt 3s linear infinite;
   }
 }
+
+/* ========================================
+   DISABLE NEXTUI INPUT HOVER EFFECTS
+   ======================================== */
+
+/* Disable NextUI data attribute hover/focus states */
+[data-hover=true] .bg-default-200,
+[data-hover=true].bg-default-200 {
+  background-color: #1f2937 !important;
+}
+
+.group-data-[focus=true] .bg-default-100,
+[data-focus=true].bg-default-100 {
+  background-color: #1f2937 !important;
+}
+
+/* Disable all hover effects on input wrappers */
+[data-slot="input-wrapper"][data-hover=true],
+[data-slot="input-wrapper"]:hover {
+  background-color: #1f2937 !important;
+  border-color: #4b5563 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* Disable all focus effects on input wrappers */
+[data-slot="input-wrapper"][data-focus=true],
+[data-slot="input-wrapper"]:focus-within {
+  background-color: #1f2937 !important;
+  border-color: #4b5563 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* Disable hover on Select trigger */
+[data-slot="trigger"][data-hover=true],
+[data-slot="trigger"]:hover {
+  background-color: #1f2937 !important;
+  border-color: #4b5563 !important;
+}
+
+/* Disable hover on Textarea wrapper */
+[data-slot="wrapper"][data-hover=true],
+[data-slot="wrapper"]:hover {
+  background-color: #1f2937 !important;
+  border-color: #4b5563 !important;
+}
+
+/* Force white text in Select components */
+.nextui-select-value,
+.nextui-select-value .nextui-select-value-text,
+[data-slot="value"],
+[data-slot="value"] * {
+  color: white !important;
+}
+
+/* Force white text in Select items */
+.nextui-select-item,
+.nextui-select-item * {
+  color: white !important;
+}
+
+/* Force white text in Select trigger */
+.nextui-select-trigger,
+.nextui-select-trigger * {
+  color: white !important;
+}

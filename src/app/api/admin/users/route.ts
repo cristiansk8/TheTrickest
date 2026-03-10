@@ -13,12 +13,74 @@ export async function GET(request: NextRequest) {
 
   const { searchParams } = new URL(request.url);
   const role = searchParams.get('role');
+  const search = searchParams.get('search');
+  const registeredIn = searchParams.get('registeredIn');
+  const hasSubmissions = searchParams.get('hasSubmissions');
   const page = parseInt(searchParams.get('page') || '1');
   const limit = parseInt(searchParams.get('limit') || '20');
   const skip = (page - 1) * limit;
+  const orderBy = searchParams.get('orderBy') || 'createdAt';
+  const order = searchParams.get('order') || 'desc';
 
   try {
-    const where = role && role !== 'all' ? { role } : {};
+    // Build where clause with multiple filters
+    const where: any = {};
+
+    // Filter by role
+    if (role && role !== 'all') {
+      where.role = role;
+    }
+
+    // Search by name or email
+    if (search) {
+      where.OR = [
+        { name: { contains: search, mode: 'insensitive' } },
+        { email: { contains: search, mode: 'insensitive' } },
+      ];
+    }
+
+    // Filter by registration date
+    if (registeredIn && registeredIn !== 'all') {
+      const now = new Date();
+      let startDate: Date;
+
+      switch (registeredIn) {
+        case 'today':
+          // Start of today (00:00:00)
+          startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
+          break;
+        case 'week':
+          startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+          break;
+        case 'month':
+          startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+          break;
+        case '3months':
+          startDate = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000);
+          break;
+        default:
+          startDate = new Date(0);
+      }
+
+      where.createdAt = { gte: startDate };
+    }
+
+    // Filter by submissions
+    if (hasSubmissions === 'true') {
+      where.submissions = { some: {} };
+    } else if (hasSubmissions === 'false') {
+      where.submissions = { none: {} };
+    }
+
+    // Build orderBy clause
+    const orderByClause: any = {};
+    if (orderBy === 'score') {
+      orderByClause.score = order;
+    } else if (orderBy === 'name') {
+      orderByClause.name = order;
+    } else {
+      orderByClause.createdAt = order;
+    }
 
     const [users, total] = await Promise.all([
       prisma.user.findMany({
@@ -35,7 +97,7 @@ export async function GET(request: NextRequest) {
             select: { id: true, score: true, status: true },
           },
         },
-        orderBy: { createdAt: 'desc' },
+        orderBy: orderByClause,
         skip,
         take: limit,
       }),

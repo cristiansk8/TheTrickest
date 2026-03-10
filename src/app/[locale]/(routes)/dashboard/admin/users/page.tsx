@@ -38,6 +38,11 @@ export default function AdminUsersPage() {
   const [updating, setUpdating] = useState<number | null>(null);
   const [filters, setFilters] = useState({
     role: 'all',
+    search: '',
+    registeredIn: 'all',
+    hasSubmissions: 'all',
+    orderBy: 'createdAt',
+    order: 'desc',
     page: 1,
     limit: 20,
   });
@@ -52,9 +57,18 @@ export default function AdminUsersPage() {
     setLoading(true);
     try {
       const params = new URLSearchParams();
+
       if (filters.role !== 'all') params.append('role', filters.role);
+      if (filters.search) params.append('search', filters.search);
+      if (filters.registeredIn !== 'all') params.append('registeredIn', filters.registeredIn);
+      if (filters.hasSubmissions !== 'all') params.append('hasSubmissions', filters.hasSubmissions);
+      params.append('orderBy', filters.orderBy);
+      params.append('order', filters.order);
       params.append('page', filters.page.toString());
       params.append('limit', filters.limit.toString());
+
+      console.log('🔍 Frontend filters:', filters);
+      console.log('📤 Fetching with params:', params.toString());
 
       const response = await fetch(`/api/admin/users?${params}`);
       if (response.ok) {
@@ -135,7 +149,28 @@ export default function AdminUsersPage() {
           </h3>
         </CardHeader>
         <CardBody>
-          <div className="flex gap-4 flex-wrap">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+            {/* Search */}
+            <div className="xl:col-span-2">
+              <Input
+                label={t('search')}
+                placeholder={t('searchPlaceholder')}
+                value={filters.search}
+                onChange={(e) => setFilters(prev => ({
+                  ...prev,
+                  search: e.target.value,
+                  page: 1
+                }))}
+                className="text-white"
+                classNames={{
+                  input: "text-white",
+                  inputWrapper: "bg-neutral-800 border-2 border-neutral-600 hover:!border-neutral-600 focus-within:!border-neutral-600"
+                }}
+                style={{ color: 'white' }}
+              />
+            </div>
+
+            {/* Role Filter */}
             <Select
               label={t('role')}
               placeholder={t('allRoles')}
@@ -145,12 +180,93 @@ export default function AdminUsersPage() {
                 role: Array.from(keys)[0] as string,
                 page: 1
               }))}
-              className="w-48"
+              classNames={{
+                trigger: "bg-neutral-800 border-2 border-neutral-600 hover:!border-neutral-600 text-white",
+                value: "text-white",
+                listbox: "bg-neutral-800",
+                popoverContent: "bg-neutral-800"
+              }}
+              style={{ color: 'white' }}
             >
-              <SelectItem key="all" value="all">{t('all')}</SelectItem>
-              <SelectItem key="skater" value="skater">{t('skater')}</SelectItem>
-              <SelectItem key="judge" value="judge">{t('judge')}</SelectItem>
-              <SelectItem key="admin" value="admin">{t('admin')}</SelectItem>
+              <SelectItem key="all" value="all" className="text-white">{t('all')}</SelectItem>
+              <SelectItem key="skater" value="skater" className="text-white">{t('skater')}</SelectItem>
+              <SelectItem key="judge" value="judge" className="text-white">{t('judge')}</SelectItem>
+              <SelectItem key="admin" value="admin" className="text-white">{t('admin')}</SelectItem>
+            </Select>
+
+            {/* Registered In Filter */}
+            <Select
+              label={t('registeredIn')}
+              placeholder={t('allTime')}
+              selectedKeys={[filters.registeredIn]}
+              onSelectionChange={(keys) => {
+                const value = Array.from(keys)[0] as string;
+                console.log('🔄 RegisteredIn selection changed:', { keys: Array.from(keys), value });
+                setFilters(prev => ({
+                  ...prev,
+                  registeredIn: value,
+                  page: 1
+                }));
+              }}
+              classNames={{
+                trigger: "bg-neutral-800 border-2 border-neutral-600 hover:!border-neutral-600 text-white",
+                value: "text-white",
+                listbox: "bg-neutral-800",
+                popoverContent: "bg-neutral-800"
+              }}
+              style={{ color: 'white' }}
+            >
+              <SelectItem key="all" value="all" className="text-white">{t('allTime')}</SelectItem>
+              <SelectItem key="today" value="today" className="text-white">{t('today')}</SelectItem>
+              <SelectItem key="week" value="week" className="text-white">{t('lastWeek')}</SelectItem>
+              <SelectItem key="month" value="month" className="text-white">{t('thisMonth')}</SelectItem>
+              <SelectItem key="3months" value="3months" className="text-white">{t('last3Months')}</SelectItem>
+            </Select>
+
+            {/* Submissions Filter */}
+            <Select
+              label={t('submissionsFilter')}
+              placeholder={t('all')}
+              selectedKeys={[filters.hasSubmissions]}
+              onSelectionChange={(keys) => setFilters(prev => ({
+                ...prev,
+                hasSubmissions: Array.from(keys)[0] as string,
+                page: 1
+              }))}
+              classNames={{
+                trigger: "bg-neutral-800 border-2 border-neutral-600 hover:!border-neutral-600 text-white",
+                value: "text-white",
+                listbox: "bg-neutral-800",
+                popoverContent: "bg-neutral-800"
+              }}
+              style={{ color: 'white' }}
+            >
+              <SelectItem key="all" value="all" className="text-white">{t('all')}</SelectItem>
+              <SelectItem key="true" value="true" className="text-white">{t('withSubmissions')}</SelectItem>
+              <SelectItem key="false" value="false" className="text-white">{t('withoutSubmissions')}</SelectItem>
+            </Select>
+
+            {/* Order By */}
+            <Select
+              label={t('orderBy')}
+              placeholder={t('orderBy')}
+              selectedKeys={[filters.orderBy]}
+              onSelectionChange={(keys) => setFilters(prev => ({
+                ...prev,
+                orderBy: Array.from(keys)[0] as string,
+                page: 1
+              }))}
+              classNames={{
+                trigger: "bg-neutral-800 border-2 border-neutral-600 hover:!border-neutral-600 text-white",
+                value: "text-white",
+                listbox: "bg-neutral-800",
+                popoverContent: "bg-neutral-800"
+              }}
+              style={{ color: 'white' }}
+            >
+              <SelectItem key="createdAt" value="createdAt" className="text-white">{t('newest')}</SelectItem>
+              <SelectItem key="name" value="name" className="text-white">{t('name')}</SelectItem>
+              <SelectItem key="score" value="score" className="text-white">{t('score')}</SelectItem>
             </Select>
           </div>
         </CardBody>
@@ -217,10 +333,17 @@ export default function AdminUsersPage() {
                           }}
                           disabled={updating === user.id}
                           className="w-40"
+                          classNames={{
+                            trigger: "bg-neutral-800 border-2 border-neutral-600 hover:!border-neutral-600 text-white",
+                            value: "text-white",
+                            listbox: "bg-neutral-800",
+                            popoverContent: "bg-neutral-800"
+                          }}
+                          style={{ color: 'white' }}
                         >
-                          <SelectItem key="skater" value="skater">{t('skater')}</SelectItem>
-                          <SelectItem key="judge" value="judge">{t('judge')}</SelectItem>
-                          <SelectItem key="admin" value="admin">{t('admin')}</SelectItem>
+                          <SelectItem key="skater" value="skater" className="text-white">{t('skater')}</SelectItem>
+                          <SelectItem key="judge" value="judge" className="text-white">{t('judge')}</SelectItem>
+                          <SelectItem key="admin" value="admin" className="text-white">{t('admin')}</SelectItem>
                         </Select>
                         {updating === user.id && (
                           <div className="flex justify-center">
