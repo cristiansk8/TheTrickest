@@ -21,14 +21,12 @@ const SigninButton = () => {
   const pathname = usePathname();
   const { data: session, status } = useSession();
   const [openModal, setModal] = useState(false);
-  const [openVideoModal, setOpenVideoModal] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
   const [openSetPasswordModal, setOpenSetPasswordModal] = useState(false);
   const [selectedOption, setSelectedOption] = useState(0);
   const t = useTranslations('signinMenu');
 
   const handleModal = () => setModal(!openModal);
-  const handleVideoModal = () => setOpenVideoModal(!openVideoModal);
   const handleMenu = () => {
     setOpenMenu(!openMenu);
     setSelectedOption(0); // Reset selection when opening menu
@@ -59,6 +57,28 @@ const SigninButton = () => {
     handleMenu();
   };
 
+  // Function to scroll to how to win section
+  const scrollToHowToWin = () => {
+    handleMenu();
+
+    // Check if we're on the home page
+    const pathSegments = pathname.split('/').filter(Boolean);
+    const isHomepage = pathSegments.length <= 1;
+
+    if (isHomepage) {
+      // We're on the home page, scroll to the section
+      setTimeout(() => {
+        const howToWinSection = document.getElementById('how-to-win');
+        if (howToWinSection) {
+          howToWinSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    } else {
+      // We're on another page, navigate to home then scroll
+      window.location.href = '/#how-to-win';
+    }
+  };
+
   // PS2 style menu options
   const menuOptions: MenuOption[] = session?.user
     ? [
@@ -74,10 +94,7 @@ const SigninButton = () => {
         { label: t('partners'), action: scrollToPartners },
         {
           label: t('howToPlay'),
-          action: () => {
-            handleMenu();
-            handleVideoModal();
-          },
+          action: scrollToHowToWin,
         },
         {
           label: '👤 ' + (session.user.name?.toUpperCase() || 'PLAYER'),
@@ -118,10 +135,7 @@ const SigninButton = () => {
         { label: t('partners'), action: scrollToPartners },
         {
           label: t('howToPlay'),
-          action: () => {
-            handleMenu();
-            handleVideoModal();
-          },
+          action: scrollToHowToWin,
         },
       ];
 
@@ -131,12 +145,11 @@ const SigninButton = () => {
       if (e.key === 'Escape') {
         if (openMenu) handleMenu();
         else if (openModal) handleModal();
-        else if (openVideoModal) handleVideoModal();
         return;
       }
 
       // Menu navigation only if open and no other modals
-      if (openMenu && !openModal && !openVideoModal) {
+      if (openMenu && !openModal) {
         if (e.key === 'ArrowUp') {
           setSelectedOption((prev) =>
             prev > 0 ? prev - 1 : menuOptions.length - 1
@@ -154,7 +167,7 @@ const SigninButton = () => {
 
     // Listen for arcade button events
     const handleArcadeStart = () => {
-      if (!openMenu && !openModal && !openVideoModal) {
+      if (!openMenu && !openModal) {
         handleMenu();
       }
     };
@@ -166,7 +179,7 @@ const SigninButton = () => {
       window.removeEventListener('keydown', handleKeyPress);
       window.removeEventListener('arcade-press-start', handleArcadeStart);
     };
-  }, [selectedOption, menuOptions, openMenu, openModal, openVideoModal]);
+  }, [selectedOption, menuOptions, openMenu, openModal]);
 
   return (
     <>
@@ -282,51 +295,6 @@ const SigninButton = () => {
                 openModal={openModal}
                 handleModal={handleModal}
               />
-            </div>
-          </div>
-        </div>
-        </ModalPortal>
-      )}
-
-      {/* Video modal */}
-      {openVideoModal && (
-        <ModalPortal>
-        <div className="fixed inset-0 flex items-center justify-center bg-black/90 backdrop-blur-sm z-[9999] p-4">
-          <div className="w-full max-w-4xl bg-gradient-to-b from-neutral-900 to-black border-4 border-accent-cyan-500 rounded-lg shadow-2xl shadow-accent-cyan-500/50 relative">
-            {/* Modal header */}
-            <div className="bg-gradient-to-r from-accent-cyan-600 to-accent-blue-600 p-4 rounded-t-lg border-b-4 border-accent-cyan-300">
-              <h2 className="text-xl md:text-2xl font-black text-white uppercase tracking-wider text-center">
-                📺 {t('howToPlayTitle')}
-              </h2>
-            </div>
-
-            {/* Close button */}
-            <button
-              onClick={handleVideoModal}
-              className="absolute top-2 right-2 z-10 bg-red-600 hover:bg-red-700 text-white font-bold w-10 h-10 rounded-full border-4 border-white shadow-lg transform hover:scale-110 transition-all"
-            >
-              ✖
-            </button>
-
-            {/* Modal content */}
-            <div className="p-6">
-              <div
-                className="relative w-full"
-                style={{ paddingBottom: '56.25%' }}
-              >
-                <video
-                  className="absolute top-0 left-0 w-full h-full rounded-lg border-4 border-neutral-700"
-                  src="/demo.mp4"
-                  autoPlay
-                  controls
-                  onEnded={handleVideoModal}
-                />
-              </div>
-              <div className="mt-4 text-center">
-                <p className="text-accent-cyan-300 text-sm uppercase tracking-wide">
-                  {t('pressEscToClose')}
-                </p>
-              </div>
             </div>
           </div>
         </div>

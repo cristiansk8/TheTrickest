@@ -24,7 +24,7 @@ const HowWin = () => {
     };
 
     return (
-        <div className="py-20 px-4">
+        <div id="how-to-win" className="py-20 px-4">
             <div className="max-w-7xl mx-auto">
                 {/* Header - Estilo arcade consistente */}
                 <div className="text-center mb-12">
