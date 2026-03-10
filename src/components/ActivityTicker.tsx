@@ -92,8 +92,17 @@ const ActivityTicker = () => {
     { id: '3', username: 'kickflip_master', name: 'Juan P.', action: 'new_user' as const, time: '10m', photo: 'https://i.pravatar.cc/150?u=juan' },
   ] : recentUsers;
 
-  // Create duplicated content for seamless loop
-  const duplicatedContent = [...displayUsers, ...displayUsers];
+  // Create 8 copies for seamless infinite loop (more copies = smoother)
+  const duplicatedContent = [
+    ...displayUsers,
+    ...displayUsers,
+    ...displayUsers,
+    ...displayUsers,
+    ...displayUsers,
+    ...displayUsers,
+    ...displayUsers,
+    ...displayUsers,
+  ];
 
   return (
     <div className="w-full bg-gradient-to-r from-purple-900 via-purple-800 to-purple-900 border-y-4 border-accent-cyan-500 overflow-hidden">

@@ -111,25 +111,25 @@ main {
   }
 }
 
-/* Activity ticker animation - seamless loop with 2x duplication */
-/* When content is duplicated 2x, -50% creates perfect loop */
+/* Activity ticker animation - seamless loop with 8x duplication */
+/* When content is duplicated 8x, -12.5% creates perfect loop (100% / 8) */
 @keyframes tick-scroll {
   0% {
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-50%);
+    transform: translateX(-12.5%);
   }
 }
 
 .animate-tick-scroll {
-  animation: tick-scroll 6s linear infinite;
+  animation: tick-scroll 24s linear infinite;
 }
 
 /* Desktop same speed */
 @media (min-width: 768px) {
   .animate-tick-scroll {
-    animation: tick-scroll 6s linear infinite;
+    animation: tick-scroll 24s linear infinite;
   }
 }
 
