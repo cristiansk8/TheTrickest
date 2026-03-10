@@ -1521,5 +1521,9 @@
     "top1Team": "🏆 Top 1 Teams",
     "top2Team": "🥈 Top 2 Teams",
     "top3Team": "🥉 Top 3 Teams"
+  },
+  "metadata": {
+    "title": "TRICKEST - Skateboarding Challenge Platform",
+    "description": "skate, film, post and win"
   }
 }

@@ -1,6 +1,6 @@
 import { Urbanist } from "next/font/google";
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages, setRequestLocale } from 'next-intl/server';
+import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import Header from "@/components/header";
@@ -17,22 +17,24 @@ type Props = {
 export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
 
+  const t = await getTranslations({ locale, namespace: 'metadata' });
+
   const appUrl = process.env.NEXT_PUBLIC_APP_URL
     ? new URL(process.env.NEXT_PUBLIC_APP_URL)
     : new URL('http://localhost:3000');
 
   return {
     metadataBase: appUrl,
-    title: 'TRICKEST - Skateboarding Challenge Platform',
-    description: 'patina, graba, postea y gana',
+    title: t('title'),
+    description: t('description'),
     icons: {
       icon: '/logo-main.png',
       shortcut: '/logo-main.png',
       apple: '/logo-main.png',
     },
     openGraph: {
-      title: 'TRICKEST - Skateboarding Challenge Platform',
-      description: 'patina, graba, postea y gana',
+      title: t('title'),
+      description: t('description'),
       url: appUrl.toString(),
       siteName: 'TRICKEST',
       images: [
@@ -40,7 +42,7 @@ export async function generateMetadata({ params }: Props) {
           url: '/trick-est.webp',
           width: 1200,
           height: 630,
-          alt: 'TRICKEST - Skateboarding Challenge Platform',
+          alt: t('title'),
         },
       ],
       locale: locale,
@@ -48,8 +50,8 @@ export async function generateMetadata({ params }: Props) {
     },
     twitter: {
       card: 'summary_large_image',
-      title: 'TRICKEST - Skateboarding Challenge Platform',
-      description: 'patina, graba, postea y gana',
+      title: t('title'),
+      description: t('description'),
       images: ['/trick-est.webp'],
     },
   };
