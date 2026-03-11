@@ -8,11 +8,19 @@ import HomeRanking from '@/components/HomeRanking';
 import ContactCTAButton from '@/components/ContactCTAButton';
 import ActivityTicker from '@/components/ActivityTicker';
 import { getTranslations } from 'next-intl/server';
+import AuthRedirect from '@/components/AuthRedirect';
 
-export default async function Home() {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: { auth?: string };
+}) {
   const t = await getTranslations('home');
   return (
     <main>
+      {/* Handle auth redirect if user was sent here from middleware */}
+      <AuthRedirect authRequired={searchParams.auth === 'required'} />
+
       <div className="flex">
         <TransitionPage />
         <Introduction />

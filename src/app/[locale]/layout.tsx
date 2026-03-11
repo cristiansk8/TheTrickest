@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import Header from "@/components/header";
 import ArcadeButtonsWrapper from "@/components/ArcadeButtonsWrapper";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 import { Providers } from "../providers";
 
 const urbanist = Urbanist({ subsets: ["latin"] });
@@ -78,6 +79,9 @@ export default async function LocaleLayout({ children, params }: Props) {
   return (
     <html lang={locale}>
       <body className={urbanist.className}>
+        {/* Google Analytics */}
+        <GoogleAnalytics measurementId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || ''} />
+
         <NextIntlClientProvider messages={messages}>
           <Providers>
             <Header />
