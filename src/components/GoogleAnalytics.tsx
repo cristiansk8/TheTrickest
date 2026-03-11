@@ -3,6 +3,14 @@
 import Script from 'next/script';
 import { useEffect } from 'react';
 
+// Extend Window interface to include gtag and dataLayer
+declare global {
+  interface Window {
+    gtag?: (...args: any[]) => void;
+    dataLayer?: any[];
+  }
+}
+
 interface GoogleAnalyticsProps {
   measurementId: string;
 }
