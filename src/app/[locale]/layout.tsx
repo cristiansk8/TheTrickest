@@ -7,6 +7,8 @@ import Header from "@/components/header";
 import ArcadeButtonsWrapper from "@/components/ArcadeButtonsWrapper";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import MicrosoftClarity from "@/components/MicrosoftClarity";
+import CookieBanner from "@/components/CookieBanner";
+import Footer from "@/components/Footer";
 import { Providers } from "../providers";
 
 const urbanist = Urbanist({ subsets: ["latin"] });
@@ -85,11 +87,17 @@ export default async function LocaleLayout({ children, params }: Props) {
         <MicrosoftClarity projectId={process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID || ''} />
 
         <NextIntlClientProvider messages={messages}>
-          <Providers>
-            <Header />
-            {children}
-            <ArcadeButtonsWrapper />
-          </Providers>
+          <div className="flex flex-col min-h-screen">
+            <Providers>
+              <Header />
+              <main className="flex-1">
+                {children}
+              </main>
+              <Footer />
+              <ArcadeButtonsWrapper />
+              <CookieBanner />
+            </Providers>
+          </div>
         </NextIntlClientProvider>
       </body>
     </html>

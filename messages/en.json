@@ -1530,5 +1530,24 @@
   "metadata": {
     "title": "TRICKEST - Skateboarding Challenge Platform",
     "description": "skate, film, post and win"
+  },
+  "cookies": {
+    "title": "Cookie Consent",
+    "description": "We use cookies to improve your experience and analyze site traffic.",
+    "necessary": "Necessary (required)",
+    "analytics": "Analytics (Google Analytics, Microsoft Clarity)",
+    "marketing": "Marketing (optional)",
+    "acceptAll": "Accept All",
+    "necessaryOnly": "Necessary Only",
+    "customize": "Customize Settings",
+    "hideSettings": "Hide Settings",
+    "savePreferences": "Save Preferences"
+  },
+  "footer": {
+    "allRightsReserved": "All rights reserved",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "cookies": "Cookie Policy",
+    "admin": "Admin"
   }
 }

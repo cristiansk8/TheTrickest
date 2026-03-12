@@ -1530,5 +1530,24 @@
   "metadata": {
     "title": "TRICKEST - Plataforma de Retos de Skateboarding",
     "description": "patina, graba, postea y gana"
+  },
+  "cookies": {
+    "title": "Consentimiento de Cookies",
+    "description": "Utilizamos cookies para mejorar tu experiencia y analizar el tráfico del sitio.",
+    "necessary": "Necesarias (requerido)",
+    "analytics": "Analíticas (Google Analytics, Microsoft Clarity)",
+    "marketing": "Marketing (opcional)",
+    "acceptAll": "Aceptar Todas",
+    "necessaryOnly": "Solo Necesarias",
+    "customize": "Personalizar Configuración",
+    "hideSettings": "Ocultar Configuración",
+    "savePreferences": "Guardar Preferencias"
+  },
+  "footer": {
+    "allRightsReserved": "Todos los derechos reservados",
+    "privacy": "Política de Privacidad",
+    "terms": "Términos de Servicio",
+    "cookies": "Política de Cookies",
+    "admin": "Admin"
   }
 }
