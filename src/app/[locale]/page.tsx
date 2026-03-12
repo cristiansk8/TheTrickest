@@ -17,7 +17,7 @@ export default async function Home({
 }) {
   const t = await getTranslations('home');
   return (
-    <main>
+    <>
       {/* Handle auth redirect if user was sent here from middleware */}
       <AuthRedirect authRequired={searchParams.auth === 'required'} />
 
@@ -72,6 +72,6 @@ export default async function Home({
       {/* <div>
         <Footer />
       </div> */}
-    </main>
+    </>
   );
 }

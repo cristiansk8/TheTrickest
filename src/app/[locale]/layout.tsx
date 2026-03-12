@@ -87,17 +87,17 @@ export default async function LocaleLayout({ children, params }: Props) {
         <MicrosoftClarity projectId={process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID || ''} />
 
         <NextIntlClientProvider messages={messages}>
-          <div className="flex flex-col min-h-screen">
-            <Providers>
+          <Providers>
+            <div className="flex flex-col min-h-screen">
               <Header />
-              <main className="flex-1">
+              <main className="flex-1 relative">
                 {children}
               </main>
               <Footer />
               <ArcadeButtonsWrapper />
               <CookieBanner />
-            </Providers>
-          </div>
+            </div>
+          </Providers>
         </NextIntlClientProvider>
       </body>
     </html>
