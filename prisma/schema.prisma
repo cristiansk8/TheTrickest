@@ -49,6 +49,7 @@ model User {
   notifications    Notification[]   @relation("UserNotifications") // Notificaciones recibidas
   comments         SpotComment[] // Comentarios del usuario
   commentVotes     CommentVote[] // Votos en comentarios
+  userRewards      UserReward[]
 }
 
 model SocialMedia {
@@ -437,4 +438,91 @@ model CommentVote {
   @@index([commentId])
   @@index([userId])
   @@index([voteType])
+}
+
+// ==================== DYNAMIC CHALLENGES SYSTEM ====================
+
+model DynamicChallenge {
+  id              String            @id @default(cuid())
+  name            String
+  description     String
+  type            ChallengeType
+
+  // Trigger configuration
+  triggerType     TriggerType
+  triggerValue    Int
+
+  // Progress tracking
+  currentCount    Int               @default(0)
+  targetCount     Int
+
+  // Timestamps
+  startDate       DateTime?
+  endDate         DateTime?
+  unlockedAt      DateTime?
+
+  // Rewards
+  points          Int               @default(0)
+  badgeId         String?
+
+  // Status
+  status          ChallengeStatus   @default(PENDING)
+
+  // Relations
+  rewards         UserReward[]
+
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  @@index([status])
+  @@index([type])
+  @@index([unlockedAt])
+}
+
+model UserReward {
+  id              String            @id @default(cuid())
+  userEmail       String // Email del usuario (para relacionar con User)
+  user            User              @relation(fields: [userEmail], references: [email], onDelete: Cascade)
+
+  challengeId     String
+  challenge       DynamicChallenge  @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+
+  pointsEarned    Int
+  badgeEarned     Boolean           @default(false)
+
+  claimedAt       DateTime          @default(now())
+
+  createdAt       DateTime          @default(now())
+
+  @@unique([userEmail, challengeId])
+  @@index([userEmail])
+  @@index([challengeId])
+}
+
+// Enums for Dynamic Challenges
+enum ChallengeType {
+  COMMUNITY_MILESTONE    // Auto-unlock at threshold
+  COMMUNITY_GOAL         // Collective target
+  HEAD_TO_HEAD          // 1v1 battles
+  CHAIN                 // Nomination chain
+  SEASONAL              // Time-limited events
+  LIVE_EVENT            // Stream-based
+  COLLABORATION         // Team challenges
+  LOCATION              // Geo-specific
+  PROGRESSIVE           // Multi-stage
+}
+
+enum TriggerType {
+  USER_COUNT            // Number of registered users
+  VIDEO_COUNT           // Number of video submissions
+  EVALUATION_COUNT      // Number of evaluations
+  MANUAL                // Admin triggered
+  SCHEDULED             // Time-based
+}
+
+enum ChallengeStatus {
+  PENDING               // Not yet unlocked
+  ACTIVE                // Unlocked and accepting submissions
+  COMPLETED             // Challenge ended
+  EXPIRED               // Time limit reached
 }
