@@ -13,7 +13,7 @@ const Footer = () => {
   const t = useTranslations('footer');
 
   return (
-    <footer className="bg-neutral-950 border-t-2 border-accent-cyan-500/20 mt-auto">
+    <footer className="bg-neutral-900 border-t-4 border-accent-cyan-500 mt-auto relative z-50">
       <div className="max-w-7xl mx-auto px-4 py-3">
         <div className="flex flex-col sm:flex-row justify-between items-center gap-2 text-xs">
           {/* Copyright */}
