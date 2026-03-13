@@ -77,7 +77,9 @@
       "Bash(powershell -Command \"Stop-Process -Id 22288 -Force\")",
       "Bash(powershell -Command \"Get-Content c:/Users/Usuario/trickest-next/src/app/api/activity/recent/route.ts -Head 10\")",
       "WebSearch",
-      "Bash(jq '. + {\"\"metadata\"\": {\"\"title\"\": \"\"TRICKEST - Skateboarding Challenge Platform\"\", \"\"description\"\": \"\"skate, film, post and win\"\"}}')"
+      "Bash(jq '. + {\"\"metadata\"\": {\"\"title\"\": \"\"TRICKEST - Skateboarding Challenge Platform\"\", \"\"description\"\": \"\"skate, film, post and win\"\"}}')",
+      "Bash(git mv:*)",
+      "Bash(git rm:*)"
     ],
     "deny": [],
     "ask": []

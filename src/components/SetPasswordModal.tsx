@@ -77,7 +77,7 @@ export default function SetPasswordModal({ isOpen, onClose, onSuccess }: SetPass
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/90 backdrop-blur-sm z-[9999] p-4">
-      <div className="w-full max-w-md bg-gradient-to-b from-neutral-900 to-black border-4 border-accent-yellow-500 rounded-lg shadow-2xl shadow-accent-yellow-500/50 relative max-h-[90vh] overflow-y-auto">
+      <div className="w-full max-w-md md:max-w-lg lg:max-w-xl bg-gradient-to-b from-neutral-900 to-black border-4 border-accent-yellow-500 rounded-lg shadow-2xl shadow-accent-yellow-500/50 relative max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="bg-gradient-to-r from-accent-yellow-600 to-accent-orange-600 p-4 md:p-6 rounded-t-lg border-b-4 border-accent-yellow-300">
           <h2 className="text-lg md:text-xl font-black text-white uppercase tracking-wider text-center pr-8">
