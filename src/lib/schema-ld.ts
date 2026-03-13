@@ -95,16 +95,3 @@ export function generateSchemaLd() {
 
   return schema;
 }
-
-// Add Schema to page metadata
-export function addSchemaLd(existingMetadata: Metadata) {
-  const schema = generateSchemaLd();
-
-  return {
-    ...existingMetadata,
-    other: {
-      ...existingMetadata.other,
-      application/ld+json: JSON.stringify(schema)
-    }
-  };
-}

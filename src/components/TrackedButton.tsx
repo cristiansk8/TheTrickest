@@ -49,13 +49,13 @@ export default function TrackedButton({
   ...props
 }: TrackedButtonProps) {
   const handleClick = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
+    (e: any) => {
       // Track the button click
       trackButtonClick(trackingName, trackingLocation, trackingParams);
 
       // Call original onClick if provided
       if (onClick) {
-        onClick(e);
+        onClick(e as any);
       }
     },
     [trackingName, trackingLocation, trackingParams, onClick]
