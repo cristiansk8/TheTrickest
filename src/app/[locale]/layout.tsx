@@ -10,6 +10,7 @@ import MicrosoftClarity from "@/components/MicrosoftClarity";
 import CookieBanner from "@/components/CookieBanner";
 import Footer from "@/components/Footer";
 import { Providers } from "../providers";
+import { generateSchemaLd } from "@/lib/schema-ld";
 
 const urbanist = Urbanist({ subsets: ["latin"] });
 
@@ -79,8 +80,18 @@ export default async function LocaleLayout({ children, params }: Props) {
   // Providing all messages to the client
   const messages = await getMessages();
 
+  const schema = generateSchemaLd();
+
   return (
     <html lang={locale}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(schema)
+          }}
+        />
+      </head>
       <body className={`${urbanist.className} bg-surface-deep`}>
         {/* Analytics */}
         <GoogleAnalytics measurementId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || ''} />
@@ -90,7 +101,7 @@ export default async function LocaleLayout({ children, params }: Props) {
           <Providers>
             <div className="flex flex-col min-h-screen bg-surface-deep">
               <Header />
-              <main className="flex-1 relative">
+              <main className="flex-1 relative !bg-surface-deep">
                 {children}
               </main>
               <Footer />
